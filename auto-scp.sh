@@ -1,12 +1,12 @@
 #!/bin/bash
 # set whichever folder is the one containing src, tb, sim, syn... which you want to work on
 # MIND THAT THERE'S NO "/" AT THE END OF THE PATH!!
-# E.g. /home/isa22/lab1 or /home/isa22/lab1/marco or /home/isa22/lab1/pippo ...
-REMOTE_ROOT="/home/isa22/lab1/" 
+# E.g. /home/isa22/lab2 or /home/isa22/lab2/marco or /home/isa22/lab2/pippo ...
+REMOTE_ROOT="/home/isa22/lab2/" 
 
-# check if the script is run inside ../ISA-filter-design
+# check if the script is run inside ../ISA-digital-arithmetic
 case "$PWD" in
-    *ISA-filter-design );;
+    *ISA-digital-arithmetic );;
     * ) 
         echo "Error: script must be run in the repository root directory"
         exit 1
@@ -17,10 +17,10 @@ esac
 USER_HOST="isa22@led-x3850-2.polito.it"
 PORT="10020"
 SSH_SOCKET=~/".ssh/$USER_HOST"
-SRC_DIR="HW_filter/code/src"
-TB_DIR="HW_filter/code/tb"
-SIM_DIR="HW_filter/code/sim"
-NET_DIR="HW_filter/code/netlist"
+SRC_DIR="HW_filter/src"
+TB_DIR="HW_filter/tb"
+SIM_DIR="HW_filter/sim"
+NET_DIR="HW_filter/netlist"
 
 # define loop variables
 declare -i loop_end=0
@@ -28,15 +28,15 @@ declare -i loop_end=0
 # print welcome message
 echo "This script provides automatic copy in three different ways:"
 echo "          LOCAL                           SERVER"
-echo "1) ../HW_filter/code/{src, tb, sim}      ->      ../lab1/{src, tb, sim}"
-echo "2) ../HW_filter/code/src/*               ->      ../lab1/src/"
-echo "3) ../HW_filter/code/tb/*                ->      ../lab1/tb/"
-echo "4) ../HW_filter/code/sim/*               ->      ../lab1/sim/"  
-echo "5) ../common/samples.txt                 ->      ../lab1/common/" 
-echo "6) ../common/                            <-      ../lab1/common/results-hw.txt"
-echo "7) ../HW_filter/code/netlist/            <-      ../lab1/netlist/iir_filter.v"
-echo "8) ../HW_filter/code/netlist/post_per    <-      ../lab1/innovus/netlist/iir_filter.v"
-echo "   ../reports/post_per                   <-      ../lab1/innovus/{areaReport,RC_timing,timingReports,ver}"
+echo "1) ../HW_filter/{src, tb, sim}      ->      ../lab2/{src, tb, sim}"
+echo "2) ../HW_filter/src/*               ->      ../lab2/src/"
+echo "3) ../HW_filter/tb/*                ->      ../lab2/tb/"
+echo "4) ../HW_filter/sim/*               ->      ../lab2/sim/"  
+echo "5) ../common/samples.txt            ->      ../lab2/common/" 
+echo "6) ../common/                       <-      ../lab2/common/results-hw.txt"
+echo "7) ../HW_filter/netlist/            <-      ../lab2/netlist/iir_filter.v"
+echo "8) ../HW_filter/netlist/post_per    <-      ../lab2/innovus/netlist/iir_filter.v"
+echo "   ../reports/post_per              <-      ../lab2/innovus/{areaReport,RC_timing,timingReports,ver}"
 echo
 
 # create master SSH connection
