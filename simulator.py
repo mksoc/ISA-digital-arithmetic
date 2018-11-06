@@ -6,7 +6,7 @@ from common.compare_outputs import compare
 
 # ==============================================================
 # SET THESE VARIABLES BEFORE USING!!
-REMOTE_ROOT = '/home/isa22/lab1'
+REMOTE_ROOT = '/home/isa22/lab2'
 MSIM_COMMAND = '. /home/marco/.local/bin/init_msim_ase'
 # ==============================================================
 
@@ -51,7 +51,7 @@ print('\t1) Locally')
 print('\t2) Remote server')
 run_remote = get_choice(range(2)) - 1
 
-if run_remote:
+if not run_remote:
     print('Running locally...')
 else:
     print('Running on the remote server...')
@@ -89,7 +89,7 @@ with cd('C_filter'):
 # copy files to server if needed
 if run_remote:
     print('\nConnect to server.')
-    os.system('ssh -M -f -N -o ControlPath={} -p {} {}}'.format(SSH_SOCKET, PORT, USER_HOST))
+    os.system('ssh -M -f -N -o ControlPath={} -p {} {}'.format(SSH_SOCKET, PORT, USER_HOST))
     print('\nCopy samples to server.')
     os.system('scp -o ControlPath={} -P {} common/samples.txt {}:{}/common'.format(SSH_SOCKET, PORT, USER_HOST, REMOTE_ROOT))
 

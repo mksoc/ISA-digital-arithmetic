@@ -11,6 +11,7 @@ library work;
 use work.filter_pkg.all;
 
 entity data_maker is
+    generic (IN_PATH := "../common");
     port (
         clock   : in std_logic;
         reset_n : in std_logic;
@@ -54,7 +55,7 @@ begin -- behavior
     coeffs_ff <= std_logic_vector(coeffs_ff_int(0))& std_logic_vector(coeffs_ff_int(1)) & std_logic_vector(coeffs_ff_int(2)) & std_logic_vector(coeffs_ff_int(3));
 
     read_file: process
-        file fp_in          : text open READ_MODE is "../common/samples.txt";
+        file fp_in          : text open READ_MODE is IN_PATH & "/samples.txt";
         variable line_in    : line;
         variable x          : integer;
         -- for random pause generator
