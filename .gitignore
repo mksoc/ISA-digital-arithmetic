@@ -1,0 +1,40 @@
+# File extensions:
+*.bak
+*.rpt
+*.summary
+*.qpf
+*.qsf
+*.qws
+*.done
+*.pin
+*.pof
+*.sof
+*.exe
+*.yaml
+*.wlf
+*.o 
+*.log
+*.lock
+*.tmp
+*.saif
+#.*
+*.aux
+*.idx
+*.new
+*.ini
+*.txt
+*.synctex*
+
+# Files
+transcript
+
+# Directories global
+**/db/
+**/incremental_db/
+**/output_files/
+**/simulation/
+**/.vscode/
+**/work/
+
+# Directories
+HW_filter/code/common/
