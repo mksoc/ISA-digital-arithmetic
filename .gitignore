@@ -35,6 +35,7 @@ transcript
 **/simulation/
 **/.vscode/
 **/work/
+**/__pycache__
 
 # Directories
 HW_filter/code/common/

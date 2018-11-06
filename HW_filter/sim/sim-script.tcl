@@ -38,10 +38,10 @@ if {$sim_mode == "no-gui"} {
 # compile the design project files 
 if {$sim_design == "arch"} {
     vcom -93 -work ./work ../src/*.vhd
-    vcom -93 -work ./work "../version${sim_version}/*.vhd"
+    vcom -93 -work ./work "../version$sim_version/*.vhd"
 } elseif {$sim_design == "postsyn"} {
     vcom -93 -work ./work ../src/filter_pkg.vhd
-    vlog -work ./work "../version${sim_version}/*.v"
+    vlog -work ./work "../version$sim_version/*.v"
 } else {
     puts "Error. Invalid environment variable SIM_DESIGN"
     exit 1

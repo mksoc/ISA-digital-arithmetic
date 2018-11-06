@@ -1,3 +1,7 @@
+# THIS SCRIPT IS DEPRECATED, PLEASE USE simulator.py INSTEAD!!
+
+
+
 #!/bin/bash
 # set whichever folder is the one containing src, tb, sim, syn... which you want to work on
 # MIND THAT THERE'S NO "/" AT THE END OF THE PATH!!
@@ -110,6 +114,5 @@ EOF
 fi
 
 echo "> Comparing results..."
-echo $PWD
 cd common
 python3 compare-outputs.py results-c.txt results-hw.txt
