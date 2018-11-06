@@ -17,7 +17,7 @@
 *.lock
 *.tmp
 *.saif
-#.*
+.*
 *.aux
 *.idx
 *.new
