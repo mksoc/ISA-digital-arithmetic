@@ -203,7 +203,7 @@ begin
 	-- compute products
 	sw0_coeff_ret0 <= multiplyAndRound(coeffs_fb_int(1), sw0);
 	sw1_coeff_ret1 <= multiplyAndRound(coeffs_fb_int(2), sw1);
-	pipe0_coeff_pipe00 <= multiplyAndRound(coeffs_ff_int(0), pipe00); -- shift left b0 to be Q1.22
+	pipe0_coeff_pipe00 <= multiplyAndRound(coeffs_ff_int(0), pipe00);
 	pipe0_coeff_pipe01 <= multiplyAndRound(coeffs_ff_int(1), pipe01);
 	pipe0_coeff_pipe02 <= multiplyAndRound(coeffs_ff_int(2), pipe02);
 	pipe0_coeff_pipe03 <= multiplyAndRound(coeffs_ff_int(3), pipe03);

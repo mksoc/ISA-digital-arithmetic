@@ -43,7 +43,7 @@ begin -- behavior
     begin
         coeffs_fb_int <= (to_signed(- a1*a1 + a2*(2**(WL_FRAC - (NB - 1))), word'length), 
                     to_signed(- a1*a2, word'length));
-        coeffs_ff_int <= (to_signed(b0, word'length), 
+        coeffs_ff_int <= (to_signed(b0*(2**(WL_FRAC - (NB - 1))), word'length), 
                     to_signed(b1*(2**(WL_FRAC - (NB - 1))) - a1*b0, word'length),
                     to_signed(b2*(2**(WL_FRAC - (NB - 1))) - a1*b1, word'length),
                     to_signed(- a1*b2, word'length));
