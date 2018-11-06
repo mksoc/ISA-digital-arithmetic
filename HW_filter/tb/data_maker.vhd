@@ -16,8 +16,8 @@ entity data_maker is
         reset_n : in std_logic;
         vOut    : out std_logic;    -- these are vIn and 
         dOut    : out dataType;     -- dIn of the UUT
-        coeffs_fb      : out std_logic_vector(2*word'length - 1);
-        coeffs_ff       : out std_logic_vector(4*word'length - 1);
+        coeffs_fb      : out std_logic_vector(2*word'length - 1 downto 0);
+        coeffs_ff       : out std_logic_vector(4*word'length - 1 downto 0);
         end_sim : out std_logic
     );
 end data_maker;
@@ -32,20 +32,23 @@ architecture behavior of data_maker is
     signal sEndSim     : std_logic;
     signal end_sim_int : std_logic_vector(0 to 10);
 
-    variable a1: integer := -757;
-    variable a2: integer := 401;
-    variable b0: integer := 423;
-    variable b1: integer := 846;
-    variable b2: integer := 423;
-
 begin -- behavior
     -- assign coefficients
-    coeffs_fb_int <= (to_signed(- a1*a1 + a2, word'length), 
-                    (to_signed(- a1*a2, word'length));
-    coeffs_ff_int <= (to_signed(b0, word'length), 
-                    to_signed((b1 - a1*b0, word'length),
-                    to_signed((b2 - a1*b1, word'length),
+    coeff_proc: process
+        variable a1: integer := -757;
+        variable a2: integer := 401;
+        variable b0: integer := 423;
+        variable b1: integer := 846;
+        variable b2: integer := 423;
+    begin
+        coeffs_fb_int <= (to_signed(- a1*a1 + a2*(2**(WL_FRAC - (NB - 1))), word'length), 
+                    to_signed(- a1*a2, word'length));
+        coeffs_ff_int <= (to_signed(b0, word'length), 
+                    to_signed(b1*(2**(WL_FRAC - (NB - 1))) - a1*b0, word'length),
+                    to_signed(b2*(2**(WL_FRAC - (NB - 1))) - a1*b1, word'length),
                     to_signed(- a1*b2, word'length));
+        wait;
+    end process ; 
 
     coeffs_fb <= std_logic_vector(coeffs_fb_int(1)) & std_logic_vector(coeffs_fb_int(2));
     coeffs_ff <= std_logic_vector(coeffs_ff_int(0))& std_logic_vector(coeffs_ff_int(1)) & std_logic_vector(coeffs_ff_int(2)) & std_logic_vector(coeffs_ff_int(3));

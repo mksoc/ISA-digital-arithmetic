@@ -121,8 +121,8 @@ if run_remote:
 else:
     with cd('HW_filter/sim'):
         os.system('{}'.format(MSIM_COMMAND))
-        os.system('export SIM_MODE="no-gui"')
-        os.system('export SIM_DESIGN={}'.format(DESIGN_VAR))
+        os.environ['SIM_MODE'] = 'no-gui'
+        os.environ['SIM_DESIGN'] = DESIGN_VAR
         os.system('vsim -c -do sim-script.tcl')
 
 # compare results

@@ -33,14 +33,14 @@ def compare(*args):
                 outFile.write('{:>5} {:>5}\n'.format(data1, data2))
                 if data1 >= 0:
                     if data1 > data2:
-                        print('Off-by-one at line {} - Positive number, {} > {}'.format(i+1, sys.argv[1], sys.argv[2]))
+                        print('Off-by-one at line {} - Positive number, {} > {}'.format(i+1, args[0], args[1]))
                     else:
-                        print('Off-by-one at line {} - Positive number, {} < {}'.format(i+1, sys.argv[1], sys.argv[2]))
+                        print('Off-by-one at line {} - Positive number, {} < {}'.format(i+1, args[0], args[1]))
                 else:
                     if data1 > data2:
-                        print('Off-by-one at line {} - Negative number, {} > {}'.format(i+1, sys.argv[1], sys.argv[2]))
+                        print('Off-by-one at line {} - Negative number, {} > {}'.format(i+1, args[0], args[1]))
                     else:
-                        print('Off-by-one at line {} - Negative number, {} < {}'.format(i+1, sys.argv[1], sys.argv[2]))
+                        print('Off-by-one at line {} - Negative number, {} < {}'.format(i+1, args[0], args[1]))
             else:
                 outFile.write('{:>5} {:>5}\n'.format(data1, data2))
                 print('Error at line {}'.format(i+1))

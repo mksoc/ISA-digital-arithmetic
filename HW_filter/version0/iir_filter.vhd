@@ -45,8 +45,8 @@ entity iir_filter is
         rst_n : in std_logic;
         vIn   : in std_logic;
         dIn   : in dataType;
-        coeffs_fb      : out std_logic_vector(2*word'length - 1);
-        coeffs_ff       : out std_logic_vector(4*word'length - 1);
+        coeffs_fb      : in std_logic_vector(2*word'length - 1 downto 0);
+        coeffs_ff       : in std_logic_vector(4*word'length - 1 downto 0);
         dOut  : out dataType;
         vOut  : out std_logic
     );
@@ -97,8 +97,8 @@ begin
         clk            => clk,
         rst_n          => rst_n,
         dIn            => dIn,
-        b              => b_int,
-        a              => a_int,
+        coeffs_ff              => coeffs_ff_int,
+        coeffs_fb             => coeffs_fb_int,
         dOut           => dOut,
         input_regs_en  => input_regs_en_int,
         sw_regs_en     => sw_regs_en_int,
@@ -131,7 +131,7 @@ begin
 
     -- signal assignments
     coeffs_fb_int <= (signed(coeffs_fb((2 * WL - 1) downto WL)), signed(coeffs_fb((WL - 1) downto 0)));
-    coeffs_ff_int <= (signed(coeffs_ff((4 * WL - 1) downto 3 * WL)), signed(coeffs_ff((3 * WL - 1) downto 2 * WL)), signed(coeffs_ff((2 * WL - 1) downto NB)), signed(coeffs_ff((WL - 1) downto 0)));
+    coeffs_ff_int <= (signed(coeffs_ff((4 * WL - 1) downto 3 * WL)), signed(coeffs_ff((3 * WL - 1) downto 2 * WL)), signed(coeffs_ff((2 * WL - 1) downto WL)), signed(coeffs_ff((WL - 1) downto 0)));
     vOut <= delayed_controls(PIPE_STAGES)(1);
 
 end architecture structure;
