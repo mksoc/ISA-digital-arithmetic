@@ -15,6 +15,7 @@ MSIM_INIT_PATH = '/home/marco/.local/bin/init_msim_ase'
 # class definitions
 class cd:
     """Context manager for changing the current working directory"""
+
     def __init__(self, newPath):
         self.newPath = os.path.expanduser(newPath)
 
@@ -42,7 +43,7 @@ def get_choice(choices):
 
 
 def bash_source(file):
-    if os.path.isfile(file): 
+    if os.path.isfile(file):
         command = 'sh -c ". {} && env"'.format(file)
         for line in subprocess.getoutput(command).split('\n'):
             if line.startswith('PATH'):
@@ -54,7 +55,8 @@ def bash_source(file):
 
 # ====================================== main execution starts here ======================================
 # check if the script is run inside the root of the repository
-assert os.getcwd().endswith('ISA-digital-arithmetic'), 'Error: script must be run in the repository root directory'
+assert os.getcwd().endswith(
+    'ISA-digital-arithmetic'), 'Error: script must be run in the repository root directory'
 
 # ask for where to run simulation
 print('Do you wish to run the simulation locally or on the remote server?')
@@ -70,7 +72,8 @@ else:
     PORT = 10020
     SSH_SOCKET = '~/.ssh/{}'.format(USER_HOST)
     print('\nConnect to server.')
-    os.system('ssh -M -f -N -o ControlPath={} -p {} {}'.format(SSH_SOCKET, PORT, USER_HOST))
+    os.system(
+        'ssh -M -f -N -o ControlPath={} -p {} {}'.format(SSH_SOCKET, PORT, USER_HOST))
 
 # check if there are samples available
 # otherwise ask to create new ones or keep old ones
@@ -91,7 +94,8 @@ else:
 
 if run_remote:
     print('\nCopy samples to server.')
-    os.system('scp -o ControlPath={} -P {} common/samples.txt {}:{}/common'.format(SSH_SOCKET, PORT, USER_HOST, REMOTE_ROOT))
+    os.system('scp -o ControlPath={} -P {} common/samples.txt {}:{}/common'.format(
+        SSH_SOCKET, PORT, USER_HOST, REMOTE_ROOT))
 
 # compile C model if not already there and run it
 with cd('C_filter'):
@@ -121,7 +125,8 @@ with cd('common'):
     gen_tcl(run_remote, 1, version, design_choice)
     if run_remote:
         print('\nCopy script to server.')
-        os.system('scp -o ControlPath={} -P {} py-sim-script.tcl {}:{}/sim'.format(SSH_SOCKET, PORT, USER_HOST, REMOTE_ROOT))
+        os.system('scp -o ControlPath={} -P {} py-sim-script.tcl {}:{}/sim'.format(
+            SSH_SOCKET, PORT, USER_HOST, REMOTE_ROOT))
 
 # run simulation
 print('\nRun simulation.')
@@ -133,7 +138,8 @@ if run_remote:
         EOF""".format(SSH_SOCKET, PORT, USER_HOST, REMOTE_ROOT))
 
     print('\nCopy results from server.')
-    os.system('scp -o ControlPath={} -P {} {}:{}/common/results-hw.txt common/'.format(SSH_SOCKET, PORT, USER_HOST, REMOTE_ROOT))
+    os.system('scp -o ControlPath={} -P {} {}:{}/common/results-hw.txt common/'.format(
+        SSH_SOCKET, PORT, USER_HOST, REMOTE_ROOT))
 
     print('\nClose connection.')
     os.system('ssh -S {} -O exit {}'.format(SSH_SOCKET, USER_HOST))
@@ -143,7 +149,7 @@ else:
             bash_source(MSIM_INIT_PATH)
         except FileNotFoundError as e:
             raise type(e)('The simulation could not run locally, because the Modelsim executable was not found in PATH. \nPlease check that you set the correct path inside this script and try again.') from e
-        else:            
+        else:
             os.system('vsim -c -do ../../common/py-sim-script.tcl')
 
 # compare results
