@@ -3,6 +3,7 @@ import os
 import subprocess
 from common.samples_generator import gen_samples
 from common.compare_outputs import compare
+from common.tcl_sim_generator import gen_tcl
 
 # ==============================================================
 # SET THESE VARIABLES BEFORE USING!!
@@ -34,7 +35,7 @@ def get_choice(choices):
         print('Error. Invalid option. Try again.')
         choice = get_choice(choices)
     else:
-        if (choice - 1) not in choices:
+        if choice not in choices:
             print('Error. Invalid option. Try again.')
             choice = get_choice(choices)
     return choice
@@ -59,7 +60,7 @@ assert os.getcwd().endswith('ISA-digital-arithmetic'), 'Error: script must be ru
 print('Do you wish to run the simulation locally or on the remote server?')
 print('\t1) Locally')
 print('\t2) Remote server')
-run_remote = get_choice(range(2)) - 1
+run_remote = get_choice(range(1, 3)) - 1
 
 if not run_remote:
     print('Running locally...')
@@ -68,6 +69,8 @@ else:
     USER_HOST = 'isa22@led-x3850-2.polito.it'
     PORT = 10020
     SSH_SOCKET = '~/.ssh/{}'.format(USER_HOST)
+    print('\nConnect to server.')
+    os.system('ssh -M -f -N -o ControlPath={} -p {} {}'.format(SSH_SOCKET, PORT, USER_HOST))
 
 # check if there are samples available
 # otherwise ask to create new ones or keep old ones
@@ -76,8 +79,7 @@ if os.path.isfile('common/samples.txt'):
     print('\t1) Use already existing samples')
     print('\t2) Generate new ones')
 
-    gen_new_samples = get_choice(range(2)) - 1
-    if gen_new_samples:
+    if get_choice(range(1, 3)) - 1:
         with cd('common'):
             gen_samples()
             os.rename('py-samples.txt', 'samples.txt')
@@ -86,6 +88,10 @@ else:
     with cd('common'):
         gen_samples()
         os.rename('py-samples.txt', 'samples.txt')
+
+if run_remote:
+    print('\nCopy samples to server.')
+    os.system('scp -o ControlPath={} -P {} common/samples.txt {}:{}/common'.format(SSH_SOCKET, PORT, USER_HOST, REMOTE_ROOT))
 
 # compile C model if not already there and run it
 with cd('C_filter'):
@@ -96,32 +102,35 @@ with cd('C_filter'):
     print('\nRun C model on selected samples.')
     os.system('./{} ../common/samples.txt ../common/results-c.txt'.format(C_EX_NAME))
 
-# copy files to server if needed
-if run_remote:
-    print('\nConnect to server.')
-    os.system('ssh -M -f -N -o ControlPath={} -p {} {}'.format(SSH_SOCKET, PORT, USER_HOST))
-    print('\nCopy samples to server.')
-    os.system('scp -o ControlPath={} -P {} common/samples.txt {}:{}/common'.format(SSH_SOCKET, PORT, USER_HOST, REMOTE_ROOT))
-
 # ask for design to simulate and run simulation
 print('\nSelect design to simulate.')
 print('\t1) Original VHDL architecture')
 print('\t2) Post-synthesis netlist')
-design_choice = get_choice(range(2))
-if design_choice == 1:
-    DESIGN_VAR = 'arch'
-elif design_choice == 2:
-    DESIGN_VAR = 'postsyn'
+design_choice = get_choice(range(1, 3))
 
+# ask for version to use
+print('\nWhich version do you wish to use?')
+version = get_choice(range(4))
+while not os.path.isfile('HW_filter/version{}/iir_filter.vhd'.format(version)):
+    print('Entity for version {} is not defined (yet). Please choose another version.'.format(version))
+    version = get_choice(range(4))
+
+# generate script for simulation
+with cd('common'):
+    print('\nGenerate TCL script for simulation.')
+    gen_tcl(run_remote, 1, version, design_choice)
+    if run_remote:
+        print('\nCopy script to server.')
+        os.system('scp -o ControlPath={} -P {} py-sim-script.tcl {}:{}/sim'.format(SSH_SOCKET, PORT, USER_HOST, REMOTE_ROOT))
+
+# run simulation
 print('\nRun simulation.')
 if run_remote:
     os.system("""ssh -S {} -p {} {} /bin/bash << EOF
             cd {}/sim
             source /software/scripts/init_msim6.2g
-            export SIM_MODE="no-gui"
-            export SIM_DESIGN={}
-            vsim -c -do sim-script.tcl
-        EOF""".format(SSH_SOCKET, PORT, USER_HOST, REMOTE_ROOT, DESIGN_VAR))
+            vsim -c -do py-sim-script.tcl
+        EOF""".format(SSH_SOCKET, PORT, USER_HOST, REMOTE_ROOT))
 
     print('\nCopy results from server.')
     os.system('scp -o ControlPath={} -P {} {}:{}/common/results-hw.txt common/'.format(SSH_SOCKET, PORT, USER_HOST, REMOTE_ROOT))
@@ -135,9 +144,7 @@ else:
         except FileNotFoundError as e:
             raise type(e)('The simulation could not run locally, because the Modelsim executable was not found in PATH. \nPlease check that you set the correct path inside this script and try again.') from e
         else:            
-            os.environ['SIM_MODE'] = 'no-gui'
-            os.environ['SIM_DESIGN'] = DESIGN_VAR
-            os.system('vsim -g/iir_filterTB/DM/PATH="../../common" -c -do sim-script.tcl')
+            os.system('vsim -c -do ../../common/py-sim-script.tcl')
 
 # compare results
 with cd('common'):
