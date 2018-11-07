@@ -1,13 +1,13 @@
 #! /usr/bin/python3
 import os
-import sys
+import subprocess
 from common.samples_generator import gen_samples
 from common.compare_outputs import compare
 
 # ==============================================================
 # SET THESE VARIABLES BEFORE USING!!
 REMOTE_ROOT = '/home/isa22/lab2'
-MSIM_COMMAND = '. /home/marco/.local/bin/init_msim_ase'
+MSIM_INIT_PATH = '/home/marco/.local/bin/init_msim_ase'
 # ==============================================================
 
 
@@ -39,11 +39,21 @@ def get_choice(choices):
             choice = get_choice(choices)
     return choice
 
+
+def bash_source(file):
+    if os.path.isfile(file): 
+        command = 'sh -c ". {} && env"'.format(file)
+        for line in subprocess.getoutput(command).split('\n'):
+            if line.startswith('PATH'):
+                key, value = line.split('=')
+                os.environ[key] = value
+    else:
+        raise FileNotFoundError('File "{}" not found'.format(file))
+
+
 # ====================================== main execution starts here ======================================
 # check if the script is run inside the root of the repository
-if not os.getcwd().endswith('ISA-digital-arithmetic'):
-    print('Error: script must be run in the repository root directory')
-    sys.exit(1)
+assert os.getcwd().endswith('ISA-digital-arithmetic'), 'Error: script must be run in the repository root directory'
 
 # ask for where to run simulation
 print('Do you wish to run the simulation locally or on the remote server?')
@@ -120,10 +130,14 @@ if run_remote:
     os.system('ssh -S {} -O exit {}'.format(SSH_SOCKET, USER_HOST))
 else:
     with cd('HW_filter/sim'):
-        os.system('{}'.format(MSIM_COMMAND))
-        os.environ['SIM_MODE'] = 'no-gui'
-        os.environ['SIM_DESIGN'] = DESIGN_VAR
-        os.system('vsim -c -do sim-script.tcl')
+        try:
+            bash_source(MSIM_INIT_PATH)
+        except FileNotFoundError as e:
+            raise type(e)('The simulation could not run locally, because the Modelsim executable was not found in PATH. \nPlease check that you set the correct path inside this script and try again.') from e
+        else:            
+            os.environ['SIM_MODE'] = 'no-gui'
+            os.environ['SIM_DESIGN'] = DESIGN_VAR
+            os.system('vsim -g/iir_filterTB/DM/PATH="../../common" -c -do sim-script.tcl')
 
 # compare results
 with cd('common'):

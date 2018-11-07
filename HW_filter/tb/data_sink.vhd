@@ -10,7 +10,7 @@ library work;
 use work.filter_pkg.all;
 
 entity data_sink is
-    generic (OUT_PATH := "../common");
+    generic (OUT_PATH: string := "../common");
     port (
         clock   : in std_logic;
         reset_n : in std_logic;

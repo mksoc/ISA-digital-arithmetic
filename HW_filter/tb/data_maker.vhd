@@ -11,7 +11,7 @@ library work;
 use work.filter_pkg.all;
 
 entity data_maker is
-    generic (IN_PATH := "../common");
+    generic (IN_PATH: string := "../common");
     port (
         clock   : in std_logic;
         reset_n : in std_logic;
