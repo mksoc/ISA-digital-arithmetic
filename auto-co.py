@@ -11,15 +11,15 @@ REMOTE_ROOT = '/home/isa22/lab2'
 def parse_dict():
     print('    {:30}{:15}{}'.format('LOCAL', '', 'REMOTE'))
     for key, value in ops_dict.items():
-        local_dir = next(item for item in value.split(' ') if item.startswith('./'))
-        remote_dir = next(item.split(':')[1] for item in value.split(' ') if ':' in item)
+        split_value = value.split(' ')
+        local_dir = next(item for item in split_value if item.startswith('./'))
+        remote_dir = next(item.split(':')[1] for item in split_value if ':' in item)
         print('{key:2}) {local:30}{arrow:15}{remote}'.format(
             key=key,
             local=local_dir,
-            arrow='->' if '-r' in value.split(' ') else '<-',
+            arrow='->' if './' in split_value[split_value.index('-p') + 2] else '<-',
             remote=remote_dir
-            )
-        )
+        ))
 
 
 # check if the script is run inside the root of the repository
@@ -32,8 +32,8 @@ PORT = '10020'
 SSH_SOCKET = '~/.ssh/{}'.format(USER_HOST)
 
 # define operations dictionary
-to_cmd_str = 'scp -r -o ControlPath={socket} -P {port} ./{source} {login}:{remote_root}/{dest}'
-from_cmd_str = 'scp -o ControlPath={socket} -P {port} {login}:{remote_root}/{source} ./{dest}'
+to_cmd_str = 'rsync -avz -e "ssh -o ControlPath={socket} -p {port}" ./{source} {login}:{remote_root}/{dest}'
+from_cmd_str = 'rsync -avz -e "ssh -o ControlPath={socket} -p {port}" {login}:{remote_root}/{source} ./{dest}'
 ops_dict = {
     1: to_cmd_str.format(
         socket=SSH_SOCKET,
@@ -41,7 +41,7 @@ ops_dict = {
         login=USER_HOST,
         remote_root=REMOTE_ROOT,
         source='HW_filter/src',
-        dest='' # destination is empty otherwise scp would copy into ../src/src/
+        dest=''  # destination is empty otherwise scp would copy into ../src/src/
     ),
     2: to_cmd_str.format(
         socket=SSH_SOCKET,
@@ -57,7 +57,7 @@ ops_dict = {
         login=USER_HOST,
         remote_root=REMOTE_ROOT,
         source='HW_filter/sim/*.tcl',
-        dest='sim'
+        dest='sim/'
     ),
     4: to_cmd_str.format(
         socket=SSH_SOCKET,
@@ -116,4 +116,6 @@ while not end_loop:
             else:
                 os.system(ops_dict[op])
 
-print('Quitting... bye bye!')
+print('\nClose connection.')
+os.system('ssh -S {} -O exit {}'.format(SSH_SOCKET, USER_HOST))
+print('\nQuitting... bye bye!')

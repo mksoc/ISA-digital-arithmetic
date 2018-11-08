@@ -106,12 +106,6 @@ with cd('C_filter'):
     print('\nRun C model on selected samples.')
     os.system('./{} ../common/samples.txt ../common/results-c.txt'.format(C_EX_NAME))
 
-# ask for design to simulate and run simulation
-print('\nSelect design to simulate.')
-print('\t1) Original VHDL architecture')
-print('\t2) Post-synthesis netlist')
-design_choice = get_choice(range(1, 3))
-
 # ask for version to use
 print('\nWhich version do you wish to use?')
 version = get_choice(range(4))
@@ -119,13 +113,23 @@ while not os.path.isfile('HW_filter/version{}/iir_filter.vhd'.format(version)):
     print('Entity for version {} is not defined (yet). Please choose another version.'.format(version))
     version = get_choice(range(4))
 
+# ask for design to simulate
+print('\nSelect design to simulate.')
+print('\t1) Original VHDL architecture')
+print('\t2) Post-synthesis netlist')
+design_choice = get_choice(range(1, 3))
+if design_choice == 2:
+    while not os.path.isfile('HW_filter/version{}/iir_filter.v'.format(version)):
+        print('Post-synthesis netlist for version {} was not found. Please use original VHDL or press Ctrl+C to exit simulator.'.format(version))
+        design_choice = get_choice(range(1, 3))
+
 # generate script for simulation
 with cd('common'):
     print('\nGenerate TCL script for simulation.')
     gen_tcl(run_remote, 1, version, design_choice)
     if run_remote:
         print('\nCopy script to server.')
-        os.system('scp -o ControlPath={} -P {} py-sim-script.tcl {}:{}/sim'.format(
+        os.system('rsync -avz -e "ssh -o ControlPath={} -p {}" py-sim-script.tcl {}:{}/sim/'.format(
             SSH_SOCKET, PORT, USER_HOST, REMOTE_ROOT))
 
 # run simulation
