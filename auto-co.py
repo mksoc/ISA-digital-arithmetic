@@ -41,7 +41,7 @@ ops_dict = {
         login=USER_HOST,
         remote_root=REMOTE_ROOT,
         source='HW_filter/src',
-        dest=''
+        dest='' # destination is empty otherwise scp would copy into ../src/src/
     ),
     2: to_cmd_str.format(
         socket=SSH_SOCKET,
