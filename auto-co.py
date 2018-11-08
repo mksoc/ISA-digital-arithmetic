@@ -73,7 +73,7 @@ ops_dict = {
         login=USER_HOST,
         remote_root=REMOTE_ROOT,
         source='common/samples.txt',
-        dest='common'
+        dest='common/'
     ),
     6: from_cmd_str.format(
         socket=SSH_SOCKET,
@@ -81,7 +81,7 @@ ops_dict = {
         login=USER_HOST,
         remote_root=REMOTE_ROOT,
         source='common/results-hw.txt',
-        dest='common'
+        dest='common/'
     ),
 }
 

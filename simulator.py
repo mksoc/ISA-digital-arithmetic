@@ -94,7 +94,7 @@ else:
 
 if run_remote:
     print('\nCopy samples to server.')
-    os.system('scp -o ControlPath={} -P {} common/samples.txt {}:{}/common'.format(
+    os.system('rsync -avz -e "ssh -o ControlPath={} -p {}" common/samples.txt {}:{}/common/'.format(
         SSH_SOCKET, PORT, USER_HOST, REMOTE_ROOT))
 
 # compile C model if not already there and run it
@@ -135,11 +135,13 @@ with cd('common'):
 # run simulation
 print('\nRun simulation.')
 if run_remote:
-    os.system("""ssh -S {} -p {} {} /bin/bash << EOF
-            cd {}/sim
+    with open('ssh_commands.sh', 'w') as command_file: 
+        command_file.write("""cd {}/sim
             source /software/scripts/init_msim6.2g
-            vsim -c -do py-sim-script.tcl
-        EOF""".format(SSH_SOCKET, PORT, USER_HOST, REMOTE_ROOT))
+            if [ ! -d work ]; then vlib work; fi
+            vsim -c -do py-sim-script.tcl""".format(REMOTE_ROOT))
+    os.system('cat ssh_commands.sh | ssh -S {} -p {} {}'.format(SSH_SOCKET, PORT, USER_HOST))
+    os.remove('ssh_commands.sh')
 
     print('\nCopy results from server.')
     os.system('scp -o ControlPath={} -P {} {}:{}/common/results-hw.txt common/'.format(
