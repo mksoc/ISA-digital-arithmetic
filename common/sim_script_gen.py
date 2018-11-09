@@ -20,7 +20,7 @@ def get_choice(choices):
 
 def gen_tcl(run_remote, cli_mode, version, design):
     print('\nGenerating TCL script...')
-    with open('{}/common/py-sim-script.tcl'.format(repo_root), 'w') as script_file:
+    with open('py-sim-script.tcl'.format(repo_root), 'w') as script_file:
         script_file.write("""# =================================================================
 # *****************************************************************
 # *************** GENERATED USING sim_script_gen.py ***************

@@ -124,7 +124,7 @@ if design_choice == 2:
         design_choice = get_choice(range(1, 3))
 
 # generate script for simulation
-with cd('common'):
+with cd('HW_filter/sim'):
     print('\nGenerate TCL script for simulation.')
     gen_tcl(run_remote, 1, version, design_choice)
     if run_remote:

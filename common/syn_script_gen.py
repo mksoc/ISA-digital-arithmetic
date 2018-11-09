@@ -18,7 +18,7 @@ def get_choice(choices):
     return choice
 
 
-def gen_tcl(version, period, compile_cmd):
+def gen_tcl(version, period, adder=None, multiplier=None, compile_cmd='compile'):
     print('\nGenerating TCL script...')
     with open('py-syn-script.tcl', 'w') as script_file:
         script_file.write("""# =================================================================
@@ -67,48 +67,58 @@ set_output_delay 0.5 -max -clock CLOCK [all_outputs]
 
 # set output load capacitance
 set OLOAD [load_of NangateOpenCellLibrary/BUF_X4/A]
-set $OLOAD [all_outputs]""")
+set $OLOAD [all_outputs]
+
+# flatten hierarchy
+ungroup -all -flatten""")
+
+        if adder is not None or multiplier is not None:
+            script_file.write('\n\n# set implementations')        
+
+            if adder == 1:
+                script_file.write('\nset_implementation DW01_add/rpl [find cell *add_*]')
+            elif adder == 2:
+                script_file.write('\nset_implementation DW01_add/cla [find cell *add_*]')
+            elif adder == 3:
+                script_file.write('\nset_implementation DW01_add/pparch [find cell *add_*]')
+
+            if multiplier == 1:
+                script_file.write('\nset_implementation DW02_mult/csa [find cell *mult_*]')
+            elif multiplier == 2:
+                script_file.write('\nset_implementation DW02_mult/pparch [find cell *mult_*]')
 
         script_file.write("""\n\n# start synthesis
-{} > ./logs/compile-log.txt""".format(compile_cmd))
+{} > ./logs/compile-log.txt""".format('compile' if compile_cmd == 1 else 'compile-ultra'))
 
         script_file.write("""\n\n# save results
 report_resources > ./reports/resources-report.txt
 report_timing > ./reports/timing-report.txt
 report_area > ./reports/area-report.txt
 
-# flatten hierarchy
-ungroup -all -flatten
-
 # setup Verilog name rules
 change_names -hierarchy -rules verilog
 
 # export netlist delay file
-write_sdf ../netlist/iir_filter.sdf
+write_sdf ./netlist/iir_filter.sdf
 
 # export netlist file
-write -f verilog -hierarchy -output ../netlist/iir_filter.v
+write -f verilog -hierarchy -output ./netlist/iir_filter.v
 
 # export Synopsys Design Constraints file
-write_sdc ../netlist/iir_filter.sdc
+write_sdc ./netlist/iir_filter.sdc
 
 #convert lib into .saif for modelsim
 read_file NangateOpenCellLibrary_typical_ecsm_nowlm.db
-lib2saif -out ../saif/NangateOpenCellLibrary.saif NangateOpenCellLibrary""")
+lib2saif -out ./saif/NangateOpenCellLibrary.saif NangateOpenCellLibrary""")
 
     print('Done.')
 
 
-# get current working dir and set repo root path
-repo_name = 'ISA-digital-arithmetic'
-cwd = os.getcwd()
-repo_root = cwd[0:cwd.find(repo_name) + len(repo_name)]
-
-if __name__ == '__main__':
+def setup_param():
     # ask for version to use
     print('Which version do you wish to use?')
     version = get_choice(range(4))
-    while not os.path.isfile('../HW_filter/version{}/iir_filter.vhd'.format(version)):
+    while not os.path.isfile('{}/HW_filter/version{}/iir_filter.vhd'.format(repo_root, version)):
         print('Entity for version {} is not defined (yet). Please choose another version.'.format(version))
         version = get_choice(range(4))
 
@@ -121,10 +131,48 @@ if __name__ == '__main__':
         else:
             break
 
+    # ask for forcing components from DW    
+    while True:
+        add_choice = input('\nDo you want to instantiate special implementations for adders? (y/n): ')
+        if add_choice == 'y':
+            print('Which one?')
+            print('\t1) Ripple carry')
+            print('\t2) Carry lookahead')
+            print('\t3) Parallel prefix')
+            adder = get_choice(range(1, 4))
+        elif add_choice == 'n':
+            adder = None
+            break
+        else:
+            print('Please type "y" or "n" and press enter.')
+
+    while True:
+        mult_choice = input('\nDo you want to instantiate special implementations for multipliers? (y/n): ')
+        if mult_choice == 'y':
+            print('Which one?')
+            print('\t1) Carry save')
+            print('\t2) Parallel prefix')
+            multiplier = get_choice(range(1, 3))
+        elif mult_choice == 'n':
+            multiplier = None
+            break
+        else:
+            print('Please type "y" or "n" and press enter.')
+
     # ask for compile command
     print('\nWhich command do you want to use?')
     print('\t1) compile')
     print('\t2) compile_ultra')
     compile_cmd = get_choice(range(1, 3))
 
-    gen_tcl(version, period, compile_cmd)
+    gen_tcl(version, period, adder, multiplier, compile_cmd)
+    return version
+
+
+# get current working dir and set repo root path
+repo_name = 'ISA-digital-arithmetic'
+cwd = os.getcwd()
+repo_root = cwd[0:cwd.find(repo_name) + len(repo_name)]
+
+if __name__ == "__main__":
+    setup_param()
