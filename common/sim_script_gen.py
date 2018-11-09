@@ -1,5 +1,6 @@
 #! /usr/bin/python3
 import datetime
+import os
 
 
 # functions definitions
@@ -18,11 +19,11 @@ def get_choice(choices):
 
 
 def gen_tcl(run_remote, cli_mode, version, design):
-    print('Generating TCL script...')
-    with open('py-sim-script.tcl', 'w') as script_file:
+    print('\nGenerating TCL script...')
+    with open('{}/common/py-sim-script.tcl'.format(repo_root), 'w') as script_file:
         script_file.write("""# =================================================================
 # *****************************************************************
-# ************ GENERATED USING sim_script_generator.py ************
+# *************** GENERATED USING sim_script_gen.py ***************
 # ************           {date}           ************
 # *****************************************************************
 # The script was generated starting from these values of variables:
@@ -60,8 +61,8 @@ def gen_tcl(run_remote, cli_mode, version, design):
         script_file.write('\n\n# load design')
         script_file.write('\nvsim {library} {in_path} {out_path} work.iir_filterTB'.format(
             library='' if design == 1 else '-L /software/dk/nangate45/verilog/msim6.2g -sdftyp /iir_filterTB/UUT=../netlist/iir_filter.sdf -pli /software/synopsys/syn_current/auxx/syn/power/vpower/lib-linux/libvpower.so',
-            in_path='' if run_remote else '-g/iir_filterTB/DM/IN_PATH="../../common"',
-            out_path='' if run_remote else '-g/iir_filterTB/DS/OUT_PATH="../../common"'
+            in_path='' if run_remote else '-g/iir_filterTB/DM/IN_PATH="{}/common"'.format(repo_root),
+            out_path='' if run_remote else '-g/iir_filterTB/DS/OUT_PATH="{}/common"'.format(repo_root)
         ))
 
         if not cli_mode:
@@ -74,6 +75,11 @@ def gen_tcl(run_remote, cli_mode, version, design):
 
     print('Done.')
 
+
+# get current working dir and set repo root path
+repo_name = 'ISA-digital-arithmetic'
+cwd = os.getcwd()
+repo_root = cwd[0:cwd.find(repo_name) + len(repo_name)]
 
 if __name__ == '__main__':
     # ask for where to run simulation
@@ -92,6 +98,9 @@ if __name__ == '__main__':
     # ask for version to use
     print('\nWhich version do you wish to use?')
     version = get_choice(range(4))
+    while not os.path.isfile('{}/HW_filter/version{}/iir_filter.vhd'.format(repo_root, version)):
+        print('Entity for version {} is not defined (yet). Please choose another version.'.format(version))
+        version = get_choice(range(4))
 
     # ask for design to simulate
     print('\nWhich design do you wish to simulate?')

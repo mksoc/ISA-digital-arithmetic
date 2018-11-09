@@ -17,8 +17,8 @@ elaborate iir_filter -arch structure -lib WORK > ./elaborate-log.txt
 uniquify
 link
 
-# create symbolic clock signal (period = 11.2 ns)
-create_clock -name CLOCK -period 11.2 clk
+# create symbolic clock signal (period = min)
+create_clock -name CLOCK -period 0 clk
 set_dont_touch_network CLOCK
 set_clock_uncertainty 0.07 [get_clocks CLOCK]
 
@@ -34,6 +34,7 @@ set $OLOAD [all_outputs]
 compile > ./compile-log.txt
 
 # save results
+report_resources > ./reports/resources-report.txt
 report_timing > ./reports/timing-report.txt
 report_area > ./reports/area-report.txt
 

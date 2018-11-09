@@ -3,7 +3,7 @@ import os
 import subprocess
 from common.samples_generator import gen_samples
 from common.compare_outputs import compare
-from common.tcl_sim_generator import gen_tcl
+from common.sim_script_gen import gen_tcl
 
 # ==============================================================
 # SET THESE VARIABLES BEFORE USING!!
