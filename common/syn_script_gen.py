@@ -77,10 +77,13 @@ ungroup -all -flatten""")
 
             if adder == 1:
                 script_file.write('\nset_implementation DW01_add/rpl [find cell *add_*]')
+                script_file.write('\nset_implementation DW01_sub/rpl [find cell *sub_*]')
             elif adder == 2:
                 script_file.write('\nset_implementation DW01_add/cla [find cell *add_*]')
+                script_file.write('\nset_implementation DW01_sub/cla [find cell *sub_*]')
             elif adder == 3:
                 script_file.write('\nset_implementation DW01_add/pparch [find cell *add_*]')
+                script_file.write('\nset_implementation DW01_sub/pparch [find cell *sub_*]')
 
             if multiplier == 1:
                 script_file.write('\nset_implementation DW02_mult/csa [find cell *mult_*]')

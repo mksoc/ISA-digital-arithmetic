@@ -44,10 +44,13 @@ with cd('{}/HW_filter/syn'.format(repo_root)):
 # ask for folder to save reports
 log_folder = input('\nType the name of the folder you want to put logs and reports into (will be created inside ../syn/): ')
 with cd('{}/HW_filter/syn'.format(repo_root)):
-    os.mkdir(log_folder)
-    with cd(log_folder):
-        os.mkdir('reports')
-        os.mkdir('logs')
+    try:
+        os.mkdir(log_folder)
+        with cd(log_folder):
+            os.mkdir('reports')
+            os.mkdir('logs')
+    except FileExistsError:
+        pass
 
 # open connection to server
 USER_HOST = 'isa22@led-x3850-2.polito.it'
@@ -68,6 +71,7 @@ os.remove('ssh_commands.sh')
 # copy script and setup file to server
 print('\nCopy scripts to server')
 os.system('rsync -avz -e "ssh -o ControlPath={} -p {}" {}/HW_filter/syn/py-syn-script.tcl {}:{}/syn/'.format(SSH_SOCKET, PORT, repo_root, USER_HOST, REMOTE_ROOT))
+os.system('rsync -avz -e "ssh -o ControlPath={} -p {}" {}/HW_filter/syn/.synopsys_dc.setup {}:{}/syn/'.format(SSH_SOCKET, PORT, repo_root, USER_HOST, REMOTE_ROOT))
 
 # run synthesis on server
 print('\nRun synthesis')
