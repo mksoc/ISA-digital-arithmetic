@@ -1,11 +1,11 @@
 # =================================================================
 # *****************************************************************
 # *************** GENERATED USING syn_script_gen.py ***************
-# ************           2018-11-11 11:00:59           ************
+# ************           2018-11-11 13:42:23           ************
 # *****************************************************************
 # The script was generated starting from these values of variables:
 # version = 0
-# clock period = 9.28
+# clock period = 5.8
 # compile command = 1
 # =================================================================
 
@@ -25,7 +25,7 @@ uniquify
 link
 
 # create symbolic clock signal
-create_clock -name CLOCK -period 9.28 clk
+create_clock -name CLOCK -period 5.8 clk
 set_dont_touch_network CLOCK
 set_clock_uncertainty 0.07 [get_clocks CLOCK]
 
@@ -39,11 +39,6 @@ set $OLOAD [all_outputs]
 
 # flatten hierarchy
 ungroup -all -flatten
-
-# set implementations
-set_implementation DW01_add/rpl [find cell *add_*]
-set_implementation DW01_sub/rpl [find cell *sub_*]
-set_implementation DW02_mult/pparch [find cell *mult_*]
 
 # start synthesis
 compile > ./logs/compile-log.txt
@@ -68,3 +63,5 @@ write_sdc ./netlist/iir_filter.sdc
 #convert lib into .saif for modelsim
 read_file NangateOpenCellLibrary_typical_ecsm_nowlm.db
 lib2saif -out ./saif/NangateOpenCellLibrary.saif NangateOpenCellLibrary
+
+quit

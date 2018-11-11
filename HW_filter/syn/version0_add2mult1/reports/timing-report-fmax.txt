@@ -1,0 +1,87 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : iir_filter
+Version: Z-2007.03-SP1
+Date   : Sun Nov 11 11:16:32 2018
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: DP/reg_b_i_2/Q_reg[1]
+              (rising edge-triggered flip-flop clocked by CLOCK)
+  Endpoint: DP/reg_pipe12/Q_reg[20]
+            (rising edge-triggered flip-flop clocked by CLOCK)
+  Path Group: CLOCK
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  iir_filter         5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock CLOCK (rise edge)                                 0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  DP/reg_b_i_2/Q_reg[1]/CK (SDFFR_X1)                     0.00       0.00 r
+  DP/reg_b_i_2/Q_reg[1]/Q (SDFFR_X1)                      0.07       0.07 f
+  DP/mult_208/A[1] (iir_filter_DW02_mult_1)               0.00       0.07 f
+  DP/mult_208/U429/Z (BUF_X1)                             0.04       0.11 f
+  DP/mult_208/U34/ZN (AND2_X1)                            0.04       0.15 f
+  DP/mult_208/U30/Z (XOR2_X1)                             0.08       0.23 f
+  DP/mult_208/S2_2_21/S (FA_X1)                           0.13       0.36 r
+  DP/mult_208/S2_3_20/S (FA_X1)                           0.11       0.47 f
+  DP/mult_208/S2_4_19/CO (FA_X1)                          0.09       0.57 f
+  DP/mult_208/S2_5_19/CO (FA_X1)                          0.11       0.68 f
+  DP/mult_208/S2_6_19/CO (FA_X1)                          0.11       0.78 f
+  DP/mult_208/S2_7_19/S (FA_X1)                           0.14       0.93 r
+  DP/mult_208/S2_8_18/S (FA_X1)                           0.11       1.04 f
+  DP/mult_208/S2_9_17/S (FA_X1)                           0.14       1.17 r
+  DP/mult_208/S2_10_16/S (FA_X1)                          0.11       1.29 f
+  DP/mult_208/S2_11_15/S (FA_X1)                          0.14       1.42 r
+  DP/mult_208/S2_12_14/S (FA_X1)                          0.11       1.53 f
+  DP/mult_208/S2_13_13/S (FA_X1)                          0.14       1.67 r
+  DP/mult_208/S2_14_12/S (FA_X1)                          0.11       1.78 f
+  DP/mult_208/S2_15_11/S (FA_X1)                          0.14       1.92 r
+  DP/mult_208/S2_16_10/S (FA_X1)                          0.11       2.03 f
+  DP/mult_208/S2_17_9/S (FA_X1)                           0.14       2.17 r
+  DP/mult_208/S2_18_8/S (FA_X1)                           0.11       2.28 f
+  DP/mult_208/S2_19_7/S (FA_X1)                           0.14       2.41 r
+  DP/mult_208/S2_20_6/S (FA_X1)                           0.11       2.53 f
+  DP/mult_208/S2_21_5/S (FA_X1)                           0.14       2.66 r
+  DP/mult_208/S2_22_4/S (FA_X1)                           0.11       2.77 f
+  DP/mult_208/S4_3/S (FA_X1)                              0.14       2.91 r
+  DP/mult_208/U260/Z (XOR2_X1)                            0.08       2.99 r
+  DP/mult_208/FS_1/A[24] (iir_filter_DW01_add_10)         0.00       2.99 r
+  DP/mult_208/FS_1/U13/ZN (AND2_X1)                       0.05       3.04 r
+  DP/mult_208/FS_1/U11/ZN (OAI211_X1)                     0.03       3.07 f
+  DP/mult_208/FS_1/U10/ZN (AND2_X1)                       0.04       3.11 f
+  DP/mult_208/FS_1/U19/ZN (NOR2_X1)                       0.04       3.15 r
+  DP/mult_208/FS_1/U22/ZN (NAND3_X1)                      0.03       3.18 f
+  DP/mult_208/FS_1/U21/ZN (AND2_X1)                       0.04       3.23 f
+  DP/mult_208/FS_1/U27/ZN (AND2_X1)                       0.04       3.27 f
+  DP/mult_208/FS_1/U34/ZN (OAI21_X1)                      0.04       3.31 r
+  DP/mult_208/FS_1/U33/ZN (XNOR2_X1)                      0.06       3.37 r
+  DP/mult_208/FS_1/SUM[40] (iir_filter_DW01_add_10)       0.00       3.37 r
+  DP/mult_208/PRODUCT[42] (iir_filter_DW02_mult_1)        0.00       3.37 r
+  DP/reg_pipe12/Q_reg[20]/D (DFFR_X2)                     0.01       3.38 r
+  data arrival time                                                  3.38
+
+  clock CLOCK (rise edge)                                 0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      -0.07      -0.07
+  DP/reg_pipe12/Q_reg[20]/CK (DFFR_X2)                    0.00      -0.07 r
+  library setup time                                     -0.03      -0.10
+  data required time                                                -0.10
+  --------------------------------------------------------------------------
+  data required time                                                -0.10
+  data arrival time                                                 -3.38
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                  -3.48
+
+
+1

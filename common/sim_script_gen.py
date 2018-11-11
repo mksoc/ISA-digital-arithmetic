@@ -20,7 +20,7 @@ def get_choice(choices):
 
 def gen_tcl(run_remote, cli_mode, version, design):
     print('\nGenerating TCL script...')
-    with open('py-sim-script.tcl'.format(repo_root), 'w') as script_file:
+    with open('py-sim-script.tcl', 'w') as script_file:
         script_file.write("""# =================================================================
 # *****************************************************************
 # *************** GENERATED USING sim_script_gen.py ***************
@@ -39,16 +39,19 @@ def gen_tcl(run_remote, cli_mode, version, design):
             des=design
         ))
 
-        script_file.write('\n{}'.format('puts "Running in command line mode. No waveforms will be available."' if cli_mode else 'puts "Running in GUI mode."'))
+        script_file.write('\n{}'.format(
+            'puts "Running in command line mode. No waveforms will be available."' if cli_mode else 'puts "Running in GUI mode."'))
 
         script_file.write('\n\n# compile source files')
         script_file.write(
             '\nvcom -93 -work ./work ../src/{}.vhd'.format('*' if design == 1 else 'filter_pkg'
-        ))
-        script_file.write('\nvcom -93 -work ./work ../version{ver}/*.{ext}'.format(
-            ver=version, 
-            ext='vhd' if design == 1 else 'v'
-        ))
+                                                           ))
+        if design == 1:
+            script_file.write(
+                '\nvcom -93 -work ./work ../version{}/*.vhd'.format(version))
+        elif design == 2:
+            script_file.write(
+                '\nvlog -work ./work ../version{}/*.v'.format(version))
 
         script_file.write('\n\n# compile testbench')
         script_file.write('\nvcom -93 -work ./work ../tb/*.vhd')
@@ -60,9 +63,11 @@ def gen_tcl(run_remote, cli_mode, version, design):
 
         script_file.write('\n\n# load design')
         script_file.write('\nvsim {library} {in_path} {out_path} work.iir_filterTB'.format(
-            library='' if design == 1 else '-L /software/dk/nangate45/verilog/msim6.2g -sdftyp /iir_filterTB/UUT=../netlist/iir_filter.sdf -pli /software/synopsys/syn_current/auxx/syn/power/vpower/lib-linux/libvpower.so',
-            in_path='' if run_remote else '-g/iir_filterTB/DM/IN_PATH="{}/common"'.format(repo_root),
-            out_path='' if run_remote else '-g/iir_filterTB/DS/OUT_PATH="{}/common"'.format(repo_root)
+            library='' if design == 1 else '-L /software/dk/nangate45/verilog/msim6.2g -sdftyp /iir_filterTB/UUT=../version{ver}/iir_filter.sdf -pli /software/synopsys/syn_current/auxx/syn/power/vpower/lib-linux/libvpower.so'.format(ver=version),
+            in_path='' if run_remote else '-g/iir_filterTB/DM/IN_PATH="{}/common"'.format(
+                repo_root),
+            out_path='' if run_remote else '-g/iir_filterTB/DS/OUT_PATH="{}/common"'.format(
+                repo_root)
         ))
 
         if not cli_mode:

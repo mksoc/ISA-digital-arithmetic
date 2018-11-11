@@ -1,6 +1,7 @@
 #! /usr/bin/python3
 import os
 import subprocess
+import shlex
 from common.samples_generator import gen_samples
 from common.compare_outputs import compare
 from common.sim_script_gen import gen_tcl
@@ -71,6 +72,7 @@ else:
     USER_HOST = 'isa22@led-x3850-2.polito.it'
     PORT = 10020
     SSH_SOCKET = '~/.ssh/{}'.format(USER_HOST)
+    ssh_cmd = 'ssh -S {} -p {} {}'.format(SSH_SOCKET, PORT, USER_HOST)
     print('\nConnect to server.')
     os.system(
         'ssh -M -f -N -o ControlPath={} -p {} {}'.format(SSH_SOCKET, PORT, USER_HOST))
@@ -114,14 +116,18 @@ while not os.path.isfile('HW_filter/version{}/iir_filter.vhd'.format(version)):
     version = get_choice(range(4))
 
 # ask for design to simulate
-print('\nSelect design to simulate.')
-print('\t1) Original VHDL architecture')
-print('\t2) Post-synthesis netlist')
-design_choice = get_choice(range(1, 3))
-if design_choice == 2:
-    while not os.path.isfile('HW_filter/version{}/iir_filter.v'.format(version)):
-        print('Post-synthesis netlist for version {} was not found. Please use original VHDL or press Ctrl+C to exit simulator.'.format(version))
-        design_choice = get_choice(range(1, 3))
+if run_remote:
+    print('\nSelect design to simulate.')
+    print('\t1) Original VHDL architecture')
+    print('\t2) Post-synthesis netlist')
+    design_choice = get_choice(range(1, 3))
+    if design_choice == 2:
+        file_check = '{ssh} test -e {rem_root}/version{ver}/iir_filter.v'.format(ssh=ssh_cmd, rem_root=REMOTE_ROOT,ver=version)
+        while not (subprocess.call(shlex.split(file_check)) == 0):
+            print('Post-synthesis netlist for version {} was not found. Please use original VHDL or press Ctrl+C to exit simulator.'.format(version))
+            design_choice = get_choice(range(1, 3))
+else:
+    design_choice = 1
 
 # generate script for simulation
 with cd('HW_filter/sim'):
@@ -156,7 +162,7 @@ else:
         except FileNotFoundError as e:
             raise type(e)('The simulation could not run locally, because the Modelsim executable was not found in PATH. \nPlease check that you set the correct path inside this script and try again.') from e
         else:
-            os.system('vsim -c -do ../../common/py-sim-script.tcl')
+            os.system('vsim -c -do py-sim-script.tcl')
 
 # compare results
 with cd('common'):

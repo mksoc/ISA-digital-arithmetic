@@ -76,16 +76,13 @@ os.system('rsync -avz -e "ssh -o ControlPath={} -p {}" {}/HW_filter/syn/.synopsy
 # run synthesis on server
 print('\nRun synthesis')
 with open('ssh_commands.sh', 'w') as command_file:
-    command_file.write("""cd {}/syn
+    command_file.write("""cd {root}/syn
         source /software/scripts/init_synopsys
         mkdir work logs reports saif netlist
-        dc_shell-xg-t -f py-syn-script.tcl""".format(REMOTE_ROOT))
+        dc_shell-xg-t -f py-syn-script.tcl
+        mv netlist/* ../version{ver}""".format(root=REMOTE_ROOT, ver=version))
 os.system('cat ssh_commands.sh | ssh -S {} -p {} {}'.format(SSH_SOCKET, PORT, USER_HOST))
 os.remove('ssh_commands.sh')
-
-# copy netlist
-print('\nRetrieve netlist from server')
-os.system('rsync -avz -e "ssh -o ControlPath={} -p {}" {}:{}/syn/netlist/iir_filter.v {}/HW_filter/version{}/'.format(SSH_SOCKET, PORT, USER_HOST, REMOTE_ROOT, repo_root, version))
 
 # copy logs and reports
 print('\nRetrieve logs and reports from server')

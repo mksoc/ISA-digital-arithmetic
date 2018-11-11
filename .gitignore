@@ -26,6 +26,7 @@
 
 # Files
 transcript
+**/common/*.txt
 
 # Directories global
 **/db/

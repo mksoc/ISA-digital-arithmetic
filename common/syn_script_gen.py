@@ -112,7 +112,9 @@ write_sdc ./netlist/iir_filter.sdc
 
 #convert lib into .saif for modelsim
 read_file NangateOpenCellLibrary_typical_ecsm_nowlm.db
-lib2saif -out ./saif/NangateOpenCellLibrary.saif NangateOpenCellLibrary""")
+lib2saif -out ./saif/NangateOpenCellLibrary.saif NangateOpenCellLibrary
+
+quit""")
 
     print('Done.')
 
