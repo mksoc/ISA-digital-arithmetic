@@ -1,11 +1,11 @@
 # =================================================================
 # *****************************************************************
 # *************** GENERATED USING syn_script_gen.py ***************
-# ************           2018-11-11 10:14:04           ************
+# ************           2018-11-11 11:00:59           ************
 # *****************************************************************
 # The script was generated starting from these values of variables:
 # version = 0
-# clock period = 14.0
+# clock period = 9.28
 # compile command = 1
 # =================================================================
 
@@ -25,7 +25,7 @@ uniquify
 link
 
 # create symbolic clock signal
-create_clock -name CLOCK -period 14.0 clk
+create_clock -name CLOCK -period 9.28 clk
 set_dont_touch_network CLOCK
 set_clock_uncertainty 0.07 [get_clocks CLOCK]
 
@@ -43,7 +43,7 @@ ungroup -all -flatten
 # set implementations
 set_implementation DW01_add/rpl [find cell *add_*]
 set_implementation DW01_sub/rpl [find cell *sub_*]
-set_implementation DW02_mult/csa [find cell *mult_*]
+set_implementation DW02_mult/pparch [find cell *mult_*]
 
 # start synthesis
 compile > ./logs/compile-log.txt

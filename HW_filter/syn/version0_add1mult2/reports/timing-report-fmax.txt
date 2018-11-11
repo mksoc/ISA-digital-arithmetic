@@ -1,0 +1,108 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : iir_filter
+Version: Z-2007.03-SP1
+Date   : Sun Nov 11 10:29:52 2018
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: DP/reg_pipe12/Q_reg[0]
+              (rising edge-triggered flip-flop clocked by CLOCK)
+  Endpoint: DP/reg_out/Q_reg[0]
+            (rising edge-triggered flip-flop clocked by CLOCK)
+  Path Group: CLOCK
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  iir_filter         5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock CLOCK (rise edge)                                 0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  DP/reg_pipe12/Q_reg[0]/CK (DFFR_X1)                     0.00       0.00 r
+  DP/reg_pipe12/Q_reg[0]/QN (DFFR_X1)                     0.07       0.07 r
+  U508/ZN (INV_X1)                                        0.03       0.10 f
+  DP/add_215/A[0] (iir_filter_DW01_add_6)                 0.00       0.10 f
+  DP/add_215/U107/ZN (AND2_X1)                            0.05       0.14 f
+  DP/add_215/U43/ZN (NAND2_X1)                            0.03       0.17 r
+  DP/add_215/U181/ZN (NAND3_X1)                           0.03       0.20 f
+  DP/add_215/U200/ZN (NAND2_X1)                           0.04       0.24 r
+  DP/add_215/U176/ZN (NAND3_X1)                           0.04       0.29 f
+  DP/add_215/U33/ZN (NAND2_X1)                            0.04       0.32 r
+  DP/add_215/U150/ZN (NAND3_X1)                           0.04       0.36 f
+  DP/add_215/U154/ZN (NAND2_X1)                           0.04       0.40 r
+  DP/add_215/U156/ZN (NAND3_X1)                           0.04       0.44 f
+  DP/add_215/U13/ZN (NAND2_X1)                            0.04       0.47 r
+  DP/add_215/U58/ZN (NAND3_X1)                            0.04       0.51 f
+  DP/add_215/U12/ZN (NAND2_X1)                            0.04       0.55 r
+  DP/add_215/U102/ZN (NAND3_X1)                           0.03       0.58 f
+  DP/add_215/U114/ZN (NAND2_X1)                           0.04       0.62 r
+  DP/add_215/U5/ZN (NAND3_X1)                             0.04       0.66 f
+  DP/add_215/U1/ZN (NAND2_X1)                             0.04       0.70 r
+  DP/add_215/U125/ZN (NAND3_X1)                           0.03       0.73 f
+  DP/add_215/U159/ZN (NAND2_X1)                           0.04       0.77 r
+  DP/add_215/U149/ZN (NAND3_X1)                           0.04       0.81 f
+  DP/add_215/U27/ZN (NAND2_X1)                            0.04       0.85 r
+  DP/add_215/U161/ZN (NAND3_X1)                           0.04       0.89 f
+  DP/add_215/U15/ZN (NAND2_X1)                            0.04       0.92 r
+  DP/add_215/U192/ZN (NAND3_X1)                           0.03       0.95 f
+  DP/add_215/U196/ZN (NAND2_X1)                           0.04       0.99 r
+  DP/add_215/U197/ZN (NAND3_X1)                           0.04       1.03 f
+  DP/add_215/U165/ZN (NAND2_X1)                           0.04       1.06 r
+  DP/add_215/U45/ZN (NAND3_X1)                            0.04       1.11 f
+  DP/add_215/U23/ZN (NAND2_X1)                            0.04       1.14 r
+  DP/add_215/U24/ZN (NAND3_X1)                            0.03       1.18 f
+  DP/add_215/U83/ZN (NAND2_X1)                            0.04       1.21 r
+  DP/add_215/U34/ZN (NAND3_X1)                            0.04       1.25 f
+  DP/add_215/U70/ZN (NAND2_X1)                            0.04       1.29 r
+  DP/add_215/U73/ZN (NAND3_X1)                            0.04       1.33 f
+  DP/add_215/U38/ZN (NAND2_X1)                            0.04       1.37 r
+  DP/add_215/U47/ZN (NAND3_X1)                            0.03       1.40 f
+  DP/add_215/U109/ZN (NAND2_X1)                           0.04       1.44 r
+  DP/add_215/U103/ZN (NAND3_X1)                           0.04       1.47 f
+  DP/add_215/U130/ZN (NAND2_X1)                           0.04       1.51 r
+  DP/add_215/U127/ZN (NAND3_X1)                           0.04       1.55 f
+  DP/add_215/U28/ZN (NAND2_X1)                            0.04       1.59 r
+  DP/add_215/U126/ZN (NAND3_X1)                           0.03       1.63 f
+  DP/add_215/U184/ZN (NAND2_X1)                           0.04       1.66 r
+  DP/add_215/U187/ZN (NAND3_X1)                           0.04       1.70 f
+  DP/add_215/U93/ZN (NAND2_X1)                            0.03       1.73 r
+  DP/add_215/U95/ZN (NAND3_X1)                            0.03       1.76 f
+  DP/add_215/U57/ZN (XNOR2_X1)                            0.06       1.82 f
+  DP/add_215/SUM[23] (iir_filter_DW01_add_6)              0.00       1.82 f
+  DP/add_216/B[23] (iir_filter_DW01_add_5)                0.00       1.82 f
+  DP/add_216/U152/ZN (XNOR2_X1)                           0.06       1.88 f
+  DP/add_216/U169/ZN (XNOR2_X1)                           0.06       1.93 f
+  DP/add_216/SUM[23] (iir_filter_DW01_add_5)              0.00       1.93 f
+  DP/add_223/B[23] (iir_filter_DW01_add_4)                0.00       1.93 f
+  DP/add_223/U38/ZN (XNOR2_X1)                            0.06       1.99 f
+  DP/add_223/U39/ZN (XNOR2_X1)                            0.07       2.06 r
+  DP/add_223/SUM[23] (iir_filter_DW01_add_4)              0.00       2.06 r
+  U608/ZN (INV_X1)                                        0.04       2.11 f
+  U562/ZN (NAND2_X1)                                      0.04       2.15 r
+  U610/ZN (OAI221_X1)                                     0.04       2.19 f
+  DP/reg_out/Q_reg[0]/D (DFFR_X1)                         0.01       2.20 f
+  data arrival time                                                  2.20
+
+  clock CLOCK (rise edge)                                 0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      -0.07      -0.07
+  DP/reg_out/Q_reg[0]/CK (DFFR_X1)                        0.00      -0.07 r
+  library setup time                                     -0.04      -0.11
+  data required time                                                -0.11
+  --------------------------------------------------------------------------
+  data required time                                                -0.11
+  data arrival time                                                 -2.20
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                  -2.32
+
+
+1

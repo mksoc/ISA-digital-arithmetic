@@ -1,0 +1,102 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : iir_filter
+Version: Z-2007.03-SP1
+Date   : Sun Nov 11 11:02:23 2018
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: DP/reg_coeff_fb_i_1/Q_reg[2]
+              (rising edge-triggered flip-flop clocked by CLOCK)
+  Endpoint: DP/reg_ret0/Q_reg[23]
+            (rising edge-triggered flip-flop clocked by CLOCK)
+  Path Group: CLOCK
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  iir_filter         5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock CLOCK (rise edge)                                 0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  DP/reg_coeff_fb_i_1/Q_reg[2]/CK (DFFR_X1)               0.00       0.00 r
+  DP/reg_coeff_fb_i_1/Q_reg[2]/Q (DFFR_X1)                0.18       0.18 r
+  DP/mult_204/A[2] (iir_filter_DW02_mult_5)               0.00       0.18 r
+  DP/mult_204/U1907/ZN (INV_X1)                           0.11       0.29 f
+  DP/mult_204/U1906/ZN (XNOR2_X1)                         0.13       0.42 r
+  DP/mult_204/U1147/ZN (NAND3_X1)                         0.21       0.62 f
+  DP/mult_204/U1896/ZN (OAI22_X1)                         0.12       0.75 r
+  DP/mult_204/U1895/ZN (AOI221_X1)                        0.04       0.78 f
+  DP/mult_204/U1894/ZN (XNOR2_X1)                         0.08       0.86 f
+  DP/mult_204/U1893/ZN (AOI222_X1)                        0.13       0.99 r
+  DP/mult_204/U1886/ZN (OAI222_X1)                        0.07       1.06 f
+  DP/mult_204/U1880/ZN (AOI222_X1)                        0.11       1.17 r
+  DP/mult_204/U1873/ZN (OAI222_X1)                        0.07       1.24 f
+  DP/mult_204/U1867/ZN (AOI222_X1)                        0.11       1.36 r
+  DP/mult_204/U1860/ZN (OAI222_X1)                        0.07       1.42 f
+  DP/mult_204/U1854/ZN (AOI222_X1)                        0.11       1.54 r
+  DP/mult_204/U1847/ZN (OAI222_X1)                        0.07       1.61 f
+  DP/mult_204/U1841/ZN (AOI222_X1)                        0.11       1.72 r
+  DP/mult_204/U1834/ZN (OAI222_X1)                        0.07       1.79 f
+  DP/mult_204/U1828/ZN (AOI222_X1)                        0.11       1.90 r
+  DP/mult_204/U1821/ZN (OAI222_X1)                        0.07       1.97 f
+  DP/mult_204/U1815/ZN (AOI222_X1)                        0.11       2.08 r
+  DP/mult_204/U1808/ZN (OAI222_X1)                        0.07       2.15 f
+  DP/mult_204/U1802/ZN (AOI222_X1)                        0.11       2.27 r
+  DP/mult_204/U1795/ZN (OAI222_X1)                        0.07       2.33 f
+  DP/mult_204/U1789/ZN (AOI222_X1)                        0.10       2.43 r
+  DP/mult_204/U1788/ZN (INV_X1)                           0.03       2.46 f
+  DP/mult_204/U1782/ZN (AOI222_X1)                        0.11       2.57 r
+  DP/mult_204/U1775/ZN (OAI222_X1)                        0.07       2.64 f
+  DP/mult_204/U204/CO (FA_X1)                             0.10       2.73 f
+  DP/mult_204/U203/CO (FA_X1)                             0.09       2.82 f
+  DP/mult_204/U202/CO (FA_X1)                             0.09       2.92 f
+  DP/mult_204/U201/CO (FA_X1)                             0.09       3.01 f
+  DP/mult_204/U200/CO (FA_X1)                             0.09       3.10 f
+  DP/mult_204/U199/CO (FA_X1)                             0.09       3.19 f
+  DP/mult_204/U198/CO (FA_X1)                             0.09       3.28 f
+  DP/mult_204/U197/CO (FA_X1)                             0.09       3.37 f
+  DP/mult_204/U196/CO (FA_X1)                             0.09       3.46 f
+  DP/mult_204/U195/CO (FA_X1)                             0.09       3.56 f
+  DP/mult_204/U194/CO (FA_X1)                             0.09       3.65 f
+  DP/mult_204/U193/CO (FA_X1)                             0.09       3.74 f
+  DP/mult_204/U192/CO (FA_X1)                             0.09       3.83 f
+  DP/mult_204/U191/CO (FA_X1)                             0.09       3.92 f
+  DP/mult_204/U190/CO (FA_X1)                             0.09       4.01 f
+  DP/mult_204/U189/CO (FA_X1)                             0.09       4.11 f
+  DP/mult_204/U188/CO (FA_X1)                             0.09       4.20 f
+  DP/mult_204/U187/CO (FA_X1)                             0.09       4.29 f
+  DP/mult_204/U186/CO (FA_X1)                             0.09       4.38 f
+  DP/mult_204/U185/CO (FA_X1)                             0.09       4.47 f
+  DP/mult_204/U184/CO (FA_X1)                             0.09       4.56 f
+  DP/mult_204/U183/CO (FA_X1)                             0.09       4.66 f
+  DP/mult_204/U182/CO (FA_X1)                             0.09       4.75 f
+  DP/mult_204/U1912/ZN (AOI222_X1)                        0.12       4.87 r
+  DP/mult_204/U1910/ZN (OAI22_X1)                         0.04       4.91 f
+  DP/mult_204/U1909/ZN (AOI21_X1)                         0.05       4.97 r
+  DP/mult_204/PRODUCT[47] (iir_filter_DW02_mult_5)        0.00       4.97 r
+  DP/reg_ret0/Q_reg[23]/D (DFFR_X1)                       0.01       4.97 r
+  data arrival time                                                  4.97
+
+  clock CLOCK (rise edge)                                 9.28       9.28
+  clock network delay (ideal)                             0.00       9.28
+  clock uncertainty                                      -0.07       9.21
+  DP/reg_ret0/Q_reg[23]/CK (DFFR_X1)                      0.00       9.21 r
+  library setup time                                     -0.04       9.17
+  data required time                                                 9.17
+  --------------------------------------------------------------------------
+  data required time                                                 9.17
+  data arrival time                                                 -4.97
+  --------------------------------------------------------------------------
+  slack (MET)                                                        4.20
+
+
+1
