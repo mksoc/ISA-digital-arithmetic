@@ -1,0 +1,127 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{bm} %bold for math formulas
+\usepackage{amsfonts} %mathematical fields fonts
+\usepackage{graphicx}
+\usepackage{steinmetz} %for complex numbers notation
+\usepackage{float} %images held
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{Integrated Systems Architecture\\Lab2 Report}
+\author{Marco Andorno\\Michele Caon\\Matteo Perotti 251453\\Giuseppe Sarda}
+
+\begin{document}
+\maketitle
+
+\section{MBE based Multiplier with Roorda's approach and Dadda Tree}
+	Let's suppose to have a multiplication to be done between two numbers \textbf{x} and \textbf{y}.
+	\begin{itemize}
+		\item \textbf{x} is the multiplicand
+		\item \textbf{y} is the multiplier
+		\item $\bm{k_x}$ is the parallelism of \textbf{x}
+		\item $\bm{k_x^{I}}$ is the number of bits representing the \textbf{I}nteger part of \textbf{x}
+		\item $\bm{k_x^{F}}$ is the number of bits representing the \textbf{F}ractional part of \textbf{x}
+		\item $\bm{k_y}$ is the parallelism of \textbf{y}
+		\item $\bm{k_y^{I}}$ is the number of bits representing the \textbf{I}nteger part of \textbf{y}
+		\item $\bm{k_y^{F}}$ is the number of bits representing the \textbf{F}ractional part of \textbf{y}
+	\end{itemize}
+	We want to perform the multiplication with the \textbf{MBE-radix4} encoded version of the multiplier \textbf{y}.
+	This shrewdness allow us to reduce the number of partial products by half:
+	indeed \textbf{y} is encoded with $\bm{k_y^{'}}$ symbols in $\{\pm{2}, \pm{1}, 0\}$.
+	\begin{equation}
+		\bm{k_y^{'} = \lceil \frac{k_y}{log_2(r)} \rceil = \lceil \frac{k_y}{2} \rceil}
+	\end{equation}
+	It's possible to MBE-encode a number in radix4 simply taking $\lceil \frac{k_y}{2} \rceil$ 1-bit overlapping triplets of it. 
+	If we consider \textbf{y} represented as a sequence of bits $\bm{y_{(k_y-1)} y_{(k_y-2)} \ldots 
+	y_{1} y_{0}}$ with the \textbf{LSB} in position \textbf{0}, then for correctly encoding \textbf{y} we must add
+	a $\bm{y_{-1}}$ bit fixed at \textbf{0} to complete the first triplet. If $\bm{k_y}$ is odd then it will be
+	added a bit $\bm{y_{k_y}}$ to complete also the last one.\\
+	The encoded multiplier is then represented by the string of symbols
+	\begin{equation}
+		Y_{(\lceil \frac{k_y}{2} \rceil - 1)} Y_{(\lceil \frac{k_y}{2} \rceil - 2)} \ldots Y_{1} Y_{0}
+	\end{equation}
+	chosen from the set $\{\pm{2}, \pm{1}, 0\}$ wrt the following table
+	\begin{table}[]
+		\begin{tabular}{|c|c|}
+			\hline
+			$y_{n+1} y_n y_{n-1}$ & $Y_{n}$  \\ \hline
+			000 & 0  \\ \hline
+			001 & 1  \\ \hline
+			010 & 1  \\ \hline
+			011 & 2  \\ \hline
+			100 & -2 \\ \hline
+			101 & -1 \\ \hline
+			110 & -1 \\ \hline
+			111 & 0  \\ \hline
+		\end{tabular}
+	\end{table}
+	The product is now between \textbf{x} and \textbf{Y} the MBE-radix4 encoded version of \textbf{y}.
+	Each partial product between a symbol of \textbf{Y} and \textbf{x} is performed using a multiplexer: two of 
+	the three bits which encode a symbol are used as control lines for the mux which can let pass either \textbf{0}, 
+	or \textbf{x}, or \textbf{2x}. The other encoding bit is asserted only if the symbol is negative and it is used
+	to complement the partial product. Moreover it will be added to the LSB of its partial product, to ensure a
+	correct 2's complement negation. This way it's easy to obtain all the possible partial product: \textbf{0}, 
+	\textbf{x}, \textbf{-x}, \textbf{-2x} and \textbf{2x}.
+
+	Since the entire operation has to last one clock cycle all the partial products are obtained in parallel by the same number of encoding circuits and multiplexers. The derived tree is thought as a Dadda Tree and the number of FA is reduced
+	simplifying the extended sign bits as proposed in \cite{roorda:1}.
+	We have $\lceil \frac{k_y}{2} \rceil $ partial products to be compressed to only two terms with a Dadda Tree of CSA. The 
+	situation is the following:
+% table with the current situation
+	Since we are not working with full precision, we can do not consider the first $\bm{k_y^I}$ MSBs, because they do not
+	impact on the others. The $\bm{k_y^F}$ LSBs are on the contrary fundamental because of the carry of the sums in which they are involved.
+	As Roorda highlighted, the bits of sign-extension can be thought as a series of \textbf{1} if the complement of the sign bit is added in its original position.
+	This leads to a further optimization, because each column of \textbf{1}, starting from the rightmost one, can be simplified
+	in advance knowing that
+	\begin{equation}
+		\begin{cases}
+        	?\ \ 1\\
+        	?\ \ 1\\
+        \end{cases}
+        \implies
+        \begin{cases}
+        	?\ \ 0\\
+        	?\ \ 0\\
+        	1\ \ 0\\
+        \end{cases}
+	\end{equation}
+	and
+	\begin{equation}
+		\begin{cases}
+        	?\ \ 1\\
+        	?\ \ a\\
+        \end{cases}
+        \implies
+        \begin{cases}
+        	?\ \ \bar{a}\\
+        	?\ \ 0\\
+        	a\ \ 0\\
+        \end{cases}
+	\end{equation}
+	At the end we have the first row in which there is a string of "\textbf{10}", followed by a sequence of "$\bm{1\ \bar{p}_{k_{x}+1}^i}$" and then a triplet composed of "$\bm{\bar{p}_{k_{x}+1}^0 p_{k_{x}+1}^0 p_{k_{x}+1}^0}$". On the second row, under the first element $\bm{\bar{p}_{k_{x}+1}^0}$ of this triplet, there is $\bm{\bar{p}_{k_{x}+1}^1}$.\\
+	\paragraph{Design of the multiplier} In our design we have
+		\begin{itemize}
+			\item $\bm{k_x = k_y = 24}$
+			\item $\bm{k_x^{I} = k_y^{I} = 2}$
+			\item $\bm{k_x^{F} = k_y^{I} = 22}$
+			\item \textbf{12} partial products
+			\item at most $\bm{\frac{k_y}{2}+1 = 13}$ elements in a single column
+		\end{itemize}
+		In a single column we can count up to 13 elements, because the MUX let pass only \textbf{x} multiplied for the absolute value of the symbol \textbf{Y}. The "negative" bit (one of the three which encode a single symbol) it has to be added 
+		to the LSB of its partial product: therefore we have 12+1 elements at most in a column.
+		This is not so bad, because with the Dadda Tree we are still in the case of having only 5 levels of FA (13 elements in 
+		a column at most). 
+	\bibliography{ISA-lab2_report}
+	\bibliographystyle{ieeetr}
+\end{document}
