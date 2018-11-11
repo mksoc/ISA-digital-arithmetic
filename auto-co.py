@@ -1,9 +1,9 @@
 #! /usr/bin/python3
-import os
+from common import isa
 
 # ==============================================================
 # SET THESE VARIABLES BEFORE USING!!
-REMOTE_ROOT = '/home/isa22/lab2'
+remote_root = '/home/isa22/lab2'
 # ==============================================================
 
 
@@ -11,87 +11,39 @@ REMOTE_ROOT = '/home/isa22/lab2'
 def parse_dict():
     print('    {:30}{:15}{}'.format('LOCAL', '', 'REMOTE'))
     for key, value in ops_dict.items():
-        split_value = value.split(' ')
-        local_dir = next(item for item in split_value if item.startswith('./'))
-        remote_dir = next(item.split(':')[1] for item in split_value if ':' in item)
-        print('{key:2}) {local:30}{arrow:15}{remote}'.format(
-            key=key,
-            local=local_dir,
-            arrow='->' if './' in split_value[split_value.index('-p') + 2] else '<-',
-            remote=remote_dir
-        ))
+        if value[2] == 'to':
+            print('{key:2}) {local:30}{arrow:15}{root}/{remote}'.format(
+                key=key,
+                local=value[0],
+                arrow='->',
+                root=remote_root,
+                remote=value[1] if value[1] else value[0].split('/')[-1]
+            ))
+        elif value[2] == 'from':
+            print('{key:2}) {local:30}{arrow:15}{root}/{remote}'.format(
+                key=key,
+                local=value[1] if value[1] else value[0].split('/')[-1],
+                arrow='<-',
+                root=remote_root,
+                remote=value[0]
+            ))
 
 
-# check if the script is run inside the root of the repository
-assert os.getcwd().endswith(
-    'ISA-digital-arithmetic'), 'Error: script must be run in the repository root directory'
-
-# define constants
-USER_HOST = 'isa22@led-x3850-2.polito.it'
-PORT = '10020'
-SSH_SOCKET = '~/.ssh/{}'.format(USER_HOST)
+# set repo root path
+repo_root = isa.get_root('ISA-digital-arithmetic')
 
 # define operations dictionary
-to_cmd_str = 'rsync -avz -e "ssh -o ControlPath={socket} -p {port}" ./{source} {login}:{remote_root}/{dest}'
-from_cmd_str = 'rsync -avz -e "ssh -o ControlPath={socket} -p {port}" {login}:{remote_root}/{source} ./{dest}'
 ops_dict = {
-    1: to_cmd_str.format(
-        socket=SSH_SOCKET,
-        port=PORT,
-        login=USER_HOST,
-        remote_root=REMOTE_ROOT,
-        source='HW_filter/src',
-        dest=''  # destination is empty otherwise scp would copy into ../src/src/
-    ),
-    2: to_cmd_str.format(
-        socket=SSH_SOCKET,
-        port=PORT,
-        login=USER_HOST,
-        remote_root=REMOTE_ROOT,
-        source='HW_filter/tb',
-        dest=''
-    ),
-    3: to_cmd_str.format(
-        socket=SSH_SOCKET,
-        port=PORT,
-        login=USER_HOST,
-        remote_root=REMOTE_ROOT,
-        source='HW_filter/sim/*.tcl',
-        dest='sim/'
-    ),
-    4: to_cmd_str.format(
-        socket=SSH_SOCKET,
-        port=PORT,
-        login=USER_HOST,
-        remote_root=REMOTE_ROOT,
-        source='HW_filter/version{ver}',
-        dest=''
-    ),
-    5: to_cmd_str.format(
-        socket=SSH_SOCKET,
-        port=PORT,
-        login=USER_HOST,
-        remote_root=REMOTE_ROOT,
-        source='common/samples.txt',
-        dest='common/'
-    ),
-    6: from_cmd_str.format(
-        socket=SSH_SOCKET,
-        port=PORT,
-        login=USER_HOST,
-        remote_root=REMOTE_ROOT,
-        source='common/results-hw.txt',
-        dest='common/'
-    ),
+    1: ('HW_filter/src', '', 'to'),  # destination is empty otherwise scp would copy into ../src/src/
+    2: ('HW_filter/tb', '', 'to'),
+    3: ('HW_filter/sim/*.tcl', 'sim/', 'to'),
+    4: ('HW_filter/version{ver}', '', 'to'),
+    5: ('common/samples.txt', 'common/', 'to'),
+    6: ('common/results-hw.txt', 'common/', 'from'),
 }
 
 # connect to server
-print('\nConnect to server.')
-os.system('ssh -M -f -N -o ControlPath={socket} -p {port} {login}'.format(
-    socket=SSH_SOCKET,
-    port=PORT,
-    login=USER_HOST
-))
+session = isa.ssh_session('isa22', 'led-x3850-2.polito.it', 10020)
 
 # start infinite loop
 end_loop = False
@@ -107,15 +59,16 @@ while not end_loop:
             end_loop = True
         else:
             op = int(op)
-            if op == 4:
-                version = input('Which version do you need? Type 0-3 and press enter: ')
-                while not os.path.isfile('HW_filter/version{}/iir_filter.vhd'.format(version)):
-                    print('Entity for version {} is not defined (yet). Please choose another version.'.format(version))
-                    version = input('Which version do you need? Type 0-3 and press enter: ')
-                os.system(ops_dict[op].format(ver=version))
+            if 'version' in ops_dict[op][0]:
+                version = isa.ask_version('{}/HW_filter'.format(repo_root), 'iir_filter.vhd')
+                if ops_dict[op][2] == 'to':
+                    session.copy_to(ops_dict[op][0].format(ver=version), '{}/{}'.format(remote_root, ops_dict[op][1]))
+                elif ops_dict[op][2] == 'from':
+                    session.copy_from('{}/{}'.format(remote_root, ops_dict[op][0].format(ver=version)), ops_dict[op][1])
             else:
-                os.system(ops_dict[op])
+                if ops_dict[op][2] == 'to':
+                    session.copy_to(ops_dict[op][0], '{}/{}'.format(remote_root, ops_dict[op][1]))
+                elif ops_dict[op][2] == 'from':
+                    session.copy_from('{}/{}'.format(remote_root, ops_dict[op][0]), ops_dict[op][1])
 
-print('\nClose connection.')
-os.system('ssh -S {} -O exit {}'.format(SSH_SOCKET, USER_HOST))
 print('\nQuitting... bye bye!')
