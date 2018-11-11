@@ -1,21 +1,7 @@
 #! /usr/bin/python3
 import datetime
 import os
-
-
-# functions definitions
-def get_choice(choices):
-    try:
-        choice = int(
-            input('Type the number corresponding to your choice and press enter: '))
-    except ValueError:
-        print('Error. Invalid option. Try again.')
-        choice = get_choice(choices)
-    else:
-        if choice not in choices:
-            print('Error. Invalid option. Try again.')
-            choice = get_choice(choices)
-    return choice
+import isa
 
 
 def gen_tcl(version, period, adder=None, multiplier=None, compile_cmd='compile'):
@@ -121,11 +107,7 @@ quit""")
 
 def setup_param():
     # ask for version to use
-    print('Which version do you wish to use?')
-    version = get_choice(range(4))
-    while not os.path.isfile('{}/HW_filter/version{}/iir_filter.vhd'.format(repo_root, version)):
-        print('Entity for version {} is not defined (yet). Please choose another version.'.format(version))
-        version = get_choice(range(4))
+    version = isa.ask_version('{}/HW_filter'.format(repo_root), 'iir_filter.vhd')
 
     # ask for clock period
     while True:
@@ -141,10 +123,7 @@ def setup_param():
         add_choice = input('\nDo you want to instantiate special implementations for adders? (y/n): ')
         if add_choice == 'y':
             print('Which one?')
-            print('\t1) Ripple carry')
-            print('\t2) Carry lookahead')
-            print('\t3) Parallel prefix')
-            adder = get_choice(range(1, 4))
+            adder = isa.get_choice(['Ripple carry', 'Carry lookahead', 'Parallel prefix'])
             break
         elif add_choice == 'n':
             adder = None
@@ -158,7 +137,7 @@ def setup_param():
             print('Which one?')
             print('\t1) Carry save')
             print('\t2) Parallel prefix')
-            multiplier = get_choice(range(1, 3))
+            multiplier = isa.get_choice(['Carry save', 'Parallel prefix'])
             break
         elif mult_choice == 'n':
             multiplier = None
@@ -170,16 +149,14 @@ def setup_param():
     print('\nWhich command do you want to use?')
     print('\t1) compile')
     print('\t2) compile_ultra')
-    compile_cmd = get_choice(range(1, 3))
+    compile_cmd = isa.get_choice(['compile', 'compile_ultra'])
 
     gen_tcl(version, period, adder, multiplier, compile_cmd)
     return version
 
 
-# get current working dir and set repo root path
-repo_name = 'ISA-digital-arithmetic'
-cwd = os.getcwd()
-repo_root = cwd[0:cwd.find(repo_name) + len(repo_name)]
+# set repo root path
+repo_root = isa.get_root('ISA-digital-arithmetic')
 
 if __name__ == "__main__":
     setup_param()
