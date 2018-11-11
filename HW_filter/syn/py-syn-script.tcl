@@ -1,7 +1,7 @@
 # =================================================================
 # *****************************************************************
 # *************** GENERATED USING syn_script_gen.py ***************
-# ************           2018-11-11 13:42:23           ************
+# ************           2018-11-11 17:21:27           ************
 # *****************************************************************
 # The script was generated starting from these values of variables:
 # version = 0
@@ -60,7 +60,7 @@ write -f verilog -hierarchy -output ./netlist/iir_filter.v
 # export Synopsys Design Constraints file
 write_sdc ./netlist/iir_filter.sdc
 
-#convert lib into .saif for modelsim
+# convert lib into .saif for modelsim
 read_file NangateOpenCellLibrary_typical_ecsm_nowlm.db
 lib2saif -out ./saif/NangateOpenCellLibrary.saif NangateOpenCellLibrary
 

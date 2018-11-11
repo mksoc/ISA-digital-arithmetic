@@ -17,7 +17,7 @@ module iir_filterTB ();
 	`ifdef SYN
 		initial begin		
 			// read saif file
-			$read_lib_saif("../saif/NangateOpenCellLibrary.saif");
+			$read_lib_saif("NangateOpenCellLibrary.saif");
 			$set_gate_level_monitoring("on");
 			$set_toggle_region(UUT);
 			$toggle_start;		
@@ -64,7 +64,7 @@ module iir_filterTB ();
 			// not for the basic architercure or the post P&R simulation
 			`ifdef SYN
 				$toggle_stop;
-				$toggle_report("../saif/iir_filter_back.saif", 1.0e-9, "iir_filterTB.UUT");
+				$toggle_report("iir_filter_back.saif", 1.0e-9, "iir_filterTB.UUT");
 			`endif
 			`ifdef NO_GUI
 				$finish(2);

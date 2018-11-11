@@ -1,21 +1,6 @@
 #! /usr/bin/python3
 import datetime
-import os
-
-
-# functions definitions
-def get_choice(choices):
-    try:
-        choice = int(
-            input('Type the number corresponding to your choice and press enter: '))
-    except ValueError:
-        print('Error. Invalid option. Try again.')
-        choice = get_choice(choices)
-    else:
-        if choice not in choices:
-            print('Error. Invalid option. Try again.')
-            choice = get_choice(choices)
-    return choice
+import isa
 
 
 def gen_tcl(run_remote, cli_mode, version, design):
@@ -81,36 +66,24 @@ def gen_tcl(run_remote, cli_mode, version, design):
     print('Done.')
 
 
-# get current working dir and set repo root path
-repo_name = 'ISA-digital-arithmetic'
-cwd = os.getcwd()
-repo_root = cwd[0:cwd.find(repo_name) + len(repo_name)]
+# set repo root path
+repo_root = isa.get_root('ISA-digital-arithmetic')
 
 if __name__ == '__main__':
     # ask for where to run simulation
     print('Do you wish to run the simulation locally or on the remote server?')
-    print('\t1) Locally')
-    print('\t2) Remote server')
-    run_remote = get_choice(range(1, 3)) - 1
+    run_remote = isa.get_choice(['Locally', 'Remote server']) - 1
 
     # ask if the user wants the GUI or not
     print('Do you wish to run the simulation using the GUI or the command line?')
     print('Note: waves are only available when using the GUI.')
-    print('\t1) GUI')
-    print('\t2) Command line')
-    cli_mode = get_choice(range(1, 3)) - 1
+    cli_mode = isa.get_choice(['GUI', 'Command line']) - 1
 
     # ask for version to use
-    print('\nWhich version do you wish to use?')
-    version = get_choice(range(4))
-    while not os.path.isfile('{}/HW_filter/version{}/iir_filter.vhd'.format(repo_root, version)):
-        print('Entity for version {} is not defined (yet). Please choose another version.'.format(version))
-        version = get_choice(range(4))
+    version = isa.ask_version('{}/HW_filter'.format(repo_root), 'iir_filter.vhd')
 
     # ask for design to simulate
     print('\nWhich design do you wish to simulate?')
-    print('\t1) Original VHDL architecture')
-    print('\t2) Post-synthesis netlist')
-    design_choice = get_choice(range(1, 3))
+    design_choice = isa.get_choice(['Original VHDL architecture', 'Post-synthesis netlist'])
 
     gen_tcl(run_remote, cli_mode, version, design_choice)
