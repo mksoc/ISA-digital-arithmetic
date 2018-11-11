@@ -22,7 +22,6 @@
 *.idx
 *.new
 *.ini
-*.txt
 *.synctex*
 
 # Files

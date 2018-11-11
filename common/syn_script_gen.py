@@ -143,6 +143,7 @@ def setup_param():
             print('\t2) Carry lookahead')
             print('\t3) Parallel prefix')
             adder = get_choice(range(1, 4))
+            break
         elif add_choice == 'n':
             adder = None
             break
@@ -156,6 +157,7 @@ def setup_param():
             print('\t1) Carry save')
             print('\t2) Parallel prefix')
             multiplier = get_choice(range(1, 3))
+            break
         elif mult_choice == 'n':
             multiplier = None
             break

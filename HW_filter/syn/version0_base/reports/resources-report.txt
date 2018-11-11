@@ -1,0 +1,59 @@
+Information: Updating design information... (UID-85)
+ 
+****************************************
+Report : resources
+Design : iir_filter
+Version: Z-2007.03-SP1
+Date   : Sun Nov 11 09:56:16 2018
+****************************************
+
+Resource Sharing Report for design iir_filter in file
+        ../version0/iir_filterDP.vhd
+
+===============================================================================
+|          |              |            | Contained     |                      |
+| Resource | Module       | Parameters | Resources     | Contained Operations |
+===============================================================================
+| r362     | DW_cmp       | width=24   |               | DP/gt_226            |
+| r364     | DW_cmp       | width=24   |               | DP/lt_228            |
+| r933     | DW01_add     | width=24   |               | add_2_root_add_0_root_DP/add_223 |
+| r935     | DW01_add     | width=24   |               | add_1_root_add_0_root_DP/add_223 |
+| r937     | DW01_add     | width=24   |               | add_0_root_add_0_root_DP/add_223 |
+| r1493    | DW_mult_tc   | a_width=24 |               | DP/mult_209          |
+|          |              | b_width=24 |               |                      |
+| r2049    | DW_mult_tc   | a_width=24 |               | DP/mult_208          |
+|          |              | b_width=24 |               |                      |
+| r2605    | DW_mult_tc   | a_width=24 |               | DP/mult_207          |
+|          |              | b_width=24 |               |                      |
+| r3161    | DW_mult_tc   | a_width=24 |               | DP/mult_206          |
+|          |              | b_width=24 |               |                      |
+| r3717    | DW_mult_tc   | a_width=24 |               | DP/mult_205          |
+|          |              | b_width=24 |               |                      |
+| r4273    | DW_mult_tc   | a_width=24 |               | DP/mult_204          |
+|          |              | b_width=24 |               |                      |
+| r4835    | DW01_add     | width=24   |               | add_1_root_sub_0_root_DP/sub_217 |
+| r4837    | DW01_sub     | width=24   |               | sub_0_root_sub_0_root_DP/sub_217 |
+===============================================================================
+
+
+Implementation Report
+
+=============================================================================
+|                  |                  | Current          | Set              |
+| Cell             | Module           | Implementation   | Implementation   |
+=============================================================================
+| DP/mult_204      | DW_mult_tc       | apparch          |                  |
+| DP/mult_205      | DW_mult_tc       | apparch          |                  |
+| DP/mult_206      | DW_mult_tc       | apparch          |                  |
+| DP/mult_207      | DW_mult_tc       | apparch          |                  |
+| DP/mult_208      | DW_mult_tc       | apparch          |                  |
+| DP/mult_209      | DW_mult_tc       | apparch          |                  |
+| add_0_root_add_0_root_DP/add_223 | DW01_add | rpl      |                  |
+| add_1_root_add_0_root_DP/add_223 | DW01_add | rpl      |                  |
+| add_1_root_sub_0_root_DP/sub_217 | DW01_add | rpl      |                  |
+| add_2_root_add_0_root_DP/add_223 | DW01_add | rpl      |                  |
+| sub_0_root_sub_0_root_DP/sub_217 | DW01_sub | rpl      |                  |
+=============================================================================
+
+No multiplexors to report
+1
