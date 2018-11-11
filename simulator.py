@@ -142,10 +142,11 @@ with cd('HW_filter/sim'):
 print('\nRun simulation.')
 if run_remote:
     with open('ssh_commands.sh', 'w') as command_file: 
-        command_file.write("""cd {}/sim
+        command_file.write("""cd {root}/sim
             source /software/scripts/init_msim6.2g
             if [ ! -d work ]; then vlib work; fi
-            vsim -c -do py-sim-script.tcl""".format(REMOTE_ROOT))
+            vsim -c -do py-sim-script.tcl
+            mv iir_filter_back.saif ../version{ver}""".format(root=REMOTE_ROOT, ver=version))
     os.system('cat ssh_commands.sh | ssh -S {} -p {} {}'.format(SSH_SOCKET, PORT, USER_HOST))
     os.remove('ssh_commands.sh')
 
