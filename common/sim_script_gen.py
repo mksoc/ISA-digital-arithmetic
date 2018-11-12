@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 import datetime
-import isa
+from common import isa
 
 
 def gen_tcl(run_remote, cli_mode, version, design):

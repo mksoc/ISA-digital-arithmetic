@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 import datetime
 import os
-import isa
+from common import isa
 
 
 def gen_tcl(version, period, adder=None, multiplier=None, compile_cmd='compile'):
@@ -135,8 +135,6 @@ def setup_param():
         mult_choice = input('\nDo you want to instantiate special implementations for multipliers? (y/n): ')
         if mult_choice == 'y':
             print('Which one?')
-            print('\t1) Carry save')
-            print('\t2) Parallel prefix')
             multiplier = isa.get_choice(['Carry save', 'Parallel prefix'])
             break
         elif mult_choice == 'n':
@@ -147,8 +145,6 @@ def setup_param():
 
     # ask for compile command
     print('\nWhich command do you want to use?')
-    print('\t1) compile')
-    print('\t2) compile_ultra')
     compile_cmd = isa.get_choice(['compile', 'compile_ultra'])
 
     gen_tcl(version, period, adder, multiplier, compile_cmd)
