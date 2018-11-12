@@ -1,0 +1,72 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : iir_filter
+Version: Z-2007.03-SP1
+Date   : Mon Nov 12 15:26:36 2018
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: DP/reg_b_i_3/Q_reg[17]
+              (rising edge-triggered flip-flop clocked by CLOCK)
+  Endpoint: DP/reg_pipe13/Q_reg[22]
+            (rising edge-triggered flip-flop clocked by CLOCK)
+  Path Group: CLOCK
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  iir_filter         5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock CLOCK (rise edge)                                 0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  DP/reg_b_i_3/Q_reg[17]/CK (DFFR_X1)                     0.00       0.00 r
+  DP/reg_b_i_3/Q_reg[17]/QN (DFFR_X1)                     0.06       0.06 f
+  U702/ZN (INV_X1)                                        0.04       0.11 r
+  DP/mult_209/A[17] (iir_filter_DW02_mult_10)             0.00       0.11 r
+  DP/mult_209/U1688/Z (XOR2_X1)                           0.09       0.20 r
+  DP/mult_209/U1481/ZN (INV_X1)                           0.07       0.27 f
+  DP/mult_209/U1652/ZN (OR2_X1)                           0.07       0.34 f
+  DP/mult_209/U1653/ZN (NAND2_X1)                         0.03       0.37 r
+  DP/mult_209/U2356/ZN (INV_X1)                           0.03       0.40 f
+  DP/mult_209/U1599/ZN (NAND2_X1)                         0.03       0.43 r
+  DP/mult_209/U1601/ZN (NAND3_X1)                         0.04       0.47 f
+  DP/mult_209/U605/CO (FA_X1)                             0.10       0.58 f
+  DP/mult_209/U595/CO (FA_X1)                             0.09       0.67 f
+  DP/mult_209/U587/S (FA_X1)                              0.13       0.80 r
+  DP/mult_209/U586/S (FA_X1)                              0.11       0.91 f
+  DP/mult_209/U2552/ZN (NAND2_X1)                         0.04       0.95 r
+  DP/mult_209/U1776/ZN (INV_X1)                           0.03       0.98 f
+  DP/mult_209/U2694/ZN (AOI21_X1)                         0.05       1.03 r
+  DP/mult_209/U2491/ZN (OAI21_X1)                         0.03       1.06 f
+  DP/mult_209/U2329/ZN (AOI21_X1)                         0.05       1.11 r
+  DP/mult_209/U2604/ZN (OAI21_X1)                         0.03       1.15 f
+  DP/mult_209/U2348/ZN (INV_X1)                           0.04       1.19 r
+  DP/mult_209/U2234/ZN (AND2_X1)                          0.06       1.24 r
+  DP/mult_209/U2691/ZN (OAI21_X1)                         0.03       1.28 f
+  DP/mult_209/U2642/ZN (XNOR2_X1)                         0.05       1.33 f
+  DP/mult_209/PRODUCT[44] (iir_filter_DW02_mult_10)       0.00       1.33 f
+  DP/reg_pipe13/Q_reg[22]/D (DFFR_X1)                     0.01       1.34 f
+  data arrival time                                                  1.34
+
+  clock CLOCK (rise edge)                                 0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      -0.07      -0.07
+  DP/reg_pipe13/Q_reg[22]/CK (DFFR_X1)                    0.00      -0.07 r
+  library setup time                                     -0.04      -0.11
+  data required time                                                -0.11
+  --------------------------------------------------------------------------
+  data required time                                                -0.11
+  data arrival time                                                 -1.34
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                  -1.45
+
+
+1
