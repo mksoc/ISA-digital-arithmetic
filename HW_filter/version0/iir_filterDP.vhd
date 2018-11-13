@@ -189,7 +189,7 @@ begin
 	reg_pipe20: reg
 		generic map (N => pipe20'length)
 		port map (
-			D => pipe10,
+			D => std_logic_vector(pipe10),
 			clock => clk,
 			reset_n => rst_n,
 			enable => '1',
@@ -202,7 +202,7 @@ begin
 			clock => clk,
 			reset_n => rst_n,
 			enable => '1',
-			signed(Q) => pipe10
+			signed(Q) => ff_pipe
 		);
 ----------------------------------------------------------------------------------------------------------------------------------
 

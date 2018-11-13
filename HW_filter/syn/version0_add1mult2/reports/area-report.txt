@@ -1,9 +1,10 @@
+Warning: Design 'iir_filter' has '1' unresolved references. For more detailed information, use the "link" command. (UID-341)
  
 ****************************************
 Report : area
 Design : iir_filter
 Version: Z-2007.03-SP1
-Date   : Mon Nov 12 10:01:15 2018
+Date   : Tue Nov 13 10:35:18 2018
 ****************************************
 
 Library(s) Used:
@@ -11,14 +12,16 @@ Library(s) Used:
     NangateOpenCellLibrary (File: /software/dk/nangate45/synopsys/NangateOpenCellLibrary_typical_ecsm_nowlm.db)
 
 Number of ports:              172
-Number of nets:              1703
-Number of cells:             1073
-Number of references:          24
+Number of nets:               183
+Number of cells:               11
+Number of references:           5
 
-Combinational area:       12697.244011
-Noncombinational area:    2585.520083
+Combinational area:          4.256000
+Noncombinational area:      32.984001
 Net Interconnect area:      undefined  (Wire load has zero net area)
 
-Total cell area:          15282.763672
+Total cell area:            37.240002
 Total area:                 undefined
+
+Information: This design contains black box (unknown) components. (RPT-8)
 1

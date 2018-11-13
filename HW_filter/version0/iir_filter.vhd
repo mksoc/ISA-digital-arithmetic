@@ -54,7 +54,7 @@ end entity;
 
 architecture structure of iir_filter is
     -- type and constants definition
-    constant PIPE_STAGES: positive := 2;
+    constant PIPE_STAGES: positive := 3;
     constant NUM_OF_SIGNALS: positive := 2;
     type delay_array is array (0 to PIPE_STAGES) of std_logic_vector(0 to NUM_OF_SIGNALS-1); -- the array has one element more, otherwise reg_delay_gen would go out of bound at the last iteration (assign Q to array(i+1))
 

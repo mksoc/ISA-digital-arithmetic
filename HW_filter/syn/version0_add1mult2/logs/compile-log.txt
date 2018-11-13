@@ -1,57 +1,42 @@
-Information: Checking out the license 'DesignWare'. (SEC-104)
+Warning: Design 'iir_filter' has '1' unresolved references. For more detailed information, use the "link" command. (UID-341)
 Information: Evaluating DesignWare library utilization. (UISN-27)
 
 ============================================================================
 | DesignWare Building Block Library       |      Version       | Available |
 ============================================================================
 | Basic DW Building Blocks                | Z-2007.03-DWBB_0704 |    *     |
-| Licensed DW Building Blocks             | Z-2007.03-DWBB_0704 |    *     |
+| Licensed DW Building Blocks             | Z-2007.03-DWBB_0704 |          |
 ============================================================================
-
-
-Information: There are 1 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
 
 
 
   Beginning Pass 1 Mapping
   ------------------------
   Processing 'iir_filter'
+Information: Building the design 'iir_filterDP'. (HDL-193)
+Warning: Can't find the design 'iir_filterDP'
+	in the library 'WORK'. (LBR-1)
+Warning: Unable to resolve reference 'iir_filterDP' in 'iir_filter'. (LINK-5)
+Warning: Design 'iir_filter' has '1' unresolved references. For more detailed information, use the "link" command. (UID-341)
 
   Updating timing information
 Information: Updating design information... (UID-85)
 
-  Beginning Implementation Selection
-  ----------------------------------
-  Mapping 'iir_filter_DW_cmp_0'
-  Mapping 'iir_filter_DW_cmp_1'
-  Processing 'iir_filter_DW01_add_0'
-  Processing 'iir_filter_DW01_sub_0'
-  Processing 'iir_filter_DW01_add_1'
-  Processing 'iir_filter_DW01_add_2'
-  Processing 'iir_filter_DW01_add_3'
-  Mapping 'iir_filter_DW02_mult_0'
-  Mapping 'iir_filter_DW02_mult_1'
-  Mapping 'iir_filter_DW02_mult_2'
-  Mapping 'iir_filter_DW02_mult_3'
-  Mapping 'iir_filter_DW02_mult_4'
-  Mapping 'iir_filter_DW02_mult_5'
-
   Beginning Mapping Optimizations  (Medium effort)
   -------------------------------
-Information: Added key list 'DesignWare' to design 'iir_filter'. (DDB-72)
 
    ELAPSED            WORST NEG TOTAL NEG  DESIGN                            
     TIME      AREA      SLACK     SLACK   RULE COST         ENDPOINT         
   --------- --------- --------- --------- --------- -------------------------
-    0:00:27   15839.0      0.00       0.0       0.0                          
-    0:00:29   15344.7      0.00       0.0       0.0                          
-    0:00:29   15344.7      0.00       0.0       0.0                          
-    0:00:29   15344.7      0.00       0.0       0.0                          
-    0:00:29   15344.7      0.00       0.0       0.0                          
-    0:00:29   15344.7      0.00       0.0       0.0                          
-    0:00:29   15344.7      0.00       0.0       0.0                          
-    0:00:29   15344.7      0.00       0.0       0.0                          
-    0:00:29   15344.7      0.00       0.0       0.0                          
+    0:00:01      36.7      0.67       2.6       0.0                          
+    0:00:01      35.6      0.67       2.5       0.0                          
+    0:00:01      35.6      0.67       2.5       0.0                          
+    0:00:01      35.6      0.67       2.5       0.0                          
+    0:00:01      35.6      0.67       2.5       0.0                          
+    0:00:01      35.6      0.67       2.5       0.0                          
+    0:00:01      35.6      0.67       2.5       0.0                          
+    0:00:01      35.6      0.67       2.5       0.0                          
+    0:00:01      35.6      0.67       2.5       0.0                          
 
 
   Beginning Delay Optimization Phase
@@ -60,7 +45,8 @@ Information: Added key list 'DesignWare' to design 'iir_filter'. (DDB-72)
    ELAPSED            WORST NEG TOTAL NEG  DESIGN                            
     TIME      AREA      SLACK     SLACK   RULE COST         ENDPOINT         
   --------- --------- --------- --------- --------- -------------------------
-    0:00:29   15344.7      0.00       0.0       0.0                          
+    0:00:01      35.6      0.67       2.5       0.0                          
+    0:00:02      37.2      0.67       2.6       0.0                          
 
 
   Beginning Area-Recovery Phase  (cleanup)
@@ -69,20 +55,18 @@ Information: Added key list 'DesignWare' to design 'iir_filter'. (DDB-72)
    ELAPSED            WORST NEG TOTAL NEG  DESIGN                            
     TIME      AREA      SLACK     SLACK   RULE COST         ENDPOINT         
   --------- --------- --------- --------- --------- -------------------------
-    0:00:29   15344.7      0.00       0.0       0.0                          
-    0:00:29   15344.7      0.00       0.0       0.0                          
-    0:00:31   15300.9      0.00       0.0       0.0                          
-    0:00:32   15293.4      0.00       0.0       0.0                          
-    0:00:32   15289.7      0.00       0.0       0.0                          
-    0:00:32   15286.0      0.00       0.0       0.0                          
-    0:00:32   15282.8      0.00       0.0       0.0                          
-    0:00:32   15282.8      0.00       0.0       0.0                          
-    0:00:32   15282.8      0.00       0.0       0.0                          
-    0:00:32   15282.8      0.00       0.0       0.0                          
-    0:00:32   15282.8      0.00       0.0       0.0                          
-    0:00:32   15282.8      0.00       0.0       0.0                          
-    0:00:32   15282.8      0.00       0.0       0.0                          
-    0:00:32   15282.8      0.00       0.0       0.0                          
+    0:00:02      37.2      0.67       2.6       0.0                          
+    0:00:02      37.2      0.67       2.6       0.0                          
+    0:00:02      37.2      0.67       2.6       0.0                          
+    0:00:02      37.2      0.67       2.6       0.0                          
+    0:00:02      37.2      0.67       2.6       0.0                          
+    0:00:02      37.2      0.67       2.6       0.0                          
+    0:00:02      37.2      0.67       2.6       0.0                          
+    0:00:02      37.2      0.67       2.6       0.0                          
+    0:00:02      37.2      0.67       2.6       0.0                          
+    0:00:02      37.2      0.67       2.6       0.0                          
+    0:00:02      37.2      0.67       2.6       0.0                          
+    0:00:02      37.2      0.67       2.6       0.0                          
 Loading db file '/software/dk/nangate45/synopsys/NangateOpenCellLibrary_typical_ecsm_nowlm.db'
 
   Optimization Complete
