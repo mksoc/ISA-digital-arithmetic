@@ -1,28 +1,72 @@
 \documentclass[a4paper]{article}
 
-%% Language and font encodings
+
 \usepackage[english]{babel}
-\usepackage[utf8x]{inputenc}
-\usepackage[T1]{fontenc}
-
-%% Sets page size and margins
 \usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
-
-%% Useful packages
 \usepackage{amsmath}
 \usepackage{bm} %bold for math formulas
 \usepackage{amsfonts} %mathematical fields fonts
-\usepackage{graphicx}
-\usepackage{steinmetz} %for complex numbers notation
 \usepackage{float} %images held
 \usepackage[colorinlistoftodos]{todonotes}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage[table]{colortbl}
+\usepackage{multirow}
+\usepackage{siunitx}
 
 \title{Integrated Systems Architecture\\Lab2 Report}
-\author{Marco Andorno\\Michele Caon\\Matteo Perotti 251453\\Giuseppe Sarda}
+\author{Marco Andorno 247222\\Michele Caon\\Matteo Perotti 251453\\Giuseppe Sarda}
 
 \begin{document}
 \maketitle
+
+\section{Comparison between different combinations of adders and multipliers}
+
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+\begin{table}[]
+	\centering
+	\begin{tabular}{clllll}
+	\cline{1-5}
+	\multicolumn{2}{|c|}{}                                                           & \multicolumn{3}{c|}{Adder}                                                                                                           &  \\ \cline{3-5}
+	\multicolumn{2}{|c|}{\multirow{-2}{*}{$f_{max}$ [\si{\mega\hertz}]}}               & \multicolumn{1}{l|}{rpl}                           & \multicolumn{1}{l|}{cla}   & \multicolumn{1}{l|}{pparch}                        &  \\ \cline{1-5}
+	\multicolumn{1}{|c|}{}                             & \multicolumn{1}{l|}{csa}    & \multicolumn{1}{l|}{\cellcolor[HTML]{FFCCC9}285.7} & \multicolumn{1}{l|}{287.4} & \multicolumn{1}{l|}{285.7} &  \\ \cline{2-5}
+	\multicolumn{1}{|c|}{\multirow{-2}{*}{Multiplier}} & \multicolumn{1}{l|}{pparch} & \multicolumn{1}{l|}{431.0}                         & \multicolumn{1}{l|}{684.9} & \multicolumn{1}{l|}{\cellcolor[HTML]{9AFF99}689.7} &  \\ \cline{1-5}
+	\multicolumn{1}{l}{}                               &                             &                                                    &                            &                                                    & 
+	\end{tabular}
+	\caption{Maximum frequency}
+	\label{tab:fmax}
+\end{table}
+
+\begin{table}[]
+	\centering
+	\begin{tabular}{clllll}
+	\cline{1-5}
+	\multicolumn{2}{|c|}{}                                                           & \multicolumn{3}{c|}{Adder}                                                                                                                                         &  \\ \cline{3-5}
+	\multicolumn{2}{|c|}{\multirow{-2}{*}{Area [\si{\micro\meter^2}]}}                         & \multicolumn{1}{l|}{rpl}                             & \multicolumn{1}{l|}{cla}                             & \multicolumn{1}{l|}{pparch}                          &  \\ \cline{1-5}
+	\multicolumn{1}{|c|}{}                             & \multicolumn{1}{l|}{csa}    & \multicolumn{1}{l|}{20987.4} & \multicolumn{1}{l|}{\cellcolor[HTML]{FFCCC9}21113.5} & \multicolumn{1}{l|}{20978.1} &  \\ \cline{2-5}
+	\multicolumn{1}{|c|}{\multirow{-2}{*}{Multiplier}} & \multicolumn{1}{l|}{pparch} & \multicolumn{1}{l|}{15282.8} & \multicolumn{1}{l|}{15408.8} & \multicolumn{1}{l|}{\cellcolor[HTML]{9AFF99}15273.5} &  \\ \cline{1-5}
+	\multicolumn{1}{l}{}                               &                             &                                                      &                                                      &                                                      & 
+	\end{tabular}
+	\caption{Total area}
+	\label{tab:area}
+\end{table}
+
+\begin{table}[]
+	\centering
+	\begin{tabular}{clllll}
+	\cline{1-5}
+	\multicolumn{2}{|c|}{\multirow{2}{*}{Power [\si{\micro\watt}]}} & \multicolumn{3}{c|}{Adder}                                                                                                                                                                                                     &  \\ \cline{3-5}
+	\multicolumn{2}{|l|}{}                                                                                                        & \multicolumn{1}{l|}{rpl}                                                 & \multicolumn{1}{l|}{cla}                                                 & \multicolumn{1}{l|}{pparch}                                              &  \\ \cline{1-5}
+	\multicolumn{1}{|c|}{\multirow{2}{*}{Multiplier}}                        & \multicolumn{1}{l|}{csa}                           & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}120.1\\ 3.1\end{tabular}} & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}120.1\\ 3.1\end{tabular}} & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}120.1\\ 3.1\end{tabular}} &  \\ \cline{2-5}
+	\multicolumn{1}{|c|}{}                                                   & \multicolumn{1}{l|}{pparch}                        & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}3815\\ 43.5\end{tabular}} & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}3816\\ 43.5\end{tabular}} & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}3816\\ 43.5\end{tabular}} &  \\ \cline{1-5}
+																			 &                                                    &                                                                          &                                                                          &                                                                          & 
+	\end{tabular}
+	\caption{Dynamic and leakage power}
+	\label{tab:pwr}
+\end{table}
+
 
 \section{MBE based Multiplier with Roorda's approach and Dadda Tree}
 	Let's suppose to have a multiplication to be done between two numbers \textbf{x} and \textbf{y}.
