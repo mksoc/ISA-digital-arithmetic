@@ -20,12 +20,38 @@
 \maketitle
 
 \section{Comparison between different combinations of adders and multipliers}
+Starting from the pipelined and retimed architecture developed in Lab 1, we exploited Synopsys DesignWare Library to compare several design metrics using different implementations for the arithmetic operators used in our design.
 
+Among others, DesignWare makes available the following synthesis models of adders and multipliers:
+\begin{itemize}
+	\item \texttt{DW01\_add} \footnote{As the feedback branch of the filter gets subtracted from the input in direct form II, Synopsys actually uses also a subtractor (\texttt{DW01\_sub}), for which the same implementations as the adder are available. So when we say that we used a certain kind of adder, we mean that we used it for all adders and for that subtractor too.}:
+	\begin{itemize}
+		\item \texttt{rpl}: ripple-carry adder
+		\item \texttt{cla}: carry-look-ahead adder
+		\item \texttt{pparch}: delay optimized flexible parallel-prefix adder
+	\end{itemize}
+	\item \texttt{DW02\_mult}:
+	\begin{itemize}
+		\item \texttt{csa}: carry-save array multiplier
+		\item \texttt{pparch}: delay optimized flexible Booth-recoded Wallace tree multiplier
+	\end{itemize}
+\end{itemize}
+
+The approach used is totally similar to the one suggested for the first laboratory experience:
+\begin{itemize}
+	\item Synthesize design using Design Compiler, setting the clock period do 0 in order to find the maximum frequency $f_{max}$.
+	\item Synthesize again using a clock period corresponding to $f_{max}/4$ and find out the area of the design.
+	\item Simulate on a sufficient number of samples (1000 was the sweet spot to trade off accuracy and simulation time) in ModelSim to extract the switching activity.
+	\item Run Design Compiler once again to carry out the power estimation.
+\end{itemize}
+
+\subsection{Maximum frequency}
+Table \ref{tab:fmax} show the maximum frequency achieved for each pair of implementations. Red and green cells highlight respectively the lowest and highest maximum frequencies.
 % Please add the following required packages to your document preamble:
 % \usepackage{multirow}
 % \usepackage[table,xcdraw]{xcolor}
 % If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
-\begin{table}[]
+\begin{table}[hbtp]
 	\centering
 	\begin{tabular}{clllll}
 	\cline{1-5}
@@ -39,7 +65,20 @@
 	\label{tab:fmax}
 \end{table}
 
-\begin{table}[]
+\begin{figure}[hbtp]
+	\centering
+	\includegraphics[width=.6\linewidth]{media/pipelined_lookahead_dfg.pdf}
+	\caption{DFG of the filter}
+	\label{fig:dfg}
+\end{figure}
+Figure \ref{fig:dfg} shows the DFG of the final architecture achieved at the end of the previous lab, by looking at which, one can quite positively state that the critical path is the delay of a single multiplier $T_m$, as it is almost certainly larger than the delay of three adders $3T_a$.
+So one would expect the maximum frequency to remain constant as long as the multiplier used is the same and only the implementation of the adder is changed.
+
+In fact, this is what happens in five cases out of six in table \ref{tab:fmax}: when using the carry-save based multiplier, the clock frequency is always limited by its delay, irrespective of the adder used. But when using the faster multiplier (\texttt{pparch}), the slowest ripple-carry adder seems to be the limiting factor, as the maximum frequency it allows is much lower than the one achieved with the same multiplier but faster adders.
+
+So in this case the critical path seems to be the series of three adders, instead of the single multiplier. To verify this hypothesis, the DFG of the filter was slightly modified by introducing an additional pipeline stage
+
+\begin{table}[hbtp]
 	\centering
 	\begin{tabular}{clllll}
 	\cline{1-5}
@@ -53,7 +92,7 @@
 	\label{tab:area}
 \end{table}
 
-\begin{table}[]
+\begin{table}[hbtp]
 	\centering
 	\begin{tabular}{clllll}
 	\cline{1-5}
