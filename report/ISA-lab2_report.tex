@@ -76,8 +76,9 @@ So one would expect the maximum frequency to remain constant as long as the mult
 
 In fact, this is what happens in five cases out of six in table \ref{tab:fmax}: when using the carry-save based multiplier, the clock frequency is always limited by its delay, irrespective of the adder used. But when using the faster multiplier (\texttt{pparch}), the slowest ripple-carry adder seems to be the limiting factor, as the maximum frequency it allows is much lower than the one achieved with the same multiplier but faster adders.
 
-So in this case the critical path seems to be the series of three adders, instead of the single multiplier. To verify this hypothesis, the DFG of the filter was slightly modified by introducing an additional pipeline stage
+So in this case the critical path seems to be the series of three adders, instead of the single multiplier. To verify this hypothesis, the DFG of the filter was slightly modified by introducing an additional pipeline stage to split the chain of $3$ adders into $2+1$ adders, as there is a feedforward cutset that allows it. By repeating the synthesis flow using the ripple-carry adder and the parallel prefix multiplier, the maximum frequency increased by around 10\%, from \SI{431.0}{\mega\hertz} to \SI{472.4}{\mega\hertz}. Even if this is not a 33\% improvement (probably due to design optimizations operated by the tool), as conceptually expected, it can nevertheless be concluded that the chain of three 24-bit ripple-carry adders was in the end the bottleneck of the design, being slower than one single 24-bit parallel prefix multiplier.
 
+\subsection{Cell area}
 \begin{table}[hbtp]
 	\centering
 	\begin{tabular}{clllll}
@@ -92,6 +93,7 @@ So in this case the critical path seems to be the series of three adders, instea
 	\label{tab:area}
 \end{table}
 
+\subsection{Total power dissipation}
 \begin{table}[hbtp]
 	\centering
 	\begin{tabular}{clllll}
