@@ -46,7 +46,7 @@ The approach used is totally similar to the one suggested for the first laborato
 \end{itemize}
 
 \subsection{Maximum frequency}
-Table \ref{tab:fmax} show the maximum frequency achieved for each pair of implementations. Red and green cells highlight respectively the lowest and highest maximum frequencies.
+Table \ref{tab:fmax} show the maximum frequency achieved for each pair of implementations. Red and green cells highlight respectively the lowest and highest maximum frequencies. Note that the best frequency achieved is the same that Synopsys reached by choosing the implementations on its own in the previous laboratory experience (in fact, the resources report of that base version shows exactly that \texttt{pparch} was chosen as the architecture of both the adders and the multipliers).
 % Please add the following required packages to your document preamble:
 % \usepackage{multirow}
 % \usepackage[table,xcdraw]{xcolor}
@@ -76,9 +76,14 @@ So one would expect the maximum frequency to remain constant as long as the mult
 
 In fact, this is what happens in five cases out of six in table \ref{tab:fmax}: when using the carry-save based multiplier, the clock frequency is always limited by its delay, irrespective of the adder used. But when using the faster multiplier (\texttt{pparch}), the slowest ripple-carry adder seems to be the limiting factor, as the maximum frequency it allows is much lower than the one achieved with the same multiplier but faster adders.
 
-So in this case the critical path seems to be the series of three adders, instead of the single multiplier. To verify this hypothesis, the DFG of the filter was slightly modified by introducing an additional pipeline stage to split the chain of $3$ adders into $2+1$ adders, as there is a feedforward cutset that allows it. By repeating the synthesis flow using the ripple-carry adder and the parallel prefix multiplier, the maximum frequency increased by around 10\%, from \SI{431.0}{\mega\hertz} to \SI{472.4}{\mega\hertz}. Even if this is not a 33\% improvement (probably due to design optimizations operated by the tool), as conceptually expected, it can nevertheless be concluded that the chain of three 24-bit ripple-carry adders was in the end the bottleneck of the design, being slower than one single 24-bit parallel prefix multiplier.
+So in this case the critical path seems to be the series of three adders, instead of the single multiplier. To verify this hypothesis, the DFG of the filter was slightly modified by introducing an additional pipeline stage to split the chain of $3$ adders into $2+1$ adders, as there is a feedforward cutset that allows it. By repeating the synthesis flow using the ripple-carry adder and the parallel prefix multiplier, the maximum frequency increased by around 10\%, from \SI{431.0}{\mega\hertz} to \SI{473.9}{\mega\hertz}. Even if this is not a 33\% improvement (probably due to design optimizations operated by the tool), as conceptually expected, it can nevertheless be concluded that the chain of three 24-bit ripple-carry adders was in the end the bottleneck of the design, being slower than one single 24-bit parallel prefix multiplier.
+
+All in all, choosing the parallel-prefix multiplier combined with either carry-loohahead or parallel-prefix adders is the best option for speed: the maximum clock frequency is 60\% higher than the pair \texttt{pparch} multiplier/\texttt{rpl} adder, and 242\% faster than all carry-save multiplier based implementations.
 
 \subsection{Cell area}
+For what concerns area, table \ref{tab:area} shows that this figure seems to be once again mostly a matter of the type of multiplier chosen. Choosing the parallel-prefix multiplier is again the winning choice, as such implementations have a total area 38\% smaller than the one of designs based on a carry-save multiplier. 
+
+In the case of area, the choice of the type of adder does not seem to influence much the final figure, showing variations of less than 1\% among the three implementation, given the multiplier type.
 \begin{table}[hbtp]
 	\centering
 	\begin{tabular}{clllll}
@@ -94,6 +99,9 @@ So in this case the critical path seems to be the series of three adders, instea
 \end{table}
 
 \subsection{Total power dissipation}
+Power dissipation is clearly where the advantage of the parallel-prefix multiplier falls short. All implementations based on that show a 32-fold increase in dynamic power and a 14-fold increase in leakage power.
+
+As always in digital design, as well as in life, one cannot get the best of both worlds, but has to settle for a trade-off, in this case between speed and power, as usual.
 \begin{table}[hbtp]
 	\centering
 	\begin{tabular}{clllll}
@@ -108,6 +116,10 @@ So in this case the critical path seems to be the series of three adders, instea
 	\label{tab:pwr}
 \end{table}
 
+\subsection{Summing up}
+If the main requirement is pure speed, then an architecture based on parallel-prefix Booth-recoded Wallace tree multipliers and carry-lookahed or parallel-prefix adders is the way to go.
+
+If, on the other hand, the power budget is a limiting factor, one has to settle for lower processing speed and use CSA-based multipliers along with whichever adder they like best.
 
 \section{MBE based Multiplier with Roorda's approach and Dadda Tree}
 	Let's suppose to have a multiplication to be done between two numbers \textbf{x} and \textbf{y}.
