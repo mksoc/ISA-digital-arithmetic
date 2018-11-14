@@ -7,8 +7,7 @@ Presto compilation completed successfully.
 Elaborated 1 design.
 Current design is now 'iir_filter'.
 Information: Building the design 'iir_filterDP'. (HDL-193)
-Warning: Can't find the design 'iir_filterDP'
-	in the library 'WORK'. (LBR-1)
+Presto compilation completed successfully.
 Information: Building the design 'iir_filterCU'. (HDL-193)
 Warning:  ../src/iir_filterCU.vhd:34: DEFAULT branch of CASE statement cannot be reached. (ELAB-311)
 
@@ -49,5 +48,28 @@ Inferred memory devices in process
 |        Q_reg        | Flip-flop |   2   |  Y  | N  | Y  | N  | N  | N  | N  |
 ===============================================================================
 Presto compilation completed successfully.
-Warning: Unable to resolve reference 'iir_filterDP' in 'iir_filter'. (LINK-5)
+Information: Building the design 'reg' instantiated from design 'iir_filterDP' with
+	the parameters "N=12". (HDL-193)
+
+Inferred memory devices in process
+	in routine reg_N12 line 15 in file
+		'../src/reg.vhd'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|        Q_reg        | Flip-flop |  12   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully.
+Information: Building the design 'reg' instantiated from design 'iir_filterDP' with
+	the parameters "N=24". (HDL-193)
+
+Inferred memory devices in process
+	in routine reg_N24 line 15 in file
+		'../src/reg.vhd'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|        Q_reg        | Flip-flop |  24   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully.
 1

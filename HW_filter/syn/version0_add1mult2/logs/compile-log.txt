@@ -1,42 +1,58 @@
-Warning: Design 'iir_filter' has '1' unresolved references. For more detailed information, use the "link" command. (UID-341)
+Information: Checking out the license 'DesignWare'. (SEC-104)
 Information: Evaluating DesignWare library utilization. (UISN-27)
 
 ============================================================================
 | DesignWare Building Block Library       |      Version       | Available |
 ============================================================================
 | Basic DW Building Blocks                | Z-2007.03-DWBB_0704 |    *     |
-| Licensed DW Building Blocks             | Z-2007.03-DWBB_0704 |          |
+| Licensed DW Building Blocks             | Z-2007.03-DWBB_0704 |    *     |
 ============================================================================
+
+
+Information: There are 1 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
 
 
 
   Beginning Pass 1 Mapping
   ------------------------
   Processing 'iir_filter'
-Information: Building the design 'iir_filterDP'. (HDL-193)
-Warning: Can't find the design 'iir_filterDP'
-	in the library 'WORK'. (LBR-1)
-Warning: Unable to resolve reference 'iir_filterDP' in 'iir_filter'. (LINK-5)
-Warning: Design 'iir_filter' has '1' unresolved references. For more detailed information, use the "link" command. (UID-341)
 
   Updating timing information
 Information: Updating design information... (UID-85)
 
+  Beginning Implementation Selection
+  ----------------------------------
+  Mapping 'iir_filter_DW_cmp_0'
+  Mapping 'iir_filter_DW_cmp_1'
+  Processing 'iir_filter_DW01_add_0'
+  Processing 'iir_filter_DW01_sub_0'
+  Processing 'iir_filter_DW01_add_1'
+  Processing 'iir_filter_DW01_add_2'
+  Processing 'iir_filter_DW01_add_3'
+  Mapping 'iir_filter_DW02_mult_0'
+  Mapping 'iir_filter_DW02_mult_1'
+  Mapping 'iir_filter_DW02_mult_2'
+  Mapping 'iir_filter_DW02_mult_3'
+  Mapping 'iir_filter_DW02_mult_4'
+  Mapping 'iir_filter_DW02_mult_5'
+
   Beginning Mapping Optimizations  (Medium effort)
   -------------------------------
+Information: Added key list 'DesignWare' to design 'iir_filter'. (DDB-72)
 
    ELAPSED            WORST NEG TOTAL NEG  DESIGN                            
     TIME      AREA      SLACK     SLACK   RULE COST         ENDPOINT         
   --------- --------- --------- --------- --------- -------------------------
-    0:00:01      36.7      0.67       2.6       0.0                          
-    0:00:01      35.6      0.67       2.5       0.0                          
-    0:00:01      35.6      0.67       2.5       0.0                          
-    0:00:01      35.6      0.67       2.5       0.0                          
-    0:00:01      35.6      0.67       2.5       0.0                          
-    0:00:01      35.6      0.67       2.5       0.0                          
-    0:00:01      35.6      0.67       2.5       0.0                          
-    0:00:01      35.6      0.67       2.5       0.0                          
-    0:00:01      35.6      0.67       2.5       0.0                          
+    0:00:55   25063.1      2.61     632.9     139.1                          
+    0:01:04   17815.6      2.61     584.8       0.0                          
+    0:01:06   17784.0      2.61     584.8       0.0                          
+    0:01:07   17784.0      2.61     584.8       0.0                          
+    0:01:07   17784.0      2.61     584.8       0.0                          
+    0:01:07   17784.0      2.61     584.8       0.0                          
+    0:01:07   17784.0      2.61     584.8       0.0                          
+    0:01:08   17784.0      2.61     584.8       0.0                          
+    0:01:08   17784.0      2.61     584.8       0.0                          
+    0:01:08   17784.0      2.61     584.8       0.0                          
 
 
   Beginning Delay Optimization Phase
@@ -45,8 +61,32 @@ Information: Updating design information... (UID-85)
    ELAPSED            WORST NEG TOTAL NEG  DESIGN                            
     TIME      AREA      SLACK     SLACK   RULE COST         ENDPOINT         
   --------- --------- --------- --------- --------- -------------------------
-    0:00:01      35.6      0.67       2.5       0.0                          
-    0:00:02      37.2      0.67       2.6       0.0                          
+    0:01:08   17784.0      2.61     584.8       0.0                          
+    0:01:09   17965.9      2.37     575.8       0.0 DP/reg_sw0/Q_reg[23]/D   
+    0:01:11   18018.8      2.26     573.8      24.2 DP/reg_ff/Q_reg[23]/D    
+    0:01:12   18054.0      2.23     573.0      67.9 DP/reg_ff/Q_reg[23]/D    
+    0:01:14   18073.1      2.20     572.2      67.9 DP/reg_sw0/Q_reg[23]/D   
+    0:01:15   18115.4      2.17     571.1      92.2 DP/reg_ff/Q_reg[23]/D    
+    0:01:16   18119.1      2.16     571.0      92.2 DP/reg_ff/Q_reg[22]/D    
+    0:01:17   18132.7      2.14     570.5      92.2 DP/reg_sw0/Q_reg[23]/D   
+    0:01:19   18166.5      2.12     570.0     116.4 DP/reg_sw0/Q_reg[23]/D   
+    0:01:20   18172.1      2.12     569.8     116.4                          
+    0:01:24   18180.0      2.11     569.2     116.4                          
+    0:01:24   18173.7      2.11     569.4     116.4                          
+
+
+  Beginning Design Rule Fixing  (max_transition)  (max_capacitance)
+  ----------------------------
+
+   ELAPSED            WORST NEG TOTAL NEG  DESIGN                            
+    TIME      AREA      SLACK     SLACK   RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:01:24   18173.7      2.11     569.4     116.4                          
+    0:01:26   18143.1      2.11     569.4       0.0                          
+    0:01:27   18149.7      2.11     568.9       0.0                          
+    0:01:31   18182.4      2.11     563.5       0.0                          
+    0:01:34   18193.6      2.11     561.5       0.0                          
+    0:01:35   18204.8      2.11     560.4       0.0                          
 
 
   Beginning Area-Recovery Phase  (cleanup)
@@ -55,18 +95,25 @@ Information: Updating design information... (UID-85)
    ELAPSED            WORST NEG TOTAL NEG  DESIGN                            
     TIME      AREA      SLACK     SLACK   RULE COST         ENDPOINT         
   --------- --------- --------- --------- --------- -------------------------
-    0:00:02      37.2      0.67       2.6       0.0                          
-    0:00:02      37.2      0.67       2.6       0.0                          
-    0:00:02      37.2      0.67       2.6       0.0                          
-    0:00:02      37.2      0.67       2.6       0.0                          
-    0:00:02      37.2      0.67       2.6       0.0                          
-    0:00:02      37.2      0.67       2.6       0.0                          
-    0:00:02      37.2      0.67       2.6       0.0                          
-    0:00:02      37.2      0.67       2.6       0.0                          
-    0:00:02      37.2      0.67       2.6       0.0                          
-    0:00:02      37.2      0.67       2.6       0.0                          
-    0:00:02      37.2      0.67       2.6       0.0                          
-    0:00:02      37.2      0.67       2.6       0.0                          
+    0:01:35   18204.8      2.11     560.4       0.0                          
+    0:01:36   18204.8      2.11     560.4       0.0                          
+    0:01:38   18119.1      2.11     559.0       0.0                          
+    0:01:38   18115.9      2.11     559.0       0.0                          
+    0:01:38   18114.3      2.11     559.0       0.0                          
+    0:01:38   18114.3      2.11     559.0       0.0                          
+    0:01:38   18114.3      2.11     559.0       0.0                          
+    0:01:38   18114.3      2.11     559.0       0.0                          
+    0:01:39   18114.3      2.11     559.0       0.0                          
+    0:01:39   18109.8      2.11     559.0       0.0                          
+    0:01:39   18109.8      2.11     559.0       0.0                          
+    0:01:39   18109.8      2.11     559.0       0.0                          
+    0:01:39   18109.8      2.11     559.0       0.0                          
+    0:01:39   18109.8      2.11     559.0       0.0                          
+    0:01:39   18109.8      2.11     559.0       0.0                          
+    0:01:40   18109.0      2.11     558.9       0.0                          
+    0:01:41   18113.8      2.11     558.8       0.0                          
+    0:01:43   18127.1      2.11     556.3       0.0                          
+    0:01:47   18150.8      2.11     553.7       0.0                          
 Loading db file '/software/dk/nangate45/synopsys/NangateOpenCellLibrary_typical_ecsm_nowlm.db'
 
   Optimization Complete

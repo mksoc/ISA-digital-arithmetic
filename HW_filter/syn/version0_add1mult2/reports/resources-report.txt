@@ -1,17 +1,59 @@
-Warning: Design 'iir_filter' has '1' unresolved references. For more detailed information, use the "link" command. (UID-341)
 Information: Updating design information... (UID-85)
  
 ****************************************
 Report : resources
 Design : iir_filter
 Version: Z-2007.03-SP1
-Date   : Tue Nov 13 10:35:18 2018
+Date   : Tue Nov 13 13:15:15 2018
 ****************************************
 
+Resource Sharing Report for design iir_filter in file
+        ../version0/iir_filterDP.vhd
 
-No resource sharing information to report.
+===============================================================================
+|          |              |            | Contained     |                      |
+| Resource | Module       | Parameters | Resources     | Contained Operations |
+===============================================================================
+| r98      | DW02_mult    | A_width=24 |               | DP/mult_225          |
+|          |              | B_width=24 |               |                      |
+| r100     | DW02_mult    | A_width=24 |               | DP/mult_226          |
+|          |              | B_width=24 |               |                      |
+| r102     | DW02_mult    | A_width=24 |               | DP/mult_227          |
+|          |              | B_width=24 |               |                      |
+| r104     | DW02_mult    | A_width=24 |               | DP/mult_228          |
+|          |              | B_width=24 |               |                      |
+| r106     | DW02_mult    | A_width=24 |               | DP/mult_229          |
+|          |              | B_width=24 |               |                      |
+| r108     | DW02_mult    | A_width=24 |               | DP/mult_230          |
+|          |              | B_width=24 |               |                      |
+| r110     | DW01_add     | width=24   |               | DP/add_235           |
+| r112     | DW01_add     | width=24   |               | DP/add_236           |
+| r114     | DW01_add     | width=24   |               | DP/add_237           |
+| r116     | DW01_sub     | width=24   |               | DP/sub_238           |
+| r118     | DW01_add     | width=24   |               | DP/add_244           |
+| r120     | DW_cmp       | width=24   |               | DP/gt_247            |
+| r122     | DW_cmp       | width=24   |               | DP/lt_249            |
+===============================================================================
 
-No implementations to report
+
+Implementation Report
+
+=============================================================================
+|                  |                  | Current          | Set              |
+| Cell             | Module           | Implementation   | Implementation   |
+=============================================================================
+| DP/add_235       | DW01_add         | rpl              | rpl              |
+| DP/add_236       | DW01_add         | rpl              | rpl              |
+| DP/add_237       | DW01_add         | rpl              | rpl              |
+| DP/add_244       | DW01_add         | rpl              | rpl              |
+| DP/mult_225      | DW02_mult        | pparch           | pparch           |
+| DP/mult_226      | DW02_mult        | pparch           | pparch           |
+| DP/mult_227      | DW02_mult        | pparch           | pparch           |
+| DP/mult_228      | DW02_mult        | pparch           | pparch           |
+| DP/mult_229      | DW02_mult        | pparch           | pparch           |
+| DP/mult_230      | DW02_mult        | pparch           | pparch           |
+| DP/sub_238       | DW01_sub         | rpl              | rpl              |
+=============================================================================
 
 No multiplexors to report
 1
