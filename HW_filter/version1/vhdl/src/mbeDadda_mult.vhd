@@ -82,7 +82,8 @@ type aidGrid3 is array(daddaLev3-1 downto 0) of std_logic_vector((WL_INT+2*WL_FR
 type aidGrid2 is array(daddaLev2-1 downto 0) of std_logic_vector((WL_INT+2*WL_FRAC)-1 downto 0);
 type aidGrid1 is array(daddaLev1-1 downto 0) of std_logic_vector((WL_INT+2*WL_FRAC)-1 downto 0);
 type aidGrid0 is array(daddaLev0-1 downto 0) of std_logic_vector((WL_INT+2*WL_FRAC)-1 downto 0);
-signal gridPPP: gridPreprocessedPP;
+signal gridPPP: aidGridPreprocessedPP;
+signal gridPPP_conditional_N: aidGridPreprocessedPP;
 signal negVector: std_logic_vector(numPartProd-1 downto 0);
 signal grid5: aidGrid5;
 signal grid4: aidGrid4;
@@ -101,7 +102,7 @@ y_zeroTail(WL downto 0) <= y(WL-1 downto 0) & '0';
 -- generate the blocks for the encoding
 MBE_encoding_and_preprocessing_generation: 
 	for i in numPartProd-1 downto 0 generate
-		r4mbePP_preprocessing
+		recoding_block: r4mbePP_preprocessing
 			generic map (
 				n_bit => WL )
 			port map (
@@ -111,29 +112,85 @@ MBE_encoding_and_preprocessing_generation:
 				x_absY => gridPPP(i)(WL downto 0) );
 end generate;
 
--- generate the blocks for the conditional negation
+-- generate the blocks for the conditional negation and partial products assignment to grid5.
+-- the "MSB" (most significant block, ie the block related to the PP generated from the 
+-- most significant triplet) has not to take the incoming MSB, because it will not be used
+-- for the calculation.
 conditional_negation_blocks_generation:
-	for i in numPartProd-1 downto 0 generate
-		bitwiseInv
-			generic (
-				n_bit => WL+1 );
-			port (
-				invEnable => negVector(i),
-				dataIn => gridPPP(i)(WL downto 0),
-				dataOut => grid5(i)();
+	for i in (numPartProd-1 downto 0) generate
+
+		MSBlock: if (i = numPartProd-1) generate
+			bitwiseInverter11: bitwiseInv
+				generic map (
+					n_bit => WL+1 )
+				port map (
+					invEnable => negVector(i),
+					dataIn => gridPPP(i)(WL-1 downto 0),
+					dataOut => gridPPP_conditional_N(i)(WL-1 downto 0) );
+		end generate MSBlock;
+
+		LSBlocks: if (i < numPartProd-1) generate
+			bitwiseInverterX: bitwiseInv
+				generic map (
+					n_bit => WL+1 )
+				port map (
+					invEnable => negVector(i),
+					dataIn => gridPPP(i)(WL downto 0),
+					dataOut => gridPPP_conditional_N(i)(WL downto 0) );
+		end generate LSBlocks;
+
+end generate;
+
+-- partial product assignment to grid5 (with the correct bit in sign position, ready for the Dadda tree)
+PPP_assignment_to_grid5:
+	for i in (numPartProd-1 downto 0) generate
+
+		PPP_MSBlock: if (i = numPartProd-1) generate
+			grid5(i)((WL+2*i)-1 downto (2*i)) <= gridPPP_conditional_N(i)(WL-1 downto 0);
+		end generate PPP_MSBlock;
+
+		PPP_intermediateBlocks: if (i > 0 and i < numPartProd-1) generate 
+			grid5(i)((WL+2*i) downto (2*i)) <= not(gridPPP_conditional_N(i)(WL)) & gridPPP_conditional_N(i)(WL-1 downto 0);
+		end generate PPP_intermediateBlocks;
+
+		PPP_LSBlock: if (i = 0) generate 
+			grid5(i)((WL+2*i) downto (2*i)) <= gridPPP_conditional_N(i)(WL downto 0);
+		end generate PPP_LSBlock;
+
 end generate;
 
 -- assign to the grid5 all the negation bits to be added to the LSBs of the PP
 negation_bits_assignment:
-	for i in numPartProd-1 downto 0 generate
-		grid(i+1)(2*i) <= negVector(i);
+	for i in (numPartProd-1 downto 0) generate
+		grid5(i+1)(2*i) <= negVector(i);
 	end generate;
 
--- partial products assignment to grid5
-preprocessedPP_assignment:
-	for i in numPartProd-1 downto 0 generate
-		
-	end generate;
+-- PP's MSBs assignment
+PP_MSB_assignment:
+	for i in (numPartProd-2 downto 0) generate
 
+		otherPPs: if (i = 0) generate
+			grid5(i)(WL+2 downto WL+1) <= not(gridPPP_conditional_N(i)(WL)) & gridPPP_conditional_N(i)(WL);
+		end generate otherPPs;
+
+		firstPP: if (i > 0) generate
+			grid5(i)(WL+1 downto WL) <= '1' & not(gridPPP_conditional_N(i)(WL));
+		end generate firstPP;
+
+end generate;
+
+-- DADDA tree level 4
+
+-- DADDA tree level 3
+
+-- DADDA tree level 2
+
+-- DADDA tree level 1
+
+-- DADDA tree level 0
+
+-- fast adder
+
+-- truncation step
 
 end architecture;
