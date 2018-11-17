@@ -28,9 +28,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.8"
-     inkscape:cx="347.39012"
-     inkscape:cy="144.96455"
+     inkscape:zoom="3.959798"
+     inkscape:cx="409.68073"
+     inkscape:cy="288.23739"
      inkscape:document-units="px"
      inkscape:current-layer="layer8"
      showgrid="true"
@@ -9486,8 +9486,8 @@
        cy="967.67621"
        r="2" />
     <path
-       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.77639627;stroke-miterlimit:7.80000019;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 440.71464,755.81642 0,-4.95818 260.26994,0 0,5.66649"
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.74769092;stroke-miterlimit:7.80000019;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 450.0391,755.82626 0,-4.97717 250.96493,0 0,5.68819"
        id="path6037-8-5"
        inkscape:connector-curvature="0" />
     <text
@@ -9505,10 +9505,10 @@
            style="font-size:12.5px"
            id="tspan6043-8-6"><tspan
              style="font-size:10px"
-             id="tspan6045-4-8"> xY represented with 22+2+2 bits</tspan></tspan></tspan></text>
+             id="tspan6045-4-8"> x|Y| represented with 22+2+1 bits</tspan></tspan></tspan></text>
     <path
-       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.57574499;stroke-miterlimit:7.80000019;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 240.2548,755.87469 0,-5.09058 199.46704,0 0,5.81781"
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.61126792;stroke-miterlimit:7.80000019;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 240.27899,755.86291 0,-5.0673 209.52019,0 0,5.7912"
        id="path6037-6-8-1"
        inkscape:connector-curvature="0" />
     <text

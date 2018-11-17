@@ -17,7 +17,6 @@ package filter_pkg is
 	-- types declarations
 	subtype dataType is signed(NB-1 downto 0);
 	subtype word is signed(WL-1 downto 0);
-	subtype MBEcodedWord is std_logic_vector(WL+1 downto 0); -- 2 more bits wrt a word signal
 	type aCoeffType is array (1 to N-1) of word;
 	type bCoeffType is array (0 to N) of word;
 

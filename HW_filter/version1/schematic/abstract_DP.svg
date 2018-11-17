@@ -15,7 +15,10 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="abstract_DP.svg">
+   sodipodi:docname="abstract_DP.svg"
+   inkscape:export-filename="/home/matteo/git/ISA-digital-arithmetic/HW_filter/version1/schematic/abstract_DP.png"
+   inkscape:export-xdpi="301"
+   inkscape:export-ydpi="301">
   <defs
      id="defs4">
     <marker
@@ -937,10 +940,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="3.959798"
-     inkscape:cx="155.35138"
-     inkscape:cy="875.07788"
+     inkscape:cx="219.8442"
+     inkscape:cy="530.61587"
      inkscape:document-units="px"
-     inkscape:current-layer="layer3"
+     inkscape:current-layer="layer5"
      showgrid="true"
      inkscape:window-width="1366"
      inkscape:window-height="715"
@@ -1498,7 +1501,8 @@
   <g
      inkscape:groupmode="layer"
      id="layer3"
-     inkscape:label="parallelisms">
+     inkscape:label="parallelisms"
+     sodipodi:insensitive="true">
     <path
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.21500003;stroke-linejoin:miter;stroke-miterlimit:7.80000019;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        d="m 106,94.362205 5.36055,-5.360545"
@@ -1898,18 +1902,6 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="101.31217"
-       y="262.1579"
-       id="text15874-2"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan15876-2"
-         x="101.31217"
-         y="262.1579"
-         style="font-size:5px">3</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="111.00887"
        y="261.80255"
        id="text15874-2-4"
@@ -1919,18 +1911,6 @@
          x="111.00887"
          y="261.80255"
          style="font-size:5px">3</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="121.66624"
-       y="261.9028"
-       id="text15874-2-7"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan15876-2-5"
-         x="121.66624"
-         y="261.9028"
-         style="font-size:5px">4</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -2053,7 +2033,7 @@
          x="299.24344"
          y="249.96753"
          style="font-size:2.5px">c<tspan
-   style="font-size:65%;baseline-shift:sub"
+   style="font-size:64.99999762%;baseline-shift:sub"
    id="tspan16061">1</tspan></tspan></text>
     <text
        xml:space="preserve"
@@ -2067,7 +2047,7 @@
          x="288.85059"
          y="249.93182"
          style="font-size:2.5px">c<tspan
-   style="font-size:65%;baseline-shift:sub"
+   style="font-size:64.99999762%;baseline-shift:sub"
    id="tspan16093">2</tspan></tspan></text>
     <text
        xml:space="preserve"
@@ -2081,7 +2061,7 @@
          x="279.20773"
          y="250.07468"
          style="font-size:2.5px">c<tspan
-   style="font-size:65%;baseline-shift:sub"
+   style="font-size:64.99999762%;baseline-shift:sub"
    id="tspan16095">3</tspan></tspan></text>
     <text
        xml:space="preserve"
@@ -2095,7 +2075,7 @@
          x="268.86844"
          y="249.96754"
          style="font-size:2.5px">c<tspan
-   style="font-size:65%;baseline-shift:sub"
+   style="font-size:64.99999762%;baseline-shift:sub"
    id="tspan16129">4</tspan></tspan></text>
     <text
        xml:space="preserve"
@@ -2109,7 +2089,7 @@
          x="259.22559"
          y="250.1104"
          style="font-size:2.5px">c<tspan
-   style="font-size:65%;baseline-shift:sub"
+   style="font-size:64.99999762%;baseline-shift:sub"
    id="tspan16127">5</tspan></tspan></text>
     <text
        xml:space="preserve"
@@ -2123,7 +2103,7 @@
          x="144.47557"
          y="250.09253"
          style="font-size:2.5px">c<tspan
-   style="font-size:65%;baseline-shift:sub"
+   style="font-size:64.99999762%;baseline-shift:sub"
    id="tspan16217">40</tspan></tspan></text>
     <text
        xml:space="preserve"
@@ -2137,7 +2117,7 @@
          x="134.83273"
          y="250.23538"
          style="font-size:2.5px">c<tspan
-   style="font-size:65%;baseline-shift:sub"
+   style="font-size:64.99999762%;baseline-shift:sub"
    id="tspan16213">41</tspan></tspan></text>
     <text
        xml:space="preserve"
@@ -2151,7 +2131,7 @@
          x="124.43988"
          y="250.19968"
          style="font-size:2.5px">c<tspan
-   style="font-size:65%;baseline-shift:sub"
+   style="font-size:64.99999762%;baseline-shift:sub"
    id="tspan16209">42</tspan></tspan></text>
     <text
        xml:space="preserve"
@@ -2165,7 +2145,7 @@
          x="114.79703"
          y="250.34253"
          style="font-size:2.5px">c<tspan
-   style="font-size:65%;baseline-shift:sub"
+   style="font-size:64.99999762%;baseline-shift:sub"
    id="tspan16205">43</tspan></tspan></text>
     <text
        xml:space="preserve"
@@ -2179,7 +2159,7 @@
          x="104.45773"
          y="250.2354"
          style="font-size:2.5px">c<tspan
-   style="font-size:65%;baseline-shift:sub"
+   style="font-size:64.99999762%;baseline-shift:sub"
    id="tspan16201">44</tspan></tspan></text>
     <text
        xml:space="preserve"
@@ -2193,10 +2173,10 @@
          x="94.81488"
          y="250.37825"
          style="font-size:2.5px">c<tspan
-   style="font-size:65%;baseline-shift:sub"
+   style="font-size:64.99999762%;baseline-shift:sub"
    id="tspan16199">45</tspan></tspan></text>
     <path
-       style="fill:none;fill-opacity:0.68023257;stroke:#000000;stroke-width:1.215;stroke-linejoin:miter;stroke-miterlimit:7.80000019;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker16227)"
+       style="fill:none;fill-opacity:0.68023257;stroke:#000000;stroke-width:1.21500003;stroke-linejoin:miter;stroke-miterlimit:7.80000019;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker16227)"
        d="m 75,197.3622 0,12.32143 15,0 0,5.89286"
        id="path16219"
        inkscape:connector-curvature="0" />
@@ -2395,7 +2375,7 @@
          y="689.04639"
          style="font-size:5px">24</tspan></text>
     <path
-       style="fill:none;fill-opacity:0.68023257;stroke:#000000;stroke-width:1.215;stroke-linejoin:miter;stroke-miterlimit:7.80000019;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker5390)"
+       style="fill:none;fill-opacity:0.68023257;stroke:#000000;stroke-width:1.21500003;stroke-linejoin:miter;stroke-miterlimit:7.80000019;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker5390)"
        d="m 205,677.26067 0,25.53544"
        id="path20077-5"
        inkscape:connector-curvature="0" />
@@ -2501,6 +2481,30 @@
          x="312.60333"
          y="210.90825"
          style="font-size:5px">25</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="100.10152"
+       y="262.0589"
+       id="text15874-3"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan15876-6"
+         x="100.10152"
+         y="262.0589"
+         style="font-size:5px">2</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="121.00887"
+       y="261.80255"
+       id="text15874-2-4-7"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan15876-2-7-5"
+         x="121.00887"
+         y="261.80255"
+         style="font-size:5px">3</tspan></text>
   </g>
   <g
      inkscape:groupmode="layer"
@@ -2705,7 +2709,8 @@
   <g
      inkscape:groupmode="layer"
      id="layer5"
-     inkscape:label="layer_3">
+     inkscape:label="layer_3"
+     sodipodi:insensitive="true">
     <path
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.1416918;stroke-linejoin:miter;stroke-miterlimit:7.80000019;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker11857)"
        d="m 94.923317,202.43522 0,12.28973"
@@ -2819,7 +2824,7 @@
          id="tspan18424"
          x="156.91878"
          y="328.37234"
-         style="font-size:10px">Dadda tree level 0</tspan></text>
+         style="font-size:10px">Dadda tree level 4</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -2831,7 +2836,7 @@
          id="tspan18424-8"
          x="157.07106"
          y="384.38251"
-         style="font-size:10px">Dadda tree level 1</tspan></text>
+         style="font-size:10px">Dadda tree level 3</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -2855,7 +2860,7 @@
          id="tspan18424-0"
          x="156.91878"
          y="495.15805"
-         style="font-size:10px">Dadda tree level 3</tspan></text>
+         style="font-size:10px">Dadda tree level 1</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -2867,7 +2872,7 @@
          id="tspan18424-6"
          x="156.91878"
          y="549.44373"
-         style="font-size:10px">Dadda tree level 4</tspan></text>
+         style="font-size:10px">Dadda tree level 0</tspan></text>
     <path
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.55731475;stroke-linejoin:miter;stroke-miterlimit:7.80000019;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker11857-7-1)"
        d="m 95.71528,580.71327 0,22.95918"
