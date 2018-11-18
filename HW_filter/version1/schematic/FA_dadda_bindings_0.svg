@@ -28,11 +28,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.959798"
-     inkscape:cx="409.68073"
-     inkscape:cy="288.23739"
+     inkscape:zoom="1.979899"
+     inkscape:cx="555.35048"
+     inkscape:cy="361.73275"
      inkscape:document-units="px"
-     inkscape:current-layer="layer8"
+     inkscape:current-layer="layer6"
      showgrid="true"
      inkscape:window-width="1366"
      inkscape:window-height="715"
@@ -7136,7 +7136,8 @@
   <g
      inkscape:groupmode="layer"
      id="layer8"
-     inkscape:label="table_3">
+     inkscape:label="table_3"
+     sodipodi:insensitive="true">
     <rect
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.40913373;stroke-miterlimit:7.80000019;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect6387-7-3"
@@ -9861,5 +9862,34 @@
          x="242.22336"
          y="970.47644"
          style="font-size:10px;line-height:1.25">1</tspan></text>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer6"
+     inkscape:label="column_labels">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="239.84131"
+       y="1021.5832"
+       id="text5796"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5798"
+         x="239.84131"
+         y="1021.5832"
+         style="font-size:5.625px"> 45 44  43  42 41  40 39  38  37 36  35  34 33  32  31 30 29  28 27  26  25 24  23 22  21  20  19 18  17 16  15 14  13 12  11 10   9    8   7    6   5    4   3    2    1   0</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="240.04436"
+       y="671.53241"
+       id="text5796-3"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5798-6"
+         x="240.04436"
+         y="671.53241"
+         style="font-size:5.625px"> 45 44  43  42 41  40 39  38  37 36  35  34 33  32  31 30 29  28 27  26  25 24  23 22  21  20  19 18  17 16  15 14  13 12  11 10   9    8   7    6   5    4   3    2    1   0</tspan></text>
   </g>
 </svg>
