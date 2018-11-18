@@ -13,8 +13,8 @@
 \usepackage{multirow}
 \usepackage{siunitx}
 
-\title{Integrated Systems Architecture\\Lab2 Report}
-\author{Marco Andorno 247222\\Michele Caon\\Matteo Perotti 251453\\Giuseppe Sarda}
+\title{Integrated Systems Architecture\\Lab session 2 Report}
+\author{Marco Andorno (247222)\\Michele Caon\\Matteo Perotti (251453)\\Giuseppe Sarda}
 
 \begin{document}
 \maketitle
@@ -27,7 +27,7 @@ Among others, DesignWare makes available the following synthesis models of adder
 	\item \texttt{DW01\_add} \footnote{As the feedback branch of the filter gets subtracted from the input in direct form II, Synopsys actually uses also a subtractor (\texttt{DW01\_sub}), for which the same implementations as the adder are available. So when we say that we used a certain kind of adder, we mean that we used it for all adders and for that subtractor too.}:
 	\begin{itemize}
 		\item \texttt{rpl}: ripple-carry adder
-		\item \texttt{cla}: carry-look-ahead adder
+		\item \texttt{cla}: carry-lookahead adder
 		\item \texttt{pparch}: delay optimized flexible parallel-prefix adder
 	\end{itemize}
 	\item \texttt{DW02\_mult}:
@@ -117,7 +117,7 @@ As always in digital design, as well as in life, one cannot get the best of both
 \end{table}
 
 \subsection{Summing up}
-If the main requirement is pure speed, then an architecture based on parallel-prefix Booth-recoded Wallace tree multipliers and carry-lookahed or parallel-prefix adders is the way to go.
+If the main requirement is pure speed, then an architecture based on parallel-prefix Booth-recoded Wallace tree multipliers and carry-lookahead or parallel-prefix adders is the way to go.
 
 If, on the other hand, the power budget is a limiting factor, one has to settle for lower processing speed and use CSA-based multipliers along with whichever adder they like best.
 
