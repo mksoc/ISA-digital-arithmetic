@@ -134,7 +134,7 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 		\item $\bm{k_y^{F}}$ is the number of bits representing the \textbf{F}ractional part of \textbf{y}
 	\end{itemize}
 	We want to perform the multiplication with the \textbf{MBE-radix4} encoded version of the multiplier \textbf{y}.
-	This shrewdness allow us to reduce the number of partial products by half:
+	This shrewdness allows us to reduce the number of partial products by half:
 	indeed \textbf{y} is encoded with $\bm{k_y^{'}}$ symbols in $\{\pm{2}, \pm{1}, 0\}$.
 	\begin{equation}
 		\bm{k_y^{'} = \lceil \frac{k_y}{log_2(r)} \rceil = \lceil \frac{k_y}{2} \rceil}
@@ -213,7 +213,7 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 			\item $\bm{k_x^{I} = k_y^{I} = 2}$
 			\item $\bm{k_x^{F} = k_y^{I} = 22}$
 			\item \textbf{12} partial products
-			\item at most $\bm{\frac{k_y}{2}+1 = 13}$ elements in a single column
+			\item at most $\bm{\lceil \frac{k_y}{2} \rceil +1 = 13}$ elements in a single column
 		\end{itemize}
 		In a single column we can count up to 13 elements, because the MUX let pass only \textbf{x} multiplied for the absolute value of the symbol \textbf{Y}. The "negative" bit (one of the three which encode a single symbol) it has to be added 
 		to the LSB of its partial product: therefore we have 12+1 elements at most in a column.
