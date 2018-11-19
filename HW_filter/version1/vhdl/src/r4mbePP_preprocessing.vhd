@@ -1,5 +1,5 @@
 library ieee;
-use ieee.std_logic_1164.all
+use ieee.std_logic_1164.all;
 
 entity r4mbePP_preprocessing is
 	generic (
@@ -52,7 +52,7 @@ MUX_X: mux2
 		i0 => extended_x,
 		i1 => two_x,
 		sel => mux_sel_x,
-		o => mux_x_out )
+		o => mux_x_out );
 
 MUX_0: mux2
 	generic map (
@@ -61,6 +61,6 @@ MUX_0: mux2
 		i0 => zeroString,
 		i1 => mux_x_out,
 		sel => mux_enable,
-		o => x_absY )
+		o => x_absY );
 
 end architecture ; -- behaviour

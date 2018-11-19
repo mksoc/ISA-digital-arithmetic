@@ -41,7 +41,7 @@ def wrFA(fileObj, i0, i1, ci, s, co, actualColumn, nFA):
 	entityName = "fullAdder"
 
 	line = ["-- full adder c" + str(actualColumn) + ", number " + str(nFA) + "\n"]
-	line += [str(actualColumn) + "_FA_" + str(nFA) + ": " + entityName + "\n"]
+	line += ["c" + str(actualColumn) + "_FA_" + str(nFA) + ": " + entityName + "\n"]
 	line += ["\t" + "port map (" + "\n"]
 	line += ["\t\t" + "i0 => " + i0 + "," + "\n"]
 	line += ["\t\t" + "i1 => " + i1 + "," + "\n"]
@@ -62,7 +62,7 @@ def wrHA(fileObj, i0, i1, s, co, actualColumn, nHA):
 	entityName = "halfAdder"
 
 	line = ["-- half adder c" + str(actualColumn) + ", number " + str(nHA) + "\n"]
-	line += [str(actualColumn) + "_HA_" + str(nHA) + ": " + entityName + "\n"]
+	line += ["c" + str(actualColumn) + "_HA_" + str(nHA) + ": " + entityName + "\n"]
 	line += ["\t" + "port map (" + "\n"]
 	line += ["\t\t" + "i0 => " + i0 + "," + "\n"]
 	line += ["\t\t" + "i1 => " + i1 + "," + "\n"]

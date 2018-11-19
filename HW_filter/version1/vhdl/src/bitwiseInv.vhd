@@ -1,5 +1,5 @@
 library ieee;
-use ieee.std_logic_1164.all
+use ieee.std_logic_1164.all;
 
 entity bitwiseInv is
 	generic (
@@ -14,9 +14,9 @@ end entity;
 architecture behaviour of bitwiseInv is
 begin
 
-	controlled_negation:
-		for i in (n_bit-1 downto 0) generate
-			dataOut(i) <= dataIn(i) xor invEnable;
-		end generate;
+controlled_negation:
+	for i in n_bit-1 downto 0 generate
+		dataOut(i) <= dataIn(i) xor invEnable;
+	end generate;
 
-end architecture ; -- behaviour
+end architecture; -- behaviour

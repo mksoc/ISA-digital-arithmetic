@@ -1,5 +1,5 @@
 library ieee;
-use ieee.std_logic_1164.all
+use ieee.std_logic_1164.all;
 
 -- 2 to 1 n_bit mux
 
@@ -21,4 +21,4 @@ begin
 		i0 when (sel = '0') else
 		i1;
 		
-end architecture ; -- behaviour
+end architecture; -- behaviour
