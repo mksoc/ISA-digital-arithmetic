@@ -74,7 +74,6 @@ type aidGrid1 is array(daddaLev1-1 downto 0) of std_logic_vector((WL_INT+2*WL_FR
 type aidGrid0 is array(daddaLev0-1 downto 0) of std_logic_vector((WL_INT+2*WL_FRAC)-1 downto 0);
 signal gridPPP: aidGridPreprocessedPP;
 signal gridPPP_conditional_N: aidGridPreprocessedPP;
-signal negVector: std_logic_vector(numPartProd-1 downto 0);
 signal grid5_begin: aidGrid5;
 signal grid5: aidGrid5;
 signal grid4: aidGrid4;
@@ -87,6 +86,7 @@ signal add0, add1: std_logic_vector((WL_INT+2*WL_FRAC)-1 downto 0);
 signal sum: std_logic_vector((WL_INT+2*WL_FRAC) downto 0);
 
 signal y_zeroTail: std_logic_vector(WL downto 0);
+signal negVector: std_logic_vector(numPartProd-1 downto 0);
 
 begin
 
