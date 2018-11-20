@@ -36,6 +36,7 @@ transcript
 **/.vscode/
 **/work/
 **/__pycache__
+**/quartus/
 
 # Directories
 HW_filter/common/

@@ -36,12 +36,12 @@
 # i0 ... co are the signals to be connected with the in/out of the adder block
 # actualColumn: the number of the column
 # the index of the current FA
-def wrFA(fileObj, i0, i1, ci, s, co, actualColumn, nFA):
+def wrFA(fileObj, i0, i1, ci, s, co, actualColumn, nFA, daddaLevel):
 
 	entityName = "fullAdder"
 
 	line = ["-- full adder c" + str(actualColumn) + ", number " + str(nFA) + "\n"]
-	line += [str(actualColumn) + "_FA_" + str(nFA) + ": " + entityName + "\n"]
+	line += ["lv" + str(daddaLevel) + "_c" + str(actualColumn) + "_FA_" + str(nFA) + ": " + entityName + "\n"]
 	line += ["\t" + "port map (" + "\n"]
 	line += ["\t\t" + "i0 => " + i0 + "," + "\n"]
 	line += ["\t\t" + "i1 => " + i1 + "," + "\n"]
@@ -57,12 +57,12 @@ def wrFA(fileObj, i0, i1, ci, s, co, actualColumn, nFA):
 # i0 ... co are the signals to be connected with the in/out of the adder block
 # actualColumn: the number of the column
 # the index of the current HA
-def wrHA(fileObj, i0, i1, s, co, actualColumn, nHA):
+def wrHA(fileObj, i0, i1, s, co, actualColumn, nHA, daddaLevel):
 
 	entityName = "halfAdder"
 
 	line = ["-- half adder c" + str(actualColumn) + ", number " + str(nHA) + "\n"]
-	line += [str(actualColumn) + "_HA_" + str(nHA) + ": " + entityName + "\n"]
+	line += ["lv" + str(daddaLevel) + "_c" + str(actualColumn) + "_HA_" + str(nHA) + ": " + entityName + "\n"]
 	line += ["\t" + "port map (" + "\n"]
 	line += ["\t\t" + "i0 => " + i0 + "," + "\n"]
 	line += ["\t\t" + "i1 => " + i1 + "," + "\n"]
@@ -100,8 +100,11 @@ def vhdlDaddaLevel(fileName, fileMode, srcMtx, dstMtx, srcMtxRows, dstMtxRows, m
 			i1 = srcMtx + "(" + str(3*nFA+1) + ")(" + str(actualColumn) + ")" 
 			ci = srcMtx + "(" + str(3*nFA+2) + ")(" + str(actualColumn) + ")" 
 			s = dstMtx + "(" + str(nextCin+actualCin) + ")(" + str(actualColumn) + ")" 
-			co = dstMtx + "(" + str(nextCin) + ")(" + str(actualColumn+1) + ")" 
-			wrFA(fileObj, i0, i1, ci, s, co, actualColumn, nFA);
+			if actualColumn != mtxCols-1:
+				co = dstMtx + "(" + str(nextCin) + ")(" + str(actualColumn+1) + ")" 
+			else:
+				co = "open"
+			wrFA(fileObj, i0, i1, ci, s, co, actualColumn, nFA, daddaLevel);
 			nFA += 1
 			nextCin += 1
 		# write the HAs
@@ -109,8 +112,11 @@ def vhdlDaddaLevel(fileName, fileMode, srcMtx, dstMtx, srcMtxRows, dstMtxRows, m
 			i0 = srcMtx + "(" + str(3*nFA+2*nHA) + ")(" + str(actualColumn) + ")" 
 			i1 = srcMtx + "(" + str(3*nFA+2*nHA+1) + ")(" + str(actualColumn) + ")" 
 			s = dstMtx + "(" + str(nextCin+actualCin) + ")(" + str(actualColumn) + ")" 
-			co = dstMtx + "(" + str(nextCin) + ")(" + str(actualColumn+1) + ")" 
-			wrHA(fileObj, i0, i1, s, co, actualColumn, nHA);
+			if actualColumn != mtxCols-1:
+				co = dstMtx + "(" + str(nextCin) + ")(" + str(actualColumn+1) + ")" 
+			else:
+				co = "open"
+			wrHA(fileObj, i0, i1, s, co, actualColumn, nHA, daddaLevel);
 			nHA += 1
 			nextCin += 1
 		# move the other elements of the column

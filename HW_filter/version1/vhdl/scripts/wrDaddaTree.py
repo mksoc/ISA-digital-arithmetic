@@ -73,7 +73,8 @@ faArr += [0] * 12
 faArr += [1] * 2
 faArr += [2] * 2
 faArr += [3] * 17
-faArr += [2] * 4
+faArr += [2] * 2
+faArr += [1] * 2
 faArr += [0] * 9
 
 haArr += [0] * 10
