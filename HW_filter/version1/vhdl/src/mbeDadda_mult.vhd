@@ -58,13 +58,6 @@ architecture structure of mbeDadda_mult is
 	-- aidGrid5: matrix to have each column ready to be used
 	-- numPartProd+1 rows and (WL_INT+2*WL_FRAC) columns (with fixed parallelism for integer part WL_INT there's
 	-- no need for saving also the other two MSBs)
-	type aidGridPreprocessedPP is array(numPartProd-1 downto 0) of std_logic_vector(WL downto 0);
-	type aidGrid5 is array(numPartProd downto 0) of std_logic_vector((WL_INT+2*WL_FRAC)-1 downto 0);
-	type aidGrid4 is array(daddaLev4-1 downto 0) of std_logic_vector((WL_INT+2*WL_FRAC)-1 downto 0);
-	type aidGrid3 is array(daddaLev3-1 downto 0) of std_logic_vector((WL_INT+2*WL_FRAC)-1 downto 0);
-	type aidGrid2 is array(daddaLev2-1 downto 0) of std_logic_vector((WL_INT+2*WL_FRAC)-1 downto 0);
-	type aidGrid1 is array(daddaLev1-1 downto 0) of std_logic_vector((WL_INT+2*WL_FRAC)-1 downto 0);
-	type aidGrid0 is array(daddaLev0-1 downto 0) of std_logic_vector((WL_INT+2*WL_FRAC)-1 downto 0);
 	signal gridPPP: aidGridPreprocessedPP;
 	signal gridPPP_conditional_N: aidGridPreprocessedPP;
 	signal grid5_begin: aidGrid5;
@@ -4110,15 +4103,13 @@ begin
 
 	-- move the other elements of the column
 
-
-
 	-----------------------------------------------------------------
 	-- AUTO GENERATED VHDL -- end
 	-----------------------------------------------------------------
 
---	-- last two levels
---	add0 <= aidGrid0(0)((WL_INT+2*WL_FRAC)-1 downto 0); 
---	add1 <= aidGrid0(1)((WL_INT+2*WL_FRAC)-1 downto 0);
+	-- last two levels
+	add0 <= grid0(0)((WL_INT+2*WL_FRAC)-1 downto 0);
+	add1 <= grid1(1)((WL_INT+2*WL_FRAC)-1 downto 0);
 
 	-- fast adder (to be implemented)
 	sum <= std_logic_vector(signed(add0) + signed(add1));
