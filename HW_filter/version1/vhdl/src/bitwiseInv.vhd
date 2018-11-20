@@ -3,7 +3,7 @@ use ieee.std_logic_1164.all;
 
 entity bitwiseInv is
 	generic (
-		n_bit: positive := WL+1 );
+		n_bit: positive := 8 );
 	port (
 		invEnable: in std_logic;
 		dataIn: in std_logic_vector(n_bit-1 downto 0);

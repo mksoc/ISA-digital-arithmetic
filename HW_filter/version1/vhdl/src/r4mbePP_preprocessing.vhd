@@ -3,7 +3,7 @@ use ieee.std_logic_1164.all;
 
 entity r4mbePP_preprocessing is
 	generic (
-		n_bit: positive := WL );
+		n_bit: positive := 8 );
 	port (
 		x: in std_logic_vector(n_bit-1 downto 0);		-- multiplicand
 		y_tri: in std_logic_vector(2 downto 0);			-- a triplet of the multiplier
@@ -33,7 +33,7 @@ end component;
 		zeroString,
 		two_x,
 		extended_x,
-		mux_x_out: std_logic_vector(n_bit-1 downto 0);
+		mux_x_out: std_logic_vector(n_bit downto 0);
 
 begin
 
@@ -47,7 +47,7 @@ two_x <= x & '0';
 
 MUX_X: mux2
 	generic map (
-		n_bit => n_bit )
+		n_bit => n_bit+1 )
 	port map (
 		i0 => extended_x,
 		i1 => two_x,
@@ -56,7 +56,7 @@ MUX_X: mux2
 
 MUX_0: mux2
 	generic map (
-		n_bit => n_bit )
+		n_bit => n_bit+1 )
 	port map (
 		i0 => zeroString,
 		i1 => mux_x_out,
