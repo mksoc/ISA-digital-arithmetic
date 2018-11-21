@@ -4107,14 +4107,17 @@ begin
 	-- AUTO GENERATED VHDL -- end
 	-----------------------------------------------------------------
 
+	-- missing columns at the end
+	grid0(1)(1) <= '0';
+
 	-- last two levels
 	add0 <= grid0(0)((WL_INT+2*WL_FRAC)-1 downto 0);
-	add1 <= grid1(1)((WL_INT+2*WL_FRAC)-1 downto 0);
+	add1 <= grid0(1)((WL_INT+2*WL_FRAC)-1 downto 0);
 
 	-- fast adder (to be implemented)
 	sum <= std_logic_vector(signed(add0) + signed(add1));
 
 	-- truncation step
-	p <= sum(WL-1 downto 0);
+	p <= sum((WL_INT+2*WL_FRAC)-1 downto (WL-WL_INT));
 
 end architecture;

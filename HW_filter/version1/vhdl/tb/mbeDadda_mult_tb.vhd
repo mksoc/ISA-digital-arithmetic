@@ -21,8 +21,13 @@ architecture beh of mbeDadda_mult_tb is
 			p: out std_logic_vector(WL-1 downto 0) );	-- product
 	end component;
 
+	constant iFilePath: string := "/home/matteo/git/ISA-digital-arithmetic/HW_filter/version1/common/fileIn.txt";
+	constant oFilePath: string := "/home/matteo/git/ISA-digital-arithmetic/HW_filter/version1/common/fileOut.txt";
+	constant oBehFilePath: string := "/home/matteo/git/ISA-digital-arithmetic/HW_filter/version1/common/fileOutBeh.txt";
+
 	file fileIn: text;
 	file fileOut: text;
+	file fileOutBeh: text;
 
 	signal x, y, p: std_logic_vector(WL-1 downto 0);
 
@@ -38,7 +43,7 @@ begin
 			p => p );
 
 	pBehFullPrecision <= std_logic_vector(signed(x)*signed(y));
-	pBeh <= pBehFullPrecision(WL-1 downto 0);
+	pBeh <= pBehFullPrecision((WL_INT+2*WL_FRAC)-1 downto (WL-WL_INT));
 
 
 	readWrite_process: process
@@ -51,9 +56,9 @@ begin
 
 		begin
 
-			file_open(fileIn, "in.txt",  read_mode);
-			file_open(fileOut, "out.txt",  write_mode);
-			file_open(fileOutBeh, "outBeh.txt",  write_mode);
+			file_open(fileIn, iFilePath,  read_mode);
+			file_open(fileOut, oFilePath,  write_mode);
+			file_open(fileOutBeh, oBehFilePath,  write_mode);
 
 			while not endfile(fileIn) loop
 				readline(fileIn, inLine);
