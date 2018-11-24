@@ -3297,6 +3297,9 @@ grid0(1)(0) <= grid1(1)(0);
 -- move the other elements of the column
 grid0(0)(1) <= grid1(0)(1);
 
+-- fix missing assignments in the last level 
+grid0(1)(1) <= '0';
+
 ----------------------------- 
 -- COLUMN 2
 ----------------------------- 

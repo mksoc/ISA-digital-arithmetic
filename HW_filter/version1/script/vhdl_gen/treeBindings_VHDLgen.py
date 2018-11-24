@@ -121,17 +121,67 @@ def vhdlDaddaLevel(fileName, fileMode, srcMtx, dstMtx, srcMtxRows, dstMtxRows, m
 			nextCin += 1
 		# move the other elements of the column
 		fileObj.write("-- move the other elements of the column\n")
-		fileObj.write("")
 		offset = nextCin + actualCin
 		for i in range(3*nFA+2*nHA, numElmArr[actualColumn]):
 			line = dstMtx + "(" + str(offset) + ")(" + str(actualColumn) + ") <= " + srcMtx + "(" + str(i) + ")(" + str(actualColumn) + ");" 
 			fileObj.write(line)
 			fileObj.write("\n")
 			offset += 1;
-
+		# if we are in the level 0, we have to check that the two rows are full. If something is missing it means that
+		# it was already missing at the top level (it means that there was a '0' in that position)
+		if (daddaLevel == 0):
+			if (numElmArr[actualColumn] == 0):
+				fileObj.write("\n")
+				fileObj.write("-- fix missing assignments in the last level \n")
+				for i in range(2):
+					line = dstMtx + "(" + str(i) + ")(" + str(actualColumn) + ") <= " + "'0';"
+					fileObj.write(line)
+				fileObj.write("\n")
+			else:
+				if (numElmArr[actualColumn] == 1):
+					fileObj.write("\n")
+					fileObj.write("-- fix missing assignments in the last level \n")
+					line = dstMtx + "(" + str(1) + ")(" + str(actualColumn) + ") <= " + "'0';"
+					fileObj.write(line)
+					fileObj.write("\n")
 		fileObj.write("\n")
 
 		actualCin = nextCin
 		nextCin = 0
 		nFA = 0
 		nHA = 0
+
+# autoBind function
+# provide an automatic binding for FA and HA for each column of the tree, given a target maximum number of rows to be obtained
+#
+# INPUT #
+# numElmArr: each cell of this list keeps the number of elements of the current column (wrt the current level)
+# nextMaxRows: maximum number of elements allowed per column in the next level 
+# mtxCols: number of column of the matrix. It must be equal to len(numElmArr)
+#
+def autoBind(numElmArr, nextMaxRows, mtxCols):
+
+	import copy
+
+	if (len(numElmArr) != mtxCols):
+		print("Error in autoBind(numElmArr, nextMaxRows, mtxCols): len(numElmArr) != mtxCols")
+		return None # error!
+
+	faArr = [0] * mtxCols
+	haArr = [0] * mtxCols
+	nextNumElmArr = copy.deepcopy(numElmArr)
+
+	for actualColumn in range(mtxCols):
+		while nextNumElmArr[actualColumn] > nextMaxRows+1:
+			if (nextNumElmArr[actualColumn]-2 >= nextMaxRows):
+				nextNumElmArr[actualColumn] -= 2
+				faArr[actualColumn] += 1
+				if (actualColumn < mtxCols-1):
+					nextNumElmArr[actualColumn+1] += 1
+		if (nextNumElmArr[actualColumn] == nextMaxRows+1):
+			nextNumElmArr[actualColumn] -= 1
+			haArr[actualColumn] += 1
+			if (actualColumn < mtxCols-1):
+					nextNumElmArr[actualColumn+1] += 1
+
+	return faArr, haArr, nextNumElmArr
