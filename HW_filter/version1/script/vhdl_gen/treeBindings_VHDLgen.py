@@ -15,18 +15,6 @@
 # faArr: array of numbers with dimension mtxCols - each cell keeps the number of FA to be instantiated for that column 
 # haArr: array of numbers with dimension mtxCols -each cell keeps the number of HA to be instantiated for that column 
 # daddaLevel: number, only for the welcome comment
-#
-# fileName = "./vhdlOut.vhd"
-# fileMode = "w"
-# srcMtx = "grid5"
-# dstMtx = "grid4"
-# srcMtxRows = 13
-# dstMtxRows = 9
-# mtxCols = 46
-# numElmArr = [12] * 46  
-# faArr = [2] * 46
-# haArr = [1] * 46
-# daddaLevel = 1
 
 #----------------------------------------------
 # FUNCTIONs DEFINITIONS
@@ -73,6 +61,7 @@ def wrHA(fileObj, i0, i1, s, co, actualColumn, nHA, daddaLevel):
 	for i in range(0, 8):
 		fileObj.write(line[i])
 
+# automatic VHDL generator
 def vhdlDaddaLevel(fileName, fileMode, srcMtx, dstMtx, srcMtxRows, dstMtxRows, mtxCols, numElmArr, faArr, haArr, daddaLevel):
 
 	# open the file
