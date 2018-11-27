@@ -18,7 +18,7 @@ daddaLevels = 5
 
 mtxName = "grid"
 srcMtxRows = 13
-mtxCols = 46
+mtxCols = 40
 
 numElmArr = []
 for i in range(2, 14):
