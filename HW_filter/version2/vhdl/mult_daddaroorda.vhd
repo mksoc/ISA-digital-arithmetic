@@ -14,7 +14,7 @@ end entity;
 architecture struct of mult_daddaroorda is
 	signal add0s,add1s	: signed (39 downto 0);
 	signal add0,add1	: std_logic_vector(39 downto 0);
-    signal sum  		: std_logic_vector(41 downto 0);
+    signal sum  		: signed(40 downto 0);
 	signal inv  		: std_logic_vector(11 downto 0);
 	signal recode0		: std_logic_vector(2 downto 0);
     signal grid5,pps	: aidGrid5;
@@ -37,7 +37,7 @@ architecture struct of mult_daddaroorda is
                     multiplicand  =>    multiplicand,
                     recode_bits   =>    multiplier(2*I+1 downto 2*I-1),
                     inv           =>    inv(I),
-                    part_prod     =>    pps(I)((WL-1+I*2) downto I*2));
+                    part_prod     =>    pps(I)((WL+I*2) downto I*2));
 	end generate;
 	recode0<=multiplier(1) & multiplier(0) & '0';
     mbe0 : r4mbePP_processing
@@ -47,7 +47,7 @@ architecture struct of mult_daddaroorda is
                     multiplicand  =>    multiplicand,
                     recode_bits   =>    recode0,
                     inv           =>    inv(0),
-                    part_prod     =>    pps(0)((WL-1) downto 0));
+                    part_prod     =>    pps(0)((WL) downto 0));
 --Adjust for Dadda tree + Roorda aproach
     --Connecting inv to the matrix
     INV_CONNECTION:
@@ -67,14 +67,14 @@ architecture struct of mult_daddaroorda is
     --Justifing
     --odd 39 to 21 cols
     C39_to_21_ODD:
-    for J in 2 to 11 generate
-        grid5(0 to J-1)(40-(((J-2)*2)+1))<=pps(11-J+1 to 11)(46-(((J-2)*2)+1));
+    for J in 11 downto 2 generate
+        grid5(J-1 downto 0)(40-(((J-2)*2)+1))<=pps(11 downto 11-J+1)(46-(((J-2)*2)+1));
     end generate;
 
     --even 39 to 21 cols
     C39_to_21_EVEN:
-    for J in 2 to 11 generate
-        grid5(0 to J-1)(40-(((J-2)*2)+2))<=pps(11-J+1 to 11)(46-(((J-2)*2)+2));
+    for J in 11 downto 2 generate
+        grid5(J-1 downto 0)(40-(((J-2)*2)+2))<=pps(11 downto 11-J+1)(46-(((J-2)*2)+2));
     end generate;
 
     --from 20 to 17 cols
@@ -3760,9 +3760,9 @@ add1 <= grid0(1)(40-1 downto 0);
 -- fast adder to be implemented
 add0s<=signed(add0);
 add1s<=signed(add1);
-sum <= std_logic_vector(add0s+add1s);
+sum <= (add0s+add1s);
 
 -- truncation step
-product <= sum(40 downto (40-WL+1));
+product <= std_logic_vector(sum(40 downto (40-WL+1)));
 
 end architecture;
