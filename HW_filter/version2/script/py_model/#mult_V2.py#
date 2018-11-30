@@ -5,7 +5,7 @@ FOUT_NAME="common/pyresult_V2.txt"
 DADDALEVELS=13
 
 import sys
-
+#NON FUNZIONA PERCHé MOLTIPLICA SEMPRE PER -2
 def pp_calculator(multiplicand, recode_bits):
     print(multiplicand)
     print(bin(recode_bits))

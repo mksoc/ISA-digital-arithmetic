@@ -45,7 +45,7 @@ component r4mbePP_processing
     generic (N: positive :=8);
     port(
       multiplicand : in std_logic_vector(N-1 downto 0);
-      recode_bits  : in std_logic_vector(3 downto 0);
+      recode_bits  : in std_logic_vector(2 downto 0);
       inv          : out std_logic;
       part_prod    : out std_logic_vector(N downto 0));
   end component;

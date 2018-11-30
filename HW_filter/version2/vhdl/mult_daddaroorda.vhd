@@ -25,7 +25,7 @@ architecture struct of mult_daddaroorda is
 	signal grid0		: aidGrid0;
     begin 
 --Modified booth encoding partial product generation
---first particular case + generate for
+--first and last particular case + generate for
 
     GEN_MBE_PROCESSING:
     for I in 1 to 11 generate
