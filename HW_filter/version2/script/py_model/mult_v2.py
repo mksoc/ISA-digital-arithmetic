@@ -1,7 +1,7 @@
 #!/bin/python3
 
 FIN_NAME="common/samples.txt"
-FOUT_NAME="common/pyresult_v2.txt"
+FOUT_NAME="common/pyresult_v2"
 
 DADDALEVELS=13
 OUTPAR=47
@@ -35,8 +35,10 @@ def inv_evaluator(recode):
         
 
 in_file=open(FIN_NAME,"r")
-out_file=open(FOUT_NAME,"w")
-
+if len(sys.argv)>1:
+    out_file=open(FOUT_NAME+"_a"+sys.argv[1]+".txt","w")
+else:
+    out_file=open(FOUT_NAME+".txt","w")
 for line in in_file:
     
 # Reading operands
@@ -56,19 +58,20 @@ for line in in_file:
         recode_ctr=recode_calculator(nums[1],i)
         pp.append((pp_calculator(multiplicand,recode_ctr)<<(2*i))+inv)  
         inv=inv_evaluator(recode_ctr)<<(2*i)
-        i+=1
+        i+=1        
     pp.append(inv)
     
 # Truncating LSBs if requested
     if len(sys.argv)>1:
-        big=bin(pp[DADDALEVELS-1])
-        ones="1"*len(big)
-        truncator=int(ones,2)<<int(sys.argv[1])
+        APPROX=int(sys.argv[1])
+        ending_str='0'*APPROX
         i=0
         while i<DADDALEVELS:
-            pp[i]=pp[i]&truncator
-            i+=1
-   
+            original_str=printer_2s(pp[i],OUTPAR)
+            new_str=original_str[0:len(original_str)-APPROX]+ending_str
+            new_num=int(new_str,2)
+            pp[i]=twos_comp(new_num,len(new_str))
+            i+=1           
 # Summing pp
     i=0
     product=0
