@@ -3,10 +3,8 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.multV2_pkg.all;
 
-constant approximate_bits: positive :=6;
-
 entity multDaddaRoorda is
-  generic (N: positive :=WL)
+  generic (N: positive :=WL);
   port (
     multiplier:     in std_logic_vector (N-1 downto 0);
     multiplicand:   in std_logic_vector (N-1 downto 0);
@@ -16,6 +14,7 @@ end entity;
 
 architecture struct of multDaddaRoorda is
 
+  constant approximate_bits: positive :=6;
 --Signals for MBE block
   signal recode_bits0 : std_logic_vector (2 downto 0);
   signal inv          : std_logic_vector (numPartProd-1 downto 0);
@@ -48,11 +47,11 @@ begin
               N             =>    multiplicand'length)
   port map    (
               multiplicand  =>    multiplicand,
-              recode_bits   =>    multiplier((multiplier'length-1) downto (multiplier'length-1)-3),
-              inv           =>    inv(inv'length),
-              part_prod     =>    last_pp;
+              recode_bits   =>    multiplier((multiplier'length-1) downto (multiplier'length-1)-2),
+              inv           =>    inv(inv'length-1),
+              part_prod     =>    last_pp);
   --Manual assignment in order to drop the MSbit
-  pps(11)((WL_INT+2*WL_FRAC)-1 downto (WL_INT+2*WL_FRAC)-1-last_pp'length-1)<=last_pp(last_pp'length-2 downto 0);
+  pps(11)(45 downto 22)<=last_pp(last_pp'length-2 downto 0);
   --Generate all the other Partial Products
   GEN_MBE_PROCESSING:
   for I in 1 to 10 generate
@@ -82,7 +81,7 @@ begin
   --odd 39 to 21 cols
   C39_to_21_ODD:
   for J in 11 downto 2 generate
-      pps1(J-1 downto 0)(40-(((J-2)*2)+1))<=pps(11 downto 11-J+1)(46-(((J-2)*2)+1));
+      pps1(J-1 downto 0)(40-(((J-2)*2)+1))<=pps(11 downto (11-J+1))(46-(((J-2)*2)+1));
   end generate;
 
   --even 39 to 21 cols
@@ -107,7 +106,7 @@ begin
   C15_to_0_ODD:
   for J in 11 downto 4 generate
       pps1(J-1 downto 0)(2*(J-4)+1)<=pps(J-1 downto 0)(2*(J-4)+6+1);
-  end generate
+  end generate;
 
   --Roorda correction of sign bits
   --Connecting inv to the matrix
@@ -126,7 +125,7 @@ begin
   M15_to_0_ODD:
   for J in 11 downto 4 generate
       grid5(J-1 downto 0)(2*(J-4)+1)<=pps1(J-1 downto 0)(2*(J-4)+1);
-  end generate
+  end generate;
 
   --from 19 to 16 cols (pps1 to grid5)
   M19_to_16:
@@ -135,7 +134,7 @@ begin
   end generate;
 
   --cols 20 (pps1 to grid5) (correcting sign bit of 2nd pp)
-  grid5(11 downto 0)(20)=pps1(11 downto 2)(20) & not(pps1(1)(20)) & pps1(0)(20);
+  grid5(11 downto 0)(20)<=pps1(11 downto 2)(20) & not(pps1(1)(20)) & pps1(0)(20);
 
   --odd 39 to 21 cols
   M39_to_21_ODD:
@@ -3816,4 +3815,4 @@ begin
   -- truncation step
   product <= std_logic_vector(sum(40 downto (40-N+1)));
 
-  end architecture;
+  end struct;
