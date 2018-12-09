@@ -23,7 +23,7 @@ type aidGrid1 is array(daddaLev1-1 downto 0) of std_logic_vector((WL_INT+2*WL_FR
 type aidGrid0 is array(daddaLev0-1 downto 0) of std_logic_vector((WL_INT+2*WL_FRAC)-1 downto 0);
 
 component fullAdder
-port (
+  port (
     i0,
     i1,
     ci: in std_logic;
@@ -41,7 +41,7 @@ component halfAdder
 		co: out std_logic );
 end component;
 
-component r4mbePP_processing 
+component r4mbePP_processing
     generic (N: positive :=8);
     port(
       multiplicand : in std_logic_vector(N-1 downto 0);
