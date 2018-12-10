@@ -3,7 +3,7 @@
 FIN_NAME="common/samples.txt"
 FOUT_NAME="common/pyresult.txt"
 
-OUTPAR=47
+OUTPAR=46
 
 in_file=open(FIN_NAME,"r")
 out_file=open(FOUT_NAME,"w")

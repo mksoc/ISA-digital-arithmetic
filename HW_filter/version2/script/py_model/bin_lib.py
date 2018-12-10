@@ -12,7 +12,7 @@ def printer_2s(value,bits):
         else:
             return string
     else:
-        value=value + (1<< len(bin(value))-2)
+        value=value + (1<<len(bin(value))-3)
         string=format(value,'b')
         if len(string)<=bits:
             sign_ext=bits-len(string)
