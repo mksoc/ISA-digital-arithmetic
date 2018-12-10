@@ -17,7 +17,7 @@ begin
               multiplicand(N-1) & multiplicand(N-1 downto 0)      when recode_bits="001" or recode_bits="010" else
               multiplicand(N-1 downto 0) & '0'                    when recode_bits="011" else
               not(multiplicand(N-1) & multiplicand(N-1 downto 0)) when recode_bits="110" or recode_bits="101" else
-              not(multiplicand(N-1 downto 0) & '1');
+              not(multiplicand(N-1 downto 0) & '0');
   inv<= '0' when recode_bits="000" or recode_bits="111" or recode_bits="001" or recode_bits="010" or recode_bits="011" else
         '1';
 end architecture;
