@@ -1,11 +1,12 @@
 library ieee;
-library work;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use work.multV1_pkg.all;
+
+library work;
+use work.multV3_pkg.all;
 
 -- fast multiplier with radix-4 modified Booth encoding, with Roorda's trick, CSA+fast adder Dadda tree
-entity mbeDadda_mult is
+entity mbeDadda_4to2Cmprs_mult is
 	port ( 
 		x,											-- multiplicand
 		y: in std_logic_vector(WL-1 downto 0);		-- multiplier
@@ -13,7 +14,7 @@ entity mbeDadda_mult is
 		p: out std_logic_vector(WL-1 downto 0) );	-- product
 end entity;
 
-architecture structure of mbeDadda_mult is
+architecture structure of mbeDadda_4to2Cmprs_mult is
 
 	component r4mbePP_preprocessing is
 		generic (
@@ -409,17 +410,13 @@ begin
 			out1 => grid4(0)(19) );
 
 	-- move the other elements of the column
-	grid4(2)(18) <= grid5(0)(18);
-	grid4(3)(18) <= grid5(1)(18);
-	grid4(4)(18) <= grid5(2)(18);
-	grid4(5)(18) <= grid5(3)(18);
-	grid4(6)(18) <= grid5(4)(18);
-	grid4(7)(18) <= grid5(5)(18);
-	grid4(8)(18) <= grid5(6)(18);
-	grid4(9)(18) <= grid5(7)(18);
-	grid4(10)(18) <= grid5(8)(18);
-	grid4(11)(18) <= grid5(9)(18);
-	grid4(12)(18) <= grid5(10)(18);
+	grid4(2)(18) <= grid5(4)(18);
+	grid4(3)(18) <= grid5(5)(18);
+	grid4(4)(18) <= grid5(6)(18);
+	grid4(5)(18) <= grid5(7)(18);
+	grid4(6)(18) <= grid5(8)(18);
+	grid4(7)(18) <= grid5(9)(18);
+	grid4(8)(18) <= grid5(10)(18);
 
 	----------------------------- 
 	-- COLUMN 19
@@ -464,16 +461,12 @@ begin
 			co => grid4(1)(21) );
 
 	-- move the other elements of the column
-	grid4(3)(20) <= grid5(2)(20);
-	grid4(4)(20) <= grid5(3)(20);
-	grid4(5)(20) <= grid5(4)(20);
-	grid4(6)(20) <= grid5(5)(20);
-	grid4(7)(20) <= grid5(6)(20);
-	grid4(8)(20) <= grid5(7)(20);
-	grid4(9)(20) <= grid5(8)(20);
-	grid4(10)(20) <= grid5(9)(20);
-	grid4(11)(20) <= grid5(10)(20);
-	grid4(12)(20) <= grid5(11)(20);
+	grid4(3)(20) <= grid5(6)(20);
+	grid4(4)(20) <= grid5(7)(20);
+	grid4(5)(20) <= grid5(8)(20);
+	grid4(6)(20) <= grid5(9)(20);
+	grid4(7)(20) <= grid5(10)(20);
+	grid4(8)(20) <= grid5(11)(20);
 
 	----------------------------- 
 	-- COLUMN 21
@@ -497,15 +490,11 @@ begin
 			co => grid4(1)(22) );
 
 	-- move the other elements of the column
-	grid4(4)(21) <= grid5(2)(21);
-	grid4(5)(21) <= grid5(3)(21);
-	grid4(6)(21) <= grid5(4)(21);
-	grid4(7)(21) <= grid5(5)(21);
-	grid4(8)(21) <= grid5(6)(21);
-	grid4(9)(21) <= grid5(7)(21);
-	grid4(10)(21) <= grid5(8)(21);
-	grid4(11)(21) <= grid5(9)(21);
-	grid4(12)(21) <= grid5(10)(21);
+	grid4(4)(21) <= grid5(6)(21);
+	grid4(5)(21) <= grid5(7)(21);
+	grid4(6)(21) <= grid5(8)(21);
+	grid4(7)(21) <= grid5(9)(21);
+	grid4(8)(21) <= grid5(10)(21);
 
 	----------------------------- 
 	-- COLUMN 22
@@ -531,19 +520,11 @@ begin
 			out1 => grid4(1)(23) );
 
 	-- move the other elements of the column
-	grid4(4)(22) <= grid5(0)(22);
-	grid4(5)(22) <= grid5(1)(22);
-	grid4(6)(22) <= grid5(2)(22);
-	grid4(7)(22) <= grid5(3)(22);
-	grid4(8)(22) <= grid5(4)(22);
-	grid4(9)(22) <= grid5(5)(22);
-	grid4(10)(22) <= grid5(6)(22);
-	grid4(11)(22) <= grid5(7)(22);
-	grid4(12)(22) <= grid5(8)(22);
-	grid4(13)(22) <= grid5(9)(22);
-	grid4(14)(22) <= grid5(10)(22);
-	grid4(15)(22) <= grid5(11)(22);
-	grid4(16)(22) <= grid5(12)(22);
+	grid4(4)(22) <= grid5(8)(22);
+	grid4(5)(22) <= grid5(9)(22);
+	grid4(6)(22) <= grid5(10)(22);
+	grid4(7)(22) <= grid5(11)(22);
+	grid4(8)(22) <= grid5(12)(22);
 
 	----------------------------- 
 	-- COLUMN 23
@@ -568,15 +549,11 @@ begin
 			co => grid4(1)(24) );
 
 	-- move the other elements of the column
-	grid4(4)(23) <= grid5(3)(23);
-	grid4(5)(23) <= grid5(4)(23);
-	grid4(6)(23) <= grid5(5)(23);
-	grid4(7)(23) <= grid5(6)(23);
-	grid4(8)(23) <= grid5(7)(23);
-	grid4(9)(23) <= grid5(8)(23);
-	grid4(10)(23) <= grid5(9)(23);
-	grid4(11)(23) <= grid5(10)(23);
-	grid4(12)(23) <= grid5(11)(23);
+	grid4(4)(23) <= grid5(7)(23);
+	grid4(5)(23) <= grid5(8)(23);
+	grid4(6)(23) <= grid5(9)(23);
+	grid4(7)(23) <= grid5(10)(23);
+	grid4(8)(23) <= grid5(11)(23);
 
 	----------------------------- 
 	-- COLUMN 24
@@ -601,15 +578,11 @@ begin
 			co => grid4(1)(25) );
 
 	-- move the other elements of the column
-	grid4(4)(24) <= grid5(3)(24);
-	grid4(5)(24) <= grid5(4)(24);
-	grid4(6)(24) <= grid5(5)(24);
-	grid4(7)(24) <= grid5(6)(24);
-	grid4(8)(24) <= grid5(7)(24);
-	grid4(9)(24) <= grid5(8)(24);
-	grid4(10)(24) <= grid5(9)(24);
-	grid4(11)(24) <= grid5(10)(24);
-	grid4(12)(24) <= grid5(11)(24);
+	grid4(4)(24) <= grid5(7)(24);
+	grid4(5)(24) <= grid5(8)(24);
+	grid4(6)(24) <= grid5(9)(24);
+	grid4(7)(24) <= grid5(10)(24);
+	grid4(8)(24) <= grid5(11)(24);
 
 	----------------------------- 
 	-- COLUMN 25
@@ -634,15 +607,11 @@ begin
 			co => grid4(1)(26) );
 
 	-- move the other elements of the column
-	grid4(4)(25) <= grid5(3)(25);
-	grid4(5)(25) <= grid5(4)(25);
-	grid4(6)(25) <= grid5(5)(25);
-	grid4(7)(25) <= grid5(6)(25);
-	grid4(8)(25) <= grid5(7)(25);
-	grid4(9)(25) <= grid5(8)(25);
-	grid4(10)(25) <= grid5(9)(25);
-	grid4(11)(25) <= grid5(10)(25);
-	grid4(12)(25) <= grid5(11)(25);
+	grid4(4)(25) <= grid5(7)(25);
+	grid4(5)(25) <= grid5(8)(25);
+	grid4(6)(25) <= grid5(9)(25);
+	grid4(7)(25) <= grid5(10)(25);
+	grid4(8)(25) <= grid5(11)(25);
 
 	----------------------------- 
 	-- COLUMN 26
@@ -667,15 +636,11 @@ begin
 			co => grid4(1)(27) );
 
 	-- move the other elements of the column
-	grid4(4)(26) <= grid5(3)(26);
-	grid4(5)(26) <= grid5(4)(26);
-	grid4(6)(26) <= grid5(5)(26);
-	grid4(7)(26) <= grid5(6)(26);
-	grid4(8)(26) <= grid5(7)(26);
-	grid4(9)(26) <= grid5(8)(26);
-	grid4(10)(26) <= grid5(9)(26);
-	grid4(11)(26) <= grid5(10)(26);
-	grid4(12)(26) <= grid5(11)(26);
+	grid4(4)(26) <= grid5(7)(26);
+	grid4(5)(26) <= grid5(8)(26);
+	grid4(6)(26) <= grid5(9)(26);
+	grid4(7)(26) <= grid5(10)(26);
+	grid4(8)(26) <= grid5(11)(26);
 
 	----------------------------- 
 	-- COLUMN 27
@@ -699,15 +664,11 @@ begin
 			co => grid4(1)(28) );
 
 	-- move the other elements of the column
-	grid4(4)(27) <= grid5(2)(27);
-	grid4(5)(27) <= grid5(3)(27);
-	grid4(6)(27) <= grid5(4)(27);
-	grid4(7)(27) <= grid5(5)(27);
-	grid4(8)(27) <= grid5(6)(27);
-	grid4(9)(27) <= grid5(7)(27);
-	grid4(10)(27) <= grid5(8)(27);
-	grid4(11)(27) <= grid5(9)(27);
-	grid4(12)(27) <= grid5(10)(27);
+	grid4(4)(27) <= grid5(6)(27);
+	grid4(5)(27) <= grid5(7)(27);
+	grid4(6)(27) <= grid5(8)(27);
+	grid4(7)(27) <= grid5(9)(27);
+	grid4(8)(27) <= grid5(10)(27);
 
 	----------------------------- 
 	-- COLUMN 28
@@ -723,16 +684,12 @@ begin
 			out1 => grid4(0)(29) );
 
 	-- move the other elements of the column
-	grid4(3)(28) <= grid5(0)(28);
-	grid4(4)(28) <= grid5(1)(28);
-	grid4(5)(28) <= grid5(2)(28);
-	grid4(6)(28) <= grid5(3)(28);
-	grid4(7)(28) <= grid5(4)(28);
-	grid4(8)(28) <= grid5(5)(28);
-	grid4(9)(28) <= grid5(6)(28);
-	grid4(10)(28) <= grid5(7)(28);
-	grid4(11)(28) <= grid5(8)(28);
-	grid4(12)(28) <= grid5(9)(28);
+	grid4(3)(28) <= grid5(4)(28);
+	grid4(4)(28) <= grid5(5)(28);
+	grid4(5)(28) <= grid5(6)(28);
+	grid4(6)(28) <= grid5(7)(28);
+	grid4(7)(28) <= grid5(8)(28);
+	grid4(8)(28) <= grid5(9)(28);
 
 	----------------------------- 
 	-- COLUMN 29
@@ -1073,14 +1030,10 @@ begin
 			out1 => grid3(0)(13) );
 
 	-- move the other elements of the column
-	grid3(2)(12) <= grid4(0)(12);
-	grid3(3)(12) <= grid4(1)(12);
-	grid3(4)(12) <= grid4(2)(12);
-	grid3(5)(12) <= grid4(3)(12);
-	grid3(6)(12) <= grid4(4)(12);
-	grid3(7)(12) <= grid4(5)(12);
-	grid3(8)(12) <= grid4(6)(12);
-	grid3(9)(12) <= grid4(7)(12);
+	grid3(2)(12) <= grid4(4)(12);
+	grid3(3)(12) <= grid4(5)(12);
+	grid3(4)(12) <= grid4(6)(12);
+	grid3(5)(12) <= grid4(7)(12);
 
 	----------------------------- 
 	-- COLUMN 13
@@ -1122,13 +1075,9 @@ begin
 			co => grid3(1)(15) );
 
 	-- move the other elements of the column
-	grid3(3)(14) <= grid4(2)(14);
-	grid3(4)(14) <= grid4(3)(14);
-	grid3(5)(14) <= grid4(4)(14);
-	grid3(6)(14) <= grid4(5)(14);
-	grid3(7)(14) <= grid4(6)(14);
-	grid3(8)(14) <= grid4(7)(14);
-	grid3(9)(14) <= grid4(8)(14);
+	grid3(3)(14) <= grid4(6)(14);
+	grid3(4)(14) <= grid4(7)(14);
+	grid3(5)(14) <= grid4(8)(14);
 
 	----------------------------- 
 	-- COLUMN 15
@@ -1152,12 +1101,8 @@ begin
 			co => grid3(1)(16) );
 
 	-- move the other elements of the column
-	grid3(4)(15) <= grid4(2)(15);
-	grid3(5)(15) <= grid4(3)(15);
-	grid3(6)(15) <= grid4(4)(15);
-	grid3(7)(15) <= grid4(5)(15);
-	grid3(8)(15) <= grid4(6)(15);
-	grid3(9)(15) <= grid4(7)(15);
+	grid3(4)(15) <= grid4(6)(15);
+	grid3(5)(15) <= grid4(7)(15);
 
 	----------------------------- 
 	-- COLUMN 16
@@ -1182,12 +1127,8 @@ begin
 			co => grid3(1)(17) );
 
 	-- move the other elements of the column
-	grid3(4)(16) <= grid4(3)(16);
-	grid3(5)(16) <= grid4(4)(16);
-	grid3(6)(16) <= grid4(5)(16);
-	grid3(7)(16) <= grid4(6)(16);
-	grid3(8)(16) <= grid4(7)(16);
-	grid3(9)(16) <= grid4(8)(16);
+	grid3(4)(16) <= grid4(7)(16);
+	grid3(5)(16) <= grid4(8)(16);
 
 	----------------------------- 
 	-- COLUMN 17
@@ -1212,12 +1153,8 @@ begin
 			co => grid3(1)(18) );
 
 	-- move the other elements of the column
-	grid3(4)(17) <= grid4(3)(17);
-	grid3(5)(17) <= grid4(4)(17);
-	grid3(6)(17) <= grid4(5)(17);
-	grid3(7)(17) <= grid4(6)(17);
-	grid3(8)(17) <= grid4(7)(17);
-	grid3(9)(17) <= grid4(8)(17);
+	grid3(4)(17) <= grid4(7)(17);
+	grid3(5)(17) <= grid4(8)(17);
 
 	----------------------------- 
 	-- COLUMN 18
@@ -1242,12 +1179,8 @@ begin
 			co => grid3(1)(19) );
 
 	-- move the other elements of the column
-	grid3(4)(18) <= grid4(3)(18);
-	grid3(5)(18) <= grid4(4)(18);
-	grid3(6)(18) <= grid4(5)(18);
-	grid3(7)(18) <= grid4(6)(18);
-	grid3(8)(18) <= grid4(7)(18);
-	grid3(9)(18) <= grid4(8)(18);
+	grid3(4)(18) <= grid4(7)(18);
+	grid3(5)(18) <= grid4(8)(18);
 
 	----------------------------- 
 	-- COLUMN 19
@@ -1272,12 +1205,8 @@ begin
 			co => grid3(1)(20) );
 
 	-- move the other elements of the column
-	grid3(4)(19) <= grid4(3)(19);
-	grid3(5)(19) <= grid4(4)(19);
-	grid3(6)(19) <= grid4(5)(19);
-	grid3(7)(19) <= grid4(6)(19);
-	grid3(8)(19) <= grid4(7)(19);
-	grid3(9)(19) <= grid4(8)(19);
+	grid3(4)(19) <= grid4(7)(19);
+	grid3(5)(19) <= grid4(8)(19);
 
 	----------------------------- 
 	-- COLUMN 20
@@ -1302,12 +1231,8 @@ begin
 			co => grid3(1)(21) );
 
 	-- move the other elements of the column
-	grid3(4)(20) <= grid4(3)(20);
-	grid3(5)(20) <= grid4(4)(20);
-	grid3(6)(20) <= grid4(5)(20);
-	grid3(7)(20) <= grid4(6)(20);
-	grid3(8)(20) <= grid4(7)(20);
-	grid3(9)(20) <= grid4(8)(20);
+	grid3(4)(20) <= grid4(7)(20);
+	grid3(5)(20) <= grid4(8)(20);
 
 	----------------------------- 
 	-- COLUMN 21
@@ -1332,12 +1257,8 @@ begin
 			co => grid3(1)(22) );
 
 	-- move the other elements of the column
-	grid3(4)(21) <= grid4(3)(21);
-	grid3(5)(21) <= grid4(4)(21);
-	grid3(6)(21) <= grid4(5)(21);
-	grid3(7)(21) <= grid4(6)(21);
-	grid3(8)(21) <= grid4(7)(21);
-	grid3(9)(21) <= grid4(8)(21);
+	grid3(4)(21) <= grid4(7)(21);
+	grid3(5)(21) <= grid4(8)(21);
 
 	----------------------------- 
 	-- COLUMN 22
@@ -1362,12 +1283,8 @@ begin
 			co => grid3(1)(23) );
 
 	-- move the other elements of the column
-	grid3(4)(22) <= grid4(3)(22);
-	grid3(5)(22) <= grid4(4)(22);
-	grid3(6)(22) <= grid4(5)(22);
-	grid3(7)(22) <= grid4(6)(22);
-	grid3(8)(22) <= grid4(7)(22);
-	grid3(9)(22) <= grid4(8)(22);
+	grid3(4)(22) <= grid4(7)(22);
+	grid3(5)(22) <= grid4(8)(22);
 
 	----------------------------- 
 	-- COLUMN 23
@@ -1392,12 +1309,8 @@ begin
 			co => grid3(1)(24) );
 
 	-- move the other elements of the column
-	grid3(4)(23) <= grid4(3)(23);
-	grid3(5)(23) <= grid4(4)(23);
-	grid3(6)(23) <= grid4(5)(23);
-	grid3(7)(23) <= grid4(6)(23);
-	grid3(8)(23) <= grid4(7)(23);
-	grid3(9)(23) <= grid4(8)(23);
+	grid3(4)(23) <= grid4(7)(23);
+	grid3(5)(23) <= grid4(8)(23);
 
 	----------------------------- 
 	-- COLUMN 24
@@ -1422,12 +1335,8 @@ begin
 			co => grid3(1)(25) );
 
 	-- move the other elements of the column
-	grid3(4)(24) <= grid4(3)(24);
-	grid3(5)(24) <= grid4(4)(24);
-	grid3(6)(24) <= grid4(5)(24);
-	grid3(7)(24) <= grid4(6)(24);
-	grid3(8)(24) <= grid4(7)(24);
-	grid3(9)(24) <= grid4(8)(24);
+	grid3(4)(24) <= grid4(7)(24);
+	grid3(5)(24) <= grid4(8)(24);
 
 	----------------------------- 
 	-- COLUMN 25
@@ -1452,12 +1361,8 @@ begin
 			co => grid3(1)(26) );
 
 	-- move the other elements of the column
-	grid3(4)(25) <= grid4(3)(25);
-	grid3(5)(25) <= grid4(4)(25);
-	grid3(6)(25) <= grid4(5)(25);
-	grid3(7)(25) <= grid4(6)(25);
-	grid3(8)(25) <= grid4(7)(25);
-	grid3(9)(25) <= grid4(8)(25);
+	grid3(4)(25) <= grid4(7)(25);
+	grid3(5)(25) <= grid4(8)(25);
 
 	----------------------------- 
 	-- COLUMN 26
@@ -1482,12 +1387,8 @@ begin
 			co => grid3(1)(27) );
 
 	-- move the other elements of the column
-	grid3(4)(26) <= grid4(3)(26);
-	grid3(5)(26) <= grid4(4)(26);
-	grid3(6)(26) <= grid4(5)(26);
-	grid3(7)(26) <= grid4(6)(26);
-	grid3(8)(26) <= grid4(7)(26);
-	grid3(9)(26) <= grid4(8)(26);
+	grid3(4)(26) <= grid4(7)(26);
+	grid3(5)(26) <= grid4(8)(26);
 
 	----------------------------- 
 	-- COLUMN 27
@@ -1512,12 +1413,8 @@ begin
 			co => grid3(1)(28) );
 
 	-- move the other elements of the column
-	grid3(4)(27) <= grid4(3)(27);
-	grid3(5)(27) <= grid4(4)(27);
-	grid3(6)(27) <= grid4(5)(27);
-	grid3(7)(27) <= grid4(6)(27);
-	grid3(8)(27) <= grid4(7)(27);
-	grid3(9)(27) <= grid4(8)(27);
+	grid3(4)(27) <= grid4(7)(27);
+	grid3(5)(27) <= grid4(8)(27);
 
 	----------------------------- 
 	-- COLUMN 28
@@ -1542,12 +1439,8 @@ begin
 			co => grid3(1)(29) );
 
 	-- move the other elements of the column
-	grid3(4)(28) <= grid4(3)(28);
-	grid3(5)(28) <= grid4(4)(28);
-	grid3(6)(28) <= grid4(5)(28);
-	grid3(7)(28) <= grid4(6)(28);
-	grid3(8)(28) <= grid4(7)(28);
-	grid3(9)(28) <= grid4(8)(28);
+	grid3(4)(28) <= grid4(7)(28);
+	grid3(5)(28) <= grid4(8)(28);
 
 	----------------------------- 
 	-- COLUMN 29
@@ -1572,12 +1465,8 @@ begin
 			co => grid3(1)(30) );
 
 	-- move the other elements of the column
-	grid3(4)(29) <= grid4(3)(29);
-	grid3(5)(29) <= grid4(4)(29);
-	grid3(6)(29) <= grid4(5)(29);
-	grid3(7)(29) <= grid4(6)(29);
-	grid3(8)(29) <= grid4(7)(29);
-	grid3(9)(29) <= grid4(8)(29);
+	grid3(4)(29) <= grid4(7)(29);
+	grid3(5)(29) <= grid4(8)(29);
 
 	----------------------------- 
 	-- COLUMN 30
@@ -1602,12 +1491,8 @@ begin
 			co => grid3(1)(31) );
 
 	-- move the other elements of the column
-	grid3(4)(30) <= grid4(3)(30);
-	grid3(5)(30) <= grid4(4)(30);
-	grid3(6)(30) <= grid4(5)(30);
-	grid3(7)(30) <= grid4(6)(30);
-	grid3(8)(30) <= grid4(7)(30);
-	grid3(9)(30) <= grid4(8)(30);
+	grid3(4)(30) <= grid4(7)(30);
+	grid3(5)(30) <= grid4(8)(30);
 
 	----------------------------- 
 	-- COLUMN 31
@@ -1632,12 +1517,8 @@ begin
 			co => grid3(1)(32) );
 
 	-- move the other elements of the column
-	grid3(4)(31) <= grid4(3)(31);
-	grid3(5)(31) <= grid4(4)(31);
-	grid3(6)(31) <= grid4(5)(31);
-	grid3(7)(31) <= grid4(6)(31);
-	grid3(8)(31) <= grid4(7)(31);
-	grid3(9)(31) <= grid4(8)(31);
+	grid3(4)(31) <= grid4(7)(31);
+	grid3(5)(31) <= grid4(8)(31);
 
 	----------------------------- 
 	-- COLUMN 32
@@ -1662,12 +1543,8 @@ begin
 			co => grid3(1)(33) );
 
 	-- move the other elements of the column
-	grid3(4)(32) <= grid4(3)(32);
-	grid3(5)(32) <= grid4(4)(32);
-	grid3(6)(32) <= grid4(5)(32);
-	grid3(7)(32) <= grid4(6)(32);
-	grid3(8)(32) <= grid4(7)(32);
-	grid3(9)(32) <= grid4(8)(32);
+	grid3(4)(32) <= grid4(7)(32);
+	grid3(5)(32) <= grid4(8)(32);
 
 	----------------------------- 
 	-- COLUMN 33
@@ -1691,12 +1568,8 @@ begin
 			co => grid3(1)(34) );
 
 	-- move the other elements of the column
-	grid3(4)(33) <= grid4(2)(33);
-	grid3(5)(33) <= grid4(3)(33);
-	grid3(6)(33) <= grid4(4)(33);
-	grid3(7)(33) <= grid4(5)(33);
-	grid3(8)(33) <= grid4(6)(33);
-	grid3(9)(33) <= grid4(7)(33);
+	grid3(4)(33) <= grid4(6)(33);
+	grid3(5)(33) <= grid4(7)(33);
 
 	----------------------------- 
 	-- COLUMN 34
@@ -1712,13 +1585,9 @@ begin
 			out1 => grid3(0)(35) );
 
 	-- move the other elements of the column
-	grid3(3)(34) <= grid4(0)(34);
-	grid3(4)(34) <= grid4(1)(34);
-	grid3(5)(34) <= grid4(2)(34);
-	grid3(6)(34) <= grid4(3)(34);
-	grid3(7)(34) <= grid4(4)(34);
-	grid3(8)(34) <= grid4(5)(34);
-	grid3(9)(34) <= grid4(6)(34);
+	grid3(3)(34) <= grid4(4)(34);
+	grid3(4)(34) <= grid4(5)(34);
+	grid3(5)(34) <= grid4(6)(34);
 
 	----------------------------- 
 	-- COLUMN 35
@@ -1934,12 +1803,8 @@ begin
 			out1 => grid2(0)(9) );
 
 	-- move the other elements of the column
-	grid2(2)(8) <= grid3(0)(8);
-	grid2(3)(8) <= grid3(1)(8);
-	grid2(4)(8) <= grid3(2)(8);
-	grid2(5)(8) <= grid3(3)(8);
-	grid2(6)(8) <= grid3(4)(8);
-	grid2(7)(8) <= grid3(5)(8);
+	grid2(2)(8) <= grid3(4)(8);
+	grid2(3)(8) <= grid3(5)(8);
 
 	----------------------------- 
 	-- COLUMN 9
@@ -1971,12 +1836,8 @@ begin
 			out1 => grid2(0)(11) );
 
 	-- move the other elements of the column
-	grid2(2)(10) <= grid3(0)(10);
-	grid2(3)(10) <= grid3(1)(10);
-	grid2(4)(10) <= grid3(2)(10);
-	grid2(5)(10) <= grid3(3)(10);
-	grid2(6)(10) <= grid3(4)(10);
-	grid2(7)(10) <= grid3(5)(10);
+	grid2(2)(10) <= grid3(4)(10);
+	grid2(3)(10) <= grid3(5)(10);
 
 	----------------------------- 
 	-- COLUMN 11
@@ -1992,12 +1853,8 @@ begin
 			out1 => grid2(0)(12) );
 
 	-- move the other elements of the column
-	grid2(2)(11) <= grid3(0)(11);
-	grid2(3)(11) <= grid3(1)(11);
-	grid2(4)(11) <= grid3(2)(11);
-	grid2(5)(11) <= grid3(3)(11);
-	grid2(6)(11) <= grid3(4)(11);
-	grid2(7)(11) <= grid3(5)(11);
+	grid2(2)(11) <= grid3(4)(11);
+	grid2(3)(11) <= grid3(5)(11);
 
 	----------------------------- 
 	-- COLUMN 12
@@ -2013,12 +1870,8 @@ begin
 			out1 => grid2(0)(13) );
 
 	-- move the other elements of the column
-	grid2(2)(12) <= grid3(0)(12);
-	grid2(3)(12) <= grid3(1)(12);
-	grid2(4)(12) <= grid3(2)(12);
-	grid2(5)(12) <= grid3(3)(12);
-	grid2(6)(12) <= grid3(4)(12);
-	grid2(7)(12) <= grid3(5)(12);
+	grid2(2)(12) <= grid3(4)(12);
+	grid2(3)(12) <= grid3(5)(12);
 
 	----------------------------- 
 	-- COLUMN 13
@@ -2034,12 +1887,8 @@ begin
 			out1 => grid2(0)(14) );
 
 	-- move the other elements of the column
-	grid2(2)(13) <= grid3(0)(13);
-	grid2(3)(13) <= grid3(1)(13);
-	grid2(4)(13) <= grid3(2)(13);
-	grid2(5)(13) <= grid3(3)(13);
-	grid2(6)(13) <= grid3(4)(13);
-	grid2(7)(13) <= grid3(5)(13);
+	grid2(2)(13) <= grid3(4)(13);
+	grid2(3)(13) <= grid3(5)(13);
 
 	----------------------------- 
 	-- COLUMN 14
@@ -2055,12 +1904,8 @@ begin
 			out1 => grid2(0)(15) );
 
 	-- move the other elements of the column
-	grid2(2)(14) <= grid3(0)(14);
-	grid2(3)(14) <= grid3(1)(14);
-	grid2(4)(14) <= grid3(2)(14);
-	grid2(5)(14) <= grid3(3)(14);
-	grid2(6)(14) <= grid3(4)(14);
-	grid2(7)(14) <= grid3(5)(14);
+	grid2(2)(14) <= grid3(4)(14);
+	grid2(3)(14) <= grid3(5)(14);
 
 	----------------------------- 
 	-- COLUMN 15
@@ -2076,12 +1921,8 @@ begin
 			out1 => grid2(0)(16) );
 
 	-- move the other elements of the column
-	grid2(2)(15) <= grid3(0)(15);
-	grid2(3)(15) <= grid3(1)(15);
-	grid2(4)(15) <= grid3(2)(15);
-	grid2(5)(15) <= grid3(3)(15);
-	grid2(6)(15) <= grid3(4)(15);
-	grid2(7)(15) <= grid3(5)(15);
+	grid2(2)(15) <= grid3(4)(15);
+	grid2(3)(15) <= grid3(5)(15);
 
 	----------------------------- 
 	-- COLUMN 16
@@ -2097,12 +1938,8 @@ begin
 			out1 => grid2(0)(17) );
 
 	-- move the other elements of the column
-	grid2(2)(16) <= grid3(0)(16);
-	grid2(3)(16) <= grid3(1)(16);
-	grid2(4)(16) <= grid3(2)(16);
-	grid2(5)(16) <= grid3(3)(16);
-	grid2(6)(16) <= grid3(4)(16);
-	grid2(7)(16) <= grid3(5)(16);
+	grid2(2)(16) <= grid3(4)(16);
+	grid2(3)(16) <= grid3(5)(16);
 
 	----------------------------- 
 	-- COLUMN 17
@@ -2118,12 +1955,8 @@ begin
 			out1 => grid2(0)(18) );
 
 	-- move the other elements of the column
-	grid2(2)(17) <= grid3(0)(17);
-	grid2(3)(17) <= grid3(1)(17);
-	grid2(4)(17) <= grid3(2)(17);
-	grid2(5)(17) <= grid3(3)(17);
-	grid2(6)(17) <= grid3(4)(17);
-	grid2(7)(17) <= grid3(5)(17);
+	grid2(2)(17) <= grid3(4)(17);
+	grid2(3)(17) <= grid3(5)(17);
 
 	----------------------------- 
 	-- COLUMN 18
@@ -2139,12 +1972,8 @@ begin
 			out1 => grid2(0)(19) );
 
 	-- move the other elements of the column
-	grid2(2)(18) <= grid3(0)(18);
-	grid2(3)(18) <= grid3(1)(18);
-	grid2(4)(18) <= grid3(2)(18);
-	grid2(5)(18) <= grid3(3)(18);
-	grid2(6)(18) <= grid3(4)(18);
-	grid2(7)(18) <= grid3(5)(18);
+	grid2(2)(18) <= grid3(4)(18);
+	grid2(3)(18) <= grid3(5)(18);
 
 	----------------------------- 
 	-- COLUMN 19
@@ -2160,12 +1989,8 @@ begin
 			out1 => grid2(0)(20) );
 
 	-- move the other elements of the column
-	grid2(2)(19) <= grid3(0)(19);
-	grid2(3)(19) <= grid3(1)(19);
-	grid2(4)(19) <= grid3(2)(19);
-	grid2(5)(19) <= grid3(3)(19);
-	grid2(6)(19) <= grid3(4)(19);
-	grid2(7)(19) <= grid3(5)(19);
+	grid2(2)(19) <= grid3(4)(19);
+	grid2(3)(19) <= grid3(5)(19);
 
 	----------------------------- 
 	-- COLUMN 20
@@ -2181,12 +2006,8 @@ begin
 			out1 => grid2(0)(21) );
 
 	-- move the other elements of the column
-	grid2(2)(20) <= grid3(0)(20);
-	grid2(3)(20) <= grid3(1)(20);
-	grid2(4)(20) <= grid3(2)(20);
-	grid2(5)(20) <= grid3(3)(20);
-	grid2(6)(20) <= grid3(4)(20);
-	grid2(7)(20) <= grid3(5)(20);
+	grid2(2)(20) <= grid3(4)(20);
+	grid2(3)(20) <= grid3(5)(20);
 
 	----------------------------- 
 	-- COLUMN 21
@@ -2202,12 +2023,8 @@ begin
 			out1 => grid2(0)(22) );
 
 	-- move the other elements of the column
-	grid2(2)(21) <= grid3(0)(21);
-	grid2(3)(21) <= grid3(1)(21);
-	grid2(4)(21) <= grid3(2)(21);
-	grid2(5)(21) <= grid3(3)(21);
-	grid2(6)(21) <= grid3(4)(21);
-	grid2(7)(21) <= grid3(5)(21);
+	grid2(2)(21) <= grid3(4)(21);
+	grid2(3)(21) <= grid3(5)(21);
 
 	----------------------------- 
 	-- COLUMN 22
@@ -2223,12 +2040,8 @@ begin
 			out1 => grid2(0)(23) );
 
 	-- move the other elements of the column
-	grid2(2)(22) <= grid3(0)(22);
-	grid2(3)(22) <= grid3(1)(22);
-	grid2(4)(22) <= grid3(2)(22);
-	grid2(5)(22) <= grid3(3)(22);
-	grid2(6)(22) <= grid3(4)(22);
-	grid2(7)(22) <= grid3(5)(22);
+	grid2(2)(22) <= grid3(4)(22);
+	grid2(3)(22) <= grid3(5)(22);
 
 	----------------------------- 
 	-- COLUMN 23
@@ -2244,12 +2057,8 @@ begin
 			out1 => grid2(0)(24) );
 
 	-- move the other elements of the column
-	grid2(2)(23) <= grid3(0)(23);
-	grid2(3)(23) <= grid3(1)(23);
-	grid2(4)(23) <= grid3(2)(23);
-	grid2(5)(23) <= grid3(3)(23);
-	grid2(6)(23) <= grid3(4)(23);
-	grid2(7)(23) <= grid3(5)(23);
+	grid2(2)(23) <= grid3(4)(23);
+	grid2(3)(23) <= grid3(5)(23);
 
 	----------------------------- 
 	-- COLUMN 24
@@ -2265,12 +2074,8 @@ begin
 			out1 => grid2(0)(25) );
 
 	-- move the other elements of the column
-	grid2(2)(24) <= grid3(0)(24);
-	grid2(3)(24) <= grid3(1)(24);
-	grid2(4)(24) <= grid3(2)(24);
-	grid2(5)(24) <= grid3(3)(24);
-	grid2(6)(24) <= grid3(4)(24);
-	grid2(7)(24) <= grid3(5)(24);
+	grid2(2)(24) <= grid3(4)(24);
+	grid2(3)(24) <= grid3(5)(24);
 
 	----------------------------- 
 	-- COLUMN 25
@@ -2286,12 +2091,8 @@ begin
 			out1 => grid2(0)(26) );
 
 	-- move the other elements of the column
-	grid2(2)(25) <= grid3(0)(25);
-	grid2(3)(25) <= grid3(1)(25);
-	grid2(4)(25) <= grid3(2)(25);
-	grid2(5)(25) <= grid3(3)(25);
-	grid2(6)(25) <= grid3(4)(25);
-	grid2(7)(25) <= grid3(5)(25);
+	grid2(2)(25) <= grid3(4)(25);
+	grid2(3)(25) <= grid3(5)(25);
 
 	----------------------------- 
 	-- COLUMN 26
@@ -2307,12 +2108,8 @@ begin
 			out1 => grid2(0)(27) );
 
 	-- move the other elements of the column
-	grid2(2)(26) <= grid3(0)(26);
-	grid2(3)(26) <= grid3(1)(26);
-	grid2(4)(26) <= grid3(2)(26);
-	grid2(5)(26) <= grid3(3)(26);
-	grid2(6)(26) <= grid3(4)(26);
-	grid2(7)(26) <= grid3(5)(26);
+	grid2(2)(26) <= grid3(4)(26);
+	grid2(3)(26) <= grid3(5)(26);
 
 	----------------------------- 
 	-- COLUMN 27
@@ -2328,12 +2125,8 @@ begin
 			out1 => grid2(0)(28) );
 
 	-- move the other elements of the column
-	grid2(2)(27) <= grid3(0)(27);
-	grid2(3)(27) <= grid3(1)(27);
-	grid2(4)(27) <= grid3(2)(27);
-	grid2(5)(27) <= grid3(3)(27);
-	grid2(6)(27) <= grid3(4)(27);
-	grid2(7)(27) <= grid3(5)(27);
+	grid2(2)(27) <= grid3(4)(27);
+	grid2(3)(27) <= grid3(5)(27);
 
 	----------------------------- 
 	-- COLUMN 28
@@ -2349,12 +2142,8 @@ begin
 			out1 => grid2(0)(29) );
 
 	-- move the other elements of the column
-	grid2(2)(28) <= grid3(0)(28);
-	grid2(3)(28) <= grid3(1)(28);
-	grid2(4)(28) <= grid3(2)(28);
-	grid2(5)(28) <= grid3(3)(28);
-	grid2(6)(28) <= grid3(4)(28);
-	grid2(7)(28) <= grid3(5)(28);
+	grid2(2)(28) <= grid3(4)(28);
+	grid2(3)(28) <= grid3(5)(28);
 
 	----------------------------- 
 	-- COLUMN 29
@@ -2370,12 +2159,8 @@ begin
 			out1 => grid2(0)(30) );
 
 	-- move the other elements of the column
-	grid2(2)(29) <= grid3(0)(29);
-	grid2(3)(29) <= grid3(1)(29);
-	grid2(4)(29) <= grid3(2)(29);
-	grid2(5)(29) <= grid3(3)(29);
-	grid2(6)(29) <= grid3(4)(29);
-	grid2(7)(29) <= grid3(5)(29);
+	grid2(2)(29) <= grid3(4)(29);
+	grid2(3)(29) <= grid3(5)(29);
 
 	----------------------------- 
 	-- COLUMN 30
@@ -2391,12 +2176,8 @@ begin
 			out1 => grid2(0)(31) );
 
 	-- move the other elements of the column
-	grid2(2)(30) <= grid3(0)(30);
-	grid2(3)(30) <= grid3(1)(30);
-	grid2(4)(30) <= grid3(2)(30);
-	grid2(5)(30) <= grid3(3)(30);
-	grid2(6)(30) <= grid3(4)(30);
-	grid2(7)(30) <= grid3(5)(30);
+	grid2(2)(30) <= grid3(4)(30);
+	grid2(3)(30) <= grid3(5)(30);
 
 	----------------------------- 
 	-- COLUMN 31
@@ -2412,12 +2193,8 @@ begin
 			out1 => grid2(0)(32) );
 
 	-- move the other elements of the column
-	grid2(2)(31) <= grid3(0)(31);
-	grid2(3)(31) <= grid3(1)(31);
-	grid2(4)(31) <= grid3(2)(31);
-	grid2(5)(31) <= grid3(3)(31);
-	grid2(6)(31) <= grid3(4)(31);
-	grid2(7)(31) <= grid3(5)(31);
+	grid2(2)(31) <= grid3(4)(31);
+	grid2(3)(31) <= grid3(5)(31);
 
 	----------------------------- 
 	-- COLUMN 32
@@ -2433,12 +2210,8 @@ begin
 			out1 => grid2(0)(33) );
 
 	-- move the other elements of the column
-	grid2(2)(32) <= grid3(0)(32);
-	grid2(3)(32) <= grid3(1)(32);
-	grid2(4)(32) <= grid3(2)(32);
-	grid2(5)(32) <= grid3(3)(32);
-	grid2(6)(32) <= grid3(4)(32);
-	grid2(7)(32) <= grid3(5)(32);
+	grid2(2)(32) <= grid3(4)(32);
+	grid2(3)(32) <= grid3(5)(32);
 
 	----------------------------- 
 	-- COLUMN 33
@@ -2454,12 +2227,8 @@ begin
 			out1 => grid2(0)(34) );
 
 	-- move the other elements of the column
-	grid2(2)(33) <= grid3(0)(33);
-	grid2(3)(33) <= grid3(1)(33);
-	grid2(4)(33) <= grid3(2)(33);
-	grid2(5)(33) <= grid3(3)(33);
-	grid2(6)(33) <= grid3(4)(33);
-	grid2(7)(33) <= grid3(5)(33);
+	grid2(2)(33) <= grid3(4)(33);
+	grid2(3)(33) <= grid3(5)(33);
 
 	----------------------------- 
 	-- COLUMN 34
@@ -2475,12 +2244,8 @@ begin
 			out1 => grid2(0)(35) );
 
 	-- move the other elements of the column
-	grid2(2)(34) <= grid3(0)(34);
-	grid2(3)(34) <= grid3(1)(34);
-	grid2(4)(34) <= grid3(2)(34);
-	grid2(5)(34) <= grid3(3)(34);
-	grid2(6)(34) <= grid3(4)(34);
-	grid2(7)(34) <= grid3(5)(34);
+	grid2(2)(34) <= grid3(4)(34);
+	grid2(3)(34) <= grid3(5)(34);
 
 	----------------------------- 
 	-- COLUMN 35
@@ -2496,12 +2261,8 @@ begin
 			out1 => grid2(0)(36) );
 
 	-- move the other elements of the column
-	grid2(2)(35) <= grid3(0)(35);
-	grid2(3)(35) <= grid3(1)(35);
-	grid2(4)(35) <= grid3(2)(35);
-	grid2(5)(35) <= grid3(3)(35);
-	grid2(6)(35) <= grid3(4)(35);
-	grid2(7)(35) <= grid3(5)(35);
+	grid2(2)(35) <= grid3(4)(35);
+	grid2(3)(35) <= grid3(5)(35);
 
 	----------------------------- 
 	-- COLUMN 36
@@ -2517,12 +2278,8 @@ begin
 			out1 => grid2(0)(37) );
 
 	-- move the other elements of the column
-	grid2(2)(36) <= grid3(0)(36);
-	grid2(3)(36) <= grid3(1)(36);
-	grid2(4)(36) <= grid3(2)(36);
-	grid2(5)(36) <= grid3(3)(36);
-	grid2(6)(36) <= grid3(4)(36);
-	grid2(7)(36) <= grid3(5)(36);
+	grid2(2)(36) <= grid3(4)(36);
+	grid2(3)(36) <= grid3(5)(36);
 
 	----------------------------- 
 	-- COLUMN 37
@@ -2538,12 +2295,8 @@ begin
 			out1 => grid2(0)(38) );
 
 	-- move the other elements of the column
-	grid2(2)(37) <= grid3(0)(37);
-	grid2(3)(37) <= grid3(1)(37);
-	grid2(4)(37) <= grid3(2)(37);
-	grid2(5)(37) <= grid3(3)(37);
-	grid2(6)(37) <= grid3(4)(37);
-	grid2(7)(37) <= grid3(5)(37);
+	grid2(2)(37) <= grid3(4)(37);
+	grid2(3)(37) <= grid3(5)(37);
 
 	----------------------------- 
 	-- COLUMN 38
@@ -2559,12 +2312,8 @@ begin
 			out1 => grid2(0)(39) );
 
 	-- move the other elements of the column
-	grid2(2)(38) <= grid3(0)(38);
-	grid2(3)(38) <= grid3(1)(38);
-	grid2(4)(38) <= grid3(2)(38);
-	grid2(5)(38) <= grid3(3)(38);
-	grid2(6)(38) <= grid3(4)(38);
-	grid2(7)(38) <= grid3(5)(38);
+	grid2(2)(38) <= grid3(4)(38);
+	grid2(3)(38) <= grid3(5)(38);
 
 	----------------------------- 
 	-- COLUMN 39

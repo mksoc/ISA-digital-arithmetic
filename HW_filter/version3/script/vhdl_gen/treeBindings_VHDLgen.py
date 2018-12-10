@@ -148,7 +148,7 @@ def vhdlDaddaLevel(fileName, fileMode, srcMtx, dstMtx, srcMtxRows, dstMtxRows, m
 		# move the other elements of the column
 		fileObj.write("-- move the other elements of the column\n")
 		offset = nextCin + actualCin
-		for i in range(3*nFA+2*nHA, numElmArr[actualColumn]):
+		for i in range(4*nCompressor+3*nFA+2*nHA, numElmArr[actualColumn]):
 			line = dstMtx + "(" + str(offset) + ")(" + str(actualColumn) + ") <= " + srcMtx + "(" + str(i) + ")(" + str(actualColumn) + ");" 
 			fileObj.write(line)
 			fileObj.write("\n")
