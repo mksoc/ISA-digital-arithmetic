@@ -1,7 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-package multV1_pkg is
+package multV3_pkg is
 
 -- constants
 constant numPartProd: positive := 12;
@@ -25,6 +25,18 @@ type aidGrid1 is array(daddaLev1-1 downto 0) of std_logic_vector((WL_INT+2*WL_FR
 type aidGrid0 is array(daddaLev0-1 downto 0) of std_logic_vector((WL_INT+2*WL_FRAC)-1 downto 0);
 
 -- components
+
+component approx_comp_4to2 is
+    port (
+        i0, 
+        i1, 
+        i2, 
+        i3: in std_logic;
+
+        out0, 
+        out1: out std_logic ) ;
+end component;
+
 component r4mbePP_preprocessing is
 	generic (
 		n_bit: positive := WL );
@@ -65,4 +77,4 @@ component fullAdder is
 		co: out std_logic );
 end component;
 
-end package multV1_pkg;
+end package multV3_pkg;

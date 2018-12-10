@@ -6,16 +6,15 @@ use ieee.std_logic_1164.all;
 
 entity approx_comp_4to2 is
     port (
-        input: in std_logic_vector(3 downto 0);
-        output: out std_logic_vector(1 downto 0)
-    ) ;
+        i0, i1, i2, i3: in std_logic;
+        out0, out1: out std_logic ) ;
 end approx_comp_4to2;
 
 architecture structure of approx_comp_4to2 is
 begin
     -- 'sum' bit
-    output(0) <= not(input(3) xor input(2));
+    out0 <= not(i3 xor i2);
 
     -- 'carry' bit
-    output(1) <= not(not(input(0) or input(1)) or not(input(2) or input(3)));
+    out1 <= not(not(i0 or i1) or not(i2 or i3));
 end structure ; -- structure

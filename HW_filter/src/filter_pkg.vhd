@@ -28,6 +28,22 @@ package filter_pkg is
 			  Q: out std_logic_vector(N-1 downto 0));
 	end component;
 
+	component mbeDadda_mult is
+	port ( 
+		x,											-- multiplicand
+		y: in std_logic_vector(WL-1 downto 0);		-- multiplier
+
+		p: out std_logic_vector(WL-1 downto 0) );	-- product
+	end component;
+
+	component mbeDadda_4to2Cmprs_mult is
+	port ( 
+		x,											-- multiplicand
+		y: in std_logic_vector(WL-1 downto 0);		-- multiplier
+
+		p: out std_logic_vector(WL-1 downto 0) );	-- product
+	end component;
+
 	-- functions declarations
 	-- multiplyAndRound() takes a coefficient expressed in Q(WL_INT).(WL_FRAC)
 	-- and a sample (actually internal data) on a variable numbers of bits (in case 

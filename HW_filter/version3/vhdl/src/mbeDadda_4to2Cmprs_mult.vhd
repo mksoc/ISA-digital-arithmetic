@@ -1,11 +1,12 @@
 library ieee;
-library work;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use work.multV1_pkg.all;
+
+library work;
+use work.multV3_pkg.all;
 
 -- fast multiplier with radix-4 modified Booth encoding, with Roorda's trick, CSA+fast adder Dadda tree
-entity mbeDadda_mult is
+entity mbeDadda_4to2Cmprs_mult is
 	port ( 
 		x,											-- multiplicand
 		y: in std_logic_vector(WL-1 downto 0);		-- multiplier
@@ -13,7 +14,47 @@ entity mbeDadda_mult is
 		p: out std_logic_vector(WL-1 downto 0) );	-- product
 end entity;
 
-architecture structure of mbeDadda_mult is
+architecture structure of mbeDadda_4to2Cmprs_mult is
+
+	component r4mbePP_preprocessing is
+		generic (
+			n_bit: positive := WL );
+		port (
+			x: in std_logic_vector(n_bit-1 downto 0);		-- multiplicand
+			y_tri: in std_logic_vector(2 downto 0);			-- a triplet of the multiplier
+
+			neg: out std_logic;								-- negation bit: '1' if Y is negative (Y=-1 or Y=-2)
+			x_absY: out std_logic_vector(n_bit downto 0) );	-- partial product without informations about its sign
+	end component;
+
+	component bitwiseInv is
+		generic (
+			n_bit: positive := WL+1 );
+		port (
+			invEnable: in std_logic;
+			dataIn: in std_logic_vector(n_bit-1 downto 0);
+
+			dataOut: out std_logic_vector(n_bit-1 downto 0) );
+	end component;
+
+	component halfAdder is
+		port (
+			i0,
+			i1: in std_logic;
+
+			s,
+			co: out std_logic );
+	end component;
+
+	component fullAdder is
+		port (
+			i0,
+			i1,
+			ci: in std_logic;
+
+			s,
+			co: out std_logic );
+	end component;
 
 	-- aidGrid5: matrix to have each column ready to be used
 	-- numPartProd+1 rows and (WL_INT+2*WL_FRAC) columns (with fixed parallelism for integer part WL_INT there's
@@ -358,24 +399,18 @@ begin
 	----------------------------- 
 	-- COLUMN 18
 	----------------------------- 
-	-- full adder c18, number 0
-	lv4_c18_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c18, number 0
+	lv4_c18_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid5(0)(18),
 			i1 => grid5(1)(18),
-			ci => grid5(2)(18),
-			s => grid4(1)(18),
-			co => grid4(0)(19) );
-
-	-- half adder c18, number 0
-	lv4_c18_HA_0: halfAdder
-		port map (
-			i0 => grid5(3)(18),
-			i1 => grid5(4)(18),
-			s => grid4(2)(18),
-			co => grid4(1)(19) );
+			i2 => grid5(2)(18),
+			i3 => grid5(3)(18),
+			out0 => grid4(1)(18),
+			out1 => grid4(0)(19) );
 
 	-- move the other elements of the column
+	grid4(2)(18) <= grid5(4)(18);
 	grid4(3)(18) <= grid5(5)(18);
 	grid4(4)(18) <= grid5(6)(18);
 	grid4(5)(18) <= grid5(7)(18);
@@ -392,18 +427,12 @@ begin
 			i0 => grid5(0)(19),
 			i1 => grid5(1)(19),
 			ci => grid5(2)(19),
-			s => grid4(2)(19),
+			s => grid4(1)(19),
 			co => grid4(0)(20) );
 
-	-- half adder c19, number 0
-	lv4_c19_HA_0: halfAdder
-		port map (
-			i0 => grid5(3)(19),
-			i1 => grid5(4)(19),
-			s => grid4(3)(19),
-			co => grid4(1)(20) );
-
 	-- move the other elements of the column
+	grid4(2)(19) <= grid5(3)(19);
+	grid4(3)(19) <= grid5(4)(19);
 	grid4(4)(19) <= grid5(5)(19);
 	grid4(5)(19) <= grid5(6)(19);
 	grid4(6)(19) <= grid5(7)(19);
@@ -413,33 +442,27 @@ begin
 	----------------------------- 
 	-- COLUMN 20
 	----------------------------- 
-	-- full adder c20, number 0
-	lv4_c20_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c20, number 0
+	lv4_c20_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid5(0)(20),
 			i1 => grid5(1)(20),
-			ci => grid5(2)(20),
-			s => grid4(2)(20),
-			co => grid4(0)(21) );
-
-	-- full adder c20, number 1
-	lv4_c20_FA_1: fullAdder
-		port map (
-			i0 => grid5(3)(20),
-			i1 => grid5(4)(20),
-			ci => grid5(5)(20),
-			s => grid4(3)(20),
-			co => grid4(1)(21) );
+			i2 => grid5(2)(20),
+			i3 => grid5(3)(20),
+			out0 => grid4(1)(20),
+			out1 => grid4(0)(21) );
 
 	-- half adder c20, number 0
 	lv4_c20_HA_0: halfAdder
 		port map (
-			i0 => grid5(6)(20),
-			i1 => grid5(7)(20),
-			s => grid4(4)(20),
-			co => grid4(2)(21) );
+			i0 => grid5(0)(20),
+			i1 => grid5(1)(20),
+			s => grid4(2)(20),
+			co => grid4(1)(21) );
 
 	-- move the other elements of the column
+	grid4(3)(20) <= grid5(6)(20);
+	grid4(4)(20) <= grid5(7)(20);
 	grid4(5)(20) <= grid5(8)(20);
 	grid4(6)(20) <= grid5(9)(20);
 	grid4(7)(20) <= grid5(10)(20);
@@ -448,33 +471,27 @@ begin
 	----------------------------- 
 	-- COLUMN 21
 	----------------------------- 
-	-- full adder c21, number 0
-	lv4_c21_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c21, number 0
+	lv4_c21_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid5(0)(21),
 			i1 => grid5(1)(21),
-			ci => grid5(2)(21),
-			s => grid4(3)(21),
-			co => grid4(0)(22) );
-
-	-- full adder c21, number 1
-	lv4_c21_FA_1: fullAdder
-		port map (
-			i0 => grid5(3)(21),
-			i1 => grid5(4)(21),
-			ci => grid5(5)(21),
-			s => grid4(4)(21),
-			co => grid4(1)(22) );
+			i2 => grid5(2)(21),
+			i3 => grid5(3)(21),
+			out0 => grid4(2)(21),
+			out1 => grid4(0)(22) );
 
 	-- half adder c21, number 0
 	lv4_c21_HA_0: halfAdder
 		port map (
-			i0 => grid5(6)(21),
-			i1 => grid5(7)(21),
-			s => grid4(5)(21),
-			co => grid4(2)(22) );
+			i0 => grid5(0)(21),
+			i1 => grid5(1)(21),
+			s => grid4(3)(21),
+			co => grid4(1)(22) );
 
 	-- move the other elements of the column
+	grid4(4)(21) <= grid5(6)(21);
+	grid4(5)(21) <= grid5(7)(21);
 	grid4(6)(21) <= grid5(8)(21);
 	grid4(7)(21) <= grid5(9)(21);
 	grid4(8)(21) <= grid5(10)(21);
@@ -482,265 +499,193 @@ begin
 	----------------------------- 
 	-- COLUMN 22
 	----------------------------- 
-	-- full adder c22, number 0
-	lv4_c22_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c22, number 0
+	lv4_c22_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid5(0)(22),
 			i1 => grid5(1)(22),
-			ci => grid5(2)(22),
-			s => grid4(3)(22),
-			co => grid4(0)(23) );
+			i2 => grid5(2)(22),
+			i3 => grid5(3)(22),
+			out0 => grid4(2)(22),
+			out1 => grid4(0)(23) );
 
-	-- full adder c22, number 1
-	lv4_c22_FA_1: fullAdder
+	-- 4 to 2 lossy compressor c22, number 1
+	lv4_c22_CMPRS_1: approx_comp_4to2
 		port map (
-			i0 => grid5(3)(22),
-			i1 => grid5(4)(22),
-			ci => grid5(5)(22),
-			s => grid4(4)(22),
-			co => grid4(1)(23) );
-
-	-- full adder c22, number 2
-	lv4_c22_FA_2: fullAdder
-		port map (
-			i0 => grid5(6)(22),
-			i1 => grid5(7)(22),
-			ci => grid5(8)(22),
-			s => grid4(5)(22),
-			co => grid4(2)(23) );
-
-	-- half adder c22, number 0
-	lv4_c22_HA_0: halfAdder
-		port map (
-			i0 => grid5(9)(22),
-			i1 => grid5(10)(22),
-			s => grid4(6)(22),
-			co => grid4(3)(23) );
+			i0 => grid5(4)(22),
+			i1 => grid5(5)(22),
+			i2 => grid5(6)(22),
+			i3 => grid5(7)(22),
+			out0 => grid4(3)(22),
+			out1 => grid4(1)(23) );
 
 	-- move the other elements of the column
+	grid4(4)(22) <= grid5(8)(22);
+	grid4(5)(22) <= grid5(9)(22);
+	grid4(6)(22) <= grid5(10)(22);
 	grid4(7)(22) <= grid5(11)(22);
 	grid4(8)(22) <= grid5(12)(22);
 
 	----------------------------- 
 	-- COLUMN 23
 	----------------------------- 
+	-- 4 to 2 lossy compressor c23, number 0
+	lv4_c23_CMPRS_0: approx_comp_4to2
+		port map (
+			i0 => grid5(0)(23),
+			i1 => grid5(1)(23),
+			i2 => grid5(2)(23),
+			i3 => grid5(3)(23),
+			out0 => grid4(2)(23),
+			out1 => grid4(0)(24) );
+
 	-- full adder c23, number 0
 	lv4_c23_FA_0: fullAdder
 		port map (
 			i0 => grid5(0)(23),
 			i1 => grid5(1)(23),
 			ci => grid5(2)(23),
-			s => grid4(4)(23),
-			co => grid4(0)(24) );
-
-	-- full adder c23, number 1
-	lv4_c23_FA_1: fullAdder
-		port map (
-			i0 => grid5(3)(23),
-			i1 => grid5(4)(23),
-			ci => grid5(5)(23),
-			s => grid4(5)(23),
+			s => grid4(3)(23),
 			co => grid4(1)(24) );
 
-	-- full adder c23, number 2
-	lv4_c23_FA_2: fullAdder
-		port map (
-			i0 => grid5(6)(23),
-			i1 => grid5(7)(23),
-			ci => grid5(8)(23),
-			s => grid4(6)(23),
-			co => grid4(2)(24) );
-
-	-- half adder c23, number 0
-	lv4_c23_HA_0: halfAdder
-		port map (
-			i0 => grid5(9)(23),
-			i1 => grid5(10)(23),
-			s => grid4(7)(23),
-			co => grid4(3)(24) );
-
 	-- move the other elements of the column
+	grid4(4)(23) <= grid5(7)(23);
+	grid4(5)(23) <= grid5(8)(23);
+	grid4(6)(23) <= grid5(9)(23);
+	grid4(7)(23) <= grid5(10)(23);
 	grid4(8)(23) <= grid5(11)(23);
 
 	----------------------------- 
 	-- COLUMN 24
 	----------------------------- 
+	-- 4 to 2 lossy compressor c24, number 0
+	lv4_c24_CMPRS_0: approx_comp_4to2
+		port map (
+			i0 => grid5(0)(24),
+			i1 => grid5(1)(24),
+			i2 => grid5(2)(24),
+			i3 => grid5(3)(24),
+			out0 => grid4(2)(24),
+			out1 => grid4(0)(25) );
+
 	-- full adder c24, number 0
 	lv4_c24_FA_0: fullAdder
 		port map (
 			i0 => grid5(0)(24),
 			i1 => grid5(1)(24),
 			ci => grid5(2)(24),
-			s => grid4(4)(24),
-			co => grid4(0)(25) );
-
-	-- full adder c24, number 1
-	lv4_c24_FA_1: fullAdder
-		port map (
-			i0 => grid5(3)(24),
-			i1 => grid5(4)(24),
-			ci => grid5(5)(24),
-			s => grid4(5)(24),
+			s => grid4(3)(24),
 			co => grid4(1)(25) );
 
-	-- full adder c24, number 2
-	lv4_c24_FA_2: fullAdder
-		port map (
-			i0 => grid5(6)(24),
-			i1 => grid5(7)(24),
-			ci => grid5(8)(24),
-			s => grid4(6)(24),
-			co => grid4(2)(25) );
-
-	-- half adder c24, number 0
-	lv4_c24_HA_0: halfAdder
-		port map (
-			i0 => grid5(9)(24),
-			i1 => grid5(10)(24),
-			s => grid4(7)(24),
-			co => grid4(3)(25) );
-
 	-- move the other elements of the column
+	grid4(4)(24) <= grid5(7)(24);
+	grid4(5)(24) <= grid5(8)(24);
+	grid4(6)(24) <= grid5(9)(24);
+	grid4(7)(24) <= grid5(10)(24);
 	grid4(8)(24) <= grid5(11)(24);
 
 	----------------------------- 
 	-- COLUMN 25
 	----------------------------- 
+	-- 4 to 2 lossy compressor c25, number 0
+	lv4_c25_CMPRS_0: approx_comp_4to2
+		port map (
+			i0 => grid5(0)(25),
+			i1 => grid5(1)(25),
+			i2 => grid5(2)(25),
+			i3 => grid5(3)(25),
+			out0 => grid4(2)(25),
+			out1 => grid4(0)(26) );
+
 	-- full adder c25, number 0
 	lv4_c25_FA_0: fullAdder
 		port map (
 			i0 => grid5(0)(25),
 			i1 => grid5(1)(25),
 			ci => grid5(2)(25),
-			s => grid4(4)(25),
-			co => grid4(0)(26) );
-
-	-- full adder c25, number 1
-	lv4_c25_FA_1: fullAdder
-		port map (
-			i0 => grid5(3)(25),
-			i1 => grid5(4)(25),
-			ci => grid5(5)(25),
-			s => grid4(5)(25),
+			s => grid4(3)(25),
 			co => grid4(1)(26) );
 
-	-- full adder c25, number 2
-	lv4_c25_FA_2: fullAdder
-		port map (
-			i0 => grid5(6)(25),
-			i1 => grid5(7)(25),
-			ci => grid5(8)(25),
-			s => grid4(6)(25),
-			co => grid4(2)(26) );
-
-	-- half adder c25, number 0
-	lv4_c25_HA_0: halfAdder
-		port map (
-			i0 => grid5(9)(25),
-			i1 => grid5(10)(25),
-			s => grid4(7)(25),
-			co => grid4(3)(26) );
-
 	-- move the other elements of the column
+	grid4(4)(25) <= grid5(7)(25);
+	grid4(5)(25) <= grid5(8)(25);
+	grid4(6)(25) <= grid5(9)(25);
+	grid4(7)(25) <= grid5(10)(25);
 	grid4(8)(25) <= grid5(11)(25);
 
 	----------------------------- 
 	-- COLUMN 26
 	----------------------------- 
+	-- 4 to 2 lossy compressor c26, number 0
+	lv4_c26_CMPRS_0: approx_comp_4to2
+		port map (
+			i0 => grid5(0)(26),
+			i1 => grid5(1)(26),
+			i2 => grid5(2)(26),
+			i3 => grid5(3)(26),
+			out0 => grid4(2)(26),
+			out1 => grid4(0)(27) );
+
 	-- full adder c26, number 0
 	lv4_c26_FA_0: fullAdder
 		port map (
 			i0 => grid5(0)(26),
 			i1 => grid5(1)(26),
 			ci => grid5(2)(26),
-			s => grid4(4)(26),
-			co => grid4(0)(27) );
-
-	-- full adder c26, number 1
-	lv4_c26_FA_1: fullAdder
-		port map (
-			i0 => grid5(3)(26),
-			i1 => grid5(4)(26),
-			ci => grid5(5)(26),
-			s => grid4(5)(26),
+			s => grid4(3)(26),
 			co => grid4(1)(27) );
 
-	-- full adder c26, number 2
-	lv4_c26_FA_2: fullAdder
-		port map (
-			i0 => grid5(6)(26),
-			i1 => grid5(7)(26),
-			ci => grid5(8)(26),
-			s => grid4(6)(26),
-			co => grid4(2)(27) );
-
-	-- half adder c26, number 0
-	lv4_c26_HA_0: halfAdder
-		port map (
-			i0 => grid5(9)(26),
-			i1 => grid5(10)(26),
-			s => grid4(7)(26),
-			co => grid4(3)(27) );
-
 	-- move the other elements of the column
+	grid4(4)(26) <= grid5(7)(26);
+	grid4(5)(26) <= grid5(8)(26);
+	grid4(6)(26) <= grid5(9)(26);
+	grid4(7)(26) <= grid5(10)(26);
 	grid4(8)(26) <= grid5(11)(26);
 
 	----------------------------- 
 	-- COLUMN 27
 	----------------------------- 
-	-- full adder c27, number 0
-	lv4_c27_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c27, number 0
+	lv4_c27_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid5(0)(27),
 			i1 => grid5(1)(27),
-			ci => grid5(2)(27),
-			s => grid4(4)(27),
-			co => grid4(0)(28) );
+			i2 => grid5(2)(27),
+			i3 => grid5(3)(27),
+			out0 => grid4(2)(27),
+			out1 => grid4(0)(28) );
 
-	-- full adder c27, number 1
-	lv4_c27_FA_1: fullAdder
+	-- half adder c27, number 0
+	lv4_c27_HA_0: halfAdder
 		port map (
-			i0 => grid5(3)(27),
-			i1 => grid5(4)(27),
-			ci => grid5(5)(27),
-			s => grid4(5)(27),
+			i0 => grid5(0)(27),
+			i1 => grid5(1)(27),
+			s => grid4(3)(27),
 			co => grid4(1)(28) );
 
-	-- full adder c27, number 2
-	lv4_c27_FA_2: fullAdder
-		port map (
-			i0 => grid5(6)(27),
-			i1 => grid5(7)(27),
-			ci => grid5(8)(27),
-			s => grid4(6)(27),
-			co => grid4(2)(28) );
-
 	-- move the other elements of the column
+	grid4(4)(27) <= grid5(6)(27);
+	grid4(5)(27) <= grid5(7)(27);
+	grid4(6)(27) <= grid5(8)(27);
 	grid4(7)(27) <= grid5(9)(27);
 	grid4(8)(27) <= grid5(10)(27);
 
 	----------------------------- 
 	-- COLUMN 28
 	----------------------------- 
-	-- full adder c28, number 0
-	lv4_c28_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c28, number 0
+	lv4_c28_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid5(0)(28),
 			i1 => grid5(1)(28),
-			ci => grid5(2)(28),
-			s => grid4(3)(28),
-			co => grid4(0)(29) );
-
-	-- full adder c28, number 1
-	lv4_c28_FA_1: fullAdder
-		port map (
-			i0 => grid5(3)(28),
-			i1 => grid5(4)(28),
-			ci => grid5(5)(28),
-			s => grid4(4)(28),
-			co => grid4(1)(29) );
+			i2 => grid5(2)(28),
+			i3 => grid5(3)(28),
+			out0 => grid4(2)(28),
+			out1 => grid4(0)(29) );
 
 	-- move the other elements of the column
+	grid4(3)(28) <= grid5(4)(28);
+	grid4(4)(28) <= grid5(5)(28);
 	grid4(5)(28) <= grid5(6)(28);
 	grid4(6)(28) <= grid5(7)(28);
 	grid4(7)(28) <= grid5(8)(28);
@@ -755,18 +700,12 @@ begin
 			i0 => grid5(0)(29),
 			i1 => grid5(1)(29),
 			ci => grid5(2)(29),
-			s => grid4(2)(29),
+			s => grid4(1)(29),
 			co => grid4(0)(30) );
 
-	-- half adder c29, number 0
-	lv4_c29_HA_0: halfAdder
-		port map (
-			i0 => grid5(3)(29),
-			i1 => grid5(4)(29),
-			s => grid4(3)(29),
-			co => grid4(1)(30) );
-
 	-- move the other elements of the column
+	grid4(2)(29) <= grid5(3)(29);
+	grid4(3)(29) <= grid5(4)(29);
 	grid4(4)(29) <= grid5(5)(29);
 	grid4(5)(29) <= grid5(6)(29);
 	grid4(6)(29) <= grid5(7)(29);
@@ -776,16 +715,16 @@ begin
 	----------------------------- 
 	-- COLUMN 30
 	----------------------------- 
-	-- full adder c30, number 0
-	lv4_c30_FA_0: fullAdder
+	-- half adder c30, number 0
+	lv4_c30_HA_0: halfAdder
 		port map (
 			i0 => grid5(0)(30),
 			i1 => grid5(1)(30),
-			ci => grid5(2)(30),
-			s => grid4(2)(30),
+			s => grid4(1)(30),
 			co => grid4(0)(31) );
 
 	-- move the other elements of the column
+	grid4(2)(30) <= grid5(2)(30);
 	grid4(3)(30) <= grid5(3)(30);
 	grid4(4)(30) <= grid5(4)(30);
 	grid4(5)(30) <= grid5(5)(30);
@@ -1080,24 +1019,18 @@ begin
 	----------------------------- 
 	-- COLUMN 12
 	----------------------------- 
-	-- full adder c12, number 0
-	lv3_c12_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c12, number 0
+	lv3_c12_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid4(0)(12),
 			i1 => grid4(1)(12),
-			ci => grid4(2)(12),
-			s => grid3(1)(12),
-			co => grid3(0)(13) );
-
-	-- half adder c12, number 0
-	lv3_c12_HA_0: halfAdder
-		port map (
-			i0 => grid4(3)(12),
-			i1 => grid4(4)(12),
-			s => grid3(2)(12),
-			co => grid3(1)(13) );
+			i2 => grid4(2)(12),
+			i3 => grid4(3)(12),
+			out0 => grid3(1)(12),
+			out1 => grid3(0)(13) );
 
 	-- move the other elements of the column
+	grid3(2)(12) <= grid4(4)(12);
 	grid3(3)(12) <= grid4(5)(12);
 	grid3(4)(12) <= grid4(6)(12);
 	grid3(5)(12) <= grid4(7)(12);
@@ -1111,87 +1044,79 @@ begin
 			i0 => grid4(0)(13),
 			i1 => grid4(1)(13),
 			ci => grid4(2)(13),
-			s => grid3(2)(13),
+			s => grid3(1)(13),
 			co => grid3(0)(14) );
 
-	-- half adder c13, number 0
-	lv3_c13_HA_0: halfAdder
-		port map (
-			i0 => grid4(3)(13),
-			i1 => grid4(4)(13),
-			s => grid3(3)(13),
-			co => grid3(1)(14) );
-
 	-- move the other elements of the column
+	grid3(2)(13) <= grid4(3)(13);
+	grid3(3)(13) <= grid4(4)(13);
 	grid3(4)(13) <= grid4(5)(13);
 	grid3(5)(13) <= grid4(6)(13);
 
 	----------------------------- 
 	-- COLUMN 14
 	----------------------------- 
-	-- full adder c14, number 0
-	lv3_c14_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c14, number 0
+	lv3_c14_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid4(0)(14),
 			i1 => grid4(1)(14),
-			ci => grid4(2)(14),
-			s => grid3(2)(14),
-			co => grid3(0)(15) );
-
-	-- full adder c14, number 1
-	lv3_c14_FA_1: fullAdder
-		port map (
-			i0 => grid4(3)(14),
-			i1 => grid4(4)(14),
-			ci => grid4(5)(14),
-			s => grid3(3)(14),
-			co => grid3(1)(15) );
+			i2 => grid4(2)(14),
+			i3 => grid4(3)(14),
+			out0 => grid3(1)(14),
+			out1 => grid3(0)(15) );
 
 	-- half adder c14, number 0
 	lv3_c14_HA_0: halfAdder
 		port map (
-			i0 => grid4(6)(14),
-			i1 => grid4(7)(14),
-			s => grid3(4)(14),
-			co => grid3(2)(15) );
+			i0 => grid4(0)(14),
+			i1 => grid4(1)(14),
+			s => grid3(2)(14),
+			co => grid3(1)(15) );
 
 	-- move the other elements of the column
+	grid3(3)(14) <= grid4(6)(14);
+	grid3(4)(14) <= grid4(7)(14);
 	grid3(5)(14) <= grid4(8)(14);
 
 	----------------------------- 
 	-- COLUMN 15
 	----------------------------- 
-	-- full adder c15, number 0
-	lv3_c15_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c15, number 0
+	lv3_c15_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid4(0)(15),
 			i1 => grid4(1)(15),
-			ci => grid4(2)(15),
-			s => grid3(3)(15),
-			co => grid3(0)(16) );
-
-	-- full adder c15, number 1
-	lv3_c15_FA_1: fullAdder
-		port map (
-			i0 => grid4(3)(15),
-			i1 => grid4(4)(15),
-			ci => grid4(5)(15),
-			s => grid3(4)(15),
-			co => grid3(1)(16) );
+			i2 => grid4(2)(15),
+			i3 => grid4(3)(15),
+			out0 => grid3(2)(15),
+			out1 => grid3(0)(16) );
 
 	-- half adder c15, number 0
 	lv3_c15_HA_0: halfAdder
 		port map (
-			i0 => grid4(6)(15),
-			i1 => grid4(7)(15),
-			s => grid3(5)(15),
-			co => grid3(2)(16) );
+			i0 => grid4(0)(15),
+			i1 => grid4(1)(15),
+			s => grid3(3)(15),
+			co => grid3(1)(16) );
 
 	-- move the other elements of the column
+	grid3(4)(15) <= grid4(6)(15);
+	grid3(5)(15) <= grid4(7)(15);
 
 	----------------------------- 
 	-- COLUMN 16
 	----------------------------- 
+	-- 4 to 2 lossy compressor c16, number 0
+	lv3_c16_CMPRS_0: approx_comp_4to2
+		port map (
+			i0 => grid4(0)(16),
+			i1 => grid4(1)(16),
+			i2 => grid4(2)(16),
+			i3 => grid4(3)(16),
+			out0 => grid3(2)(16),
+			out1 => grid3(0)(17) );
+
 	-- full adder c16, number 0
 	lv3_c16_FA_0: fullAdder
 		port map (
@@ -1199,31 +1124,25 @@ begin
 			i1 => grid4(1)(16),
 			ci => grid4(2)(16),
 			s => grid3(3)(16),
-			co => grid3(0)(17) );
-
-	-- full adder c16, number 1
-	lv3_c16_FA_1: fullAdder
-		port map (
-			i0 => grid4(3)(16),
-			i1 => grid4(4)(16),
-			ci => grid4(5)(16),
-			s => grid3(4)(16),
 			co => grid3(1)(17) );
 
-	-- full adder c16, number 2
-	lv3_c16_FA_2: fullAdder
-		port map (
-			i0 => grid4(6)(16),
-			i1 => grid4(7)(16),
-			ci => grid4(8)(16),
-			s => grid3(5)(16),
-			co => grid3(2)(17) );
-
 	-- move the other elements of the column
+	grid3(4)(16) <= grid4(7)(16);
+	grid3(5)(16) <= grid4(8)(16);
 
 	----------------------------- 
 	-- COLUMN 17
 	----------------------------- 
+	-- 4 to 2 lossy compressor c17, number 0
+	lv3_c17_CMPRS_0: approx_comp_4to2
+		port map (
+			i0 => grid4(0)(17),
+			i1 => grid4(1)(17),
+			i2 => grid4(2)(17),
+			i3 => grid4(3)(17),
+			out0 => grid3(2)(17),
+			out1 => grid3(0)(18) );
+
 	-- full adder c17, number 0
 	lv3_c17_FA_0: fullAdder
 		port map (
@@ -1231,31 +1150,25 @@ begin
 			i1 => grid4(1)(17),
 			ci => grid4(2)(17),
 			s => grid3(3)(17),
-			co => grid3(0)(18) );
-
-	-- full adder c17, number 1
-	lv3_c17_FA_1: fullAdder
-		port map (
-			i0 => grid4(3)(17),
-			i1 => grid4(4)(17),
-			ci => grid4(5)(17),
-			s => grid3(4)(17),
 			co => grid3(1)(18) );
 
-	-- full adder c17, number 2
-	lv3_c17_FA_2: fullAdder
-		port map (
-			i0 => grid4(6)(17),
-			i1 => grid4(7)(17),
-			ci => grid4(8)(17),
-			s => grid3(5)(17),
-			co => grid3(2)(18) );
-
 	-- move the other elements of the column
+	grid3(4)(17) <= grid4(7)(17);
+	grid3(5)(17) <= grid4(8)(17);
 
 	----------------------------- 
 	-- COLUMN 18
 	----------------------------- 
+	-- 4 to 2 lossy compressor c18, number 0
+	lv3_c18_CMPRS_0: approx_comp_4to2
+		port map (
+			i0 => grid4(0)(18),
+			i1 => grid4(1)(18),
+			i2 => grid4(2)(18),
+			i3 => grid4(3)(18),
+			out0 => grid3(2)(18),
+			out1 => grid3(0)(19) );
+
 	-- full adder c18, number 0
 	lv3_c18_FA_0: fullAdder
 		port map (
@@ -1263,31 +1176,25 @@ begin
 			i1 => grid4(1)(18),
 			ci => grid4(2)(18),
 			s => grid3(3)(18),
-			co => grid3(0)(19) );
-
-	-- full adder c18, number 1
-	lv3_c18_FA_1: fullAdder
-		port map (
-			i0 => grid4(3)(18),
-			i1 => grid4(4)(18),
-			ci => grid4(5)(18),
-			s => grid3(4)(18),
 			co => grid3(1)(19) );
 
-	-- full adder c18, number 2
-	lv3_c18_FA_2: fullAdder
-		port map (
-			i0 => grid4(6)(18),
-			i1 => grid4(7)(18),
-			ci => grid4(8)(18),
-			s => grid3(5)(18),
-			co => grid3(2)(19) );
-
 	-- move the other elements of the column
+	grid3(4)(18) <= grid4(7)(18);
+	grid3(5)(18) <= grid4(8)(18);
 
 	----------------------------- 
 	-- COLUMN 19
 	----------------------------- 
+	-- 4 to 2 lossy compressor c19, number 0
+	lv3_c19_CMPRS_0: approx_comp_4to2
+		port map (
+			i0 => grid4(0)(19),
+			i1 => grid4(1)(19),
+			i2 => grid4(2)(19),
+			i3 => grid4(3)(19),
+			out0 => grid3(2)(19),
+			out1 => grid3(0)(20) );
+
 	-- full adder c19, number 0
 	lv3_c19_FA_0: fullAdder
 		port map (
@@ -1295,31 +1202,25 @@ begin
 			i1 => grid4(1)(19),
 			ci => grid4(2)(19),
 			s => grid3(3)(19),
-			co => grid3(0)(20) );
-
-	-- full adder c19, number 1
-	lv3_c19_FA_1: fullAdder
-		port map (
-			i0 => grid4(3)(19),
-			i1 => grid4(4)(19),
-			ci => grid4(5)(19),
-			s => grid3(4)(19),
 			co => grid3(1)(20) );
 
-	-- full adder c19, number 2
-	lv3_c19_FA_2: fullAdder
-		port map (
-			i0 => grid4(6)(19),
-			i1 => grid4(7)(19),
-			ci => grid4(8)(19),
-			s => grid3(5)(19),
-			co => grid3(2)(20) );
-
 	-- move the other elements of the column
+	grid3(4)(19) <= grid4(7)(19);
+	grid3(5)(19) <= grid4(8)(19);
 
 	----------------------------- 
 	-- COLUMN 20
 	----------------------------- 
+	-- 4 to 2 lossy compressor c20, number 0
+	lv3_c20_CMPRS_0: approx_comp_4to2
+		port map (
+			i0 => grid4(0)(20),
+			i1 => grid4(1)(20),
+			i2 => grid4(2)(20),
+			i3 => grid4(3)(20),
+			out0 => grid3(2)(20),
+			out1 => grid3(0)(21) );
+
 	-- full adder c20, number 0
 	lv3_c20_FA_0: fullAdder
 		port map (
@@ -1327,31 +1228,25 @@ begin
 			i1 => grid4(1)(20),
 			ci => grid4(2)(20),
 			s => grid3(3)(20),
-			co => grid3(0)(21) );
-
-	-- full adder c20, number 1
-	lv3_c20_FA_1: fullAdder
-		port map (
-			i0 => grid4(3)(20),
-			i1 => grid4(4)(20),
-			ci => grid4(5)(20),
-			s => grid3(4)(20),
 			co => grid3(1)(21) );
 
-	-- full adder c20, number 2
-	lv3_c20_FA_2: fullAdder
-		port map (
-			i0 => grid4(6)(20),
-			i1 => grid4(7)(20),
-			ci => grid4(8)(20),
-			s => grid3(5)(20),
-			co => grid3(2)(21) );
-
 	-- move the other elements of the column
+	grid3(4)(20) <= grid4(7)(20);
+	grid3(5)(20) <= grid4(8)(20);
 
 	----------------------------- 
 	-- COLUMN 21
 	----------------------------- 
+	-- 4 to 2 lossy compressor c21, number 0
+	lv3_c21_CMPRS_0: approx_comp_4to2
+		port map (
+			i0 => grid4(0)(21),
+			i1 => grid4(1)(21),
+			i2 => grid4(2)(21),
+			i3 => grid4(3)(21),
+			out0 => grid3(2)(21),
+			out1 => grid3(0)(22) );
+
 	-- full adder c21, number 0
 	lv3_c21_FA_0: fullAdder
 		port map (
@@ -1359,31 +1254,25 @@ begin
 			i1 => grid4(1)(21),
 			ci => grid4(2)(21),
 			s => grid3(3)(21),
-			co => grid3(0)(22) );
-
-	-- full adder c21, number 1
-	lv3_c21_FA_1: fullAdder
-		port map (
-			i0 => grid4(3)(21),
-			i1 => grid4(4)(21),
-			ci => grid4(5)(21),
-			s => grid3(4)(21),
 			co => grid3(1)(22) );
 
-	-- full adder c21, number 2
-	lv3_c21_FA_2: fullAdder
-		port map (
-			i0 => grid4(6)(21),
-			i1 => grid4(7)(21),
-			ci => grid4(8)(21),
-			s => grid3(5)(21),
-			co => grid3(2)(22) );
-
 	-- move the other elements of the column
+	grid3(4)(21) <= grid4(7)(21);
+	grid3(5)(21) <= grid4(8)(21);
 
 	----------------------------- 
 	-- COLUMN 22
 	----------------------------- 
+	-- 4 to 2 lossy compressor c22, number 0
+	lv3_c22_CMPRS_0: approx_comp_4to2
+		port map (
+			i0 => grid4(0)(22),
+			i1 => grid4(1)(22),
+			i2 => grid4(2)(22),
+			i3 => grid4(3)(22),
+			out0 => grid3(2)(22),
+			out1 => grid3(0)(23) );
+
 	-- full adder c22, number 0
 	lv3_c22_FA_0: fullAdder
 		port map (
@@ -1391,31 +1280,25 @@ begin
 			i1 => grid4(1)(22),
 			ci => grid4(2)(22),
 			s => grid3(3)(22),
-			co => grid3(0)(23) );
-
-	-- full adder c22, number 1
-	lv3_c22_FA_1: fullAdder
-		port map (
-			i0 => grid4(3)(22),
-			i1 => grid4(4)(22),
-			ci => grid4(5)(22),
-			s => grid3(4)(22),
 			co => grid3(1)(23) );
 
-	-- full adder c22, number 2
-	lv3_c22_FA_2: fullAdder
-		port map (
-			i0 => grid4(6)(22),
-			i1 => grid4(7)(22),
-			ci => grid4(8)(22),
-			s => grid3(5)(22),
-			co => grid3(2)(23) );
-
 	-- move the other elements of the column
+	grid3(4)(22) <= grid4(7)(22);
+	grid3(5)(22) <= grid4(8)(22);
 
 	----------------------------- 
 	-- COLUMN 23
 	----------------------------- 
+	-- 4 to 2 lossy compressor c23, number 0
+	lv3_c23_CMPRS_0: approx_comp_4to2
+		port map (
+			i0 => grid4(0)(23),
+			i1 => grid4(1)(23),
+			i2 => grid4(2)(23),
+			i3 => grid4(3)(23),
+			out0 => grid3(2)(23),
+			out1 => grid3(0)(24) );
+
 	-- full adder c23, number 0
 	lv3_c23_FA_0: fullAdder
 		port map (
@@ -1423,31 +1306,25 @@ begin
 			i1 => grid4(1)(23),
 			ci => grid4(2)(23),
 			s => grid3(3)(23),
-			co => grid3(0)(24) );
-
-	-- full adder c23, number 1
-	lv3_c23_FA_1: fullAdder
-		port map (
-			i0 => grid4(3)(23),
-			i1 => grid4(4)(23),
-			ci => grid4(5)(23),
-			s => grid3(4)(23),
 			co => grid3(1)(24) );
 
-	-- full adder c23, number 2
-	lv3_c23_FA_2: fullAdder
-		port map (
-			i0 => grid4(6)(23),
-			i1 => grid4(7)(23),
-			ci => grid4(8)(23),
-			s => grid3(5)(23),
-			co => grid3(2)(24) );
-
 	-- move the other elements of the column
+	grid3(4)(23) <= grid4(7)(23);
+	grid3(5)(23) <= grid4(8)(23);
 
 	----------------------------- 
 	-- COLUMN 24
 	----------------------------- 
+	-- 4 to 2 lossy compressor c24, number 0
+	lv3_c24_CMPRS_0: approx_comp_4to2
+		port map (
+			i0 => grid4(0)(24),
+			i1 => grid4(1)(24),
+			i2 => grid4(2)(24),
+			i3 => grid4(3)(24),
+			out0 => grid3(2)(24),
+			out1 => grid3(0)(25) );
+
 	-- full adder c24, number 0
 	lv3_c24_FA_0: fullAdder
 		port map (
@@ -1455,31 +1332,25 @@ begin
 			i1 => grid4(1)(24),
 			ci => grid4(2)(24),
 			s => grid3(3)(24),
-			co => grid3(0)(25) );
-
-	-- full adder c24, number 1
-	lv3_c24_FA_1: fullAdder
-		port map (
-			i0 => grid4(3)(24),
-			i1 => grid4(4)(24),
-			ci => grid4(5)(24),
-			s => grid3(4)(24),
 			co => grid3(1)(25) );
 
-	-- full adder c24, number 2
-	lv3_c24_FA_2: fullAdder
-		port map (
-			i0 => grid4(6)(24),
-			i1 => grid4(7)(24),
-			ci => grid4(8)(24),
-			s => grid3(5)(24),
-			co => grid3(2)(25) );
-
 	-- move the other elements of the column
+	grid3(4)(24) <= grid4(7)(24);
+	grid3(5)(24) <= grid4(8)(24);
 
 	----------------------------- 
 	-- COLUMN 25
 	----------------------------- 
+	-- 4 to 2 lossy compressor c25, number 0
+	lv3_c25_CMPRS_0: approx_comp_4to2
+		port map (
+			i0 => grid4(0)(25),
+			i1 => grid4(1)(25),
+			i2 => grid4(2)(25),
+			i3 => grid4(3)(25),
+			out0 => grid3(2)(25),
+			out1 => grid3(0)(26) );
+
 	-- full adder c25, number 0
 	lv3_c25_FA_0: fullAdder
 		port map (
@@ -1487,31 +1358,25 @@ begin
 			i1 => grid4(1)(25),
 			ci => grid4(2)(25),
 			s => grid3(3)(25),
-			co => grid3(0)(26) );
-
-	-- full adder c25, number 1
-	lv3_c25_FA_1: fullAdder
-		port map (
-			i0 => grid4(3)(25),
-			i1 => grid4(4)(25),
-			ci => grid4(5)(25),
-			s => grid3(4)(25),
 			co => grid3(1)(26) );
 
-	-- full adder c25, number 2
-	lv3_c25_FA_2: fullAdder
-		port map (
-			i0 => grid4(6)(25),
-			i1 => grid4(7)(25),
-			ci => grid4(8)(25),
-			s => grid3(5)(25),
-			co => grid3(2)(26) );
-
 	-- move the other elements of the column
+	grid3(4)(25) <= grid4(7)(25);
+	grid3(5)(25) <= grid4(8)(25);
 
 	----------------------------- 
 	-- COLUMN 26
 	----------------------------- 
+	-- 4 to 2 lossy compressor c26, number 0
+	lv3_c26_CMPRS_0: approx_comp_4to2
+		port map (
+			i0 => grid4(0)(26),
+			i1 => grid4(1)(26),
+			i2 => grid4(2)(26),
+			i3 => grid4(3)(26),
+			out0 => grid3(2)(26),
+			out1 => grid3(0)(27) );
+
 	-- full adder c26, number 0
 	lv3_c26_FA_0: fullAdder
 		port map (
@@ -1519,31 +1384,25 @@ begin
 			i1 => grid4(1)(26),
 			ci => grid4(2)(26),
 			s => grid3(3)(26),
-			co => grid3(0)(27) );
-
-	-- full adder c26, number 1
-	lv3_c26_FA_1: fullAdder
-		port map (
-			i0 => grid4(3)(26),
-			i1 => grid4(4)(26),
-			ci => grid4(5)(26),
-			s => grid3(4)(26),
 			co => grid3(1)(27) );
 
-	-- full adder c26, number 2
-	lv3_c26_FA_2: fullAdder
-		port map (
-			i0 => grid4(6)(26),
-			i1 => grid4(7)(26),
-			ci => grid4(8)(26),
-			s => grid3(5)(26),
-			co => grid3(2)(27) );
-
 	-- move the other elements of the column
+	grid3(4)(26) <= grid4(7)(26);
+	grid3(5)(26) <= grid4(8)(26);
 
 	----------------------------- 
 	-- COLUMN 27
 	----------------------------- 
+	-- 4 to 2 lossy compressor c27, number 0
+	lv3_c27_CMPRS_0: approx_comp_4to2
+		port map (
+			i0 => grid4(0)(27),
+			i1 => grid4(1)(27),
+			i2 => grid4(2)(27),
+			i3 => grid4(3)(27),
+			out0 => grid3(2)(27),
+			out1 => grid3(0)(28) );
+
 	-- full adder c27, number 0
 	lv3_c27_FA_0: fullAdder
 		port map (
@@ -1551,31 +1410,25 @@ begin
 			i1 => grid4(1)(27),
 			ci => grid4(2)(27),
 			s => grid3(3)(27),
-			co => grid3(0)(28) );
-
-	-- full adder c27, number 1
-	lv3_c27_FA_1: fullAdder
-		port map (
-			i0 => grid4(3)(27),
-			i1 => grid4(4)(27),
-			ci => grid4(5)(27),
-			s => grid3(4)(27),
 			co => grid3(1)(28) );
 
-	-- full adder c27, number 2
-	lv3_c27_FA_2: fullAdder
-		port map (
-			i0 => grid4(6)(27),
-			i1 => grid4(7)(27),
-			ci => grid4(8)(27),
-			s => grid3(5)(27),
-			co => grid3(2)(28) );
-
 	-- move the other elements of the column
+	grid3(4)(27) <= grid4(7)(27);
+	grid3(5)(27) <= grid4(8)(27);
 
 	----------------------------- 
 	-- COLUMN 28
 	----------------------------- 
+	-- 4 to 2 lossy compressor c28, number 0
+	lv3_c28_CMPRS_0: approx_comp_4to2
+		port map (
+			i0 => grid4(0)(28),
+			i1 => grid4(1)(28),
+			i2 => grid4(2)(28),
+			i3 => grid4(3)(28),
+			out0 => grid3(2)(28),
+			out1 => grid3(0)(29) );
+
 	-- full adder c28, number 0
 	lv3_c28_FA_0: fullAdder
 		port map (
@@ -1583,31 +1436,25 @@ begin
 			i1 => grid4(1)(28),
 			ci => grid4(2)(28),
 			s => grid3(3)(28),
-			co => grid3(0)(29) );
-
-	-- full adder c28, number 1
-	lv3_c28_FA_1: fullAdder
-		port map (
-			i0 => grid4(3)(28),
-			i1 => grid4(4)(28),
-			ci => grid4(5)(28),
-			s => grid3(4)(28),
 			co => grid3(1)(29) );
 
-	-- full adder c28, number 2
-	lv3_c28_FA_2: fullAdder
-		port map (
-			i0 => grid4(6)(28),
-			i1 => grid4(7)(28),
-			ci => grid4(8)(28),
-			s => grid3(5)(28),
-			co => grid3(2)(29) );
-
 	-- move the other elements of the column
+	grid3(4)(28) <= grid4(7)(28);
+	grid3(5)(28) <= grid4(8)(28);
 
 	----------------------------- 
 	-- COLUMN 29
 	----------------------------- 
+	-- 4 to 2 lossy compressor c29, number 0
+	lv3_c29_CMPRS_0: approx_comp_4to2
+		port map (
+			i0 => grid4(0)(29),
+			i1 => grid4(1)(29),
+			i2 => grid4(2)(29),
+			i3 => grid4(3)(29),
+			out0 => grid3(2)(29),
+			out1 => grid3(0)(30) );
+
 	-- full adder c29, number 0
 	lv3_c29_FA_0: fullAdder
 		port map (
@@ -1615,31 +1462,25 @@ begin
 			i1 => grid4(1)(29),
 			ci => grid4(2)(29),
 			s => grid3(3)(29),
-			co => grid3(0)(30) );
-
-	-- full adder c29, number 1
-	lv3_c29_FA_1: fullAdder
-		port map (
-			i0 => grid4(3)(29),
-			i1 => grid4(4)(29),
-			ci => grid4(5)(29),
-			s => grid3(4)(29),
 			co => grid3(1)(30) );
 
-	-- full adder c29, number 2
-	lv3_c29_FA_2: fullAdder
-		port map (
-			i0 => grid4(6)(29),
-			i1 => grid4(7)(29),
-			ci => grid4(8)(29),
-			s => grid3(5)(29),
-			co => grid3(2)(30) );
-
 	-- move the other elements of the column
+	grid3(4)(29) <= grid4(7)(29);
+	grid3(5)(29) <= grid4(8)(29);
 
 	----------------------------- 
 	-- COLUMN 30
 	----------------------------- 
+	-- 4 to 2 lossy compressor c30, number 0
+	lv3_c30_CMPRS_0: approx_comp_4to2
+		port map (
+			i0 => grid4(0)(30),
+			i1 => grid4(1)(30),
+			i2 => grid4(2)(30),
+			i3 => grid4(3)(30),
+			out0 => grid3(2)(30),
+			out1 => grid3(0)(31) );
+
 	-- full adder c30, number 0
 	lv3_c30_FA_0: fullAdder
 		port map (
@@ -1647,31 +1488,25 @@ begin
 			i1 => grid4(1)(30),
 			ci => grid4(2)(30),
 			s => grid3(3)(30),
-			co => grid3(0)(31) );
-
-	-- full adder c30, number 1
-	lv3_c30_FA_1: fullAdder
-		port map (
-			i0 => grid4(3)(30),
-			i1 => grid4(4)(30),
-			ci => grid4(5)(30),
-			s => grid3(4)(30),
 			co => grid3(1)(31) );
 
-	-- full adder c30, number 2
-	lv3_c30_FA_2: fullAdder
-		port map (
-			i0 => grid4(6)(30),
-			i1 => grid4(7)(30),
-			ci => grid4(8)(30),
-			s => grid3(5)(30),
-			co => grid3(2)(31) );
-
 	-- move the other elements of the column
+	grid3(4)(30) <= grid4(7)(30);
+	grid3(5)(30) <= grid4(8)(30);
 
 	----------------------------- 
 	-- COLUMN 31
 	----------------------------- 
+	-- 4 to 2 lossy compressor c31, number 0
+	lv3_c31_CMPRS_0: approx_comp_4to2
+		port map (
+			i0 => grid4(0)(31),
+			i1 => grid4(1)(31),
+			i2 => grid4(2)(31),
+			i3 => grid4(3)(31),
+			out0 => grid3(2)(31),
+			out1 => grid3(0)(32) );
+
 	-- full adder c31, number 0
 	lv3_c31_FA_0: fullAdder
 		port map (
@@ -1679,31 +1514,25 @@ begin
 			i1 => grid4(1)(31),
 			ci => grid4(2)(31),
 			s => grid3(3)(31),
-			co => grid3(0)(32) );
-
-	-- full adder c31, number 1
-	lv3_c31_FA_1: fullAdder
-		port map (
-			i0 => grid4(3)(31),
-			i1 => grid4(4)(31),
-			ci => grid4(5)(31),
-			s => grid3(4)(31),
 			co => grid3(1)(32) );
 
-	-- full adder c31, number 2
-	lv3_c31_FA_2: fullAdder
-		port map (
-			i0 => grid4(6)(31),
-			i1 => grid4(7)(31),
-			ci => grid4(8)(31),
-			s => grid3(5)(31),
-			co => grid3(2)(32) );
-
 	-- move the other elements of the column
+	grid3(4)(31) <= grid4(7)(31);
+	grid3(5)(31) <= grid4(8)(31);
 
 	----------------------------- 
 	-- COLUMN 32
 	----------------------------- 
+	-- 4 to 2 lossy compressor c32, number 0
+	lv3_c32_CMPRS_0: approx_comp_4to2
+		port map (
+			i0 => grid4(0)(32),
+			i1 => grid4(1)(32),
+			i2 => grid4(2)(32),
+			i3 => grid4(3)(32),
+			out0 => grid3(2)(32),
+			out1 => grid3(0)(33) );
+
 	-- full adder c32, number 0
 	lv3_c32_FA_0: fullAdder
 		port map (
@@ -1711,81 +1540,53 @@ begin
 			i1 => grid4(1)(32),
 			ci => grid4(2)(32),
 			s => grid3(3)(32),
-			co => grid3(0)(33) );
-
-	-- full adder c32, number 1
-	lv3_c32_FA_1: fullAdder
-		port map (
-			i0 => grid4(3)(32),
-			i1 => grid4(4)(32),
-			ci => grid4(5)(32),
-			s => grid3(4)(32),
 			co => grid3(1)(33) );
 
-	-- full adder c32, number 2
-	lv3_c32_FA_2: fullAdder
-		port map (
-			i0 => grid4(6)(32),
-			i1 => grid4(7)(32),
-			ci => grid4(8)(32),
-			s => grid3(5)(32),
-			co => grid3(2)(33) );
-
 	-- move the other elements of the column
+	grid3(4)(32) <= grid4(7)(32);
+	grid3(5)(32) <= grid4(8)(32);
 
 	----------------------------- 
 	-- COLUMN 33
 	----------------------------- 
-	-- full adder c33, number 0
-	lv3_c33_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c33, number 0
+	lv3_c33_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid4(0)(33),
 			i1 => grid4(1)(33),
-			ci => grid4(2)(33),
-			s => grid3(3)(33),
-			co => grid3(0)(34) );
-
-	-- full adder c33, number 1
-	lv3_c33_FA_1: fullAdder
-		port map (
-			i0 => grid4(3)(33),
-			i1 => grid4(4)(33),
-			ci => grid4(5)(33),
-			s => grid3(4)(33),
-			co => grid3(1)(34) );
+			i2 => grid4(2)(33),
+			i3 => grid4(3)(33),
+			out0 => grid3(2)(33),
+			out1 => grid3(0)(34) );
 
 	-- half adder c33, number 0
 	lv3_c33_HA_0: halfAdder
 		port map (
-			i0 => grid4(6)(33),
-			i1 => grid4(7)(33),
-			s => grid3(5)(33),
-			co => grid3(2)(34) );
+			i0 => grid4(0)(33),
+			i1 => grid4(1)(33),
+			s => grid3(3)(33),
+			co => grid3(1)(34) );
 
 	-- move the other elements of the column
+	grid3(4)(33) <= grid4(6)(33);
+	grid3(5)(33) <= grid4(7)(33);
 
 	----------------------------- 
 	-- COLUMN 34
 	----------------------------- 
-	-- full adder c34, number 0
-	lv3_c34_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c34, number 0
+	lv3_c34_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid4(0)(34),
 			i1 => grid4(1)(34),
-			ci => grid4(2)(34),
-			s => grid3(3)(34),
-			co => grid3(0)(35) );
-
-	-- full adder c34, number 1
-	lv3_c34_FA_1: fullAdder
-		port map (
-			i0 => grid4(3)(34),
-			i1 => grid4(4)(34),
-			ci => grid4(5)(34),
-			s => grid3(4)(34),
-			co => grid3(1)(35) );
+			i2 => grid4(2)(34),
+			i3 => grid4(3)(34),
+			out0 => grid3(2)(34),
+			out1 => grid3(0)(35) );
 
 	-- move the other elements of the column
+	grid3(3)(34) <= grid4(4)(34);
+	grid3(4)(34) <= grid4(5)(34);
 	grid3(5)(34) <= grid4(6)(34);
 
 	----------------------------- 
@@ -1797,34 +1598,28 @@ begin
 			i0 => grid4(0)(35),
 			i1 => grid4(1)(35),
 			ci => grid4(2)(35),
-			s => grid3(2)(35),
+			s => grid3(1)(35),
 			co => grid3(0)(36) );
 
-	-- half adder c35, number 0
-	lv3_c35_HA_0: halfAdder
-		port map (
-			i0 => grid4(3)(35),
-			i1 => grid4(4)(35),
-			s => grid3(3)(35),
-			co => grid3(1)(36) );
-
 	-- move the other elements of the column
+	grid3(2)(35) <= grid4(3)(35);
+	grid3(3)(35) <= grid4(4)(35);
 	grid3(4)(35) <= grid4(5)(35);
 	grid3(5)(35) <= grid4(6)(35);
 
 	----------------------------- 
 	-- COLUMN 36
 	----------------------------- 
-	-- full adder c36, number 0
-	lv3_c36_FA_0: fullAdder
+	-- half adder c36, number 0
+	lv3_c36_HA_0: halfAdder
 		port map (
 			i0 => grid4(0)(36),
 			i1 => grid4(1)(36),
-			ci => grid4(2)(36),
-			s => grid3(2)(36),
+			s => grid3(1)(36),
 			co => grid3(0)(37) );
 
 	-- move the other elements of the column
+	grid3(2)(36) <= grid4(2)(36);
 	grid3(3)(36) <= grid4(3)(36);
 	grid3(4)(36) <= grid4(4)(36);
 	grid3(5)(36) <= grid4(5)(36);
@@ -1997,24 +1792,18 @@ begin
 	----------------------------- 
 	-- COLUMN 8
 	----------------------------- 
-	-- full adder c8, number 0
-	lv2_c8_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c8, number 0
+	lv2_c8_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid3(0)(8),
 			i1 => grid3(1)(8),
-			ci => grid3(2)(8),
-			s => grid2(1)(8),
-			co => grid2(0)(9) );
-
-	-- half adder c8, number 0
-	lv2_c8_HA_0: halfAdder
-		port map (
-			i0 => grid3(3)(8),
-			i1 => grid3(4)(8),
-			s => grid2(2)(8),
-			co => grid2(1)(9) );
+			i2 => grid3(2)(8),
+			i3 => grid3(3)(8),
+			out0 => grid2(1)(8),
+			out1 => grid2(0)(9) );
 
 	-- move the other elements of the column
+	grid2(2)(8) <= grid3(4)(8);
 	grid2(3)(8) <= grid3(5)(8);
 
 	----------------------------- 
@@ -2026,685 +1815,505 @@ begin
 			i0 => grid3(0)(9),
 			i1 => grid3(1)(9),
 			ci => grid3(2)(9),
-			s => grid2(2)(9),
+			s => grid2(1)(9),
 			co => grid2(0)(10) );
 
-	-- half adder c9, number 0
-	lv2_c9_HA_0: halfAdder
-		port map (
-			i0 => grid3(3)(9),
-			i1 => grid3(4)(9),
-			s => grid2(3)(9),
-			co => grid2(1)(10) );
-
 	-- move the other elements of the column
+	grid2(2)(9) <= grid3(3)(9);
+	grid2(3)(9) <= grid3(4)(9);
 
 	----------------------------- 
 	-- COLUMN 10
 	----------------------------- 
-	-- full adder c10, number 0
-	lv2_c10_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c10, number 0
+	lv2_c10_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid3(0)(10),
 			i1 => grid3(1)(10),
-			ci => grid3(2)(10),
-			s => grid2(2)(10),
-			co => grid2(0)(11) );
-
-	-- full adder c10, number 1
-	lv2_c10_FA_1: fullAdder
-		port map (
-			i0 => grid3(3)(10),
-			i1 => grid3(4)(10),
-			ci => grid3(5)(10),
-			s => grid2(3)(10),
-			co => grid2(1)(11) );
+			i2 => grid3(2)(10),
+			i3 => grid3(3)(10),
+			out0 => grid2(1)(10),
+			out1 => grid2(0)(11) );
 
 	-- move the other elements of the column
+	grid2(2)(10) <= grid3(4)(10);
+	grid2(3)(10) <= grid3(5)(10);
 
 	----------------------------- 
 	-- COLUMN 11
 	----------------------------- 
-	-- full adder c11, number 0
-	lv2_c11_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c11, number 0
+	lv2_c11_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid3(0)(11),
 			i1 => grid3(1)(11),
-			ci => grid3(2)(11),
-			s => grid2(2)(11),
-			co => grid2(0)(12) );
-
-	-- full adder c11, number 1
-	lv2_c11_FA_1: fullAdder
-		port map (
-			i0 => grid3(3)(11),
-			i1 => grid3(4)(11),
-			ci => grid3(5)(11),
-			s => grid2(3)(11),
-			co => grid2(1)(12) );
+			i2 => grid3(2)(11),
+			i3 => grid3(3)(11),
+			out0 => grid2(1)(11),
+			out1 => grid2(0)(12) );
 
 	-- move the other elements of the column
+	grid2(2)(11) <= grid3(4)(11);
+	grid2(3)(11) <= grid3(5)(11);
 
 	----------------------------- 
 	-- COLUMN 12
 	----------------------------- 
-	-- full adder c12, number 0
-	lv2_c12_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c12, number 0
+	lv2_c12_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid3(0)(12),
 			i1 => grid3(1)(12),
-			ci => grid3(2)(12),
-			s => grid2(2)(12),
-			co => grid2(0)(13) );
-
-	-- full adder c12, number 1
-	lv2_c12_FA_1: fullAdder
-		port map (
-			i0 => grid3(3)(12),
-			i1 => grid3(4)(12),
-			ci => grid3(5)(12),
-			s => grid2(3)(12),
-			co => grid2(1)(13) );
+			i2 => grid3(2)(12),
+			i3 => grid3(3)(12),
+			out0 => grid2(1)(12),
+			out1 => grid2(0)(13) );
 
 	-- move the other elements of the column
+	grid2(2)(12) <= grid3(4)(12);
+	grid2(3)(12) <= grid3(5)(12);
 
 	----------------------------- 
 	-- COLUMN 13
 	----------------------------- 
-	-- full adder c13, number 0
-	lv2_c13_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c13, number 0
+	lv2_c13_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid3(0)(13),
 			i1 => grid3(1)(13),
-			ci => grid3(2)(13),
-			s => grid2(2)(13),
-			co => grid2(0)(14) );
-
-	-- full adder c13, number 1
-	lv2_c13_FA_1: fullAdder
-		port map (
-			i0 => grid3(3)(13),
-			i1 => grid3(4)(13),
-			ci => grid3(5)(13),
-			s => grid2(3)(13),
-			co => grid2(1)(14) );
+			i2 => grid3(2)(13),
+			i3 => grid3(3)(13),
+			out0 => grid2(1)(13),
+			out1 => grid2(0)(14) );
 
 	-- move the other elements of the column
+	grid2(2)(13) <= grid3(4)(13);
+	grid2(3)(13) <= grid3(5)(13);
 
 	----------------------------- 
 	-- COLUMN 14
 	----------------------------- 
-	-- full adder c14, number 0
-	lv2_c14_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c14, number 0
+	lv2_c14_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid3(0)(14),
 			i1 => grid3(1)(14),
-			ci => grid3(2)(14),
-			s => grid2(2)(14),
-			co => grid2(0)(15) );
-
-	-- full adder c14, number 1
-	lv2_c14_FA_1: fullAdder
-		port map (
-			i0 => grid3(3)(14),
-			i1 => grid3(4)(14),
-			ci => grid3(5)(14),
-			s => grid2(3)(14),
-			co => grid2(1)(15) );
+			i2 => grid3(2)(14),
+			i3 => grid3(3)(14),
+			out0 => grid2(1)(14),
+			out1 => grid2(0)(15) );
 
 	-- move the other elements of the column
+	grid2(2)(14) <= grid3(4)(14);
+	grid2(3)(14) <= grid3(5)(14);
 
 	----------------------------- 
 	-- COLUMN 15
 	----------------------------- 
-	-- full adder c15, number 0
-	lv2_c15_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c15, number 0
+	lv2_c15_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid3(0)(15),
 			i1 => grid3(1)(15),
-			ci => grid3(2)(15),
-			s => grid2(2)(15),
-			co => grid2(0)(16) );
-
-	-- full adder c15, number 1
-	lv2_c15_FA_1: fullAdder
-		port map (
-			i0 => grid3(3)(15),
-			i1 => grid3(4)(15),
-			ci => grid3(5)(15),
-			s => grid2(3)(15),
-			co => grid2(1)(16) );
+			i2 => grid3(2)(15),
+			i3 => grid3(3)(15),
+			out0 => grid2(1)(15),
+			out1 => grid2(0)(16) );
 
 	-- move the other elements of the column
+	grid2(2)(15) <= grid3(4)(15);
+	grid2(3)(15) <= grid3(5)(15);
 
 	----------------------------- 
 	-- COLUMN 16
 	----------------------------- 
-	-- full adder c16, number 0
-	lv2_c16_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c16, number 0
+	lv2_c16_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid3(0)(16),
 			i1 => grid3(1)(16),
-			ci => grid3(2)(16),
-			s => grid2(2)(16),
-			co => grid2(0)(17) );
-
-	-- full adder c16, number 1
-	lv2_c16_FA_1: fullAdder
-		port map (
-			i0 => grid3(3)(16),
-			i1 => grid3(4)(16),
-			ci => grid3(5)(16),
-			s => grid2(3)(16),
-			co => grid2(1)(17) );
+			i2 => grid3(2)(16),
+			i3 => grid3(3)(16),
+			out0 => grid2(1)(16),
+			out1 => grid2(0)(17) );
 
 	-- move the other elements of the column
+	grid2(2)(16) <= grid3(4)(16);
+	grid2(3)(16) <= grid3(5)(16);
 
 	----------------------------- 
 	-- COLUMN 17
 	----------------------------- 
-	-- full adder c17, number 0
-	lv2_c17_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c17, number 0
+	lv2_c17_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid3(0)(17),
 			i1 => grid3(1)(17),
-			ci => grid3(2)(17),
-			s => grid2(2)(17),
-			co => grid2(0)(18) );
-
-	-- full adder c17, number 1
-	lv2_c17_FA_1: fullAdder
-		port map (
-			i0 => grid3(3)(17),
-			i1 => grid3(4)(17),
-			ci => grid3(5)(17),
-			s => grid2(3)(17),
-			co => grid2(1)(18) );
+			i2 => grid3(2)(17),
+			i3 => grid3(3)(17),
+			out0 => grid2(1)(17),
+			out1 => grid2(0)(18) );
 
 	-- move the other elements of the column
+	grid2(2)(17) <= grid3(4)(17);
+	grid2(3)(17) <= grid3(5)(17);
 
 	----------------------------- 
 	-- COLUMN 18
 	----------------------------- 
-	-- full adder c18, number 0
-	lv2_c18_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c18, number 0
+	lv2_c18_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid3(0)(18),
 			i1 => grid3(1)(18),
-			ci => grid3(2)(18),
-			s => grid2(2)(18),
-			co => grid2(0)(19) );
-
-	-- full adder c18, number 1
-	lv2_c18_FA_1: fullAdder
-		port map (
-			i0 => grid3(3)(18),
-			i1 => grid3(4)(18),
-			ci => grid3(5)(18),
-			s => grid2(3)(18),
-			co => grid2(1)(19) );
+			i2 => grid3(2)(18),
+			i3 => grid3(3)(18),
+			out0 => grid2(1)(18),
+			out1 => grid2(0)(19) );
 
 	-- move the other elements of the column
+	grid2(2)(18) <= grid3(4)(18);
+	grid2(3)(18) <= grid3(5)(18);
 
 	----------------------------- 
 	-- COLUMN 19
 	----------------------------- 
-	-- full adder c19, number 0
-	lv2_c19_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c19, number 0
+	lv2_c19_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid3(0)(19),
 			i1 => grid3(1)(19),
-			ci => grid3(2)(19),
-			s => grid2(2)(19),
-			co => grid2(0)(20) );
-
-	-- full adder c19, number 1
-	lv2_c19_FA_1: fullAdder
-		port map (
-			i0 => grid3(3)(19),
-			i1 => grid3(4)(19),
-			ci => grid3(5)(19),
-			s => grid2(3)(19),
-			co => grid2(1)(20) );
+			i2 => grid3(2)(19),
+			i3 => grid3(3)(19),
+			out0 => grid2(1)(19),
+			out1 => grid2(0)(20) );
 
 	-- move the other elements of the column
+	grid2(2)(19) <= grid3(4)(19);
+	grid2(3)(19) <= grid3(5)(19);
 
 	----------------------------- 
 	-- COLUMN 20
 	----------------------------- 
-	-- full adder c20, number 0
-	lv2_c20_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c20, number 0
+	lv2_c20_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid3(0)(20),
 			i1 => grid3(1)(20),
-			ci => grid3(2)(20),
-			s => grid2(2)(20),
-			co => grid2(0)(21) );
-
-	-- full adder c20, number 1
-	lv2_c20_FA_1: fullAdder
-		port map (
-			i0 => grid3(3)(20),
-			i1 => grid3(4)(20),
-			ci => grid3(5)(20),
-			s => grid2(3)(20),
-			co => grid2(1)(21) );
+			i2 => grid3(2)(20),
+			i3 => grid3(3)(20),
+			out0 => grid2(1)(20),
+			out1 => grid2(0)(21) );
 
 	-- move the other elements of the column
+	grid2(2)(20) <= grid3(4)(20);
+	grid2(3)(20) <= grid3(5)(20);
 
 	----------------------------- 
 	-- COLUMN 21
 	----------------------------- 
-	-- full adder c21, number 0
-	lv2_c21_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c21, number 0
+	lv2_c21_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid3(0)(21),
 			i1 => grid3(1)(21),
-			ci => grid3(2)(21),
-			s => grid2(2)(21),
-			co => grid2(0)(22) );
-
-	-- full adder c21, number 1
-	lv2_c21_FA_1: fullAdder
-		port map (
-			i0 => grid3(3)(21),
-			i1 => grid3(4)(21),
-			ci => grid3(5)(21),
-			s => grid2(3)(21),
-			co => grid2(1)(22) );
+			i2 => grid3(2)(21),
+			i3 => grid3(3)(21),
+			out0 => grid2(1)(21),
+			out1 => grid2(0)(22) );
 
 	-- move the other elements of the column
+	grid2(2)(21) <= grid3(4)(21);
+	grid2(3)(21) <= grid3(5)(21);
 
 	----------------------------- 
 	-- COLUMN 22
 	----------------------------- 
-	-- full adder c22, number 0
-	lv2_c22_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c22, number 0
+	lv2_c22_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid3(0)(22),
 			i1 => grid3(1)(22),
-			ci => grid3(2)(22),
-			s => grid2(2)(22),
-			co => grid2(0)(23) );
-
-	-- full adder c22, number 1
-	lv2_c22_FA_1: fullAdder
-		port map (
-			i0 => grid3(3)(22),
-			i1 => grid3(4)(22),
-			ci => grid3(5)(22),
-			s => grid2(3)(22),
-			co => grid2(1)(23) );
+			i2 => grid3(2)(22),
+			i3 => grid3(3)(22),
+			out0 => grid2(1)(22),
+			out1 => grid2(0)(23) );
 
 	-- move the other elements of the column
+	grid2(2)(22) <= grid3(4)(22);
+	grid2(3)(22) <= grid3(5)(22);
 
 	----------------------------- 
 	-- COLUMN 23
 	----------------------------- 
-	-- full adder c23, number 0
-	lv2_c23_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c23, number 0
+	lv2_c23_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid3(0)(23),
 			i1 => grid3(1)(23),
-			ci => grid3(2)(23),
-			s => grid2(2)(23),
-			co => grid2(0)(24) );
-
-	-- full adder c23, number 1
-	lv2_c23_FA_1: fullAdder
-		port map (
-			i0 => grid3(3)(23),
-			i1 => grid3(4)(23),
-			ci => grid3(5)(23),
-			s => grid2(3)(23),
-			co => grid2(1)(24) );
+			i2 => grid3(2)(23),
+			i3 => grid3(3)(23),
+			out0 => grid2(1)(23),
+			out1 => grid2(0)(24) );
 
 	-- move the other elements of the column
+	grid2(2)(23) <= grid3(4)(23);
+	grid2(3)(23) <= grid3(5)(23);
 
 	----------------------------- 
 	-- COLUMN 24
 	----------------------------- 
-	-- full adder c24, number 0
-	lv2_c24_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c24, number 0
+	lv2_c24_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid3(0)(24),
 			i1 => grid3(1)(24),
-			ci => grid3(2)(24),
-			s => grid2(2)(24),
-			co => grid2(0)(25) );
-
-	-- full adder c24, number 1
-	lv2_c24_FA_1: fullAdder
-		port map (
-			i0 => grid3(3)(24),
-			i1 => grid3(4)(24),
-			ci => grid3(5)(24),
-			s => grid2(3)(24),
-			co => grid2(1)(25) );
+			i2 => grid3(2)(24),
+			i3 => grid3(3)(24),
+			out0 => grid2(1)(24),
+			out1 => grid2(0)(25) );
 
 	-- move the other elements of the column
+	grid2(2)(24) <= grid3(4)(24);
+	grid2(3)(24) <= grid3(5)(24);
 
 	----------------------------- 
 	-- COLUMN 25
 	----------------------------- 
-	-- full adder c25, number 0
-	lv2_c25_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c25, number 0
+	lv2_c25_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid3(0)(25),
 			i1 => grid3(1)(25),
-			ci => grid3(2)(25),
-			s => grid2(2)(25),
-			co => grid2(0)(26) );
-
-	-- full adder c25, number 1
-	lv2_c25_FA_1: fullAdder
-		port map (
-			i0 => grid3(3)(25),
-			i1 => grid3(4)(25),
-			ci => grid3(5)(25),
-			s => grid2(3)(25),
-			co => grid2(1)(26) );
+			i2 => grid3(2)(25),
+			i3 => grid3(3)(25),
+			out0 => grid2(1)(25),
+			out1 => grid2(0)(26) );
 
 	-- move the other elements of the column
+	grid2(2)(25) <= grid3(4)(25);
+	grid2(3)(25) <= grid3(5)(25);
 
 	----------------------------- 
 	-- COLUMN 26
 	----------------------------- 
-	-- full adder c26, number 0
-	lv2_c26_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c26, number 0
+	lv2_c26_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid3(0)(26),
 			i1 => grid3(1)(26),
-			ci => grid3(2)(26),
-			s => grid2(2)(26),
-			co => grid2(0)(27) );
-
-	-- full adder c26, number 1
-	lv2_c26_FA_1: fullAdder
-		port map (
-			i0 => grid3(3)(26),
-			i1 => grid3(4)(26),
-			ci => grid3(5)(26),
-			s => grid2(3)(26),
-			co => grid2(1)(27) );
+			i2 => grid3(2)(26),
+			i3 => grid3(3)(26),
+			out0 => grid2(1)(26),
+			out1 => grid2(0)(27) );
 
 	-- move the other elements of the column
+	grid2(2)(26) <= grid3(4)(26);
+	grid2(3)(26) <= grid3(5)(26);
 
 	----------------------------- 
 	-- COLUMN 27
 	----------------------------- 
-	-- full adder c27, number 0
-	lv2_c27_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c27, number 0
+	lv2_c27_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid3(0)(27),
 			i1 => grid3(1)(27),
-			ci => grid3(2)(27),
-			s => grid2(2)(27),
-			co => grid2(0)(28) );
-
-	-- full adder c27, number 1
-	lv2_c27_FA_1: fullAdder
-		port map (
-			i0 => grid3(3)(27),
-			i1 => grid3(4)(27),
-			ci => grid3(5)(27),
-			s => grid2(3)(27),
-			co => grid2(1)(28) );
+			i2 => grid3(2)(27),
+			i3 => grid3(3)(27),
+			out0 => grid2(1)(27),
+			out1 => grid2(0)(28) );
 
 	-- move the other elements of the column
+	grid2(2)(27) <= grid3(4)(27);
+	grid2(3)(27) <= grid3(5)(27);
 
 	----------------------------- 
 	-- COLUMN 28
 	----------------------------- 
-	-- full adder c28, number 0
-	lv2_c28_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c28, number 0
+	lv2_c28_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid3(0)(28),
 			i1 => grid3(1)(28),
-			ci => grid3(2)(28),
-			s => grid2(2)(28),
-			co => grid2(0)(29) );
-
-	-- full adder c28, number 1
-	lv2_c28_FA_1: fullAdder
-		port map (
-			i0 => grid3(3)(28),
-			i1 => grid3(4)(28),
-			ci => grid3(5)(28),
-			s => grid2(3)(28),
-			co => grid2(1)(29) );
+			i2 => grid3(2)(28),
+			i3 => grid3(3)(28),
+			out0 => grid2(1)(28),
+			out1 => grid2(0)(29) );
 
 	-- move the other elements of the column
+	grid2(2)(28) <= grid3(4)(28);
+	grid2(3)(28) <= grid3(5)(28);
 
 	----------------------------- 
 	-- COLUMN 29
 	----------------------------- 
-	-- full adder c29, number 0
-	lv2_c29_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c29, number 0
+	lv2_c29_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid3(0)(29),
 			i1 => grid3(1)(29),
-			ci => grid3(2)(29),
-			s => grid2(2)(29),
-			co => grid2(0)(30) );
-
-	-- full adder c29, number 1
-	lv2_c29_FA_1: fullAdder
-		port map (
-			i0 => grid3(3)(29),
-			i1 => grid3(4)(29),
-			ci => grid3(5)(29),
-			s => grid2(3)(29),
-			co => grid2(1)(30) );
+			i2 => grid3(2)(29),
+			i3 => grid3(3)(29),
+			out0 => grid2(1)(29),
+			out1 => grid2(0)(30) );
 
 	-- move the other elements of the column
+	grid2(2)(29) <= grid3(4)(29);
+	grid2(3)(29) <= grid3(5)(29);
 
 	----------------------------- 
 	-- COLUMN 30
 	----------------------------- 
-	-- full adder c30, number 0
-	lv2_c30_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c30, number 0
+	lv2_c30_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid3(0)(30),
 			i1 => grid3(1)(30),
-			ci => grid3(2)(30),
-			s => grid2(2)(30),
-			co => grid2(0)(31) );
-
-	-- full adder c30, number 1
-	lv2_c30_FA_1: fullAdder
-		port map (
-			i0 => grid3(3)(30),
-			i1 => grid3(4)(30),
-			ci => grid3(5)(30),
-			s => grid2(3)(30),
-			co => grid2(1)(31) );
+			i2 => grid3(2)(30),
+			i3 => grid3(3)(30),
+			out0 => grid2(1)(30),
+			out1 => grid2(0)(31) );
 
 	-- move the other elements of the column
+	grid2(2)(30) <= grid3(4)(30);
+	grid2(3)(30) <= grid3(5)(30);
 
 	----------------------------- 
 	-- COLUMN 31
 	----------------------------- 
-	-- full adder c31, number 0
-	lv2_c31_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c31, number 0
+	lv2_c31_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid3(0)(31),
 			i1 => grid3(1)(31),
-			ci => grid3(2)(31),
-			s => grid2(2)(31),
-			co => grid2(0)(32) );
-
-	-- full adder c31, number 1
-	lv2_c31_FA_1: fullAdder
-		port map (
-			i0 => grid3(3)(31),
-			i1 => grid3(4)(31),
-			ci => grid3(5)(31),
-			s => grid2(3)(31),
-			co => grid2(1)(32) );
+			i2 => grid3(2)(31),
+			i3 => grid3(3)(31),
+			out0 => grid2(1)(31),
+			out1 => grid2(0)(32) );
 
 	-- move the other elements of the column
+	grid2(2)(31) <= grid3(4)(31);
+	grid2(3)(31) <= grid3(5)(31);
 
 	----------------------------- 
 	-- COLUMN 32
 	----------------------------- 
-	-- full adder c32, number 0
-	lv2_c32_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c32, number 0
+	lv2_c32_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid3(0)(32),
 			i1 => grid3(1)(32),
-			ci => grid3(2)(32),
-			s => grid2(2)(32),
-			co => grid2(0)(33) );
-
-	-- full adder c32, number 1
-	lv2_c32_FA_1: fullAdder
-		port map (
-			i0 => grid3(3)(32),
-			i1 => grid3(4)(32),
-			ci => grid3(5)(32),
-			s => grid2(3)(32),
-			co => grid2(1)(33) );
+			i2 => grid3(2)(32),
+			i3 => grid3(3)(32),
+			out0 => grid2(1)(32),
+			out1 => grid2(0)(33) );
 
 	-- move the other elements of the column
+	grid2(2)(32) <= grid3(4)(32);
+	grid2(3)(32) <= grid3(5)(32);
 
 	----------------------------- 
 	-- COLUMN 33
 	----------------------------- 
-	-- full adder c33, number 0
-	lv2_c33_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c33, number 0
+	lv2_c33_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid3(0)(33),
 			i1 => grid3(1)(33),
-			ci => grid3(2)(33),
-			s => grid2(2)(33),
-			co => grid2(0)(34) );
-
-	-- full adder c33, number 1
-	lv2_c33_FA_1: fullAdder
-		port map (
-			i0 => grid3(3)(33),
-			i1 => grid3(4)(33),
-			ci => grid3(5)(33),
-			s => grid2(3)(33),
-			co => grid2(1)(34) );
+			i2 => grid3(2)(33),
+			i3 => grid3(3)(33),
+			out0 => grid2(1)(33),
+			out1 => grid2(0)(34) );
 
 	-- move the other elements of the column
+	grid2(2)(33) <= grid3(4)(33);
+	grid2(3)(33) <= grid3(5)(33);
 
 	----------------------------- 
 	-- COLUMN 34
 	----------------------------- 
-	-- full adder c34, number 0
-	lv2_c34_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c34, number 0
+	lv2_c34_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid3(0)(34),
 			i1 => grid3(1)(34),
-			ci => grid3(2)(34),
-			s => grid2(2)(34),
-			co => grid2(0)(35) );
-
-	-- full adder c34, number 1
-	lv2_c34_FA_1: fullAdder
-		port map (
-			i0 => grid3(3)(34),
-			i1 => grid3(4)(34),
-			ci => grid3(5)(34),
-			s => grid2(3)(34),
-			co => grid2(1)(35) );
+			i2 => grid3(2)(34),
+			i3 => grid3(3)(34),
+			out0 => grid2(1)(34),
+			out1 => grid2(0)(35) );
 
 	-- move the other elements of the column
+	grid2(2)(34) <= grid3(4)(34);
+	grid2(3)(34) <= grid3(5)(34);
 
 	----------------------------- 
 	-- COLUMN 35
 	----------------------------- 
-	-- full adder c35, number 0
-	lv2_c35_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c35, number 0
+	lv2_c35_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid3(0)(35),
 			i1 => grid3(1)(35),
-			ci => grid3(2)(35),
-			s => grid2(2)(35),
-			co => grid2(0)(36) );
-
-	-- full adder c35, number 1
-	lv2_c35_FA_1: fullAdder
-		port map (
-			i0 => grid3(3)(35),
-			i1 => grid3(4)(35),
-			ci => grid3(5)(35),
-			s => grid2(3)(35),
-			co => grid2(1)(36) );
+			i2 => grid3(2)(35),
+			i3 => grid3(3)(35),
+			out0 => grid2(1)(35),
+			out1 => grid2(0)(36) );
 
 	-- move the other elements of the column
+	grid2(2)(35) <= grid3(4)(35);
+	grid2(3)(35) <= grid3(5)(35);
 
 	----------------------------- 
 	-- COLUMN 36
 	----------------------------- 
-	-- full adder c36, number 0
-	lv2_c36_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c36, number 0
+	lv2_c36_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid3(0)(36),
 			i1 => grid3(1)(36),
-			ci => grid3(2)(36),
-			s => grid2(2)(36),
-			co => grid2(0)(37) );
-
-	-- full adder c36, number 1
-	lv2_c36_FA_1: fullAdder
-		port map (
-			i0 => grid3(3)(36),
-			i1 => grid3(4)(36),
-			ci => grid3(5)(36),
-			s => grid2(3)(36),
-			co => grid2(1)(37) );
+			i2 => grid3(2)(36),
+			i3 => grid3(3)(36),
+			out0 => grid2(1)(36),
+			out1 => grid2(0)(37) );
 
 	-- move the other elements of the column
+	grid2(2)(36) <= grid3(4)(36);
+	grid2(3)(36) <= grid3(5)(36);
 
 	----------------------------- 
 	-- COLUMN 37
 	----------------------------- 
-	-- full adder c37, number 0
-	lv2_c37_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c37, number 0
+	lv2_c37_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid3(0)(37),
 			i1 => grid3(1)(37),
-			ci => grid3(2)(37),
-			s => grid2(2)(37),
-			co => grid2(0)(38) );
-
-	-- full adder c37, number 1
-	lv2_c37_FA_1: fullAdder
-		port map (
-			i0 => grid3(3)(37),
-			i1 => grid3(4)(37),
-			ci => grid3(5)(37),
-			s => grid2(3)(37),
-			co => grid2(1)(38) );
+			i2 => grid3(2)(37),
+			i3 => grid3(3)(37),
+			out0 => grid2(1)(37),
+			out1 => grid2(0)(38) );
 
 	-- move the other elements of the column
+	grid2(2)(37) <= grid3(4)(37);
+	grid2(3)(37) <= grid3(5)(37);
 
 	----------------------------- 
 	-- COLUMN 38
 	----------------------------- 
-	-- full adder c38, number 0
-	lv2_c38_FA_0: fullAdder
+	-- 4 to 2 lossy compressor c38, number 0
+	lv2_c38_CMPRS_0: approx_comp_4to2
 		port map (
 			i0 => grid3(0)(38),
 			i1 => grid3(1)(38),
-			ci => grid3(2)(38),
-			s => grid2(2)(38),
-			co => grid2(0)(39) );
-
-	-- full adder c38, number 1
-	lv2_c38_FA_1: fullAdder
-		port map (
-			i0 => grid3(3)(38),
-			i1 => grid3(4)(38),
-			ci => grid3(5)(38),
-			s => grid2(3)(38),
-			co => grid2(1)(39) );
+			i2 => grid3(2)(38),
+			i3 => grid3(3)(38),
+			out0 => grid2(1)(38),
+			out1 => grid2(0)(39) );
 
 	-- move the other elements of the column
+	grid2(2)(38) <= grid3(4)(38);
+	grid2(3)(38) <= grid3(5)(38);
 
 	----------------------------- 
 	-- COLUMN 39
@@ -2715,32 +2324,26 @@ begin
 			i0 => grid3(0)(39),
 			i1 => grid3(1)(39),
 			ci => grid3(2)(39),
-			s => grid2(2)(39),
+			s => grid2(1)(39),
 			co => grid2(0)(40) );
 
-	-- half adder c39, number 0
-	lv2_c39_HA_0: halfAdder
-		port map (
-			i0 => grid3(3)(39),
-			i1 => grid3(4)(39),
-			s => grid2(3)(39),
-			co => grid2(1)(40) );
-
 	-- move the other elements of the column
+	grid2(2)(39) <= grid3(3)(39);
+	grid2(3)(39) <= grid3(4)(39);
 
 	----------------------------- 
 	-- COLUMN 40
 	----------------------------- 
-	-- full adder c40, number 0
-	lv2_c40_FA_0: fullAdder
+	-- half adder c40, number 0
+	lv2_c40_HA_0: halfAdder
 		port map (
 			i0 => grid3(0)(40),
 			i1 => grid3(1)(40),
-			ci => grid3(2)(40),
-			s => grid2(2)(40),
+			s => grid2(1)(40),
 			co => grid2(0)(41) );
 
 	-- move the other elements of the column
+	grid2(2)(40) <= grid3(2)(40);
 	grid2(3)(40) <= grid3(3)(40);
 
 	----------------------------- 
@@ -3449,6 +3052,9 @@ begin
 	-- move the other elements of the column
 	grid0(0)(1) <= grid1(0)(1);
 
+	-- fix missing assignments in the last level 
+	grid0(1)(1) <= '0';
+
 	----------------------------- 
 	-- COLUMN 2
 	----------------------------- 
@@ -4066,9 +3672,6 @@ begin
 	-----------------------------------------------------------------
 	-- AUTO GENERATED VHDL -- end
 	-----------------------------------------------------------------
-
-	-- missing columns at the end
-	grid0(1)(1) <= '0';
 
 	-- last two levels
 	add0 <= grid0(0)((WL_INT+2*WL_FRAC)-1 downto 0);
