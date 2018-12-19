@@ -1,9 +1,9 @@
 #!/bin/python3
 
-FIN_NAME="common/samples.txt"
+FIN_NAME="common/samplesE.txt"
 FOUT_NAME="common/pyresult.txt"
 
-OUTPAR=46
+OUTPAR=47
 
 in_file=open(FIN_NAME,"r")
 out_file=open(FOUT_NAME,"w")
