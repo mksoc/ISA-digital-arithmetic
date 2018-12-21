@@ -1,6 +1,6 @@
 #!/bin/python3
 
-FIN_NAME="common/samples.txt"
+FIN_NAME="common/samplesE.txt"
 FOUT_NAME="common/pyresult.txt"
 
 OUTPAR=47

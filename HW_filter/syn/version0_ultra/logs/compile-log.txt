@@ -1,0 +1,238 @@
+Analyzing: "/software/dk/nangate45/synopsys/NangateOpenCellLibrary_typical_ecsm_nowlm.db"
+Library analysis succeeded.
+Information: Data-path optimization is enabled. (DP-1)
+Information: Evaluating DesignWare library utilization. (UISN-27)
+
+============================================================================
+| DesignWare Building Block Library       |      Version       | Available |
+============================================================================
+| Basic DW Building Blocks                | Z-2007.03-DWBB_0704 |    *     |
+| Licensed DW Building Blocks             | Z-2007.03-DWBB_0704 |    *     |
+============================================================================
+
+Information: Sequential output inversion is enabled.  SVF file must be used for formal verification. (OPT-1208)
+
+Information: There are 1 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
+
+
+Loaded alib file './alib-52/NangateOpenCellLibrary_typical_ecsm_nowlm.db.alib'
+Information: Ungrouping 0 of 1 hierarchies before Pass 1 (OPT-775)
+
+  Beginning Pass 1 Mapping
+  ------------------------
+  Processing 'iir_filter'
+
+  Updating timing information
+Information: Updating design information... (UID-85)
+
+  Beginning Implementation Selection
+  ----------------------------------
+  Mapping 'iir_filter_DP_add_237_DP_OP_277_3367_0'
+  Mapping 'iir_filter_DP_sub_238_DP_OP_276_5688_0'
+  Mapping 'iir_filter_DW_cmp_0'
+  Mapping 'iir_filter_DW_cmp_1'
+  Processing 'iir_filter_DW01_add_0'
+  Mapping 'iir_filter_DW_mult_tc_0'
+  Mapping 'iir_filter_DW_mult_tc_1'
+  Mapping 'iir_filter_DW_mult_tc_2'
+  Mapping 'iir_filter_DW_mult_tc_3'
+  Mapping 'iir_filter_DW_mult_tc_4'
+  Mapping 'iir_filter_DW_mult_tc_5'
+
+  Beginning Mapping Optimizations  (Ultra High effort)
+  -------------------------------
+Information: Added key list 'DesignWare' to design 'iir_filter'. (DDB-72)
+  Re-synthesis Optimization (Phase 1)
+  Re-synthesis Optimization (Phase 2)
+  Re-synthesis Optimization (Phase 3)
+  Re-synthesis Optimization (Phase 4)
+  Re-synthesis Optimization (Phase 5)
+  Re-synthesis Optimization (Phase 6)
+  Re-synthesis Optimization (Phase 7)
+  Re-synthesis Optimization (Phase 8)
+  Re-synthesis Optimization (Phase 9)
+  Global Optimization (Phase 1)
+  Global Optimization (Phase 2)
+  Global Optimization (Phase 3)
+  Global Optimization (Phase 4)
+  Global Optimization (Phase 5)
+  Global Optimization (Phase 6)
+  Global Optimization (Phase 7)
+  Global Optimization (Phase 8)
+  Global Optimization (Phase 9)
+  Global Optimization (Phase 10)
+  Global Optimization (Phase 11)
+  Global Optimization (Phase 12)
+  Global Optimization (Phase 13)
+  Global Optimization (Phase 14)
+  Global Optimization (Phase 15)
+  Global Optimization (Phase 16)
+  Global Optimization (Phase 17)
+  Global Optimization (Phase 18)
+  Global Optimization (Phase 19)
+  Global Optimization (Phase 20)
+  Global Optimization (Phase 21)
+  Global Optimization (Phase 22)
+  Global Optimization (Phase 23)
+  Global Optimization (Phase 24)
+  Global Optimization (Phase 25)
+  Global Optimization (Phase 26)
+  Global Optimization (Phase 27)
+  Global Optimization (Phase 28)
+  Global Optimization (Phase 29)
+  Global Optimization (Phase 30)
+  Global Optimization (Phase 31)
+  Mapping 'iir_filter_DW_mult_tc_0'
+
+   ELAPSED            WORST NEG TOTAL NEG  DESIGN                            
+    TIME      AREA      SLACK     SLACK   RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:02:24   18448.2      1.59     472.1       0.0                          
+    0:02:24   18448.2      1.59     472.1       0.0                          
+
+
+  Beginning Delay Optimization Phase
+  ----------------------------------
+
+   ELAPSED            WORST NEG TOTAL NEG  DESIGN                            
+    TIME      AREA      SLACK     SLACK   RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:02:24   18448.2      1.59     472.1       0.0                          
+    0:02:27   18471.0      1.56     469.2       0.0                          
+    0:02:30   18491.3      1.55     467.1       0.0                          
+    0:02:32   18493.7      1.54     466.2       0.0                          
+    0:02:34   18500.8      1.54     465.2       0.0                          
+    0:02:37   18508.3      1.54     464.5       0.0                          
+    0:02:39   18509.3      1.54     464.0       0.0                          
+    0:02:41   18508.8      1.54     463.5       0.0                          
+    0:02:44   18609.4      1.53     462.7       0.0 DP/reg_pipe10/Q_reg[15]/D
+    0:02:47   18805.4      1.52     461.7       0.0                          
+    0:02:49   18805.7      1.52     461.5       0.0                          
+    0:02:51   18812.6      1.51     461.3       0.0                          
+    0:02:53   18815.0      1.51     461.1       0.0                          
+    0:02:55   18830.9      1.51     460.9       0.0                          
+    0:02:57   18837.1      1.51     460.6       0.0                          
+    0:03:00   18851.7      1.50     460.1       0.0 DP/reg_pipe12/Q_reg[15]/D
+    0:03:03   18894.5      1.49     459.8       0.0                          
+    0:03:05   18895.0      1.49     459.7       0.0                          
+    0:03:07   18894.8      1.49     459.4       0.0                          
+    0:03:09   18909.1      1.49     459.4       0.0                          
+    0:03:10   18909.9      1.49     459.4       0.0                          
+    0:03:12   18923.2      1.49     459.1       0.0 DP/reg_pipe10/Q_reg[15]/D
+    0:03:14   18941.3      1.48     458.5       0.0 DP/reg_pipe13/Q_reg[11]/D
+    0:03:17   18952.2      1.48     458.1       0.0 DP/reg_pipe13/Q_reg[20]/D
+    0:03:19   18971.7      1.47     457.4       0.0 DP/reg_ret1/Q_reg[15]/D  
+    0:03:22   18980.4      1.47     456.7       0.0 DP/reg_ret0/Q_reg[22]/D  
+    0:03:25   18993.5      1.46     456.1       0.0 DP/reg_pipe12/Q_reg[13]/D
+    0:03:28   19007.8      1.46     455.7       0.0 DP/reg_pipe13/Q_reg[15]/D
+    0:03:31   19031.2      1.46     455.5       0.0 DP/reg_ret1/Q_reg[14]/D  
+    0:03:33   19050.4      1.45     454.9       0.0 DP/reg_pipe12/Q_reg[13]/D
+    0:03:35   19070.6      1.45     454.4       0.0 DP/reg_ret1/Q_reg[13]/D  
+    0:03:38   19086.3      1.45     454.1       0.0 DP/reg_pipe13/Q_reg[11]/D
+    0:03:40   19092.9      1.44     453.8       0.0 DP/reg_pipe13/Q_reg[15]/D
+    0:03:43   19107.8      1.44     453.7       0.0                          
+    0:03:45   19109.4      1.44     453.6       0.0                          
+    0:03:47   19109.7      1.44     453.5       0.0                          
+    0:03:48   19111.3      1.44     453.5       0.0                          
+    0:03:50   19123.0      1.44     453.1       0.0 DP/reg_ret0/Q_reg[21]/D  
+    0:03:53   19148.5      1.43     452.8       0.0 DP/reg_ret1/Q_reg[14]/D  
+    0:03:55   19156.0      1.43     452.6       1.5 DP/reg_pipe12/Q_reg[15]/D
+    0:03:57   19160.8      1.43     452.1       1.5 DP/reg_pipe11/Q_reg[15]/D
+    0:03:59   19167.7      1.43     451.8       1.5 DP/reg_ret1/Q_reg[15]/D  
+    0:04:02   19192.4      1.43     451.5       1.5 DP/reg_ret0/Q_reg[23]/D  
+    0:04:04   19205.2      1.42     451.3       1.5 DP/reg_pipe12/Q_reg[16]/D
+    0:04:06   19213.7      1.42     451.0       1.5 DP/reg_ret0/Q_reg[23]/D  
+    0:04:08   19233.7      1.42     450.7       0.0 DP/reg_ret1/Q_reg[18]/D  
+    0:04:13   19331.8      1.42     450.2       0.0 DP/reg_pipe12/Q_reg[16]/D
+    0:04:15   19349.4      1.41     450.0       0.0 DP/reg_pipe11/Q_reg[15]/D
+    0:04:17   19366.9      1.41     450.5       0.0 DP/reg_ret0/Q_reg[11]/D  
+    0:04:19   19369.6      1.41     450.3       0.0 DP/reg_pipe13/Q_reg[10]/D
+    0:04:22   19383.2      1.41     450.2       0.0 DP/reg_pipe11/Q_reg[15]/D
+    0:04:24   19393.5      1.41     450.0       0.0 DP/reg_ret0/Q_reg[22]/D  
+    0:04:26   19402.3      1.41     449.9       0.0                          
+    0:04:28   19401.8      1.41     449.8       0.0                          
+    0:04:30   19402.8      1.41     449.8       0.0                          
+    0:04:32   19415.6      1.40     449.7       0.0                          
+    0:04:34   19414.8      1.40     449.6       0.0                          
+    0:04:36   19417.2      1.40     449.5       0.0                          
+    0:04:38   19424.1      1.40     449.4       0.0                          
+    0:04:40   19428.9      1.40     449.4       0.0                          
+    0:04:43   19425.4      1.40     448.4       0.0                          
+    0:04:43   19423.9      1.40     448.4       0.0                          
+    0:04:47   19427.0      1.40     448.3       0.0 DP/reg_pipe11/Q_reg[18]/D
+    0:04:49   19432.6      1.40     448.2       0.0 DP/reg_pipe13/Q_reg[13]/D
+    0:04:50   19433.4      1.40     448.2       0.0 DP/reg_pipe13/Q_reg[13]/D
+    0:04:55   19433.4      1.40     448.2       0.0                          
+    0:04:57   19436.4      1.40     448.1       0.0                          
+    0:04:59   19451.5      1.40     448.0       0.0                          
+    0:05:01   19453.4      1.40     448.0       0.0                          
+    0:05:02   19453.6      1.40     447.9       0.0                          
+    0:05:03   19453.6      1.40     447.9       0.0                          
+    0:05:07   19154.7      1.40     451.5       0.0                          
+    0:05:08   19154.4      1.40     451.5       0.0                          
+    0:05:10   19161.0      1.40     451.4       0.0                          
+
+   ELAPSED            WORST NEG TOTAL NEG  DESIGN                            
+    TIME      AREA      SLACK     SLACK   RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:05:12   19123.3      1.40     450.1       0.0                          
+    0:05:12   19123.3      1.40     450.1       0.0                          
+
+
+  Beginning Area-Recovery Phase  (max_area 0)
+  -----------------------------
+
+   ELAPSED            WORST NEG TOTAL NEG  DESIGN                            
+    TIME      AREA      SLACK     SLACK   RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:05:12   19123.3      1.40     450.1       0.0                          
+  Global Optimization (Phase 1)
+  Global Optimization (Phase 2)
+  Global Optimization (Phase 3)
+  Global Optimization (Phase 4)
+  Global Optimization (Phase 5)
+  Global Optimization (Phase 6)
+  Global Optimization (Phase 1)
+  Global Optimization (Phase 2)
+  Global Optimization (Phase 3)
+  Global Optimization (Phase 4)
+  Global Optimization (Phase 5)
+  Global Optimization (Phase 6)
+  Global Optimization (Phase 7)
+  Global Optimization (Phase 8)
+  Global Optimization (Phase 9)
+  Global Optimization (Phase 10)
+  Global Optimization (Phase 11)
+  Global Optimization (Phase 12)
+  Global Optimization (Phase 13)
+  Global Optimization (Phase 14)
+  Global Optimization (Phase 15)
+  Global Optimization (Phase 16)
+  Global Optimization (Phase 17)
+  Global Optimization (Phase 18)
+  Global Optimization (Phase 19)
+  Global Optimization (Phase 20)
+  Global Optimization (Phase 21)
+  Global Optimization (Phase 22)
+  Global Optimization (Phase 23)
+  Global Optimization (Phase 24)
+  Global Optimization (Phase 25)
+  Global Optimization (Phase 26)
+    0:05:26   19038.4      1.40     447.2       0.0 DP/reg_pipe12/Q_reg[13]/D
+    0:05:27   19047.5      1.40     447.0       0.0                          
+    0:05:29   19049.3      1.39     447.0       0.0                          
+    0:05:31   19056.2      1.39     446.9       0.0                          
+    0:05:32   19056.8      1.39     446.9       0.0                          
+    0:05:34   19067.1      1.39     446.7       0.0                          
+    0:05:36   19073.5      1.39     446.5       0.0                          
+    0:05:38   19074.1      1.39     446.3       0.0                          
+    0:05:40   19074.9      1.39     446.1       0.0                          
+    0:05:40   19097.2      1.39     446.1       0.0                          
+    0:05:42   19099.1      1.39     446.0       0.0                          
+    0:05:45   19118.2      1.39     446.1       0.0 DP/reg_ret0/Q_reg[23]/D  
+    0:05:46   19121.9      1.39     446.0       0.0                          
+Loading db file '/software/dk/nangate45/synopsys/NangateOpenCellLibrary_typical_ecsm_nowlm.db'
+
+  Optimization Complete
+  ---------------------
+1

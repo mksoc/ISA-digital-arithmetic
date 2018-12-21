@@ -1,0 +1,89 @@
+Information: Updating design information... (UID-85)
+Warning: Design 'iir_filter' contains 2 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+ 
+****************************************
+Report : resources
+Design : iir_filter
+Version: Z-2007.03-SP1
+Date   : Wed Dec 12 16:43:12 2018
+****************************************
+
+Resource Sharing Report for design iir_filter in file
+        ../version0/iir_filterDP.vhd
+
+===============================================================================
+|          |              |            | Contained     |                      |
+| Resource | Module       | Parameters | Resources     | Contained Operations |
+===============================================================================
+| r345     | DW_mult_tc   | a_width=24 |               | DP/mult_225          |
+|          |              | b_width=24 |               |                      |
+| r347     | DW_mult_tc   | a_width=24 |               | DP/mult_226          |
+|          |              | b_width=24 |               |                      |
+| r349     | DW_mult_tc   | a_width=24 |               | DP/mult_227          |
+|          |              | b_width=24 |               |                      |
+| r351     | DW_mult_tc   | a_width=24 |               | DP/mult_228          |
+|          |              | b_width=24 |               |                      |
+| r353     | DW_mult_tc   | a_width=24 |               | DP/mult_229          |
+|          |              | b_width=24 |               |                      |
+| r355     | DW_mult_tc   | a_width=24 |               | DP/mult_230          |
+|          |              | b_width=24 |               |                      |
+| r357     | DP_sub_238_DP_OP_276_5688 |  |            | DP/add_235           |
+| r359     | DP_add_237_DP_OP_277_3367 |  |            | DP/add_236           |
+| r361     | DP_add_237_DP_OP_277_3367 |  |            | DP/add_237           |
+| r363     | DP_sub_238_DP_OP_276_5688 |  |            | DP/sub_238           |
+| r365     | DW01_add     | width=24   |               | DP/add_244           |
+| r367     | DW_cmp       | width=24   |               | DP/gt_247            |
+| r369     | DW_cmp       | width=24   |               | DP/lt_249            |
+===============================================================================
+
+Datapath Report for design iir_filter in file ../version0/iir_filterDP.vhd 
+
+RTL-datapath Connections for DP_add_237_DP_OP_277_3367-str
+====================================================================
+|                      |                      |            | Bus   |
+| RTL Wire             | Datapath Port        | Direction  | Width |
+====================================================================
+| DP/pipe11            | I1                   | input      | 24    |
+| DP/pipe12            | I2                   | input      | 24    |
+| DP/pipe13            | I3                   | input      | 24    |
+| DP/ff                | O3                   | output     | 24    |
+====================================================================
+
+
+Datapath Blocks in DP_add_237_DP_OP_277_3367-str
+===============================================================================
+|            | Out   |                           | Contained      | Operation |
+| Port       | Width | Datapath Block            | Operation_Line | Type      |
+===============================================================================
+| O3         | 24    | I1 + I2 + I3              | DP/add_237     | SIGNED    |
+|            |       |                           | DP/add_236     | SIGNED    |
+===============================================================================
+
+Datapath Report for design iir_filter in file ../version0/iir_filterDP.vhd 
+
+RTL-datapath Connections for DP_sub_238_DP_OP_276_5688-str
+====================================================================
+|                      |                      |            | Bus   |
+| RTL Wire             | Datapath Port        | Direction  | Width |
+====================================================================
+| DP/x[11]-DP/*Logic0* | I1                   | input      | 23    |
+| DP/ret0              | I2                   | input      | 24    |
+| DP/ret1              | I3                   | input      | 24    |
+| DP/w                 | O2                   | output     | 24    |
+====================================================================
+
+
+Datapath Blocks in DP_sub_238_DP_OP_276_5688-str
+===============================================================================
+|            | Out   |                           | Contained      | Operation |
+| Port       | Width | Datapath Block            | Operation_Line | Type      |
+===============================================================================
+| O2         | 24    | I1 - I2 - I3              | DP/sub_238     | SIGNED    |
+|            |       |                           | DP/add_235     | SIGNED    |
+===============================================================================
+
+
+No implementations to report
+
+No multiplexors to report
+1

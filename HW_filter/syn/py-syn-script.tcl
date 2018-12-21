@@ -1,15 +1,17 @@
 # =================================================================
 # *****************************************************************
 # *************** GENERATED USING syn_script_gen.py ***************
-# ************           2018-11-12 15:28:16           ************
+# ************           2018-12-12 16:31:32           ************
 # *****************************************************************
 # The script was generated starting from these values of variables:
 # version = 0
-# clock period = 5.8
-# compile command = 1
+# clock period = 0.0
+# compile command = 2
 # =================================================================
 
 # compile source files
+# set optimization mode
+set_ultra_optimization true
 analyze -f vhdl -lib WORK ../src/filter_pkg.vhd
 analyze -f vhdl -lib WORK ../src/iir_filterCU.vhd
 analyze -f vhdl -lib WORK ../src/reg.vhd
@@ -25,7 +27,7 @@ uniquify
 link
 
 # create symbolic clock signal
-create_clock -name CLOCK -period 5.8 clk
+create_clock -name CLOCK -period 0.0 clk
 set_dont_touch_network CLOCK
 set_clock_uncertainty 0.07 [get_clocks CLOCK]
 
@@ -40,13 +42,15 @@ set $OLOAD [all_outputs]
 # flatten hierarchy
 ungroup -all -flatten
 
-# set implementations
-set_implementation DW01_add/pparch [find cell *add_*]
-set_implementation DW01_sub/pparch [find cell *sub_*]
-set_implementation DW02_mult/pparch [find cell *mult_*]
-
 # start synthesis
-compile > ./logs/compile-log.txt
+compile_ultra > ./logs/compile-log.txt
+
+# apply retiming to design
+set_dont_touch *reg_in*
+set_dont_touch *reg_coeff_fb_i_*
+set_dont_touch *reg_b_i_*
+set_dont_touch *reg_out*
+optimize_registers
 
 # save results
 report_resources > ./reports/resources-report.txt

@@ -26,6 +26,12 @@ def gen_tcl(version, period, adder=None, multiplier=None, compile_cmd='compile')
         script_file.write('\n# compile source files')
         src_files = [f for f in os.listdir('{}/HW_filter/src'.format(repo_root)) if os.path.isfile(os.path.join('{}/HW_filter/src'.format(repo_root), f))]
         ver_files = [f for f in os.listdir('{}/HW_filter/version{}'.format(repo_root, version)) if os.path.isfile(os.path.join('{}/HW_filter/version{}'.format(repo_root, version), f)) and '.vhd' in f]
+
+        # Enable 'ultra' optimization mode if 'compile_ultra' command is issued
+        script_file.write('\n# set optimization mode')
+        script_file.write('\nset_ultra_optimization {}'.format('flase' if compile_cmd == 1 else 'true'))
+
+        # Analyze 
         if 'filter_pkg.vhd' in src_files:
             script_file.write('\nanalyze -f vhdl -lib WORK ../src/filter_pkg.vhd')
             src_files.remove('filter_pkg.vhd')
@@ -58,6 +64,10 @@ set $OLOAD [all_outputs]
 # flatten hierarchy
 ungroup -all -flatten""")
 
+
+        # Force Design Compiler to use specific implementations (if 'ultra' mode is not requested)
+        # if compile_cmd == 1:
+
         if adder is not None or multiplier is not None:
             script_file.write('\n\n# set implementations')        
 
@@ -77,8 +87,19 @@ ungroup -all -flatten""")
                 script_file.write('\nset_implementation DW02_mult/pparch [find cell *mult_*]')
 
         script_file.write("""\n\n# start synthesis
-{} > ./logs/compile-log.txt""".format('compile' if compile_cmd == 1 else 'compile-ultra'))
+{} > ./logs/compile-log.txt""".format('compile' if compile_cmd == 1 else 'compile_ultra'))
 
+        if compile_cmd == 2:
+            # Don't aplly retiming to input and output registers
+            script_file.write('\n\n# apply retiming to design')
+            script_file.write('\nset_dont_touch *reg_in*')
+            script_file.write('\nset_dont_touch *reg_coeff_fb_i_*')
+            script_file.write('\nset_dont_touch *reg_b_i_*')
+            script_file.write('\nset_dont_touch *reg_out*')
+
+            # Apply retiming to remaining registers (retiming and pipeline)
+            script_file.write('\noptimize_registers')
+            
         script_file.write("""\n\n# save results
 report_resources > ./reports/resources-report.txt
 report_timing > ./reports/timing-report.txt
