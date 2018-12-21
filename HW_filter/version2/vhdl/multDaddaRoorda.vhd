@@ -8,7 +8,7 @@ entity multDaddaRoorda is
   port (
     multiplier:     in std_logic_vector (N-1 downto 0);
     multiplicand:   in std_logic_vector (N-1 downto 0);
-    product:        out std_logic_vector (N-1 downto 0)
+    product:        out std_logic_vector (2*(N-1) downto 0)
   );
 end entity;
 
@@ -16,18 +16,17 @@ architecture struct of multDaddaRoorda is
 
   constant approximate_bits: positive :=6;
 --Signals for MBE block
-  signal recode_bits0 : std_logic_vector (2 downto 0);
-  signal inv          : std_logic_vector (numPartProd-1 downto 0);
-  signal last_pp      : std_logic_vector (N downto 0);
-  signal add0,add1    : std_logic_vector (39 downto 0);
-  signal add0s,add1s  : signed (39 downto 0);
-  signal sum          : signed (39 downto 0);
-  signal grid5,pps	  : aidGrid5;
-  signal grid4        : aidGrid4;
-  signal grid3        : aidGrid3;
-  signal grid2        : aidGrid2;
-  signal grid1        : aidGrid1;
-  signal grid0        : aidGrid0;
+  signal recode_bits0     : std_logic_vector (2 downto 0);
+  signal inv              : std_logic_vector (numPartProd-1 downto 0);
+  signal last_pp          : std_logic_vector (N downto 0);
+  signal add0,add1        : std_logic_vector (39 downto 0);
+  signal add0s,add1s,sum  : signed (40 downto 0);
+  signal grid5,pps	      : aidGrid5;
+  signal grid4            : aidGrid4;
+  signal grid3            : aidGrid3;
+  signal grid2            : aidGrid2;
+  signal grid1            : aidGrid1;
+  signal grid0            : aidGrid0;
 
 begin
 --MBE partial product generation
@@ -3804,11 +3803,11 @@ begin
   add1 <= grid0(1)(40-1 downto 0);
 
   -- adder
-  add0s<=signed(add0);
-  add1s<=signed(add1);
+  add0s<=signed(add0(add0'length-1) & add0);
+  add1s<=signed(add1(add1'length-1) & add1);
   sum <= (add0s+add1s);
 
   -- truncation step
-  product <= std_logic_vector(sum(39 downto (39-N+1)));
+  product <= std_logic_vector(sum) & (5 downto 0=>'0');
 
   end struct;
