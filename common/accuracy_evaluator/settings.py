@@ -1,0 +1,1 @@
+remote_root = '/home/isa22/lab2'

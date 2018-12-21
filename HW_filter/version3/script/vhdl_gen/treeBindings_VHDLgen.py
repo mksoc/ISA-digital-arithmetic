@@ -186,7 +186,7 @@ def vhdlDaddaLevel(fileName, fileMode, srcMtx, dstMtx, srcMtxRows, dstMtxRows, m
 # nextMaxRows: maximum number of elements allowed per column in the next level 
 # mtxCols: number of column of the matrix. It must be equal to len(numElmArr)
 #
-def autoBind(numElmArr, nextMaxRows, mtxCols):
+def autoBind(numElmArr, nextMaxRows, mtxCols, approxCovering, startApprox):
 
 	import copy
 
