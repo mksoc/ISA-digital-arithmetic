@@ -14,7 +14,7 @@
 \usepackage{siunitx}
 
 \title{Integrated Systems Architecture\\Lab session 2 Report}
-\author{Marco Andorno (247222)\\Michele Caon\\Matteo Perotti (251453)\\Giuseppe Sarda}
+\author{Marco Andorno (247222)\\Michele Caon\\Matteo Perotti (251453)\\Giuseppe Sarda (255648)}
 
 \begin{document}
 \maketitle
@@ -218,7 +218,13 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 		In a single column we can count up to 13 elements, because the MUX let pass only \textbf{x} multiplied for the absolute value of the symbol \textbf{Y}. The "negative" bit (one of the three which encode a single symbol) it has to be added 
 		to the LSB of its partial product: therefore we have 12+1 elements at most in a column.
 		This is not so bad, because with the Dadda Tree we are still in the case of having only 5 levels of FA (13 elements in 
-		a column at most). 
+		a column at most).
+	\section{\textit{Version 2}: Approximated multiplier architecture}
+	The main idea for \textit{version 2}, as suggested in the lab paper, is to approximate the partial products in order to gain mainly in terms of power and area.
+	This can be achieved by simply truncating the 6 LSBs before allocating any half or full adder in those positions that have been set to '0'.
+	Based on the work done for \textit{version 1}, the same assumption was taken: analyzing the values of the constants used in the modified algorithm, the two MSBs of an n*n bits signed multiplication can be dropped because they will be just a sign extension of the obtained product. See previous paragraph for a full explanation.\newline
+	Before writing the VHDL code a previous analysis of maximum and average error was done for the single multiplier and for the complete filter.
+	The approximated architecture was modeled in a simple Python script and then used as the multiplier in the C model.
 	\bibliography{ISA-lab2_report}
 	\bibliographystyle{ieeetr}
 
