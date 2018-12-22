@@ -185,7 +185,15 @@ def vhdlDaddaLevel(fileName, fileMode, srcMtx, dstMtx, srcMtxRows, dstMtxRows, m
 # numElmArr: each cell of this list keeps the number of elements of the current column (wrt the current level)
 # nextMaxRows: maximum number of elements allowed per column in the next level 
 # mtxCols: number of column of the matrix. It must be equal to len(numElmArr)
-#
+# compression: percentage of how many compressors will be bound wrt the maximum possible respecting the DADDA approach
+# startingDirection: can be either "right" or "left" and determines the starting direction from where the compressors are bound.
+# 
+# note on startingDirection: if this parameter is set to "left" the compression factor is not everytime precise, becouse
+# the count to determine the maximum number of compressors is done from right to left, but the assignment is done left to right
+# it would be more correct to assign all the compressors from right to left, then remove from right to left enough compressors
+# to fit the compression requirements and then bind from right to left with the FAs and the HAs.
+# With the adopted approach the compression will be higher than the inserted one
+
 def autoBind(numElmArr, nextMaxRows, mtxCols, compression, startingDirection):
 
 	import copy
@@ -221,11 +229,14 @@ def autoBind(numElmArr, nextMaxRows, mtxCols, compression, startingDirection):
 			if (actualColumn < mtxCols-1):
 					nextNumElmArr[actualColumn+1] += 1
 
+	# restore the lists
 	nextNumElmArr = copy.deepcopy(numElmArr)
 	checkNumElmArr = copy.deepcopy(numElmArr)
 
-	nCompressor = round(compression/100 * nCompressor) # compute how many approx compressors will be put
+	# compute how many approx compressors will be put
+	nCompressor = round(compression/100 * nCompressor) 
 
+	# bind
 	if (startingDirection == 'right'):
 
 		for actualColumn in range(mtxCols):
