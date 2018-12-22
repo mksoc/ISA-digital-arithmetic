@@ -187,12 +187,6 @@ def vhdlDaddaLevel(fileName, fileMode, srcMtx, dstMtx, srcMtxRows, dstMtxRows, m
 # mtxCols: number of column of the matrix. It must be equal to len(numElmArr)
 # compression: percentage of how many compressors will be bound wrt the maximum possible respecting the DADDA approach
 # startingDirection: can be either "right" or "left" and determines the starting direction from where the compressors are bound.
-# 
-# note on startingDirection: if this parameter is set to "left" the compression factor is not everytime precise, becouse
-# the count to determine the maximum number of compressors is done from right to left, but the assignment is done left to right
-# it would be more correct to assign all the compressors from right to left, then remove from right to left enough compressors
-# to fit the compression requirements and then bind from right to left with the FAs and the HAs.
-# With the adopted approach the compression will be higher than the inserted one
 
 def autoBind(numElmArr, nextMaxRows, mtxCols, compression, startingDirection):
 
@@ -202,7 +196,7 @@ def autoBind(numElmArr, nextMaxRows, mtxCols, compression, startingDirection):
 		print("Error in autoBind(numElmArr, nextMaxRows, mtxCols): len(numElmArr) != mtxCols")
 		return None # error!
 
-	nCompressor = 0
+	nCompressorMax = 0
 	cmprsArr = [0] * mtxCols
 	faArr = [0] * mtxCols
 	haArr = [0] * mtxCols
@@ -215,7 +209,7 @@ def autoBind(numElmArr, nextMaxRows, mtxCols, compression, startingDirection):
 		while (nextNumElmArr[actualColumn] >= nextMaxRows+3 and checkNumElmArr[actualColumn] >= 4):
 			nextNumElmArr[actualColumn] -= 3
 			checkNumElmArr[actualColumn] -= 4
-			nCompressor += 1 # +++++++++++++++++ COMPRESSORs COUNTING +++++++++++++++++++
+			nCompressorMax += 1 # +++++++++++++++++ COMPRESSORs COUNTING +++++++++++++++++++
 			if (actualColumn < mtxCols-1):
 				nextNumElmArr[actualColumn+1] += 1
 		while (nextNumElmArr[actualColumn] >= nextMaxRows+2 and checkNumElmArr[actualColumn] >= 3):
@@ -234,19 +228,43 @@ def autoBind(numElmArr, nextMaxRows, mtxCols, compression, startingDirection):
 	checkNumElmArr = copy.deepcopy(numElmArr)
 
 	# compute how many approx compressors will be put
-	nCompressor = round(compression/100 * nCompressor) 
+	nCompressor = round(compression/100 * nCompressorMax) 
 
 	# bind
-	if (startingDirection == 'right'):
-
-		for actualColumn in range(mtxCols):
-			while (nextNumElmArr[actualColumn] >= nextMaxRows+3 and checkNumElmArr[actualColumn] >= 4 and nCompressor > 0):
-				nextNumElmArr[actualColumn] -= 3
-				checkNumElmArr[actualColumn] -= 4
-				cmprsArr[actualColumn] += 1
-				nCompressor -= 1
-				if (actualColumn < mtxCols-1):
+	for actualColumn in range(mtxCols):
+		while (nextNumElmArr[actualColumn] >= nextMaxRows+3 and checkNumElmArr[actualColumn] >= 4 and nCompressor > 0):
+			nextNumElmArr[actualColumn] -= 3
+			checkNumElmArr[actualColumn] -= 4
+			cmprsArr[actualColumn] += 1
+			if (startingDirection == 'right'): nCompressor -= 1 # final bind if startingDirection = 'right', else bind with compression = 0% and than go on to the next if
+			if (actualColumn < mtxCols-1):
+				nextNumElmArr[actualColumn+1] += 1
+		while (nextNumElmArr[actualColumn] >= nextMaxRows+2 and checkNumElmArr[actualColumn] >= 3):
+			nextNumElmArr[actualColumn] -= 2
+			checkNumElmArr[actualColumn] -= 3
+			faArr[actualColumn] += 1
+			if (actualColumn < mtxCols-1):
+				nextNumElmArr[actualColumn+1] += 1
+		while (nextNumElmArr[actualColumn] >= nextMaxRows+1 and checkNumElmArr[actualColumn] >= 2):
+			nextNumElmArr[actualColumn] -= 1
+			checkNumElmArr[actualColumn] -= 2
+			haArr[actualColumn] += 1
+			if (actualColumn < mtxCols-1):
 					nextNumElmArr[actualColumn+1] += 1
+
+	if (startingDirection == 'left'):
+		# deleting the compressors from right to left to keep only the ones related to the MSBs
+		for actualColumn in range(mtxCols):
+			while (cmprsArr[actualColumn] > 0 and nCompressor < nCompressorMax):
+				nextNumElmArr[actualColumn] += 3
+				checkNumElmArr[actualColumn] += 4
+				cmprsArr[actualColumn] -= 1
+				nCompressor += 1
+				if (actualColumn < mtxCols-1):
+					nextNumElmArr[actualColumn+1] -= 1
+
+		# bind with the FAs and with the HAs
+		for actualColumn in range(mtxCols):
 			while (nextNumElmArr[actualColumn] >= nextMaxRows+2 and checkNumElmArr[actualColumn] >= 3):
 				nextNumElmArr[actualColumn] -= 2
 				checkNumElmArr[actualColumn] -= 3
@@ -260,32 +278,7 @@ def autoBind(numElmArr, nextMaxRows, mtxCols, compression, startingDirection):
 				if (actualColumn < mtxCols-1):
 						nextNumElmArr[actualColumn+1] += 1
 
-	elif (startingDirection == 'left'):
-
-		for actualColumn in range(mtxCols, 0, -1):
-			while (nextNumElmArr[actualColumn] >= nextMaxRows+3 and checkNumElmArr[actualColumn] >= 4 and nCompressor > 0):
-				nextNumElmArr[actualColumn] -= 3
-				checkNumElmArr[actualColumn] -= 4
-				cmprsArr[actualColumn] += 1
-				nCompressor -= 1
-				if (actualColumn < mtxCols-1):
-					nextNumElmArr[actualColumn+1] += 1
-
-		for actualColumn in range(mtxCols):
-			while (nextNumElmArr[actualColumn] >= nextMaxRows+2 and checkNumElmArr[actualColumn] >= 3):
-				nextNumElmArr[actualColumn] -= 2
-				checkNumElmArr[actualColumn] -= 3
-				faArr[actualColumn] += 1
-				if (actualColumn < mtxCols-1):
-					nextNumElmArr[actualColumn+1] += 1
-			while (nextNumElmArr[actualColumn] >= nextMaxRows+1 and checkNumElmArr[actualColumn] >= 2):
-				nextNumElmArr[actualColumn] -= 1
-				checkNumElmArr[actualColumn] -= 2
-				haArr[actualColumn] += 1
-				if (actualColumn < mtxCols-1):
-						nextNumElmArr[actualColumn+1] += 1
-
-	else: print('Error in autoBind() function: the given startingDirection is neither right nor left, can\'t bind the tree.')
+	elif (startingDirection != 'right'): print('Error in autoBind() function: the given startingDirection is neither right nor left, can\'t bind the tree.')
 
 	return cmprsArr, faArr, haArr, nextNumElmArr
 
