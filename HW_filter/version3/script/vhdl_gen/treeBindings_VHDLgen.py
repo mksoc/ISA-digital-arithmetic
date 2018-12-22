@@ -87,96 +87,96 @@ def wrHA(fileObj, i0, i1, s, co, actualColumn, nHA, daddaLevel):
 def vhdlDaddaLevel(fileName, fileMode, srcMtx, dstMtx, srcMtxRows, dstMtxRows, mtxCols, numElmArr, cmprsArr, faArr, haArr, daddaLevel):
 
 	# open the file
-	fileObj = open(fileName, fileMode)
+	with open(fileName, fileMode) as fileObj:
 
-	# write the VHDL
-	actualCin = 0
-	nextCin = 0
-	nCompressor = 0
-	nFA = 0
-	nHA = 0
-
-	# initial comment
-	fileObj.write("----------------------------- \n")
-	fileObj.write("-- DADDA TREE " + "LEVEL" + str(daddaLevel) + "\n")
-	fileObj.write("----------------------------- \n\n")
-
-	for actualColumn in range(0, mtxCols):
-	    # comment
-		fileObj.write("----------------------------- \n")
-		fileObj.write("-- COLUMN " + str(actualColumn) + "\n")
-		fileObj.write("----------------------------- \n")
-		# write the COMPRESSORS
-		for i in range(0, cmprsArr[actualColumn]):
-			i0 = srcMtx + "(" + str(4*nCompressor) + ")(" + str(actualColumn) + ")" 
-			i1 = srcMtx + "(" + str(4*nCompressor+1) + ")(" + str(actualColumn) + ")" 
-			i2 = srcMtx + "(" + str(4*nCompressor+2) + ")(" + str(actualColumn) + ")" 
-			i3 = srcMtx + "(" + str(4*nCompressor+3) + ")(" + str(actualColumn) + ")" 
-			out0 = dstMtx + "(" + str(nextCin+actualCin) + ")(" + str(actualColumn) + ")" 
-			if actualColumn != mtxCols-1:
-				out1 = dstMtx + "(" + str(nextCin) + ")(" + str(actualColumn+1) + ")" 
-			else:
-				out1 = "open"
-			wr4To2ApproxCompressor(fileObj, i0, i1, i2, i3, out0, out1, actualColumn, nCompressor, daddaLevel);
-			nCompressor += 1
-			nextCin += 1
-		# write the FAs
-		for i in range(0, faArr[actualColumn]):
-			i0 = srcMtx + "(" + str(3*nFA) + ")(" + str(actualColumn) + ")" 
-			i1 = srcMtx + "(" + str(3*nFA+1) + ")(" + str(actualColumn) + ")" 
-			ci = srcMtx + "(" + str(3*nFA+2) + ")(" + str(actualColumn) + ")" 
-			s = dstMtx + "(" + str(nextCin+actualCin) + ")(" + str(actualColumn) + ")" 
-			if actualColumn != mtxCols-1:
-				co = dstMtx + "(" + str(nextCin) + ")(" + str(actualColumn+1) + ")" 
-			else:
-				co = "open"
-			wrFA(fileObj, i0, i1, ci, s, co, actualColumn, nFA, daddaLevel);
-			nFA += 1
-			nextCin += 1
-		# write the HAs
-		for i in range(0, haArr[actualColumn]):
-			i0 = srcMtx + "(" + str(3*nFA+2*nHA) + ")(" + str(actualColumn) + ")" 
-			i1 = srcMtx + "(" + str(3*nFA+2*nHA+1) + ")(" + str(actualColumn) + ")" 
-			s = dstMtx + "(" + str(nextCin+actualCin) + ")(" + str(actualColumn) + ")" 
-			if actualColumn != mtxCols-1:
-				co = dstMtx + "(" + str(nextCin) + ")(" + str(actualColumn+1) + ")" 
-			else:
-				co = "open"
-			wrHA(fileObj, i0, i1, s, co, actualColumn, nHA, daddaLevel);
-			nHA += 1
-			nextCin += 1
-		# move the other elements of the column
-		fileObj.write("-- move the other elements of the column\n")
-		offset = nextCin + actualCin
-		for i in range(4*nCompressor+3*nFA+2*nHA, numElmArr[actualColumn]):
-			line = dstMtx + "(" + str(offset) + ")(" + str(actualColumn) + ") <= " + srcMtx + "(" + str(i) + ")(" + str(actualColumn) + ");" 
-			fileObj.write(line)
-			fileObj.write("\n")
-			offset += 1;
-		# if we are in the level 0, we have to check that the two rows are full. If something is missing it means that
-		# it was already missing at the top level (it means that there was a '0' in that position)
-		if (daddaLevel == 0):
-			if (numElmArr[actualColumn] == 0):
-				fileObj.write("\n")
-				fileObj.write("-- fix missing assignments in the last level \n")
-				for i in range(2):
-					line = dstMtx + "(" + str(i) + ")(" + str(actualColumn) + ") <= " + "'0';"
-					fileObj.write(line)
-				fileObj.write("\n")
-			else:
-				if (numElmArr[actualColumn] == 1):
-					fileObj.write("\n")
-					fileObj.write("-- fix missing assignments in the last level \n")
-					line = dstMtx + "(" + str(1) + ")(" + str(actualColumn) + ") <= " + "'0';"
-					fileObj.write(line)
-					fileObj.write("\n")
-		fileObj.write("\n")
-
-		actualCin = nextCin
+		# write the VHDL
+		actualCin = 0
 		nextCin = 0
 		nCompressor = 0
 		nFA = 0
 		nHA = 0
+
+		# initial comment
+		fileObj.write("----------------------------- \n")
+		fileObj.write("-- DADDA TREE " + "LEVEL" + str(daddaLevel) + "\n")
+		fileObj.write("----------------------------- \n\n")
+
+		for actualColumn in range(0, mtxCols):
+		    # comment
+			fileObj.write("----------------------------- \n")
+			fileObj.write("-- COLUMN " + str(actualColumn) + "\n")
+			fileObj.write("----------------------------- \n")
+			# write the COMPRESSORS
+			for i in range(0, cmprsArr[actualColumn]):
+				i0 = srcMtx + "(" + str(4*nCompressor) + ")(" + str(actualColumn) + ")" 
+				i1 = srcMtx + "(" + str(4*nCompressor+1) + ")(" + str(actualColumn) + ")" 
+				i2 = srcMtx + "(" + str(4*nCompressor+2) + ")(" + str(actualColumn) + ")" 
+				i3 = srcMtx + "(" + str(4*nCompressor+3) + ")(" + str(actualColumn) + ")" 
+				out0 = dstMtx + "(" + str(nextCin+actualCin) + ")(" + str(actualColumn) + ")" 
+				if actualColumn != mtxCols-1:
+					out1 = dstMtx + "(" + str(nextCin) + ")(" + str(actualColumn+1) + ")" 
+				else:
+					out1 = "open"
+				wr4To2ApproxCompressor(fileObj, i0, i1, i2, i3, out0, out1, actualColumn, nCompressor, daddaLevel);
+				nCompressor += 1
+				nextCin += 1
+			# write the FAs
+			for i in range(0, faArr[actualColumn]):
+				i0 = srcMtx + "(" + str(3*nFA) + ")(" + str(actualColumn) + ")" 
+				i1 = srcMtx + "(" + str(3*nFA+1) + ")(" + str(actualColumn) + ")" 
+				ci = srcMtx + "(" + str(3*nFA+2) + ")(" + str(actualColumn) + ")" 
+				s = dstMtx + "(" + str(nextCin+actualCin) + ")(" + str(actualColumn) + ")" 
+				if actualColumn != mtxCols-1:
+					co = dstMtx + "(" + str(nextCin) + ")(" + str(actualColumn+1) + ")" 
+				else:
+					co = "open"
+				wrFA(fileObj, i0, i1, ci, s, co, actualColumn, nFA, daddaLevel);
+				nFA += 1
+				nextCin += 1
+			# write the HAs
+			for i in range(0, haArr[actualColumn]):
+				i0 = srcMtx + "(" + str(3*nFA+2*nHA) + ")(" + str(actualColumn) + ")" 
+				i1 = srcMtx + "(" + str(3*nFA+2*nHA+1) + ")(" + str(actualColumn) + ")" 
+				s = dstMtx + "(" + str(nextCin+actualCin) + ")(" + str(actualColumn) + ")" 
+				if actualColumn != mtxCols-1:
+					co = dstMtx + "(" + str(nextCin) + ")(" + str(actualColumn+1) + ")" 
+				else:
+					co = "open"
+				wrHA(fileObj, i0, i1, s, co, actualColumn, nHA, daddaLevel);
+				nHA += 1
+				nextCin += 1
+			# move the other elements of the column
+			fileObj.write("-- move the other elements of the column\n")
+			offset = nextCin + actualCin
+			for i in range(4*nCompressor+3*nFA+2*nHA, numElmArr[actualColumn]):
+				line = dstMtx + "(" + str(offset) + ")(" + str(actualColumn) + ") <= " + srcMtx + "(" + str(i) + ")(" + str(actualColumn) + ");" 
+				fileObj.write(line)
+				fileObj.write("\n")
+				offset += 1;
+			# if we are in the level 0, we have to check that the two rows are full. If something is missing it means that
+			# it was already missing at the top level (it means that there was a '0' in that position)
+			if (daddaLevel == 0):
+				if (numElmArr[actualColumn] == 0):
+					fileObj.write("\n")
+					fileObj.write("-- fix missing assignments in the last level \n")
+					for i in range(2):
+						line = dstMtx + "(" + str(i) + ")(" + str(actualColumn) + ") <= " + "'0';"
+						fileObj.write(line)
+					fileObj.write("\n")
+				else:
+					if (numElmArr[actualColumn] == 1):
+						fileObj.write("\n")
+						fileObj.write("-- fix missing assignments in the last level \n")
+						line = dstMtx + "(" + str(1) + ")(" + str(actualColumn) + ") <= " + "'0';"
+						fileObj.write(line)
+						fileObj.write("\n")
+			fileObj.write("\n")
+
+			actualCin = nextCin
+			nextCin = 0
+			nCompressor = 0
+			nFA = 0
+			nHA = 0
 
 # autoBind function
 # provide an automatic binding for COMPRESSORS, FA and HA for each column of the tree, given a target maximum number of rows to be obtained
@@ -186,7 +186,7 @@ def vhdlDaddaLevel(fileName, fileMode, srcMtx, dstMtx, srcMtxRows, dstMtxRows, m
 # nextMaxRows: maximum number of elements allowed per column in the next level 
 # mtxCols: number of column of the matrix. It must be equal to len(numElmArr)
 #
-def autoBind(numElmArr, nextMaxRows, mtxCols, approxCovering, startApprox):
+def autoBind(numElmArr, nextMaxRows, mtxCols, compression, startingDirection):
 
 	import copy
 
@@ -194,26 +194,122 @@ def autoBind(numElmArr, nextMaxRows, mtxCols, approxCovering, startApprox):
 		print("Error in autoBind(numElmArr, nextMaxRows, mtxCols): len(numElmArr) != mtxCols")
 		return None # error!
 
+	nCompressor = 0
 	cmprsArr = [0] * mtxCols
 	faArr = [0] * mtxCols
 	haArr = [0] * mtxCols
-	nextNumElmArr = copy.deepcopy(numElmArr)
 
+	nextNumElmArr = copy.deepcopy(numElmArr)
+	checkNumElmArr = copy.deepcopy(numElmArr) # be sure not to assign adders where there are not enough elements
+
+	# compute the maximum number of compressors for this level
 	for actualColumn in range(mtxCols):
-		while (nextNumElmArr[actualColumn] >= nextMaxRows+3):
+		while (nextNumElmArr[actualColumn] >= nextMaxRows+3 and checkNumElmArr[actualColumn] >= 4):
 			nextNumElmArr[actualColumn] -= 3
-			cmprsArr[actualColumn] += 1
+			checkNumElmArr[actualColumn] -= 4
+			nCompressor += 1 # +++++++++++++++++ COMPRESSORs COUNTING +++++++++++++++++++
 			if (actualColumn < mtxCols-1):
 				nextNumElmArr[actualColumn+1] += 1
-		if (nextNumElmArr[actualColumn] == nextMaxRows+2):
+		while (nextNumElmArr[actualColumn] >= nextMaxRows+2 and checkNumElmArr[actualColumn] >= 3):
 			nextNumElmArr[actualColumn] -= 2
-			faArr[actualColumn] += 1
+			checkNumElmArr[actualColumn] -= 3
 			if (actualColumn < mtxCols-1):
 				nextNumElmArr[actualColumn+1] += 1
-		if (nextNumElmArr[actualColumn] == nextMaxRows+1):
+		while (nextNumElmArr[actualColumn] >= nextMaxRows+1  and checkNumElmArr[actualColumn] >= 2):
 			nextNumElmArr[actualColumn] -= 1
-			haArr[actualColumn] += 1
+			checkNumElmArr[actualColumn] -= 2
 			if (actualColumn < mtxCols-1):
 					nextNumElmArr[actualColumn+1] += 1
 
+	nextNumElmArr = copy.deepcopy(numElmArr)
+	checkNumElmArr = copy.deepcopy(numElmArr)
+
+	nCompressor = round(compression/100 * nCompressor) # compute how many approx compressors will be put
+
+	if (startingDirection == 'right'):
+
+		for actualColumn in range(mtxCols):
+			while (nextNumElmArr[actualColumn] >= nextMaxRows+3 and checkNumElmArr[actualColumn] >= 4 and nCompressor > 0):
+				nextNumElmArr[actualColumn] -= 3
+				checkNumElmArr[actualColumn] -= 4
+				cmprsArr[actualColumn] += 1
+				nCompressor -= 1
+				if (actualColumn < mtxCols-1):
+					nextNumElmArr[actualColumn+1] += 1
+			while (nextNumElmArr[actualColumn] >= nextMaxRows+2 and checkNumElmArr[actualColumn] >= 3):
+				nextNumElmArr[actualColumn] -= 2
+				checkNumElmArr[actualColumn] -= 3
+				faArr[actualColumn] += 1
+				if (actualColumn < mtxCols-1):
+					nextNumElmArr[actualColumn+1] += 1
+			while (nextNumElmArr[actualColumn] >= nextMaxRows+1 and checkNumElmArr[actualColumn] >= 2):
+				nextNumElmArr[actualColumn] -= 1
+				checkNumElmArr[actualColumn] -= 2
+				haArr[actualColumn] += 1
+				if (actualColumn < mtxCols-1):
+						nextNumElmArr[actualColumn+1] += 1
+
+	elif (startingDirection == 'left'):
+
+		for actualColumn in range(mtxCols, 0, -1):
+			while (nextNumElmArr[actualColumn] >= nextMaxRows+3 and checkNumElmArr[actualColumn] >= 4 and nCompressor > 0):
+				nextNumElmArr[actualColumn] -= 3
+				checkNumElmArr[actualColumn] -= 4
+				cmprsArr[actualColumn] += 1
+				nCompressor -= 1
+				if (actualColumn < mtxCols-1):
+					nextNumElmArr[actualColumn+1] += 1
+
+		for actualColumn in range(mtxCols):
+			while (nextNumElmArr[actualColumn] >= nextMaxRows+2 and checkNumElmArr[actualColumn] >= 3):
+				nextNumElmArr[actualColumn] -= 2
+				checkNumElmArr[actualColumn] -= 3
+				faArr[actualColumn] += 1
+				if (actualColumn < mtxCols-1):
+					nextNumElmArr[actualColumn+1] += 1
+			while (nextNumElmArr[actualColumn] >= nextMaxRows+1 and checkNumElmArr[actualColumn] >= 2):
+				nextNumElmArr[actualColumn] -= 1
+				checkNumElmArr[actualColumn] -= 2
+				haArr[actualColumn] += 1
+				if (actualColumn < mtxCols-1):
+						nextNumElmArr[actualColumn+1] += 1
+
+	else: print('Error in autoBind() function: the given startingDirection is neither right nor left, can\'t bind the tree.')
+
 	return cmprsArr, faArr, haArr, nextNumElmArr
+
+# routine to draw the tree
+def drawTree(mtxRows, mtxCols, numElmArr, cmprsArr, faArr, haArr):
+	numElmArr_drawCopy = copy.deepcopy(numElmArr)
+	cmprsArr_drawCopy = [i * 4 for i in copy.deepcopy(cmprsArr)]
+	faArr_drawCopy = [i * 3 for i in copy.deepcopy(faArr)]
+	haArr_drawCopy = [i * 2 for i in copy.deepcopy(haArr)]
+
+	line = '\n\n\n'
+	drawLine(line)
+	for i in range(0, mtxRows):
+		line = ''
+		for j in range(0, mtxCols):
+			if (numElmArr_drawCopy[j] > 0):
+				if (cmprsArr_drawCopy[j] > 0):
+					line += 'c'
+					cmprsArr_drawCopy[j] -= 1
+				elif (faArr_drawCopy[j] > 0):
+					line += 'f'
+					faArr_drawCopy[j] -= 1
+				elif (haArr_drawCopy[j] > 0):
+					line += 'h'
+					haArr_drawCopy[j] -= 1
+				else:
+					line += 'o'
+				numElmArr_drawCopy[j] -= 1
+			else:
+				line += ' '
+		line = line[::-1]
+		drawLine(line)
+	line = '\n\n\n'
+	drawLine(line)
+
+# draw the line
+def drawLine(line):
+	print(line)
