@@ -6,7 +6,7 @@ import isa
 
 # --------------------------------------- FUNCTION DEFINITION ----------------------------------------------
 
-def accuracy_evaluator():
+def accuracy_evaluator(wholeDesign1_multiplierOnly0):
     
     # --------------------------------------- IMPORT CONSTANTS AND SETTINGS ------------------------------------
 
@@ -21,16 +21,27 @@ def accuracy_evaluator():
     
     # ---------------------------------------- GENERATE SAMPLES -------------------------------------------------
     
-    with isa.cd('{}/common'.format(repo_root)):
-        gen_samples()
-        os.rename('py-samples.txt', 'samples.txt')
-    
-    # transfer samples.txt to the server
-    print('\nCopy samples to server.')
-    session.copy_to('{}/common/samples.txt'.format(repo_root), '{}/common/'.format(s.remote_root))
+    if (wholeDesign1_multiplierOnly0):
+    	with isa.cd('{}/common'.format(repo_root)):
+    	    gen_samples()
+    	    os.rename('py-samples.txt', 'samples.txt')
+    	
+    	# transfer samples.txt to the server
+    	print('\nCopy samples to server.')
+    	session.copy_to('{}/common/samples.txt'.format(repo_root), '{}/common/'.format(s.remote_root))
+    else:
+    	with isa.cd('{}/HW_filter/version1/script/common_gen'.format(repo_root)):
+    		cmd = './in_gen.py'
+    		subprocess.call(cmd)
+    		fh.renameFile("./fileIn.txt", "./multiplierInputs.txt")
+    		print('\nCopying multiplier inputs to the server.')
+    		session.copy_to("./multiplierInputs.txt", '{}/common/'.format(s.remote_root))
+			fh.copyFile("./multiplierInputs.txt", '{}/HW_filter/version1/common'.format(repo_root))
+    		fh.moveFile("./multiplierInputs.txt", s.inputPath)
     
     # ---------------------------------------- RUN THE SW MODEL --------------------------------------------------
     
+    if (wholeDesign1_multiplierOnly0):
     # compile C model if not already there and run it
     with isa.cd('{}/C_filter'.format(repo_root)):
         c_exe_name = 'iir_filter.o'
@@ -40,21 +51,28 @@ def accuracy_evaluator():
         print('\nRun C model on selected samples.')
         os.system('./{} ../common/samples.txt ../common/results-c.txt'.format(c_exe_name))
         print()
+    else:
+    	with isa.cd('{}/HW_filter/version1/sim'.format(repo_root))
+    		cmd = 'vsim -c do ./script/multTest.tcl'
+    		subprocess.call(cmd.split())
+    		
     
     # ------------------------------------- GENERATE SCRIPTS FOR SIM ----------------------------------------------
     
-    prepareSimScripts(session, s.remote_root)
+    if (wholeDesign1_multiplierOnly0):
+    	prepareSimScripts(session, s.remote_root)
     
-    # ------------------------------------- GENERATE SCRIPT FOR SINTH --------------------------------------------
+    # ------------------------------------- GENERATE SCRIPT FOR SYNTH --------------------------------------------
     
-    prepareSynthScript(session, repo_root, s.remote_root)
+    if (wholeDesign1_multiplierOnly0):
+	    prepareSynthScript(session, repo_root, s.remote_root)
     
     # ------------------------------------------ LOOP: -----------------------------------------------------------
     
     label = 0
-    for multVhdl in os.:
+    for multVhdl in :
         # generate the next vhdl
-        e.generateMultiplier(srcMultPath, completeMultPath, compression, startingDirection);
+        e.generateMultiplier(s.srcMultPath, completeMultPath, compression, startingDirection);
     
         # trasfer the vhdl to the server
         # transfer mbeDadda_mult.vhd to the server

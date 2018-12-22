@@ -1,7 +1,7 @@
 import random
 
-fileName = "../../common/fileIn.txt"
-howManyNums = 1000
+fileName = "./fileIn.txt"
+howManyNums = 10000
 nBit = 24
 
 def num2bin(num, nBit):

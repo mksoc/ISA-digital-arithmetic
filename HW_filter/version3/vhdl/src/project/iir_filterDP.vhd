@@ -202,42 +202,42 @@ begin
 	-----------------------------
 
 	-- compute products
-	MULT_cr0sw0 : mbeDadda_4to2Cmprs_mult
+	MULT_cr0sw0 : mbeDadda_mult
 		port map (
 			x => std_logic_vector(sw0),
 			y => std_logic_vector(coeffs_fb_int(1)),
 			p => sw0_coeff_ret0_slv );
 	sw0_coeff_ret0 <= signed(sw0_coeff_ret0_slv);
 
-	MULT_cr1sw1 : mbeDadda_4to2Cmprs_mult
+	MULT_cr1sw1 : mbeDadda_mult
 		port map (
 			x => std_logic_vector(sw1),
 			y => std_logic_vector(coeffs_fb_int(2)),
 			p => sw1_coeff_ret1_slv );
 	sw1_coeff_ret1 <= signed(sw1_coeff_ret1_slv);
 
-	MULT_b0p0 : mbeDadda_4to2Cmprs_mult
+	MULT_b0p0 : mbeDadda_mult
 		port map (
 			x => std_logic_vector(pipe00),
 			y => std_logic_vector(coeffs_ff_int(0)),
 			p => pipe0_coeff_pipe00_slv );
 	pipe0_coeff_pipe00 <= signed(pipe0_coeff_pipe00_slv);
 
-	MULT_cp1p1 : mbeDadda_4to2Cmprs_mult
+	MULT_cp1p1 : mbeDadda_mult
 		port map (
 			x => std_logic_vector(pipe01),
 			y => std_logic_vector(coeffs_ff_int(1)),
 			p => pipe0_coeff_pipe01_slv );
 	pipe0_coeff_pipe01 <= signed(pipe0_coeff_pipe01_slv);
 
-	MULT_cp2p2 : mbeDadda_4to2Cmprs_mult
+	MULT_cp2p2 : mbeDadda_mult
 		port map (
 			x => std_logic_vector(pipe02),
 			y => std_logic_vector(coeffs_ff_int(2)),
 			p => pipe0_coeff_pipe02_slv );
 	pipe0_coeff_pipe02 <= signed(pipe0_coeff_pipe02_slv);
 
-	MULT_cp3p3 : mbeDadda_4to2Cmprs_mult
+	MULT_cp3p3 : mbeDadda_mult
 		port map (
 			x => std_logic_vector(pipe03),
 			y => std_logic_vector(coeffs_ff_int(3)),
