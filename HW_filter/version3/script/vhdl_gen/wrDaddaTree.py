@@ -46,3 +46,6 @@ def wrDaddaTree(outPath, compression, startingDirection):
 		vhdlDaddaLevel(fileName, fileMode, srcMtx, dstMtx, srcMtxRows, dstMtxRows, mtxCols, numElmArr, cmprsArr, faArr, haArr, nextLevel)
 		
 		numElmArr = nextNumElmArr
+
+if __name__ == "__main__":
+	wrDaddaTree(s.fileName, 0, 'right')

@@ -1,0 +1,9 @@
+there is a possible bug related to the binding function in this version.
+
+In the v3 it has been hopefully fixed, but the check is still on the way.
+
+BUG: the check for the binding is done on the next level, but also the actual level has to be checked
+because if there are not enough elements to be compressed, there are not rooms for the compression
+even if the next level will have more elements, due to the previous carries
+
+UPDATE: the bug should have been fixed also for this version now, but it has not been tested yet

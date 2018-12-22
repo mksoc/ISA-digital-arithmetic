@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # script to auto generate VHDL for bindings
-
+import copy
 #----------------------------------------------
 # VARIABLES - only if it is launched as a script
 #----------------------------------------------
@@ -189,9 +189,6 @@ def vhdlDaddaLevel(fileName, fileMode, srcMtx, dstMtx, srcMtxRows, dstMtxRows, m
 # startingDirection: can be either "right" or "left" and determines the starting direction from where the compressors are bound.
 
 def autoBind(numElmArr, nextMaxRows, mtxCols, compression, startingDirection):
-
-	import copy
-
 	if (len(numElmArr) != mtxCols):
 		print("Error in autoBind(numElmArr, nextMaxRows, mtxCols): len(numElmArr) != mtxCols")
 		return None # error!
@@ -217,7 +214,7 @@ def autoBind(numElmArr, nextMaxRows, mtxCols, compression, startingDirection):
 			checkNumElmArr[actualColumn] -= 3
 			if (actualColumn < mtxCols-1):
 				nextNumElmArr[actualColumn+1] += 1
-		while (nextNumElmArr[actualColumn] >= nextMaxRows+1  and checkNumElmArr[actualColumn] >= 2):
+		while (nextNumElmArr[actualColumn] >= nextMaxRows+1 and checkNumElmArr[actualColumn] >= 2):
 			nextNumElmArr[actualColumn] -= 1
 			checkNumElmArr[actualColumn] -= 2
 			if (actualColumn < mtxCols-1):
@@ -289,7 +286,7 @@ def drawTree(mtxRows, mtxCols, numElmArr, cmprsArr, faArr, haArr):
 	faArr_drawCopy = [i * 3 for i in copy.deepcopy(faArr)]
 	haArr_drawCopy = [i * 2 for i in copy.deepcopy(haArr)]
 
-	line = '\n\n\n'
+	line = '\n'
 	drawLine(line)
 	for i in range(0, mtxRows):
 		line = ''
@@ -311,7 +308,7 @@ def drawTree(mtxRows, mtxCols, numElmArr, cmprsArr, faArr, haArr):
 				line += ' '
 		line = line[::-1]
 		drawLine(line)
-	line = '\n\n\n'
+	line = '\n'
 	drawLine(line)
 
 # draw the line

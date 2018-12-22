@@ -158,17 +158,21 @@ def autoBind(numElmArr, nextMaxRows, mtxCols):
 
 	faArr = [0] * mtxCols
 	haArr = [0] * mtxCols
+
 	nextNumElmArr = copy.deepcopy(numElmArr)
+	checkNumElmArr = copy.deepcopy(numElmArr) # be sure not to assign adders where there are not enough elements
 
 	for actualColumn in range(mtxCols):
-		while nextNumElmArr[actualColumn] > nextMaxRows+1:
-			if (nextNumElmArr[actualColumn]-2 >= nextMaxRows):
+		while nextNumElmArr[actualColumn] > nextMaxRows+1 and checkNumElmArr[actualColumn] >= 3:
+			if (nextNumElmArr[actualColumn] >= nextMaxRows+2):
 				nextNumElmArr[actualColumn] -= 2
+				checkNumElmArr[actualColumn] -= 3
 				faArr[actualColumn] += 1
 				if (actualColumn < mtxCols-1):
 					nextNumElmArr[actualColumn+1] += 1
-		if (nextNumElmArr[actualColumn] == nextMaxRows+1):
+		if (nextNumElmArr[actualColumn] == nextMaxRows+1  and checkNumElmArr[actualColumn] >= 2):
 			nextNumElmArr[actualColumn] -= 1
+			checkNumElmArr[actualColumn] -= 2
 			haArr[actualColumn] += 1
 			if (actualColumn < mtxCols-1):
 					nextNumElmArr[actualColumn+1] += 1
