@@ -1,123 +1,125 @@
 import os
 import subprocess
-from elaboration import message, cmd, generateMultiplier
+from elaboration import el
 import settings as s
 import isa
-from fileHandling import mkdir, removeTree, cleanServer
+from fileHandling import fh
 
 # connect to the server
-message('Connecting to the server...')
+el.message('Connecting to the server...')
 session = isa.ssh_session(s.username, s.server, s.port)
-message('Connection established.')
+el.message('Connection established.')
 
 # clear folders on server
-message('Cleaning server folders...')
-cleanServer(session)
-message('Cleaning completed.')
+el.message('Cleaning server folders...')
+fh.cleanServer(session)
+el.message('Cleaning completed.')
 
 # clear folders in local
-message('Removing the work tree...')
-removeTree(s.workPath)
-message('Operation completed.')
+el.message('Removing the work tree...')
+fh.removeTree(s.workPath)
+el.message('Operation completed.')
 
 # prepare local tree
-message('Creating a new working tree...')
-buildTree()
-message('Done. Let\'s go!')
+el.message('Creating a new working tree...')
+fh.buildTree()
+el.message('Done. Let\'s go!')
 
 # gen sim scripts and copy them to the server
 with isa.cd(s.scriptPath):
-	message('Generating the scripts for my dark purposes... keep calm and no one will be harmed.')
-	genScripts()
-	message('Everything as I planned...')
+	el.message('Generating the scripts for my dark purposes... keep calm and no one will be harmed.')
+	el.genScripts()
+	el.message('Everything as I planned...')
 	# copy scripts to the server
-	message('Copying the scripts to the server.')
-	uploadScripts(session)
-	message('Let\'s go on.')
+	el.message('Copying the scripts to the server.')
+	fh.uploadScripts(session)
+	el.message('Let\'s go on.')
 
 # generate samples and transfer to the server
-message('Generating samples for the filter and for the multiplier.')
+el.message('Generating samples for the filter and for the multiplier.')
 with isa.cd(s.inputPath):
-	genSamples()
-	message('Done. Trasferring to the server...')
-	uploadSamples(session)
-	message('We are working well today!')
+	el.genSamples()
+	el.message('Done. Trasferring to the server...')
+	fh.uploadSamples(session)
+	el.message('We are working well today!')
 
 # calculate SW output for the generated samples
-message('Calculating the SW outputs for the filter.')
+el.message('Calculating the SW outputs for the filter.')
 with isa.cd(s.cFilterPath):
-	compileCfilter()
-    message('Running C model on the samples.')
-	Cfilter()
-	message('Done.')
+	el.compileCfilter()
+    el.message('Running C model on the samples.')
+	el.Cfilter()
+	el.message('Done.')
 
 # upload the common src and tb files
-message('Common files will be uploaded now. Look at this!!')
-uploadSrcTb(session)
-message('And now we can enter the loop... it will take a while, so keep calm.')
+el.message('Common files will be uploaded now. Look at this!!')
+fh.uploadSrcTb(session)
+el.message('And now we can enter the loop... it will take a while, so keep calm.')
 
 # loop
 for compressionLevel in s.compressionList:
 	for startingDirection in s.directionList:
 		
 		# create the multiplier
-		message('Creating the multiplier with a compression level of {comp}. The binding is begun from {dir}'.format(
+		el.message('Creating the multiplier with a compression level of {comp}. The binding is begun from {dir}'.format(
 			comp=compressionLevel,
 			dir=startingDirection))
 		with isa.cd(s.multiplierPath):
-			generateMultiplier(s.delimiter, s.srcMultPath, s.multBaseName, compressionLevel, startingDirection)
+			el.generateMultiplier(s.delimiter, s.srcMultPath, s.multBaseName, compressionLevel, startingDirection)
 			# transfer the multiplier
-			message('Uploading all the multiplier related files...')
-			uploadMultiplier(session)
-			message('Ok Houston, no problems.')
+			el.message('Uploading all the multiplier related files...')
+			fh.uploadMultiplier(session)
+			el.message('Ok Houston, no problems.')
 			# rename the local multiplier
-			message('Renaming the multiplier file...')
+			el.message('Renaming the multiplier file...')
 			newName = '{base_name}.{cmp}{dir}'.format(base_name=s.multBaseName, cmp=compressionLevel, dir=startingDirection)
 			os.rename(s.multBaseName, newName)
-			message('It was a breeze.')
+			el.message('It was a breeze.')
 	
 		# sim the mult
-		message('Starting the simulation of the mult, baby!')
-		performSim(session, s.remote_root, s.mult_sim_tcl_name)
-		message('It\'s important to keep these brittle results in a safe place.')
+		el.message('Starting the simulation of the mult, baby!')
+		el.performSim(session, s.remote_root, s.mult_sim_tcl_name)
+		el.message('It\'s important to keep these brittle results in a safe place.')
 	
 		# synth the mult
-		message('Starting the synthesis of the mult, baby!')
-		performSynth(session, remote_root, s.mult_synth_tcl_name)
-		message('Synthesized.')
-	
-		# generate power, area, timing reports
-	
+		el.message('Starting the synthesis of the mult, baby!')
+		el.performSynth(session, remote_root, s.mult_synth_tcl_name)
+		el.message('Synthesized.')
+
 		# sim the synth mult
-		message('Starting the simulation of the synth mult, baby!')
-		performSim(session, s.remote_root, s.filter_sim_tcl_name)
-		message('It\'s important to keep these breakable results in a safe place.')
+		el.message('Starting the simulation of the synth mult, baby!')
+		el.performSim(session, s.remote_root, s.filter_sim_tcl_name)
+		el.message('It\'s important to keep these breakable results in a safe place.')
+
+		# clean the syn-work folder
+		fh.cleanSyn(session)
 	
 		# sim the filter
-		message('Starting the simulation of the synth mult, baby!')
-		performSim(session, s.remote_root, s.sMult_sim_tcl_name)
-		message('It\'s important to keep these delicate results in a safe place.')
+		el.message('Starting the simulation of the synth mult, baby!')
+		el.performSim(session, s.remote_root, s.sMult_sim_tcl_name)
+		el.message('It\'s important to keep these delicate results in a safe place.')
 	
 		# synth the filter
-		message('Starting the synthesis of the filter, baby!')
-		performSynth(session, remote_root, s.filter_synth_tcl_name)
-		message('Synthesized.')
-	
-		# generate power, area, timing reports
+		el.message('Starting the synthesis of the filter, baby!')
+		el.performSynth(session, remote_root, s.filter_synth_tcl_name)
+		el.message('Synthesized.')
 	
 		# sim the synth filter
-		message('Starting the simulation of the synth mult, baby!')
-		performSim(session, s.remote_root, s.sFilter_sim_tcl_name)
-		message('It\'s important to keep these frail results in a safe place.')
+		el.message('Starting the simulation of the synth mult, baby!')
+		el.performSim(session, s.remote_root, s.sFilter_sim_tcl_name)
+		el.message('It\'s important to keep these frail results in a safe place.')
+
+		# clean the syn-work folder
+		fh.cleanSyn(session)
 
 		# take back, rename and store the results and reports
-		storeResultsReports(session)
+		fh.storeResultsReports(session, compressionLevel, startingDirection)
 
-		message('Finished a loop step: cleaning common and re-uploading the same Samples')
+		el.message('Finished a loop step: cleaning common and re-uploading the same Samples')
 		# clean the common folder from output files
-		cleanCommon(session)
+		fh.cleanCommon(session)
 		# re-upload samples
-		uploadSamples(session)
-		message('Let\'s go on!')
+		fh.uploadSamples(session)
+		el.message('Let\'s go on!')
 
 # elaborate the results 

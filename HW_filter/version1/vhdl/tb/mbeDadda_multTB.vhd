@@ -6,11 +6,11 @@ use work.multV1_pkg.all;
 use STD.textio.all;
 use ieee.std_logic_textio.all;
 
-entity mbeDadda_mult_tb is
+entity mbeDadda_multTB is
 	generic(multDelay : time := 20 ns);
 end entity;
 
-architecture beh of mbeDadda_mult_tb is
+architecture beh of mbeDadda_multTB is
 
 	-- fast multiplier with radix-4 modified Booth encoding, with Roorda's trick, CSA+fast adder Dadda tree
 	component mbeDadda_mult is
@@ -21,9 +21,9 @@ architecture beh of mbeDadda_mult_tb is
 			p: out std_logic_vector(WL-1 downto 0) );	-- product
 	end component;
 
-	constant iFilePath: string := "/home/matteo/git/ISA-digital-arithmetic/HW_filter/version1/common/fileIn.txt";
-	constant oFilePath: string := "/home/matteo/git/ISA-digital-arithmetic/HW_filter/version1/common/fileOut.txt";
-	constant oBehFilePath: string := "/home/matteo/git/ISA-digital-arithmetic/HW_filter/version1/common/fileOutBeh.txt";
+	constant iFilePath: string := "../common/fileIn.txt";
+	constant oFilePath: string := "../common/fileOut.txt";
+	constant oBehFilePath: string := "../common/fileOutBeh.txt";
 
 	file fileIn: text;
 	file fileOut: text;

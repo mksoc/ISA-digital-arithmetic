@@ -18,12 +18,16 @@ class cd:
 
 
 class ssh_session:
-    def __init__(self, user, host, port=22):
+    def __init__(self, user, host, port=22, avoidTimeout=False):
         print('\nOpen tunnel connection to server.')
         self.user_host = '{}@{}'.format(user, host)
         self.port = port
         self.socket = '~/.ssh/{}'.format(self.user_host)
-        os.system('ssh -M -f -N -o ControlPath={} -p {} {}'.format(self.socket, self.port, self.user_host))
+        if avoidTimeout:
+            option = 'serverAliveInterval=120'
+        else
+            option = ''
+        os.system('ssh -M -f -N -o ControlPath={} {} -p {} {}'.format(self.socket, option, self.port, self.user_host))
 
     def __del__(self):
         print('\nClose connection.')
@@ -56,6 +60,11 @@ class ssh_session:
             server=self.user_host,
             dest=destination
         ))
+    def clean(self, folderPath)
+        rmCmd = 'rm -r {folderPath}'.format(folderPath=folderPath)
+        mkdirCmd = 'mkdir {folderPath}'.format(folderPath=folderPath)
+        run_commands(rmCmd)
+        run_commands(mkdirCmd)
 
 
 # functions definitions

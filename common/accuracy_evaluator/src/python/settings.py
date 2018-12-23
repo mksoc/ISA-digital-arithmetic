@@ -69,12 +69,17 @@ sFilter_sim_tcl_name = 'sim-synthFilter.tcl'
 mult_synth_tcl_name = 'synth-mult.tcl'
 # synth script to synth the filter
 filter_synth_tcl_name = 'synth-mult.tcl'
+# report script name
+report_tcl_name = 'reports-gen.tcl'
 
 multSamples_name = 'multSample.txt'
 filterSamples_name = 'filterSamples.txt'
 
 c_exe_name = 'iir_filter'
 c_resultFile_name = 'filter_SW-output.txt'
+
+multEntity_name 'mbeDadda_mult'
+filterEntity_name = 'iir_filter'
 
 multResult_name = 'mult_HW-output.txt'
 filterResult_name = 'filter_HW-output.txt'

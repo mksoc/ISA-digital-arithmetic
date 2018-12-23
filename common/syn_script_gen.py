@@ -29,7 +29,7 @@ def gen_tcl(version, period, adder=None, multiplier=None, compile_cmd='compile')
 
         # Enable 'ultra' optimization mode if 'compile_ultra' command is issued
         script_file.write('\n# set optimization mode')
-        script_file.write('\nset_ultra_optimization {}'.format('flase' if compile_cmd == 1 else 'true'))
+        script_file.write('\nset_ultra_optimization {}'.format('false' if compile_cmd == 1 else 'true'))
 
         # Analyze 
         if 'filter_pkg.vhd' in src_files:
