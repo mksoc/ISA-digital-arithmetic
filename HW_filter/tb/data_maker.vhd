@@ -55,7 +55,7 @@ begin -- behavior
     coeffs_ff <= std_logic_vector(coeffs_ff_int(0))& std_logic_vector(coeffs_ff_int(1)) & std_logic_vector(coeffs_ff_int(2)) & std_logic_vector(coeffs_ff_int(3));
 
     read_file: process
-        file fp_in          : text open READ_MODE is IN_PATH & "/samples.txt";
+        file fp_in          : text open READ_MODE is IN_PATH & "/filterSamples.txt";
         variable line_in    : line;
         variable x          : integer;
         -- for random pause generator

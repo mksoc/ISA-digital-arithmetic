@@ -30,7 +30,7 @@ remote_v3Path = '{}/version3'.format(remote_root)
 # github repository name
 repo_name = 'ISA-digital-arithmetic'
 # local github repository root
-repo_root = isa.get_root(s.repo_name)
+repo_root = isa.get_root(repo_name)
 # local paths for files related to the main script
 workPath = '{}/common/accuracy_evaluator/work'.format(repo_root)
 tmpPath = '{}/tmp'.format(workPath)
@@ -41,7 +41,7 @@ resultPath = '{}/result'.format(workPath)
 scriptPath = '{}/script'.format(workPath)
 
 local_srcMult = '{}/HW_filter/version3/vhdl/src'.format(repo_root)
-local_tbMult = '{}/HW_filter/version3/vhdl/tb'.format(repo_root)
+local_tbMult = '{}/HW_filter/version1/vhdl/tb'.format(repo_root)
 local_project = '{}/HW_filter/version3/vhdl/src/project'.format(repo_root)
 local_src = '{}/HW_filter/src'.format(repo_root)
 local_tb = '{}/HW_filter/tb'.format(repo_root)
@@ -78,9 +78,10 @@ filterSamples_name = 'filterSamples.txt'
 c_exe_name = 'iir_filter'
 c_resultFile_name = 'filter_SW-output.txt'
 
-multEntity_name 'mbeDadda_mult'
+multEntity_name = 'mbeDadda_mult'
 filterEntity_name = 'iir_filter'
 
+multSWResult_name = 'mult_SW-output.txt'
 multResult_name = 'mult_HW-output.txt'
 filterResult_name = 'filter_HW-output.txt'
 powReport_name = 'power.txt'
@@ -88,15 +89,16 @@ areaReport_name = 'area.txt'
 timingReport_name = 'timing.txt'
 
 multBaseName = 'mbeDadda_mult'
+multFileName = 'mbeDadda_mult.vhd'
 
-resultFilesList = ['mult_HW-output.txt', 'filter_HW-output.txt']
+resultFilesList = ['mult_HW-output.txt', 'filter_HW-output.txt', 'mult_SW-output.txt']
 reportFilesList = ['power.txt' ,'area.txt', 'timing.txt']
 
 # --------------------------------- PARAM --------------------------------- 
 
-n_samples = 10000
+n_samples = 1000
 
-compressionList = list(range(0, 100, 5))
+compressionList = list(range(0, 100, 50))
 directionList = ['right', 'left']
 
-delimiter = '--- DELIMITER ---'
+delimiter = '---DELIMITER---\n'

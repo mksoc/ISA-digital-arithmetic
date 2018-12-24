@@ -1,13 +1,13 @@
 import os
 import subprocess
-from elaboration import el
+import elaboration as el
 import settings as s
 import isa
-from fileHandling import fh
+import fileHandling as fh
 
 # connect to the server
 el.message('Connecting to the server...')
-session = isa.ssh_session(s.username, s.server, s.port)
+session = isa.ssh_session(s.username, s.server, s.port, True)
 el.message('Connection established.')
 
 # clear folders on server
@@ -47,7 +47,7 @@ with isa.cd(s.inputPath):
 el.message('Calculating the SW outputs for the filter.')
 with isa.cd(s.cFilterPath):
 	el.compileCfilter()
-    el.message('Running C model on the samples.')
+	el.message('Running C model on the samples.')
 	el.Cfilter()
 	el.message('Done.')
 
@@ -65,15 +65,15 @@ for compressionLevel in s.compressionList:
 			comp=compressionLevel,
 			dir=startingDirection))
 		with isa.cd(s.multiplierPath):
-			el.generateMultiplier(s.delimiter, s.srcMultPath, s.multBaseName, compressionLevel, startingDirection)
+			el.generateMultiplier(s.delimiter, s.srcMultPath, s.multFileName, compressionLevel, startingDirection)
 			# transfer the multiplier
 			el.message('Uploading all the multiplier related files...')
 			fh.uploadMultiplier(session)
 			el.message('Ok Houston, no problems.')
 			# rename the local multiplier
 			el.message('Renaming the multiplier file...')
-			newName = '{base_name}.{cmp}{dir}'.format(base_name=s.multBaseName, cmp=compressionLevel, dir=startingDirection)
-			os.rename(s.multBaseName, newName)
+			newName = '{base_name}.{cmp}{dir}.vhd'.format(base_name=s.multBaseName, cmp=compressionLevel, dir=startingDirection)
+			os.rename(s.multFileName, newName)
 			el.message('It was a breeze.')
 	
 		# sim the mult
@@ -83,7 +83,7 @@ for compressionLevel in s.compressionList:
 	
 		# synth the mult
 		el.message('Starting the synthesis of the mult, baby!')
-		el.performSynth(session, remote_root, s.mult_synth_tcl_name)
+		el.performSynth(session, s.remote_root, s.mult_synth_tcl_name)
 		el.message('Synthesized.')
 
 		# sim the synth mult
@@ -101,7 +101,7 @@ for compressionLevel in s.compressionList:
 	
 		# synth the filter
 		el.message('Starting the synthesis of the filter, baby!')
-		el.performSynth(session, remote_root, s.filter_synth_tcl_name)
+		el.performSynth(session, s.remote_root, s.filter_synth_tcl_name)
 		el.message('Synthesized.')
 	
 		# sim the synth filter
@@ -122,4 +122,5 @@ for compressionLevel in s.compressionList:
 		fh.uploadSamples(session)
 		el.message('Let\'s go on!')
 
+el.message('The hard part has been over, relax. It\'s time to analyze the results.')
 # elaborate the results 

@@ -2,7 +2,7 @@ library ieee;
 library work;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use work.multV1_pkg.all;
+use work.multV3_pkg.all;
 use STD.textio.all;
 use ieee.std_logic_textio.all;
 
@@ -21,9 +21,9 @@ architecture beh of mbeDadda_multTB is
 			p: out std_logic_vector(WL-1 downto 0) );	-- product
 	end component;
 
-	constant iFilePath: string := "../common/fileIn.txt";
-	constant oFilePath: string := "../common/fileOut.txt";
-	constant oBehFilePath: string := "../common/fileOutBeh.txt";
+	constant iFilePath: string := "../common/multSample.txt";
+	constant oFilePath: string := "../common/mult_HW-output.txt";
+	constant oBehFilePath: string := "../common/mult_SW-output.txt";
 
 	file fileIn: text;
 	file fileOut: text;

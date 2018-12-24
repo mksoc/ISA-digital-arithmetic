@@ -1,10 +1,13 @@
 from wrDaddaTree import wrDaddaTree
-import matlab.engine
 import fileHandling as fh
-import as sim
-import as synth
+import settings as s
+from in_gen import in_gen
+import sys
+import os
+from samples_generator import gen_samples
+import subprocess
 
-def generateMultiplier(delimiter, srcPath, outPath, compression, startingDirection)
+def generateMultiplier(delimiter, srcPath, outPath, compression, startingDirection):
 
 	tempPath = outPath+".tempFile"
 
@@ -22,17 +25,17 @@ def generateMultiplier(delimiter, srcPath, outPath, compression, startingDirecti
 
 def genScripts():
 	# gen sim script for multiplier
-	tclGen('sim', False, 'multiplier', s.mult_tcl_name) # (tclType, synthesized, design, tcl_name) 
+	tclGen('sim', s.mult_sim_tcl_name, False, 'multiplier') # (tclType, synthesized, design, tcl_name) 
 	# gen sim script for the whole filter
-	tclGen('sim', False, 'filter', s.filter_tcl_name)
+	tclGen('sim', s.filter_sim_tcl_name, False, 'filter')
 	# gen sim script for synth multiplier
-	tclGen('sim', True, 'multiplier', s.sMult_tcl_name)
+	tclGen('sim', s.sMult_sim_tcl_name, True, 'multiplier')
 	# gen sim script for the synth whole filter
-	tclGen('sim', True, 'filter', s.sFilter_tcl_name)
+	tclGen('sim', s.sFilter_sim_tcl_name, True, 'filter')
 	# gen synth script for the multiplier
-	tclGen('synth', 'multiplier', s.mult_synth_tcl_name)
+	tclGen('synth', s.mult_synth_tcl_name, False, 'multiplier')
 	# gen synth script for the whole filter
-	tclGen('synth', 'filter', s.filter_synth_tcl_name)
+	tclGen('synth', s.filter_synth_tcl_name, False, 'filter')
 
 def genSamples():
 	in_gen(s.n_samples) # (samples = 10000)
@@ -56,24 +59,24 @@ def performSynth(session, remote_root, tclName):
 		mv netlist/* ../version{ver}
 		mv saif/NangateOpenCellLibrary.saif ../sim""".format(root=remote_root, tclName=tclName, ver=3))
 
-def message(string)
+def message(string):
 	print(string+'\n')
 
-def cmd(string)
+def cmd(string):
 	subprocess.run(string.split())
 
-def tclGen(tclType, synthesized=False, design='', tcl_name):
+def tclGen(tclType, tcl_name, synthesized=False, design=''):
 
 	if design == 'multiplier':
 		entity = s.multEntity_name
-		if !synthesized:
+		if not synthesized:
 			src_compile_str = '''
 				vcom -93 -work {sim}/work {v3}/multV3_pkg.vhd
 				vcom -93 -work {sim}/work {v3}/*.vhd '''.format(
 					sim=s.remote_simPath,
 					src=s.remote_srcPath,
 					v3=s.remote_v3Path)
-        else:
+		else:
 			src_compile_str = '''
 				vcom -93 -work {sim}/work {src}/filter_pkg.vhd
 				vcom -93 -work {sim}/work {v3}/multV3_pkg.vhd
@@ -84,11 +87,11 @@ def tclGen(tclType, synthesized=False, design='', tcl_name):
 		tb_compile_str = 'vcom -93 -work {sim}/work {tb}/{TBentity}.vhd'.format(
 			sim=s.remote_simPath, 
 			tb=s.remote_tbPath,
-			TBentity='{entity}TB'.format(entity))
+			TBentity='{}TB'.format(entity))
 
 	elif design == 'filter':
 		entity = s.filterEntity_name
-		if !synthesized:
+		if not synthesized:
 			src_compile_str = '''
 				vcom -93 -work {sim}/work {src}/filter_pkg.vhd
 				vcom -93 -work {sim}/work {v3}/multV3_pkg.vhd
@@ -110,13 +113,13 @@ def tclGen(tclType, synthesized=False, design='', tcl_name):
 			vlog -work {sim}/work {tb}/{TBentity}.v '''.format(
 			sim=s.remote_simPath,
 			tb=s.remote_tbPath,
-			TBentity='{entity}TB'.format(entity))
+			TBentity='{}TB'.format(entity))
 
 	else: sys.exit('Error in tclGen, please check the passed design.')
 
 	lib_load_str = 'vsim {library} work.{TBentity}'.format(
-		library='' if !synthesized else '-L /software/dk/nangate45/verilog/msim6.2g -sdftyp /iir_filterTB/UUT=../version3/{entity}.sdf -pli /software/synopsys/syn_current/auxx/syn/power/vpower/lib-linux/libvpower.so'.format(entity=entity),
-		TBentity='{entity}TB'.format(entity))
+		library='' if not synthesized else '-L /software/dk/nangate45/verilog/msim6.2g -sdftyp /iir_filterTB/UUT=../version3/{entity}.sdf -pli /software/synopsys/syn_current/auxx/syn/power/vpower/lib-linux/libvpower.so'.format(entity=entity),
+		TBentity='{}TB'.format(entity))
 
 	if tclType == 'sim':
 		with open(tcl_name, 'w') as f:
@@ -128,13 +131,13 @@ def tclGen(tclType, synthesized=False, design='', tcl_name):
 				{tb_string}
 				
 				# load design
-				{lib_compile_str}
+				{lib_load_string}
 				
 				# run simulation
 				run -all '''.format(
 					src_string=src_compile_str,
 					tb_string=tb_compile_str, 
-					lib_load_str=lib_compile_str))
+					lib_load_string=lib_load_str))
 
 	elif tclType == 'synth':
 		with open(tcl_name, 'w') as f:
@@ -152,7 +155,7 @@ def tclGen(tclType, synthesized=False, design='', tcl_name):
 				set power_preserve_rtl_hier_names true
 
 				# elaborate design
-				elaborate {entity} -arch structure -lib WORK > ./logs/elaborate-log.txt
+				elaborate {ent} -arch structure -lib WORK > ./logs/elaborate-log.txt
 				uniquify
 				link
 
@@ -180,8 +183,8 @@ def tclGen(tclType, synthesized=False, design='', tcl_name):
 				optimize_registers
 
 				# reports gen
-				report_timing > {common}/{entity}_{t}
-				report_area > {common}/{entity}_{a}
+				report_timing > {common}/{ent}_{t}
+				report_area > {common}/{ent}_{a}
 				ungroup -all -flatten
 				change_names -hierarchy -rules verilog
 				write_sdf ../netlist/iir_filter.sdf
@@ -190,10 +193,9 @@ def tclGen(tclType, synthesized=False, design='', tcl_name):
 				quit'''.format(
 					src=s.remote_srcPath,
 					v3=s.remote_v3Path,
-					entity=entity,
+					ent=entity,
 					clk=0,
-					common=s.remote_commonPath, 
-					entity=entity,
+					common=s.remote_commonPath,
 					t=s.timingReport_name, 
 					a=s.areaReport_name))
 
@@ -201,9 +203,9 @@ def tclGen(tclType, synthesized=False, design='', tcl_name):
 
 def compileCfilter():
 	if not os.path.isfile(s.c_exe_name):
-        cmd('g++ {Cfilter_src_folder}/iir_filter.c -o {program}'.format(
-        	Cfilter_src_folder=s.cFilterPath, 
-        	program=s.c_exe_name))
+		cmd('g++ {Cfilter_src_folder}/iir_filter.c -o {program}'.format(
+			Cfilter_src_folder=s.cFilterPath, 
+			program=s.c_exe_name))
 
 def Cfilter():
     cmd('./{program} {inputFolder}/{inputFile} {resultPath}/{resultFile}'.format(	
