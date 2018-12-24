@@ -40,7 +40,7 @@ class ssh_session:
         with open('ssh_commands.sh', 'w') as cmd_file:
             cmd_file.write(cmd)
         os.system(
-            'cat ssh_commands.sh | ssh -S {} -p {} {}'.format(self.socket, self.port, self.user_host))
+            'cat ssh_commands.sh | ssh -T -S {} -p {} {}'.format(self.socket, self.port, self.user_host))
         os.remove('ssh_commands.sh')
 
     def copy_to(self, source, destination):

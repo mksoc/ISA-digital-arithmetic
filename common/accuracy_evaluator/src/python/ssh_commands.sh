@@ -1,0 +1,1 @@
+rm -r /home/isa22/lab2/src
