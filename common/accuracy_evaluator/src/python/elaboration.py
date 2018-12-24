@@ -68,18 +68,23 @@ def cmd(string):
 def tclGen(tclType, tcl_name, synthesized=False, design=''):
 
 	if design == 'multiplier':
-		entity = s.multEntity_name
+		entity = s.multWRegsEntity_name
+		retimingString = ''' 
+				set_dont_touch *reg_in*
+				set_dont_touch *reg_out*
+				optimize_registers'''
 		if not synthesized:
 			src_compile_str = '''
 				vcom -93 -work {sim}/work {v3}/multV3_pkg.vhd
+				vcom -93 -work {sim}/work {src}/reg.vhd
 				vcom -93 -work {sim}/work {v3}/*.vhd '''.format(
 					sim=s.remote_simPath,
 					src=s.remote_srcPath,
 					v3=s.remote_v3Path)
 		else:
 			src_compile_str = '''
-				vcom -93 -work {sim}/work {src}/filter_pkg.vhd
 				vcom -93 -work {sim}/work {v3}/multV3_pkg.vhd
+				vcom -93 -work {sim}/work {src}/reg.vhd
 				vlog -work {sim}/work {v3}/*.v '''.format(
 					sim=s.remote_simPath,
 					src=s.remote_srcPath,
@@ -88,9 +93,16 @@ def tclGen(tclType, tcl_name, synthesized=False, design=''):
 			sim=s.remote_simPath, 
 			tb=s.remote_tbPath,
 			TBentity='{}TB'.format(entity))
+		run_str = 'run 300us'
 
 	elif design == 'filter':
 		entity = s.filterEntity_name
+		retimingString = ''' 
+				set_dont_touch *reg_in*
+				set_dont_touch *reg_coeff_fb_i_*
+				set_dont_touch *reg_b_i_*
+				set_dont_touch *reg_out*
+				optimize_registers'''
 		if not synthesized:
 			src_compile_str = '''
 				vcom -93 -work {sim}/work {src}/filter_pkg.vhd
@@ -114,6 +126,7 @@ def tclGen(tclType, tcl_name, synthesized=False, design=''):
 			sim=s.remote_simPath,
 			tb=s.remote_tbPath,
 			TBentity='{}TB'.format(entity))
+		run_str = 'run -all'
 
 	else: sys.exit('Error in tclGen, please check the passed design.')
 
@@ -134,23 +147,33 @@ def tclGen(tclType, tcl_name, synthesized=False, design=''):
 				{lib_load_string}
 				
 				# run simulation
-				run -all '''.format(
+				{run_string} '''.format(
 					src_string=src_compile_str,
 					tb_string=tb_compile_str, 
-					lib_load_string=lib_load_str))
+					lib_load_string=lib_load_str,
+					run_string=run_str))
 
 	elif tclType == 'synth':
 		with open(tcl_name, 'w') as f:
 			f.write('''
 				# there will be a compile ultra command later
-				set ultra optimization true
+				set_ultra_optimization true''')
 
-				# analyze src files
-				analyze -f vhdl -lib WORK {src}/filter_pkg.vhd
-				analyze -f vhdl -lib WORK {v3}/multV3_pkg.vhd
-				analyze -f vhdl -lib WORK {src}/*.vhd
-				analyze -f vhdl -lib WORK {v3}/*.vhd
+			# Analyze 
+			src_files = [file for file in os.listdir(s.local_src) if os.path.isfile(os.path.join(s.local_src, file))]
+			ver_files = [file for file in os.listdir(s.local_srcMult) if os.path.isfile(os.path.join(s.local_srcMult, file)) and '.vhd' in file]
+			if 'filter_pkg.vhd' in src_files:
+				f.write('\nanalyze -f vhdl -lib WORK {src}/filter_pkg.vhd'.format(src=s.remote_srcPath))
+				src_files.remove('filter_pkg.vhd')
+			if 'multV3_pkg.vhd' in ver_files:
+				f.write('\nanalyze -f vhdl -lib WORK {v3}/multV3_pkg.vhd'.format(v3=s.remote_v3Path))
+				ver_files.remove('multV3_pkg.vhd')
+			for file in src_files:
+				f.write('\nanalyze -f vhdl -lib WORK {src}/{f}'.format(src=s.remote_srcPath, f=file))
+			for file in ver_files:
+				f.write('\nanalyze -f vhdl -lib WORK {v3}/{f}'.format(v3=s.remote_v3Path, f=file))
 
+			f.write('''
 				# preserve RTL names
 				set power_preserve_rtl_hier_names true
 
@@ -176,25 +199,20 @@ def tclGen(tclType, tcl_name, synthesized=False, design=''):
 				compile_ultra
 
 				# apply retiming to design
-				set_dont_touch *reg_in*
-				set_dont_touch *reg_coeff_fb_i_*
-				set_dont_touch *reg_b_i_*
-				set_dont_touch *reg_out*
-				optimize_registers
+				{retiming}
 
 				# reports gen
 				report_timing > {common}/{ent}_{t}
 				report_area > {common}/{ent}_{a}
 				ungroup -all -flatten
 				change_names -hierarchy -rules verilog
-				write_sdf ../netlist/iir_filter.sdf
-				write -f verilog -hierarchy -output ../netlist/iir_filter.v
-				write_sdc ../netlist/iir_filter.sdc
+				write_sdf ../netlist/{ent}.sdf
+				write -f verilog -hierarchy -output ../netlist/{ent}.v
+				write_sdc ../netlist/{ent}.sdc
 				quit'''.format(
-					src=s.remote_srcPath,
-					v3=s.remote_v3Path,
 					ent=entity,
 					clk=0,
+					retiming=retimingString,
 					common=s.remote_commonPath,
 					t=s.timingReport_name, 
 					a=s.areaReport_name))

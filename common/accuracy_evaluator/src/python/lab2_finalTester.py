@@ -61,28 +61,44 @@ for compressionLevel in s.compressionList:
 	for startingDirection in s.directionList:
 		
 		# create the multiplier
-		el.message('Creating the multiplier with a compression level of {comp}. The binding is begun from {dir}'.format(
+		el.message('Creating the multipliers with a compression level of {comp}. The binding is begun from {dir}'.format(
 			comp=compressionLevel,
 			dir=startingDirection))
 		with isa.cd(s.multiplierPath):
 			el.generateMultiplier(s.delimiter, s.srcMultPath, s.multFileName, compressionLevel, startingDirection)
+			el.generateMultiplier(s.delimiter, s.srcMultWRegsPath, s.multWRegsFileName, compressionLevel, startingDirection)
 			# transfer the multiplier
 			el.message('Uploading all the multiplier related files...')
 			fh.uploadMultiplier(session)
+			fh.uploadMultiplierWRegs(session)
 			el.message('Ok Houston, no problems.')
 			# rename the local multiplier
 			el.message('Renaming the multiplier file...')
-			newName = '{base_name}.{cmp}{dir}.vhd'.format(base_name=s.multBaseName, cmp=compressionLevel, dir=startingDirection)
+			newName = '{base_name}.{cmp}{dir}.vhd'.format(base_name=s.multEntity_name, cmp=compressionLevel, dir=startingDirection)
 			os.rename(s.multFileName, newName)
+			newName = '{base_name}.{cmp}{dir}.vhd'.format(base_name=s.multWRegsEntity_name, cmp=compressionLevel, dir=startingDirection)
+			os.rename(s.multWRegsFileName, newName)
 			el.message('It was a breeze.')
 	
 		# sim the mult
 		el.message('Starting the simulation of the mult, baby!')
 		el.performSim(session, s.remote_root, s.mult_sim_tcl_name)
 		el.message('It\'s important to keep these brittle results in a safe place.')
+
+		el.message('Let\'s take back what belongs to us.')
+		# take back, rename and store the sim results
+		fh.storeResultsReports(session, False, compressionLevel, startingDirection)
+		# clean the common folder from sim output files
+		fh.cleanCommon(session)
+		# re-upload samples
+		with isa.cd(s.inputPath):
+			fh.uploadSamples(session)
+		el.message('It would have been impossible for someone. But here we are.')	
 	
 		# synth the mult
-		el.message('Starting the synthesis of the mult, baby!')
+		el.message('Starting the synthesis of the mult, roar!')
+		# upload synth related file
+		session.copy_to('{}/.synopsys_dc.setup'.format(s.local_syn), '{}/syn/'.format(s.remote_root))
 		el.performSynth(session, s.remote_root, s.mult_synth_tcl_name)
 		el.message('Synthesized.')
 
@@ -93,6 +109,9 @@ for compressionLevel in s.compressionList:
 
 		# clean the syn-work folder
 		fh.cleanSyn(session)
+		# re-upload scripts
+		with isa.cd(s.scriptPath):
+			fh.uploadScripts(session)
 	
 		# sim the filter
 		el.message('Starting the simulation of the synth mult, baby!')
@@ -111,15 +130,19 @@ for compressionLevel in s.compressionList:
 
 		# clean the syn-work folder
 		fh.cleanSyn(session)
+		# re-upload scripts
+		with isa.cd(s.scriptPath):
+			fh.uploadScripts(session)
 
 		# take back, rename and store the results and reports
-		fh.storeResultsReports(session, compressionLevel, startingDirection)
+		fh.storeResultsReports(session, True, compressionLevel, startingDirection)
 
 		el.message('Finished a loop step: cleaning common and re-uploading the same Samples')
 		# clean the common folder from output files
 		fh.cleanCommon(session)
 		# re-upload samples
-		fh.uploadSamples(session)
+		with isa.cd(s.inputPath):
+			fh.uploadSamples(session)
 		el.message('Let\'s go on!')
 
 el.message('The hard part has been over, relax. It\'s time to analyze the results.')

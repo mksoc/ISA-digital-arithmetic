@@ -22,6 +22,9 @@ def cleanServer(session):
 	session.clean(s.remote_v2Path)
 	session.clean(s.remote_v3Path)
 
+	cmd = 'cd {synPath}; mkdir netlist'.format(synPath=s.remote_synPath)
+	session.run_commands(cmd)
+
 def buildTree():
 	mkdir(s.workPath)
 	mkdir(s.multiplierPath)
@@ -40,16 +43,14 @@ def uploadScripts(session):
 	session.copy_to(s.filter_synth_tcl_name, s.remote_synPath)
 
 def uploadSamples(session):
-	samplesPath = '{}/{}'.format(s.inputPath, s.multSamples_name)
-	session.copy_to(samplesPath, s.remote_commonPath)
-	samplesPath = '{}/{}'.format(s.inputPath, s.filterSamples_name)
-	session.copy_to(samplesPath, s.remote_commonPath)
+	session.copy_to(s.multSamples_name, s.remote_commonPath)
+	session.copy_to(s.filterSamples_name, s.remote_commonPath)
 
 def uploadSrcTb(session):
 	# multiplier related files
 	for vhdFile in os.listdir(s.local_srcMult):
 		if (vhdFile.endswith('.vhd')):
-			if (vhdFile != '{}.vhd'.format(s.multBaseName)): 
+			if (vhdFile != '{}.vhd'.format(s.multEntity_name)): 
 				filePath = '{}/{}'.format(s.local_srcMult, vhdFile)
 				session.copy_to(filePath, s.remote_v3Path)
 
@@ -62,7 +63,7 @@ def uploadSrcTb(session):
 	# generic src files
 	for vhdFile in os.listdir(s.local_src):
 		if (vhdFile.endswith('.vhd')):
-			if (vhdFile != '{}.vhd'.format(s.multBaseName)): 
+			if (vhdFile != '{}.vhd'.format(s.multEntity_name)): 
 				filePath = '{}/{}'.format(s.local_src, vhdFile)
 				session.copy_to(filePath, s.remote_srcPath)
 
@@ -81,17 +82,25 @@ def uploadSrcTb(session):
 def uploadMultiplier(session):
 	session.copy_to(s.multFileName, s.remote_v3Path)
 
-def storeResultsReports(session, compressionLevel, startingDirection):
+def uploadMultiplierWRegs(session):
+	session.copy_to(s.multWRegsFileName, s.remote_v3Path)
+
+def storeResultsReports(session, synthesized, compressionLevel, startingDirection):
+	if synthesized:
+		synthString = 'synth'		
+		for file in s.reportFilesList:
+			oldResultFilePath = '{}/{}'.format(s.remote_commonPath, file)
+			resultFilePath = '{}/{}{}{}_{}'.format(s.remote_commonPath, compressionLevel, startingDirection, synthString, file)
+			session.run_commands('mv {oldFile} {newFile}'.format(oldFile=oldResultFilePath, newFile=resultFilePath))
+			session.copy_from(resultFilePath, s.reportPath)
+	else:
+		synthString = 'noSynth'
+
 	for file in s.resultFilesList:
 		oldResultFilePath = '{}/{}'.format(s.remote_commonPath, file)
-		resultFilePath = '{}/{}{}_{}'.format(s.remote_commonPath, compressionLevel, startingDirection, file)
+		resultFilePath = '{}/{}{}{}_{}'.format(s.remote_commonPath, compressionLevel, startingDirection, synthString, file)
 		session.run_commands('mv {oldFile} {newFile}'.format(oldFile=oldResultFilePath, newFile=resultFilePath))
 		session.copy_from(resultFilePath, s.resultPath)
-	for file in s.reportFilesList:
-		oldResultFilePath = '{}/{}'.format(s.remote_commonPath, file)
-		resultFilePath = '{}/{}{}_{}'.format(s.remote_commonPath, compressionLevel, startingDirection, file)
-		session.run_commands('mv {oldFile} {newFile}'.format(oldFile=oldResultFilePath, newFile=resultFilePath))
-		session.copy_from(resultFilePath, s.reportPath)
 
 def cleanCommon(session):
 	session.clean(s.remote_commonPath)

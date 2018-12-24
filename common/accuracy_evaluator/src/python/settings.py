@@ -41,12 +41,14 @@ resultPath = '{}/result'.format(workPath)
 scriptPath = '{}/script'.format(workPath)
 
 local_srcMult = '{}/HW_filter/version3/vhdl/src'.format(repo_root)
-local_tbMult = '{}/HW_filter/version1/vhdl/tb'.format(repo_root)
+local_tbMult = '{}/HW_filter/version3/vhdl/tb'.format(repo_root)
 local_project = '{}/HW_filter/version3/vhdl/src/project'.format(repo_root)
 local_src = '{}/HW_filter/src'.format(repo_root)
 local_tb = '{}/HW_filter/tb'.format(repo_root)
+local_syn = '{}/HW_filter/syn'.format(repo_root)
 # path of the handwritten part of the multiplier
-srcMultPath = '{}/HW_filter/version1/vhdl/src/src_handWrittenMult/srcMult.vhd'.format(repo_root)
+srcMultPath = '{}/HW_filter/version3/vhdl/src/src_handWrittenMult/srcMult.vhd'.format(repo_root)
+srcMultWRegsPath = '{}/HW_filter/version3/vhdl/src/src_handWrittenMult/srcMult_wRegs.vhd'.format(repo_root)
 # local useful paths
 local_simV1 = '{}/HW_filter/version1/vhdl/sim'.format(repo_root)
 local_simV2 = ''
@@ -68,7 +70,7 @@ sFilter_sim_tcl_name = 'sim-synthFilter.tcl'
 # synth script to synth the mult
 mult_synth_tcl_name = 'synth-mult.tcl'
 # synth script to synth the filter
-filter_synth_tcl_name = 'synth-mult.tcl'
+filter_synth_tcl_name = 'synth-filter.tcl'
 # report script name
 report_tcl_name = 'reports-gen.tcl'
 
@@ -76,10 +78,11 @@ multSamples_name = 'multSample.txt'
 filterSamples_name = 'filterSamples.txt'
 
 c_exe_name = 'iir_filter'
-c_resultFile_name = 'filter_SW-output.txt'
-
 multEntity_name = 'mbeDadda_mult'
+multWRegsEntity_name = 'mbeDadda_mult_wRegs'
 filterEntity_name = 'iir_filter'
+
+c_resultFile_name = 'filter_SW-output.txt'
 
 multSWResult_name = 'mult_SW-output.txt'
 multResult_name = 'mult_HW-output.txt'
@@ -88,11 +91,11 @@ powReport_name = 'power.txt'
 areaReport_name = 'area.txt'
 timingReport_name = 'timing.txt'
 
-multBaseName = 'mbeDadda_mult'
 multFileName = 'mbeDadda_mult.vhd'
+multWRegsFileName = 'mbeDadda_mult_wRegs.vhd'
 
 resultFilesList = ['mult_HW-output.txt', 'filter_HW-output.txt', 'mult_SW-output.txt']
-reportFilesList = ['power.txt' ,'area.txt', 'timing.txt']
+reportFilesList = ['{}_power.txt'.format(multWRegsEntity_name) ,'{}_area.txt'.format(multWRegsEntity_name), '{}_timing.txt'.format(multWRegsEntity_name)]
 
 # --------------------------------- PARAM --------------------------------- 
 
