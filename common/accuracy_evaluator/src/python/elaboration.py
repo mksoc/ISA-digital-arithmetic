@@ -43,13 +43,13 @@ def genSamples():
 	gen_samples()
 	os.rename('py-samples.txt', s.filterSamples_name)
 
-def performSim(session, remote_root, tclName):
+def performSim(session, remote_root, tclName, entity):
 	session.run_commands("""cd {root}/sim
 	    source /software/scripts/init_msim6.2g
 	    rm vsim.wlf
 	    if [ ! -d work ]; then vlib work; fi
 	    vsim -c -do {tclName}
-	    mv iir_filter_back.saif ../version{ver}""".format(root=remote_root, tclName=tclName, ver=3))
+	    mv {ent}_back.saif ../version{ver}""".format(root=remote_root, tclName=tclName, ent=entity, ver=3))
 
 def performSynth(session, remote_root, tclName):
     session.run_commands("""cd {root}/syn
@@ -66,6 +66,11 @@ def cmd(string):
 	subprocess.run(string.split())
 
 def tclGen(tclType, tcl_name, synthesized=False, design=''):
+
+	if s.isComp_ultra:
+		compile_str = 'compile_ultra'
+	else:
+		compile_str = 'compile'
 
 	if design == 'multiplier':
 		entity = s.multWRegsEntity_name
@@ -131,7 +136,7 @@ def tclGen(tclType, tcl_name, synthesized=False, design=''):
 	else: sys.exit('Error in tclGen, please check the passed design.')
 
 	lib_load_str = 'vsim {library} work.{TBentity}'.format(
-		library='' if not synthesized else '-L /software/dk/nangate45/verilog/msim6.2g -sdftyp /iir_filterTB/UUT=../version3/{entity}.sdf -pli /software/synopsys/syn_current/auxx/syn/power/vpower/lib-linux/libvpower.so'.format(entity=entity),
+		library='' if not synthesized else '-L /software/dk/nangate45/verilog/msim6.2g -sdftyp /{entity}TB/UUT={v3}/{entity}.sdf -pli /software/synopsys/syn_current/auxx/syn/power/vpower/lib-linux/libvpower.so'.format(entity=entity, v3=s.remote_v3Path),
 		TBentity='{}TB'.format(entity))
 
 	if tclType == 'sim':
@@ -157,10 +162,13 @@ def tclGen(tclType, tcl_name, synthesized=False, design=''):
 		with open(tcl_name, 'w') as f:
 			f.write('''
 				# there will be a compile ultra command later
-				set_ultra_optimization true''')
+				set_ultra_optimization {isCompUltra}'''.format(
+					isCompUltra=str(s.isComp_ultra),
+					))
 
 			# Analyze 
 			src_files = [file for file in os.listdir(s.local_src) if os.path.isfile(os.path.join(s.local_src, file))]
+			prj_files = [file for file in os.listdir(s.local_project) if os.path.isfile(os.path.join(s.local_project, file))]
 			ver_files = [file for file in os.listdir(s.local_srcMult) if os.path.isfile(os.path.join(s.local_srcMult, file)) and '.vhd' in file]
 			if 'filter_pkg.vhd' in src_files:
 				f.write('\nanalyze -f vhdl -lib WORK {src}/filter_pkg.vhd'.format(src=s.remote_srcPath))
@@ -169,6 +177,8 @@ def tclGen(tclType, tcl_name, synthesized=False, design=''):
 				f.write('\nanalyze -f vhdl -lib WORK {v3}/multV3_pkg.vhd'.format(v3=s.remote_v3Path))
 				ver_files.remove('multV3_pkg.vhd')
 			for file in src_files:
+				f.write('\nanalyze -f vhdl -lib WORK {src}/{f}'.format(src=s.remote_srcPath, f=file))
+			for file in prj_files:
 				f.write('\nanalyze -f vhdl -lib WORK {src}/{f}'.format(src=s.remote_srcPath, f=file))
 			for file in ver_files:
 				f.write('\nanalyze -f vhdl -lib WORK {v3}/{f}'.format(v3=s.remote_v3Path, f=file))
@@ -196,7 +206,7 @@ def tclGen(tclType, tcl_name, synthesized=False, design=''):
 				set $OLOAD [all_outputs]
 
 				# start synthesis
-				compile_ultra
+				{compile}
 
 				# apply retiming to design
 				{retiming}
@@ -206,16 +216,18 @@ def tclGen(tclType, tcl_name, synthesized=False, design=''):
 				report_area > {common}/{ent}_{a}
 				ungroup -all -flatten
 				change_names -hierarchy -rules verilog
-				write_sdf ../netlist/{ent}.sdf
-				write -f verilog -hierarchy -output ../netlist/{ent}.v
-				write_sdc ../netlist/{ent}.sdc
+				write_sdf {syn}/netlist/{ent}.sdf
+				write -f verilog -hierarchy -output {syn}/netlist/{ent}.v
+				write_sdc {syn}/netlist/{ent}.sdc
 				quit'''.format(
 					ent=entity,
 					clk=0,
+					compile=compile_str,
 					retiming=retimingString,
 					common=s.remote_commonPath,
 					t=s.timingReport_name, 
-					a=s.areaReport_name))
+					a=s.areaReport_name,
+					syn=s.remote_synPath))
 
 	else: sys.exit('Error in tclGen, please check the passed design.')
 

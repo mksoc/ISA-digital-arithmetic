@@ -42,8 +42,8 @@ begin
 	-- clk generation
 	clk <= not clk after Tclk/2;
 
-	-- DUT multiplier instantiation
-	DUT: mbeDadda_mult_WRegs
+	-- UUT multiplier instantiation
+	UUT: mbeDadda_mult_WRegs
 		port map (
 			clk => clk,
 			x => x,

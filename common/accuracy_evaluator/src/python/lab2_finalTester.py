@@ -82,7 +82,7 @@ for compressionLevel in s.compressionList:
 	
 		# sim the mult
 		el.message('Starting the simulation of the mult, baby!')
-		el.performSim(session, s.remote_root, s.mult_sim_tcl_name)
+		el.performSim(session, s.remote_root, s.mult_sim_tcl_name, s.multWRegsEntity_name)
 		el.message('It\'s important to keep these brittle results in a safe place.')
 
 		el.message('Let\'s take back what belongs to us.')
@@ -99,13 +99,20 @@ for compressionLevel in s.compressionList:
 		el.message('Starting the synthesis of the mult, roar!')
 		# upload synth related file
 		session.copy_to('{}/.synopsys_dc.setup'.format(s.local_syn), '{}/syn/'.format(s.remote_root))
+
+		input("I'm going to synth the mult. Continue?")
+
 		el.performSynth(session, s.remote_root, s.mult_synth_tcl_name)
 		el.message('Synthesized.')
 
+		input("Mult synthesized. Continue?")
+
 		# sim the synth mult
 		el.message('Starting the simulation of the synth mult, baby!')
-		el.performSim(session, s.remote_root, s.filter_sim_tcl_name)
+		el.performSim(session, s.remote_root, s.sMult_sim_tcl_name, s.multWRegsEntity_name)
 		el.message('It\'s important to keep these breakable results in a safe place.')
+
+		input("Synth mult simulated (we hope...). Continue?")
 
 		# clean the syn-work folder
 		fh.cleanSyn(session)
@@ -114,8 +121,8 @@ for compressionLevel in s.compressionList:
 			fh.uploadScripts(session)
 	
 		# sim the filter
-		el.message('Starting the simulation of the synth mult, baby!')
-		el.performSim(session, s.remote_root, s.sMult_sim_tcl_name)
+		el.message('Starting the simulation of the filter, baby!')
+		el.performSim(session, s.remote_root, s.filter_sim_tcl_name, s.filterEntity_name)
 		el.message('It\'s important to keep these delicate results in a safe place.')
 	
 		# synth the filter
@@ -124,8 +131,8 @@ for compressionLevel in s.compressionList:
 		el.message('Synthesized.')
 	
 		# sim the synth filter
-		el.message('Starting the simulation of the synth mult, baby!')
-		el.performSim(session, s.remote_root, s.sFilter_sim_tcl_name)
+		el.message('Starting the simulation of the synth filter, baby!')
+		el.performSim(session, s.remote_root, s.sFilter_sim_tcl_name, s.filterEntity_name)
 		el.message('It\'s important to keep these frail results in a safe place.')
 
 		# clean the syn-work folder

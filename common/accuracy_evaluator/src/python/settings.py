@@ -105,3 +105,6 @@ compressionList = list(range(0, 100, 50))
 directionList = ['right', 'left']
 
 delimiter = '---DELIMITER---\n'
+
+# enable compile ultra for the synthesis?
+isComp_ultra = False
