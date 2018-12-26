@@ -1,5 +1,16 @@
 from bin_lib import printer_2s,twos_comp
 
+# recode_calculator(multiplier,i):
+#
+# DESCRIPTION
+#    Computes recode bits according to the MBE method.
+# INPUT
+#    Needs as inputs:
+#       multiplier as 2's complement number expressed as strings.
+#       iterator (integer) expliciting to which partial products recode bits are referred to.
+# OUTPUT
+#    Returns the recoding bits expressed as a string.
+
 def recode_calculator(multiplier,i):
     if i==0:
         return (multiplier[len(multiplier)-2:len(multiplier)]+'0')
