@@ -84,10 +84,22 @@ for compressionLevel in s.compressionList:
 		el.message('Starting the simulation of the mult, baby!')
 		el.performSim(session, s.remote_root, s.mult_sim_tcl_name, s.multWRegsEntity_name)
 		el.message('It\'s important to keep these brittle results in a safe place.')
+	
+		# upload synth related files and synth the mult
+		el.message('Starting the synthesis of the mult, roar!')
+		session.copy_to('{}/.synopsys_dc.setup'.format(s.local_syn), '{}/syn/'.format(s.remote_root))
+		el.performSynth(session, s.remote_root, s.mult_synth_tcl_name)
+		el.message('Synthesized.')
 
-		el.message('Let\'s take back what belongs to us.')
+		# clean the syn-work folder
+		fh.cleanSyn(session)
+		# re-upload scripts
+		with isa.cd(s.scriptPath):
+			fh.uploadScripts(session)
+
 		# take back, rename and store the sim results
-		fh.storeResultsReports(session, False, compressionLevel, startingDirection)
+		el.message('Let\'s take back what belongs to us.')
+		fh.storeResultsReports(session, s.multWRegsEntity_name, False, compressionLevel, startingDirection)
 		# clean the common folder from sim output files
 		fh.cleanCommon(session)
 		# re-upload samples
@@ -95,46 +107,17 @@ for compressionLevel in s.compressionList:
 			fh.uploadSamples(session)
 		el.message('It would have been impossible for someone. But here we are.')	
 	
-		# synth the mult
-		el.message('Starting the synthesis of the mult, roar!')
-		# upload synth related file
-		session.copy_to('{}/.synopsys_dc.setup'.format(s.local_syn), '{}/syn/'.format(s.remote_root))
-
-		input("I'm going to synth the mult. Continue?")
-
-		el.performSynth(session, s.remote_root, s.mult_synth_tcl_name)
-		el.message('Synthesized.')
-
-		input("Mult synthesized. Continue?")
-
-		# sim the synth mult
-		el.message('Starting the simulation of the synth mult, baby!')
-		el.performSim(session, s.remote_root, s.sMult_sim_tcl_name, s.multWRegsEntity_name)
-		el.message('It\'s important to keep these breakable results in a safe place.')
-
-		input("Synth mult simulated (we hope...). Continue?")
-
-		# clean the syn-work folder
-		fh.cleanSyn(session)
-		# re-upload scripts
-		with isa.cd(s.scriptPath):
-			fh.uploadScripts(session)
-	
 		# sim the filter
 		el.message('Starting the simulation of the filter, baby!')
 		el.performSim(session, s.remote_root, s.filter_sim_tcl_name, s.filterEntity_name)
 		el.message('It\'s important to keep these delicate results in a safe place.')
 	
-		# synth the filter
+		# upload synth related files and synth the filter
 		el.message('Starting the synthesis of the filter, baby!')
+		session.copy_to('{}/.synopsys_dc.setup'.format(s.local_syn), '{}/syn/'.format(s.remote_root))
 		el.performSynth(session, s.remote_root, s.filter_synth_tcl_name)
 		el.message('Synthesized.')
 	
-		# sim the synth filter
-		el.message('Starting the simulation of the synth filter, baby!')
-		el.performSim(session, s.remote_root, s.sFilter_sim_tcl_name, s.filterEntity_name)
-		el.message('It\'s important to keep these frail results in a safe place.')
-
 		# clean the syn-work folder
 		fh.cleanSyn(session)
 		# re-upload scripts
@@ -142,7 +125,7 @@ for compressionLevel in s.compressionList:
 			fh.uploadScripts(session)
 
 		# take back, rename and store the results and reports
-		fh.storeResultsReports(session, True, compressionLevel, startingDirection)
+		fh.storeResultsReports(session, s.filterEntity_name, False, compressionLevel, startingDirection)
 
 		el.message('Finished a loop step: cleaning common and re-uploading the same Samples')
 		# clean the common folder from output files

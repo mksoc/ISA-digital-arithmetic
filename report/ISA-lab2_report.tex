@@ -176,11 +176,10 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 	We have $\lceil \frac{k_y}{2} \rceil $ partial products to be compressed to only two terms with a Dadda Tree of CSA. The 
 	situation is the following:
 % table with the current situation
-	Since we are not working with full precision, we can do not consider the first $\bm{k_y^I}$ MSBs, because they do not
-	impact on the others. The $\bm{k_y^F}$ LSBs are on the contrary fundamental because of the carry of the sums in which they are involved.
+	Since we are not working with full dynamics, we can do not consider the first $\bm{k_y^I}$ MSBs, because they do not
+	impact on the others. The number of integer bits of the lines of the filter was chosen not to let overflow occur anywhere in the filter; thus the number of integer bits is high enough and doesn't need to be increased. On the contrary the $\bm{k_y^F}$ LSBs are fundamental because of the carry of the sums in which they are involved, which can impact over the bits on their left.
 	As Roorda highlighted, the bits of sign-extension can be thought as a series of \textbf{1} if the complement of the sign bit is added in its original position.
-	This leads to a further optimization, because each column of \textbf{1}, starting from the rightmost one, can be simplified
-	in advance knowing that
+	This leads to a further optimization, because each column of \textbf{1}, starting from the rightmost one, can be simplified in advance noting that
 	\begin{equation}
 		\begin{cases}
         	?\ \ 1\\
@@ -190,7 +189,7 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
         \begin{cases}
         	?\ \ 0\\
         	?\ \ 0\\
-        	1\ \ 0\\
+        	1\
         \end{cases}
 	\end{equation}
 	and
@@ -203,7 +202,7 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
         \begin{cases}
         	?\ \ \bar{a}\\
         	?\ \ 0\\
-        	a\ \ 0\\
+        	a\
         \end{cases}
 	\end{equation}
 	At the end we have the first row in which there is a string of "\textbf{10}", followed by a sequence of "$\bm{1\ \bar{p}_{k_{x}+1}^i}$" and then a triplet composed of "$\bm{\bar{p}_{k_{x}+1}^0 p_{k_{x}+1}^0 p_{k_{x}+1}^0}$". On the second row, under the first element $\bm{\bar{p}_{k_{x}+1}^0}$ of this triplet, there is $\bm{\bar{p}_{k_{x}+1}^1}$.\\
@@ -217,8 +216,50 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 		\end{itemize}
 		In a single column we can count up to 13 elements, because the MUX let pass only \textbf{x} multiplied for the absolute value of the symbol \textbf{Y}. The "negative" bit (one of the three which encode a single symbol) it has to be added 
 		to the LSB of its partial product: therefore we have 12+1 elements at most in a column.
-		This is not so bad, because with the Dadda Tree we are still in the case of having only 5 levels of FA (13 elements in 
-		a column at most).
+		This is not so bad, because with the Dadda Tree we are still in the case of having only 5 levels of adders (13 elements in a column at most).
+
+	\begin{figure}[hbtp]
+	\centering
+	\includegraphics[width=.6\linewidth]{media/v1_abstract_DP.png}
+	\caption{DP of the filter multiplier based on a DADDA tree, with Roorda's approach on MBE-r4 encoding}
+	\label{fig:v1-dp}
+	\end{figure}
+
+	\begin{figure}[hbtp]
+	\centering
+	\includegraphics[width=.6\linewidth]{media/v1_FA_dadda_bindings_4.png}
+	\caption{Applying the Roorda's method to reduce the numbers of adders}
+	\label{fig:v1-bind4}
+	\end{figure}
+
+	\begin{figure}[hbtp]
+	\centering
+	\includegraphics[width=.6\linewidth]{media/v1_FA_dadda_bindings_3.png}
+	\caption{Applying the Roorda's method to reduce the numbers of adders}
+	\label{fig:v1-bind3}
+	\end{figure}
+
+	\begin{figure}[hbtp]
+	\centering
+	\includegraphics[width=.6\linewidth]{media/v1_FA_dadda_bindings_2.png}
+	\caption{Applying the Roorda's method to reduce the numbers of adders}
+	\label{fig:v1-bind2}
+	\end{figure}
+
+	\begin{figure}[hbtp]
+	\centering
+	\includegraphics[width=.6\linewidth]{media/v1_FA_dadda_bindings_1.png}
+	\caption{Applying the Roorda's method to reduce the numbers of adders}
+	\label{fig:v1-bind1}
+	\end{figure}
+
+	\begin{figure}[hbtp]
+	\centering
+	\includegraphics[width=.6\linewidth]{media/v1_FA_dadda_bindings_0.png}
+	\caption{Applying the Roorda's method to reduce the numbers of adders}
+	\label{fig:v1-bind0}
+	\end{figure}
+
 	\section{\textit{Version 2}: Approximated multiplier architecture}
 	The main idea for \textit{version 2}, as suggested in the lab paper, is to approximate the partial products in order to gain mainly in terms of power and area.
 	This can be achieved by simply truncating the 6 LSBs before allocating any half or full adder in those positions that have been set to '0'.

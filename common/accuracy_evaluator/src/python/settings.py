@@ -95,7 +95,7 @@ multFileName = 'mbeDadda_mult.vhd'
 multWRegsFileName = 'mbeDadda_mult_wRegs.vhd'
 
 resultFilesList = ['mult_HW-output.txt', 'filter_HW-output.txt', 'mult_SW-output.txt']
-reportFilesList = ['{}_power.txt'.format(multWRegsEntity_name) ,'{}_area.txt'.format(multWRegsEntity_name), '{}_timing.txt'.format(multWRegsEntity_name)]
+reportFilesList = ['area.txt', 'timing.txt']
 
 # --------------------------------- PARAM --------------------------------- 
 

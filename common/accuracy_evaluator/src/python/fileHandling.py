@@ -85,16 +85,18 @@ def uploadMultiplier(session):
 def uploadMultiplierWRegs(session):
 	session.copy_to(s.multWRegsFileName, s.remote_v3Path)
 
-def storeResultsReports(session, synthesized, compressionLevel, startingDirection):
+def storeResultsReports(session, entity, synthesized, compressionLevel, startingDirection):
+	
 	if synthesized:
-		synthString = 'synth'		
-		for file in s.reportFilesList:
-			oldResultFilePath = '{}/{}'.format(s.remote_commonPath, file)
-			resultFilePath = '{}/{}{}{}_{}'.format(s.remote_commonPath, compressionLevel, startingDirection, synthString, file)
-			session.run_commands('mv {oldFile} {newFile}'.format(oldFile=oldResultFilePath, newFile=resultFilePath))
-			session.copy_from(resultFilePath, s.reportPath)
+		synthString = 'synth'	
 	else:
 		synthString = 'noSynth'
+	
+	for file in s.reportFilesList:
+		oldResultFilePath = '{common}/{ent}_{report}'.format(common=s.remote_commonPath, ent=entity, report=file)
+		resultFilePath = '{common}/{cmp}{dir}{isSynth}_{ent}_{report}'.format(common=s.remote_commonPath, cmp=compressionLevel, dir=startingDirection, isSynth=synthString, ent=entity, report=file)
+		session.run_commands('mv {oldFile} {newFile}'.format(oldFile=oldResultFilePath, newFile=resultFilePath))
+		session.copy_from(resultFilePath, s.reportPath)
 
 	for file in s.resultFilesList:
 		oldResultFilePath = '{}/{}'.format(s.remote_commonPath, file)
