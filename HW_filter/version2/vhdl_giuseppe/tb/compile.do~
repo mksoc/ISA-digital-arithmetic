@@ -8,8 +8,8 @@ vsim -c work.mult_tb
 
 
 #add list -decimal clk -notrigger a b c cout sum
-add wave sim:/mult_tb/UUT/*
+#add wave sim:/mult_tb/UUT/*
 run 1ms
-
+quit
 #write list counter.lst
 
