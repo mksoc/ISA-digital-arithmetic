@@ -9,11 +9,11 @@ import copy
 # srcMtx: string - the name of the source matrix
 # dstMtx: string - the name of the destination matrix
 # srcMtxRows: number - #rows of the srcMtx
-# destMtxRows: number - #rows of the destMtx 
+# destMtxRows: number - #rows of the destMtx
 # mtxCols: number - #columns of each matrix
-# numElmArr: array of numbers with dimension mtxCols - each cell keeps the number of elements in that column 
-# faArr: array of numbers with dimension mtxCols - each cell keeps the number of FA to be instantiated for that column 
-# haArr: array of numbers with dimension mtxCols -each cell keeps the number of HA to be instantiated for that column 
+# numElmArr: array of numbers with dimension mtxCols - each cell keeps the number of elements in that column
+# faArr: array of numbers with dimension mtxCols - each cell keeps the number of FA to be instantiated for that column
+# haArr: array of numbers with dimension mtxCols -each cell keeps the number of HA to be instantiated for that column
 # daddaLevel: number, only for the welcome comment
 
 #----------------------------------------------
@@ -108,13 +108,13 @@ def vhdlDaddaLevel(fileName, fileMode, srcMtx, dstMtx, srcMtxRows, dstMtxRows, m
 			fileObj.write("----------------------------- \n")
 			# write the COMPRESSORS
 			for i in range(0, cmprsArr[actualColumn]):
-				i0 = srcMtx + "(" + str(4*nCompressor) + ")(" + str(actualColumn) + ")" 
-				i1 = srcMtx + "(" + str(4*nCompressor+1) + ")(" + str(actualColumn) + ")" 
-				i2 = srcMtx + "(" + str(4*nCompressor+2) + ")(" + str(actualColumn) + ")" 
-				i3 = srcMtx + "(" + str(4*nCompressor+3) + ")(" + str(actualColumn) + ")" 
-				out0 = dstMtx + "(" + str(nextCin+actualCin) + ")(" + str(actualColumn) + ")" 
+				i0 = srcMtx + "(" + str(4*nCompressor) + ")(" + str(actualColumn) + ")"
+				i1 = srcMtx + "(" + str(4*nCompressor+1) + ")(" + str(actualColumn) + ")"
+				i2 = srcMtx + "(" + str(4*nCompressor+2) + ")(" + str(actualColumn) + ")"
+				i3 = srcMtx + "(" + str(4*nCompressor+3) + ")(" + str(actualColumn) + ")"
+				out0 = dstMtx + "(" + str(nextCin+actualCin) + ")(" + str(actualColumn) + ")"
 				if actualColumn != mtxCols-1:
-					out1 = dstMtx + "(" + str(nextCin) + ")(" + str(actualColumn+1) + ")" 
+					out1 = dstMtx + "(" + str(nextCin) + ")(" + str(actualColumn+1) + ")"
 				else:
 					out1 = "open"
 				wr4To2ApproxCompressor(fileObj, i0, i1, i2, i3, out0, out1, actualColumn, nCompressor, daddaLevel);
@@ -122,12 +122,12 @@ def vhdlDaddaLevel(fileName, fileMode, srcMtx, dstMtx, srcMtxRows, dstMtxRows, m
 				nextCin += 1
 			# write the FAs
 			for i in range(0, faArr[actualColumn]):
-				i0 = srcMtx + "(" + str(3*nFA) + ")(" + str(actualColumn) + ")" 
-				i1 = srcMtx + "(" + str(3*nFA+1) + ")(" + str(actualColumn) + ")" 
-				ci = srcMtx + "(" + str(3*nFA+2) + ")(" + str(actualColumn) + ")" 
-				s = dstMtx + "(" + str(nextCin+actualCin) + ")(" + str(actualColumn) + ")" 
+				i0 = srcMtx + "(" + str(3*nFA) + ")(" + str(actualColumn) + ")"
+				i1 = srcMtx + "(" + str(3*nFA+1) + ")(" + str(actualColumn) + ")"
+				ci = srcMtx + "(" + str(3*nFA+2) + ")(" + str(actualColumn) + ")"
+				s = dstMtx + "(" + str(nextCin+actualCin) + ")(" + str(actualColumn) + ")"
 				if actualColumn != mtxCols-1:
-					co = dstMtx + "(" + str(nextCin) + ")(" + str(actualColumn+1) + ")" 
+					co = dstMtx + "(" + str(nextCin) + ")(" + str(actualColumn+1) + ")"
 				else:
 					co = "open"
 				wrFA(fileObj, i0, i1, ci, s, co, actualColumn, nFA, daddaLevel);
@@ -135,11 +135,11 @@ def vhdlDaddaLevel(fileName, fileMode, srcMtx, dstMtx, srcMtxRows, dstMtxRows, m
 				nextCin += 1
 			# write the HAs
 			for i in range(0, haArr[actualColumn]):
-				i0 = srcMtx + "(" + str(3*nFA+2*nHA) + ")(" + str(actualColumn) + ")" 
-				i1 = srcMtx + "(" + str(3*nFA+2*nHA+1) + ")(" + str(actualColumn) + ")" 
-				s = dstMtx + "(" + str(nextCin+actualCin) + ")(" + str(actualColumn) + ")" 
+				i0 = srcMtx + "(" + str(3*nFA+2*nHA) + ")(" + str(actualColumn) + ")"
+				i1 = srcMtx + "(" + str(3*nFA+2*nHA+1) + ")(" + str(actualColumn) + ")"
+				s = dstMtx + "(" + str(nextCin+actualCin) + ")(" + str(actualColumn) + ")"
 				if actualColumn != mtxCols-1:
-					co = dstMtx + "(" + str(nextCin) + ")(" + str(actualColumn+1) + ")" 
+					co = dstMtx + "(" + str(nextCin) + ")(" + str(actualColumn+1) + ")"
 				else:
 					co = "open"
 				wrHA(fileObj, i0, i1, s, co, actualColumn, nHA, daddaLevel);
@@ -149,7 +149,7 @@ def vhdlDaddaLevel(fileName, fileMode, srcMtx, dstMtx, srcMtxRows, dstMtxRows, m
 			fileObj.write("-- move the other elements of the column\n")
 			offset = nextCin + actualCin
 			for i in range(4*nCompressor+3*nFA+2*nHA, numElmArr[actualColumn]):
-				line = dstMtx + "(" + str(offset) + ")(" + str(actualColumn) + ") <= " + srcMtx + "(" + str(i) + ")(" + str(actualColumn) + ");" 
+				line = dstMtx + "(" + str(offset) + ")(" + str(actualColumn) + ") <= " + srcMtx + "(" + str(i) + ")(" + str(actualColumn) + ");"
 				fileObj.write(line)
 				fileObj.write("\n")
 				offset += 1;
@@ -183,7 +183,7 @@ def vhdlDaddaLevel(fileName, fileMode, srcMtx, dstMtx, srcMtxRows, dstMtxRows, m
 #
 # INPUT #
 # numElmArr: each cell of this list keeps the number of elements of the current column (wrt the current level)
-# nextMaxRows: maximum number of elements allowed per column in the next level 
+# nextMaxRows: maximum number of elements allowed per column in the next level
 # mtxCols: number of column of the matrix. It must be equal to len(numElmArr)
 # compression: percentage of how many compressors will be bound wrt the maximum possible respecting the DADDA approach
 # startingDirection: can be either "right" or "left" and determines the starting direction from where the compressors are bound.
@@ -225,7 +225,7 @@ def autoBind(numElmArr, nextMaxRows, mtxCols, compression, startingDirection):
 	checkNumElmArr = copy.deepcopy(numElmArr)
 
 	# compute how many approx compressors will be put
-	nCompressor = round(compression/100 * nCompressorMax) 
+	nCompressor = round(compression/100 * nCompressorMax)
 
 	# bind
 	for actualColumn in range(mtxCols):
@@ -314,3 +314,16 @@ def drawTree(mtxRows, mtxCols, numElmArr, cmprsArr, faArr, haArr):
 # draw the line
 def drawLine(line):
 	print(line)
+
+# set numElmArr
+def setNumElmArr(startElm,maxElm,endElm,dummyCol):
+	numElmArr = []
+	for i in range(startElm, maxElm+1):
+		numElmArr += [i]
+		numElmArr += [i-1]
+	numElmArr += [maxElm-1] * 3
+	numElmArr += [maxElm-2]
+	for i in range(0, (maxElm-endElm-3)+1):
+		numElmArr += [maxElm-3-i] * 2
+	for i in range(0,dummyCol+1):
+		numElmArr[i]=0

@@ -11,14 +11,14 @@
 from treeBindings_VHDLgen import vhdlDaddaLevel, autoBind, drawTree
 import dadda_settings as s
 
-def wrDaddaTree(outPath, compression, startingDirection):
+def wrDaddaTree(outPath, compression, startingDirection, approxLSBs):
 	#----------------------------------------------
 	# CONSTANTS and VARIABLES
 	#----------------------------------------------
 
 	fileName = outPath
 	mtxCols = s.mtxCols
-	numElmArr = s.numElmArr
+	numElmArr = setNumElmArr(elmOnFirstCol,srcMtxRows,elmOnLastCol,approxLSBs)
 	daddaLevels = s.daddaLevels
 	daddaRows = [2, 3, 4, 6, 9, 13]
 
@@ -44,7 +44,7 @@ def wrDaddaTree(outPath, compression, startingDirection):
 		drawTree(srcMtxRows, mtxCols, numElmArr, cmprsArr, faArr, haArr)
 
 		vhdlDaddaLevel(fileName, fileMode, srcMtx, dstMtx, srcMtxRows, dstMtxRows, mtxCols, numElmArr, cmprsArr, faArr, haArr, nextLevel)
-		
+
 		numElmArr = nextNumElmArr
 
 if __name__ == "__main__":
