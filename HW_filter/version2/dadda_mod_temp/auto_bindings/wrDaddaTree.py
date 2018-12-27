@@ -8,7 +8,7 @@
 #----------------------------------------------
 # MODULES
 #----------------------------------------------
-from treeBindings_VHDLgen import vhdlDaddaLevel, autoBind, drawTree
+from treeBindings_VHDLgen import vhdlDaddaLevel, autoBind, drawTree, setNumElmArr
 import dadda_settings as s
 
 def wrDaddaTree(outPath, compression, startingDirection, approxLSBs):
@@ -18,7 +18,7 @@ def wrDaddaTree(outPath, compression, startingDirection, approxLSBs):
 
 	fileName = outPath
 	mtxCols = s.mtxCols
-	numElmArr = setNumElmArr(elmOnFirstCol,srcMtxRows,elmOnLastCol,approxLSBs)
+	numElmArr = setNumElmArr(s.elmOnFirstCol,s.srcMtxRows,s.elmOnLastCol,approxLSBs)
 	daddaLevels = s.daddaLevels
 	daddaRows = [2, 3, 4, 6, 9, 13]
 

@@ -325,5 +325,6 @@ def setNumElmArr(startElm,maxElm,endElm,dummyCol):
 	numElmArr += [maxElm-2]
 	for i in range(0, (maxElm-endElm-3)+1):
 		numElmArr += [maxElm-3-i] * 2
-	for i in range(0,dummyCol+1):
+	for i in range(0,dummyCol):
 		numElmArr[i]=0
+	return numElmArr
