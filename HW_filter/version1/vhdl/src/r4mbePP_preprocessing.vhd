@@ -37,7 +37,7 @@ end component;
 
 begin
 
-neg <= y_tri(2);
+neg <= neg <= y_tri(2) and not (y_tri(1) and y_tri(0));
 mux_sel_x <= y_tri(1) xnor y_tri(0); 
 mux_enable <= not(y_tri(2) or y_tri(1) or y_tri(0)) nor (y_tri(2) and y_tri(1) and y_tri(0));
 
