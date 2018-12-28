@@ -1,29 +1,29 @@
 import random
+from bin_lib import twos_comp, printer_2s
 
-fileName = "common/samples.txt"
-howManyNums=int(input("How many couples of sample do you want to create"))
-nBit = 24
-
-def num2bin(num, nBit):
-
-	binNum = []
-
-	for exp in range(nBit-1, -1, -1):
-		quot = num / 2**(exp)
-		if quot >= 1:
-			num = num % 2**(exp)
-			binNum += ['1']
-		else:
-			binNum += ['0']
-	return ''.join(binNum)
-
-# open the file
-fileIn = open(fileName, "w")
-
-for randNum in range(howManyNums):
-	xDec = random.randint(0, 2**(nBit)-1) # for debug
-	yDec = random.randint(0, 2**(nBit)-1) # for debug
-	x = num2bin(xDec, nBit)
-	y = num2bin(yDec, nBit)
-	line = x + " " + y
-	fileIn.write(line + "\n")
+# binStimGen(fname,lineNum,stimInLine,bitDyn,nBit):
+#
+# DESCRIPTION
+#    Creates a file with <stimNum> stimuli.
+# INPUT
+#    Needs as inputs:
+#       fname:      string with complete output file path nameself.
+#       lineNum:    amount of stimuli in a line.
+#       stimInLine: how many stimuli in a line.
+#       bitDyn:     real dynamic of output numb.
+#       nBit:       number of output bit in the string.
+# OUTPUT
+#    Creates a file of stimuli in the specified path.
+def binStimGen(fname,lineNum,stimInLine,bitDyn,nBit):
+    with open(fname,"w") as fout_pointer:
+        i=0
+        while i<lineNum:
+            j=0
+            string=""
+            while j<stimInLine:
+                num=random.randint(-2**(bitDyn-1),2**(bitDyn-1)-1)
+                string+=printer_2s(num,nBit)
+                string+="\t"
+                j+=1
+            fout_pointer.write(string+"\n")
+            i+=1
