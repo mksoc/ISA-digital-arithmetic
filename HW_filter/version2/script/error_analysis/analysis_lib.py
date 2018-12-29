@@ -1,8 +1,8 @@
 import sys
+import os
 bin_lib_path='/home/clmcasino/Desktop/ISA/Lab2/ISA-digital-arithmetic/HW_filter/version2/script/py_model'
 sys.path.append(bin_lib_path)
-
-from bin_lib    import twos_comp
+from bin_lib import twos_comp
 
 # extractTotalArea(area_rep_file):
 #
@@ -78,7 +78,7 @@ def maxValue(infile):
         max=0;
         for line in fin_pointer:
             num=float(line[0:len(line)-1])
-            if num>max:
+            if abs(num)>abs(max):
                 max=num
         return (max)
 
@@ -100,3 +100,58 @@ def avgValue(infile):
             j+=1
         avg=sum/j
         return (avg)
+
+# basicAnalysis(ref_file,comp_file):
+#
+# DESCRIPTION
+#    Computes the maximum and the average relative distance between the data contained into two files
+# INPUT
+#    Needs as inputs:
+#       ref_file: name or path (rel. or abs.) of the reference file, whose data are used as reference for relative distance.
+#       comp_file: name or path (rel. or abs.) of the file to be compered.
+# OUTPUT
+#    Returns list containing at pos zero the max value and at pos 1 the avg value.
+def basicAnalysis(ref_file,comp_file):
+    result=[]
+    temp_file_path="tempFile"
+    arithRelDiff(ref_file,comp_file,temp_file_path)
+    result+=[maxValue(temp_file_path)]
+    result+=[avgValue(temp_file_path)]
+    os.remove(temp_file_path)
+    return result
+
+# extractFileList(path,ID):
+#
+# DESCRIPTION
+#    Returns a file names list, in which every name matches an ID string
+# INPUT
+#    Needs as inputs:
+#       path: directory where to extract file names.
+#       ID  : string to identify which files.
+# OUTPUT
+#    Returns list of file names.
+def extractFileList(path,ID):
+    filelist=[]
+    res_file_list=[]
+    for (dirpath, dirnames, filenames) in walk(path):
+        filelist.extend(filenames)
+        break
+    for x in filelist:
+        if ID in x:
+            res_file_list+=[x]
+    return res_file_list
+
+# sortFileList(file_list):
+#
+# DESCRIPTION
+#    Sorts file name list
+# INPUT
+#    Needs as inputs:
+#       file_list: generic list of strings (file names)
+# OUTPUT
+#    No return.
+def sortFileList(file_list):
+    file_list.sort()
+    file_list.sort(key=len)
+
+def extractTruncLSBs(file_name):

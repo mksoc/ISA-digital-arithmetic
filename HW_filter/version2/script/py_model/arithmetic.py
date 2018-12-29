@@ -78,12 +78,12 @@ def mult_trunc_pp (op0,op1,outpar,lsbs):
     multiplier=int(op1,2)
     multiplier=twos_comp(multiplier,len(op1))
 
-# Initialize pp matrix
+    # Initialize pp matrix
     pp=[]
     i=0
     inv=0
 
-# Calculating partial products
+    # Calculating partial products
     while i < DADDALEVELS-1:
         recode_ctr=recode_calculator(op1,i)
         pp.append((pp_calculator(multiplicand,recode_ctr)<<(2*i))+inv)
@@ -91,7 +91,7 @@ def mult_trunc_pp (op0,op1,outpar,lsbs):
         i+=1
     pp.append(inv)
 
-# Truncating LSBs if requested
+    # Truncating LSBs if requested
 
     ending_str='0'*lsbs
     i=0
@@ -101,12 +101,29 @@ def mult_trunc_pp (op0,op1,outpar,lsbs):
         new_num=int(new_str,2)
         pp[i]=twos_comp(new_num,len(new_str))
         i+=1
-# Summing pp
+    # Summing pp
     i=0
     product=0
     while i<DADDALEVELS:
         product=pp[i]+product
         i+=1
 
-# Writing result
+    # Writing result
     return printer_2s(product,outpar)+'\n'
+
+# computeTruncResult(infile,outfile,outpar,lsbs):
+# DESCRIPTION
+#    Produces a outfile with results from multiplication done with truncated pp (MBE)
+# INPUT
+#    Needs as inputs:
+#       infile  :name/path file with couples of 2's complement numbers.
+#       outfile :name/path of output file where result will be written as 2's complement numbers.
+#       outpar  :output parallelism as an integer.
+#       lsbs    :number of LSBs to be truncated.
+# OUTPUT
+#    No return
+def computeTruncResult(infile,outfile,outpar,lsbs):
+    with open(infile,"r") as fin_pointer, open(outfile,"w") as fout_pointer:
+        for line in fin_pointer:
+            nums=line.split()
+            fout_pointer.write(mult_trunc_pp(nums[0],nums[1],outpar,lsbs))
