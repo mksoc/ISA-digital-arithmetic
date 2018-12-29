@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+import sys
 import os
 import subprocess
 import elaboration as el
@@ -58,17 +59,20 @@ el.message('Common files will be uploaded now. Look at this!!')
 fh.uploadSrcTb(session)
 el.message('And now we can enter the loop... it will take a while, so keep calm.')
 
+# set parameters for v1 and v3
+approxBits = 0
+
 # loop
 for compressionLevel in s.compressionList:
 	for startingDirection in s.directionList:
-		
+
 		# create the multiplier
 		el.message('Creating the multipliers with a compression level of {comp}. The binding is begun from {dir}'.format(
 			comp=compressionLevel,
 			dir=startingDirection))
 		with isa.cd(s.multiplierPath):
-			el.generateMultiplier(s.delimiter, s.srcMultPath, s.multFileName, compressionLevel, startingDirection)
-			el.generateMultiplier(s.delimiter, s.srcMultWRegsPath, s.multWRegsFileName, compressionLevel, startingDirection)
+			el.generateMultiplier(s.delimiter, s.srcMultPath, s.multFileName, compressionLevel, startingDirection, approxBits)
+			el.generateMultiplier(s.delimiter, s.srcMultWRegsPath, s.multWRegsFileName, compressionLevel, startingDirection, approxBits)
 			# transfer the multiplier
 			el.message('Uploading all the multiplier related files...')
 			fh.uploadMultiplier(session)
@@ -101,7 +105,7 @@ for compressionLevel in s.compressionList:
 
 		# take back, rename and store the sim results
 		el.message('Let\'s take back what belongs to us.')
-		fh.storeResultsReports(session, s.multWRegsEntity_name, False, compressionLevel, startingDirection)
+		fh.storeResultsReports(session, s.multWRegsEntity_name, False, compressionLevel, startingDirection, approxBits)
 		# clean the common folder from sim output files
 		fh.cleanCommon(session)
 		# re-upload samples
@@ -128,6 +132,86 @@ for compressionLevel in s.compressionList:
 
 		# take back, rename and store the results and reports
 		fh.storeResultsReports(session, s.filterEntity_name, False, compressionLevel, startingDirection)
+
+		el.message('Finished a loop step: cleaning common and re-uploading the same Samples')
+		# clean the common folder from output files
+		fh.cleanCommon(session)
+		# re-upload samples
+		with isa.cd(s.inputPath):
+			fh.uploadSamples(session)
+		el.message('Let\'s go on!')
+
+# set parameters to elaborate v2 multipliers and filters
+compressionLevel = 0
+startingDirection = 'right'
+
+# loop for v2 multipliers and filters
+for approxBits in s.approxBitsList: 
+
+	# create the multiplier
+		el.message('Creating the multipliers with {} LSBs of the tree which won\'t be elaborated.'.format(approxBits))
+		with isa.cd(s.multiplierPath):
+			el.generateMultiplier(s.delimiter, s.srcMultPath, s.multFileName, compressionLevel, startingDirection, approxBits)
+			el.generateMultiplier(s.delimiter, s.srcMultWRegsPath, s.multWRegsFileName, compressionLevel, startingDirection, approxBits)
+			# transfer the multiplier
+			el.message('Uploading all the multiplier related files...')
+			fh.uploadMultiplier(session)
+			fh.uploadMultiplierWRegs(session)
+			el.message('Ok Houston, no problems.')
+			# rename the local multiplier
+			el.message('Renaming the multiplier file...')
+			newName = '{base_name}.{approx}BitsApprox.vhd'.format(base_name=s.multEntity_name, approx=approxBits)
+			os.rename(s.multFileName, newName)
+			newName = '{base_name}.{approx}BitsApprox.vhd'.format(base_name=s.multWRegsEntity_name, approx=approxBits)
+			os.rename(s.multWRegsFileName, newName)
+			el.message('It was a breeze.')
+	
+		# sim the mult
+		el.message('Starting the simulation of the mult, baby!')
+		el.performSim(session, s.remote_root, s.mult_sim_tcl_name, s.multWRegsEntity_name)
+		el.message('It\'s important to keep these brittle results in a safe place.')
+	
+		# upload synth related files and synth the mult
+		el.message('Starting the synthesis of the mult, roar!')
+		session.copy_to('{}/.synopsys_dc.setup'.format(s.local_syn), '{}/syn/'.format(s.remote_root))
+		el.performSynth(session, s.remote_root, s.mult_synth_tcl_name)
+		el.message('Synthesized.')
+
+		# clean the syn-work folder
+		fh.cleanSyn(session)
+		# re-upload scripts
+		with isa.cd(s.scriptPath):
+			fh.uploadScripts(session)
+
+		# take back, rename and store the sim results
+		el.message('Let\'s take back what belongs to us.')
+		fh.storeResultsReports(session, s.multWRegsEntity_name, False, compressionLevel, startingDirection, approxBits)
+		# clean the common folder from sim output files
+		fh.cleanCommon(session)
+		# re-upload samples
+		with isa.cd(s.inputPath):
+			fh.uploadSamples(session)
+		el.message('It would have been impossible for someone. But here we are.')	
+	
+		# sim the filter
+		el.message('Starting the simulation of the filter, baby!')
+		el.performSim(session, s.remote_root, s.filter_sim_tcl_name, s.filterEntity_name)
+		el.message('It\'s important to keep these delicate results in a safe place.')
+	
+		# upload synth related files and synth the filter
+		el.message('Starting the synthesis of the filter, baby!')
+		session.copy_to('{}/.synopsys_dc.setup'.format(s.local_syn), '{}/syn/'.format(s.remote_root))
+		el.performSynth(session, s.remote_root, s.filter_synth_tcl_name)
+		el.message('Synthesized.')
+	
+		# clean the syn-work folder
+		fh.cleanSyn(session)
+		# re-upload scripts
+		with isa.cd(s.scriptPath):
+			fh.uploadScripts(session)
+
+		# take back, rename and store the results and reports
+		fh.storeResultsReports(session, s.filterEntity_name, False, compressionLevel, startingDirection, approxBits)
 
 		el.message('Finished a loop step: cleaning common and re-uploading the same Samples')
 		# clean the common folder from output files

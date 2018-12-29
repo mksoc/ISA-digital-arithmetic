@@ -31,8 +31,8 @@ architecture structure of mbeDadda_mult_wRegs is
 	signal grid1: aidGrid1;
 	signal grid0: aidGrid0;
 
-	signal add0, add1: std_logic_vector((WL_INT+2*WL_FRAC)-1 downto 0);
-	signal sum: std_logic_vector((WL_INT+2*WL_FRAC)-1 downto 0);
+	signal add0, add1: std_logic_vector((WL_INT+2*WL_FRAC)-1 -{nBit} downto 0);
+	signal sum: std_logic_vector((WL_INT+2*WL_FRAC)-1 -{nBit} downto 0);
 
 	signal y_zeroTail: std_logic_vector(WL downto 0);
 	signal negVector: std_logic_vector(numPartProd-1 downto 0);
@@ -167,8 +167,8 @@ begin
 ---DELIMITER---
 
 	-- last two levels
-	add0 <= grid0(0)((WL_INT+2*WL_FRAC)-1 downto 0);
-	add1 <= grid0(1)((WL_INT+2*WL_FRAC)-1 downto 0);
+	add0 <= grid0(0)((WL_INT+2*WL_FRAC)-1 downto {nBit});
+	add1 <= grid0(1)((WL_INT+2*WL_FRAC)-1 downto {nBit});
 
 	-- fast adder (to be implemented)
 	sum <= std_logic_vector(signed(add0) + signed(add1));

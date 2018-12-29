@@ -10,16 +10,16 @@ from in_gen import in_gen
 sys.path.append('{}/common'.format(s.repo_root))
 from samples_generator import gen_samples_core
 
-def generateMultiplier(delimiter, srcPath, outPath, compression, startingDirection):
+def generateMultiplier(delimiter, srcPath, outPath, compression, startingDirection, dummyCol):
 
 	tempPath = outPath+".tempFile"
 
-	wrDaddaTree(tempPath, compression, startingDirection)
-	
+	wrDaddaTree(tempPath, compression, startingDirection, dummyCol)
+
 	with open(outPath, "w") as outFile, open(srcPath, "r") as srcFile, open(tempPath, "r") as tempFile:
 		for srcLine in srcFile:
 			if (srcLine != delimiter):
-				outFile.write(srcLine)
+				outFile.write(srcLine.format(nBit=dummyCol))
 			else:
 				for tempLine in tempFile:
 					outFile.write(tempLine)

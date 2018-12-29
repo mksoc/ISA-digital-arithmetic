@@ -6,7 +6,7 @@ use work.multV3_pkg.all;
 
 -- fast multiplier with radix-4 modified Booth encoding, with Roorda's trick, CSA+fast adder Dadda tree
 entity mbeDadda_mult is
-	port ( 
+	port (
 		x,											-- multiplicand
 		y: in std_logic_vector(WL-1 downto 0);		-- multiplier
 
@@ -28,8 +28,8 @@ architecture structure of mbeDadda_mult is
 	signal grid1: aidGrid1;
 	signal grid0: aidGrid0;
 
-	signal add0, add1: std_logic_vector((WL_INT+2*WL_FRAC)-1 downto 0);
-	signal sum: std_logic_vector((WL_INT+2*WL_FRAC)-1 downto 0);
+	signal add0, add1: std_logic_vector((WL_INT+2*WL_FRAC)-1 -{nBit} downto 0);
+	signal sum: std_logic_vector((WL_INT+2*WL_FRAC)-1 -{nBit} downto 0);
 
 	signal y_zeroTail: std_logic_vector(WL downto 0);
 	signal negVector: std_logic_vector(numPartProd-1 downto 0);
@@ -40,7 +40,7 @@ begin
 	y_zeroTail(WL downto 0) <= y(WL-1 downto 0) & '0';
 
 	-- generate the blocks for the encoding
-	MBE_encoding_and_preprocessing_generation: 
+	MBE_encoding_and_preprocessing_generation:
 		for i in numPartProd-1 downto 0 generate
 			recoding_block: r4mbePP_preprocessing
 				generic map (
@@ -53,7 +53,7 @@ begin
 	end generate;
 
 	-- generate the blocks for the conditional negation and partial products assignment to grid5.
-	-- the "MSB" (most significant block, ie the block related to the PP generated from the 
+	-- the "MSB" (most significant block, ie the block related to the PP generated from the
 	-- most significant triplet) has not to take the incoming MSB, because it will not be used
 	-- for the calculation.
 	conditional_negation_blocks_generation:
@@ -89,11 +89,11 @@ begin
 				grid5_begin(i)((WL+2*i)-1 downto (2*i)) <= gridPPP_conditional_N(i)(WL-1 downto 0);
 			end generate PPP_MSBlock;
 
-			PPP_intermediateBlocks: if (i > 0 and i < numPartProd-1) generate 
+			PPP_intermediateBlocks: if (i > 0 and i < numPartProd-1) generate
 				grid5_begin(i)((WL+2*i) downto (2*i)) <= not(gridPPP_conditional_N(i)(WL)) & gridPPP_conditional_N(i)(WL-1 downto 0);
 			end generate PPP_intermediateBlocks;
 
-			PPP_LSBlock: if (i = 0) generate 
+			PPP_LSBlock: if (i = 0) generate
 				grid5_begin(i)((WL+2*i) downto (2*i)) <= gridPPP_conditional_N(i)(WL downto 0);
 			end generate PPP_LSBlock;
 
@@ -143,14 +143,14 @@ begin
 						grid5(j-(11-(1+(45-i)/2)))(i) <= grid5_begin(j)(i);
 					end generate;
 			end generate odd_special_case;
-		
+
 		end generate;
 
 ---DELIMITER---
 
 	-- last two levels
-	add0 <= grid0(0)((WL_INT+2*WL_FRAC)-1 downto 0);
-	add1 <= grid0(1)((WL_INT+2*WL_FRAC)-1 downto 0);
+	add0 <= grid0(0)((WL_INT+2*WL_FRAC)-1 downto {nBit});
+	add1 <= grid0(1)((WL_INT+2*WL_FRAC)-1 downto {nBit});
 
 	-- fast adder (to be implemented)
 	sum <= std_logic_vector(signed(add0) + signed(add1));

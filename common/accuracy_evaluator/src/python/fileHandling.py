@@ -1,3 +1,4 @@
+import sys
 import shutil
 import os
 import subprocess
@@ -86,7 +87,7 @@ def uploadMultiplier(session):
 def uploadMultiplierWRegs(session):
 	session.copy_to(s.multWRegsFileName, s.remote_v3Path)
 
-def storeResultsReports(session, entity, synthesized, compressionLevel, startingDirection):
+def storeResultsReports(session, entity, synthesized, compressionLevel, startingDirection, approxBits):
 	
 	if synthesized:
 		synthString = 'synth'	
@@ -95,13 +96,13 @@ def storeResultsReports(session, entity, synthesized, compressionLevel, starting
 	
 	for file in s.reportFilesList:
 		oldResultFilePath = '{common}/{ent}_{report}'.format(common=s.remote_commonPath, ent=entity, report=file)
-		resultFilePath = '{common}/{cmp}{dir}{isSynth}_{ent}_{report}'.format(common=s.remote_commonPath, cmp=compressionLevel, dir=startingDirection, isSynth=synthString, ent=entity, report=file)
+		resultFilePath = '{common}/c{cmp}d{dir}a{approx}_{ent}_{report}'.format(common=s.remote_commonPath, cmp=compressionLevel, dir=startingDirection, approx=approxBits, ent=entity, report=file)
 		session.run_commands('mv {oldFile} {newFile}'.format(oldFile=oldResultFilePath, newFile=resultFilePath))
 		session.copy_from(resultFilePath, s.reportPath)
 
 	for file in s.resultFilesList:
 		oldResultFilePath = '{}/{}'.format(s.remote_commonPath, file)
-		resultFilePath = '{}/{}{}{}_{}'.format(s.remote_commonPath, compressionLevel, startingDirection, synthString, file)
+		resultFilePath = '{}/{}{}{}_{}_{}'.format(s.remote_commonPath, compressionLevel, startingDirection, approxBits, entity, file)
 		session.run_commands('mv {oldFile} {newFile}'.format(oldFile=oldResultFilePath, newFile=resultFilePath))
 		session.copy_from(resultFilePath, s.resultPath)
 

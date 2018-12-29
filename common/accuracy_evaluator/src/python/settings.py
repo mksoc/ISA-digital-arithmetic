@@ -1,4 +1,5 @@
-sys.path.append('{}/common'.format(s.repo_root))
+import sys
+sys.path.append('{}'.format('../../..'))
 import isa
 
 # --------------------------------- SERVER ---------------------------------
@@ -100,6 +101,9 @@ reportFilesList = ['area.txt', 'timing.txt']
 
 # --------------------------------- PARAM --------------------------------- 
 
+# number of fractional bits to be approximated in the truncation after the multiplication
+truncatedBits = 24 
+
 # samples for the multiplier
 n_samples = 1000
 
@@ -114,6 +118,7 @@ n_samples_iir_mode = 1
 
 compressionList = list(range(0, 100, 50))
 directionList = ['right', 'left']
+approxBitsList = list(range(0, truncatedBits))
 
 delimiter = '---DELIMITER---\n'
 

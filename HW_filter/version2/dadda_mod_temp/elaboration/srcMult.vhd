@@ -2,7 +2,7 @@ library ieee;
 library work;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use work.multV1_pkg.all;
+use work.multV3_pkg.all;
 
 -- fast multiplier with radix-4 modified Booth encoding, with Roorda's trick, CSA+fast adder Dadda tree
 entity mbeDadda_mult is
