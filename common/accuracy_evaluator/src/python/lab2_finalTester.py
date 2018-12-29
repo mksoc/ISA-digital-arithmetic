@@ -3,8 +3,9 @@ import os
 import subprocess
 import elaboration as el
 import settings as s
-import isa
 import fileHandling as fh
+sys.path.append('{}/common'.format(s.repo_root))
+import isa
 
 # connect to the server
 el.message('Connecting to the server...')

@@ -37,9 +37,16 @@ def gen_samples():
 
     # generate samples
     NB = 12
+    fileName = 'py-samples.txt'
     print("Generating samples...")
+    gen_samples_core(fileName, NB, samples, mode)
+    print("Done.")
 
-    with open('py-samples.txt', 'w') as outFile:
+# NB: number of bits of the generated samples
+# mode: if mode == 1 then the samples are random
+#       if mode == 0 then the samples are at the extremis 
+def gen_samples_core(fileName, NB, samples, mode):
+    with open(fileName, 'w') as outFile:
         for i in range(samples):
             if mode == 1:
                 outFile.write('{}\n'.format(
@@ -50,8 +57,6 @@ def gen_samples():
             else:
                 print("Error. Unknown error. Exiting.")
                 exit(1)
-    print("Done.")
-
 
 if __name__ == '__main__':
     gen_samples()

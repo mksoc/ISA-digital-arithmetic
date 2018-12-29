@@ -1,11 +1,14 @@
-from wrDaddaTree import wrDaddaTree
-import fileHandling as fh
-import settings as s
-from in_gen import in_gen
 import sys
 import os
-from samples_generator import gen_samples
 import subprocess
+import fileHandling as fh
+import settings as s
+sys.path.append('{}/HW_filter/version3/script/vhdl_gen'.format(s.repo_root))
+from wrDaddaTree import wrDaddaTree
+sys.path.append('{}/HW_filter/version1/script/common_gen'.format(s.repo_root))
+from in_gen import in_gen
+sys.path.append('{}/common'.format(s.repo_root))
+from samples_generator import gen_samples_core
 
 def generateMultiplier(delimiter, srcPath, outPath, compression, startingDirection):
 
@@ -40,8 +43,7 @@ def genScripts():
 def genSamples():
 	in_gen(s.n_samples) # (samples = 10000)
 	os.rename("./fileIn.txt", s.multSamples_name)
-	gen_samples()
-	os.rename('py-samples.txt', s.filterSamples_name)
+	gen_samples_core(s.filterSamples_name, s.NB, s.n_samples_iir, s.n_samples_iir_mode)
 
 def performSim(session, remote_root, tclName, entity):
 	session.run_commands("""cd {root}/sim

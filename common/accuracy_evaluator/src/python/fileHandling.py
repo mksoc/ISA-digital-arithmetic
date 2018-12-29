@@ -1,8 +1,9 @@
 import shutil
-import settings as s
-import isa
 import os
 import subprocess
+import settings as s
+sys.path.append('{}/common'.format(s.repo_root))
+import isa
 
 def removeTree(root):
 	if os.path.exists(root):

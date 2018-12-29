@@ -24,8 +24,8 @@ class ssh_session:
         self.port = port
         self.socket = '~/.ssh/{}'.format(self.user_host)
         if avoidTimeout:
-            option = 'serverAliveInterval=120'
-        else
+            option = '-o serverAliveInterval=120'
+        else:
             option = ''
         os.system('ssh -M -f -N -o ControlPath={} {} -p {} {}'.format(self.socket, option, self.port, self.user_host))
 
@@ -40,7 +40,7 @@ class ssh_session:
         with open('ssh_commands.sh', 'w') as cmd_file:
             cmd_file.write(cmd)
         os.system(
-            'cat ssh_commands.sh | ssh -S {} -p {} {}'.format(self.socket, self.port, self.user_host))
+            'cat ssh_commands.sh | ssh -T -S {} -p {} {}'.format(self.socket, self.port, self.user_host))
         os.remove('ssh_commands.sh')
 
     def copy_to(self, source, destination):
@@ -60,11 +60,12 @@ class ssh_session:
             server=self.user_host,
             dest=destination
         ))
-    def clean(self, folderPath)
+
+    def clean(self, folderPath):
         rmCmd = 'rm -r {folderPath}'.format(folderPath=folderPath)
         mkdirCmd = 'mkdir {folderPath}'.format(folderPath=folderPath)
-        run_commands(rmCmd)
-        run_commands(mkdirCmd)
+        self.run_commands(rmCmd)
+        self.run_commands(mkdirCmd)
 
 
 # functions definitions

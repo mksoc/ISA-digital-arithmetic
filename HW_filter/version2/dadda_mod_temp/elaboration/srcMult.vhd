@@ -10,7 +10,7 @@ entity mbeDadda_mult is
 		x,											-- multiplicand
 		y: in std_logic_vector(WL-1 downto 0);		-- multiplier
 
-		p: out std_logic_vector(46 downto 0) );	-- product
+		p: out std_logic_vector(WL-1 downto 0) );	-- product
 end entity;
 
 architecture structure of mbeDadda_mult is
@@ -156,6 +156,6 @@ begin
 	sum <= std_logic_vector(signed(add0) + signed(add1));
 
 	-- truncation step
-	p <= sum(sum'length-1) & sum & ({nBit}-1 downto 0=>'0');
+	p <= sum((WL_INT+2*WL_FRAC)-1 downto (WL-WL_INT));
 
 end architecture;

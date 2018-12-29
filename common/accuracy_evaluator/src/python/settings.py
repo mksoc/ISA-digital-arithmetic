@@ -1,3 +1,4 @@
+sys.path.append('{}/common'.format(s.repo_root))
 import isa
 
 # --------------------------------- SERVER ---------------------------------
@@ -99,7 +100,17 @@ reportFilesList = ['area.txt', 'timing.txt']
 
 # --------------------------------- PARAM --------------------------------- 
 
+# samples for the multiplier
 n_samples = 1000
+
+# NB -> number of bits of the input of the iir_filter, needed for the generation of the samples
+# parameter used in genSamples(), inside gen_samples_core(fileName, NB, samples, mode) from samples_generator.py
+NB = 12
+# samples for the iir_filter
+n_samples_iir = 1000
+# n_samples_iir_mode = 1 -> random samples
+# n_samples_iir_mode = 2 -> samples at the extremis
+n_samples_iir_mode = 1
 
 compressionList = list(range(0, 100, 50))
 directionList = ['right', 'left']

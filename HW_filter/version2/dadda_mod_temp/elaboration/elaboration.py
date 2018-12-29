@@ -22,7 +22,6 @@ def generateMultiplier(delimiter, srcPath, outPath, compression, startingDirecti
 				for tempLine in tempFile:
 					outFile.write(tempLine)
 
-
 	os.remove(tempPath)
 
 def genScripts():
