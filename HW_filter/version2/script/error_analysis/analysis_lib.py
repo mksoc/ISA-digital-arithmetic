@@ -62,7 +62,7 @@ def arithRelDiff(infile1,infile2,outfile,num_line):
             num2=twos_comp(int(line2,2),len(line2))
             abs_dist=num1-num2
             rel_dist=abs_dist/num1
-            fout_pointer.write(rel_dist+'\n')
+            fout_pointer.write(str(rel_dist)+'\n')
 
 # maxValue(infile):
 #
@@ -77,8 +77,8 @@ def maxValue(infile):
     with open(infile,"r") as fin_pointer:
         max=0;
         for line in fin_pointer:
-            num=int(line)
-            if abs(num)>abs(max):
+            num=float(line[0:len(line)-1])
+            if num>max:
                 max=num
         return (max)
 
@@ -96,7 +96,7 @@ def avgValue(infile):
         sum=0
         j=0
         for line in fin_pointer:
-            sum+=int(line)
+            sum+=float(line[0:len(line)-1])
             j+=1
         avg=sum/j
         return (avg)

@@ -1,0 +1,120 @@
+Architecture with 1 LSBs truncated.
+Max relative error: 5.78764963027626e-10
+Avg relative error: 9.054353800130634e-13
+
+Architecture with 2 LSBs truncated.
+Max relative error: 1.157529926055252e-09
+Avg relative error: 1.7249547169628225e-12
+
+Architecture with 3 LSBs truncated.
+Max relative error: 2.315059852110504e-09
+Avg relative error: 4.3568001259189365e-12
+
+Architecture with 4 LSBs truncated.
+Max relative error: 2.315059852110504e-09
+Avg relative error: 6.01241958394027e-12
+
+Architecture with 5 LSBs truncated.
+Max relative error: 1.6205418964773527e-08
+Avg relative error: 2.7157729608521008e-11
+
+Architecture with 6 LSBs truncated.
+Max relative error: 4.398613719009958e-08
+Avg relative error: 6.528200583613071e-11
+
+Architecture with 7 LSBs truncated.
+Max relative error: 8.102709482386764e-08
+Avg relative error: 1.4119437016346015e-10
+
+Architecture with 8 LSBs truncated.
+Max relative error: 8.102709482386764e-08
+Avg relative error: 2.0592871045111804e-10
+
+Architecture with 9 LSBs truncated.
+Max relative error: 2.291909253589399e-07
+Avg relative error: 4.916400313216117e-10
+
+Architecture with 10 LSBs truncated.
+Max relative error: 5.255185864290844e-07
+Avg relative error: 1.0990081500522287e-09
+
+Architecture with 11 LSBs truncated.
+Max relative error: 2.007156891779807e-06
+Avg relative error: 3.3924189125458035e-09
+
+Architecture with 12 LSBs truncated.
+Max relative error: 3.1924675360603853e-06
+Avg relative error: 6.045758498180859e-09
+
+Architecture with 13 LSBs truncated.
+Max relative error: 5.563088824621541e-06
+Avg relative error: 1.1978219712199361e-08
+
+Architecture with 14 LSBs truncated.
+Max relative error: 1.5045573978866166e-05
+Avg relative error: 2.7329803739536404e-08
+
+Architecture with 15 LSBs truncated.
+Max relative error: 3.4010544287355415e-05
+Avg relative error: 6.097404232403421e-08
+
+Architecture with 16 LSBs truncated.
+Max relative error: 5.297551459584466e-05
+Avg relative error: 1.0815063857887458e-07
+
+Architecture with 17 LSBs truncated.
+Max relative error: 9.090545521282316e-05
+Avg relative error: 2.1776653161607267e-07
+
+Architecture with 18 LSBs truncated.
+Max relative error: 0.00016676533644678016
+Avg relative error: 4.059495619676205e-07
+
+Architecture with 19 LSBs truncated.
+Max relative error: 0.00031848509891469417
+Avg relative error: 8.631522571299382e-07
+
+Architecture with 20 LSBs truncated.
+Max relative error: 0.0007736443863184361
+Avg relative error: 1.8290760396642479e-06
+
+Architecture with 21 LSBs truncated.
+Max relative error: 0.001077083911254264
+Avg relative error: 3.362529843725939e-06
+
+Architecture with 22 LSBs truncated.
+Max relative error: 0.003504600110740888
+Avg relative error: 8.338145888673269e-06
+
+Architecture with 23 LSBs truncated.
+Max relative error: 0.007145874409970824
+Avg relative error: 1.6748243272233483e-05
+
+Architecture with 24 LSBs truncated.
+Max relative error: 0.014428423008430696
+Avg relative error: 3.348667513582239e-05
+
+Architecture with 25 LSBs truncated.
+Max relative error: 0.019283455407403942
+Avg relative error: 5.811259603934447e-05
+
+Architecture with 26 LSBs truncated.
+Max relative error: 0.04841364980124343
+Avg relative error: 0.00012707727115158663
+
+Architecture with 27 LSBs truncated.
+Max relative error: 0.10667403858892241
+Avg relative error: 0.00026367983239939475
+
+Architecture with 28 LSBs truncated.
+Max relative error: 0.14551429778070837
+Avg relative error: 0.00046084817659440514
+
+Architecture with 29 LSBs truncated.
+Max relative error: 0.3785558529314243
+Avg relative error: 0.0010053500918968227
+
+Architecture with 30 LSBs truncated.
+Max relative error: 0.6892779264657122
+Avg relative error: 0.001958639627080319
+
