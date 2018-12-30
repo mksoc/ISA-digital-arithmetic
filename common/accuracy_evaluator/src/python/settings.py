@@ -118,7 +118,7 @@ n_samples_iir_mode = 1
 
 compressionList = list(range(0, 100, 50))
 directionList = ['right', 'left']
-approxBitsList = list(range(0, truncatedBits,20))
+approxBitsList = list(range(2, truncatedBits))
 
 delimiter = '---DELIMITER---\n'
 

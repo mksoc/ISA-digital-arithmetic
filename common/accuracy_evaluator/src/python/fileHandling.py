@@ -96,13 +96,13 @@ def storeResultsReports(session, entity, synthesized, compressionLevel, starting
 	
 	for file in s.reportFilesList:
 		oldResultFilePath = '{common}/{ent}_{report}'.format(common=s.remote_commonPath, ent=entity, report=file)
-		resultFilePath = '{common}/c{cmp}d{dir}a{approx}_{ent}_{report}'.format(common=s.remote_commonPath, cmp=compressionLevel, dir=startingDirection, approx=approxBits, ent=entity, report=file)
+		resultFilePath = '{common}/C{cmp}D{dir}A{approx}_{ent}_{report}'.format(common=s.remote_commonPath, cmp=compressionLevel, dir=startingDirection, approx=approxBits, ent=entity, report=file)
 		session.run_commands('mv {oldFile} {newFile}'.format(oldFile=oldResultFilePath, newFile=resultFilePath))
 		session.copy_from(resultFilePath, s.reportPath)
 
 	for file in s.resultFilesList:
-		oldResultFilePath = '{}/{}'.format(s.remote_commonPath, file)
-		resultFilePath = '{}/{}{}{}_{}_{}'.format(s.remote_commonPath, compressionLevel, startingDirection, approxBits, entity, file)
+		oldResultFilePath = '{common}/{result}'.format(common=s.remote_commonPath, result=file)
+		resultFilePath = '{common}/C{cmp}D{dir}A{approx}_{ent}_{result}'.format(common=s.remote_commonPath, cmp=compressionLevel, dir=startingDirection, approx=approxBits, ent=entity, result=file)
 		session.run_commands('mv {oldFile} {newFile}'.format(oldFile=oldResultFilePath, newFile=resultFilePath))
 		session.copy_from(resultFilePath, s.resultPath)
 

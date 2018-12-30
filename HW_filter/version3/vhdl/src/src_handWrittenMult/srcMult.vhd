@@ -156,6 +156,6 @@ begin
 	sum <= std_logic_vector(signed(add0) + signed(add1));
 
 	-- truncation step
-	p <= sum((WL_INT+2*WL_FRAC)-1 downto (WL-WL_INT));
+	p <= sum((WL_INT+2*WL_FRAC)-1 -{nBit} downto (WL-WL_INT) -{nBit});
 
 end architecture;
