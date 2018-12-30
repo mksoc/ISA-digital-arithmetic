@@ -14,13 +14,13 @@ from bin_lib import twos_comp
 # OUTPUT
 #    Returns area as integer
 def extractTotalArea(area_rep_file):
-
-    for line in area_rep_file:
-        if "Total cell area:" in line:
-            strings=line.split()
-            return float(strings[3])
-    print ("Total cell area not found. Please check if {} is a Synopsys area report file.".format(area_rep_file.name))
-    exit (1)
+    with open(area_rep_file,"r") as rep_pointer:
+        for line in rep_pointer:
+            if "Total cell area:" in line:
+                strings=line.split()
+                return float(strings[3])
+        print ("Total cell area not found. Please check if {} is a Synopsys area report file.".format(area_rep_file.name))
+        exit (1)
 
 # extractSlackTime(timing_rep_file):
 #
@@ -32,13 +32,13 @@ def extractTotalArea(area_rep_file):
 # OUTPUT
 #    Returns slack time as integer
 def extractSlackTime(timing_rep_file):
-
-    for line in timing_rep_file:
-        if "slack" in line:
-            strings=line.split()
-            return float(strings[2])
-    print ("Slack time not found. Please check if {} is a Synopsys timing report file.".format(timing_rep_file.name))
-    exit (1)
+    with open(timing_rep_file,"r") as rep_pointer
+        for line in rep_pointer:
+            if "slack" in line:
+                strings=line.split()
+                return float(strings[2])
+            print ("Slack time not found. Please check if {} is a Synopsys timing report file.".format(timing_rep_file.name))
+        exit (1)
 
 # arithRelDiff(infile1,infile2,outfile):
 #
@@ -154,4 +154,63 @@ def sortFileList(file_list):
     file_list.sort()
     file_list.sort(key=len)
 
+# extractTruncLSBs(file_name):
+#
+# DESCRIPTION
+#    Extracts how many LSBs have been truncated in the multiplier architecture
+# INPUT
+#    Needs as inputs:
+#       file_name: string representig the file name where we haveto extract
+#                  which architecture we are referring to
+# OUTPUT
+#    Returns how many LSBs have been truncated in the multiplier architecture
 def extractTruncLSBs(file_name):
+    print("To be implemented")
+
+# extractRepType(file_name):
+#
+# DESCRIPTION
+#    Extracts the type of report from the name of the file we're referring to
+# INPUT
+#    Needs as inputs:
+#       file_name: string representig the file name where we have to extract
+#                  which report we are referring to
+# OUTPUT
+#    Returns the type of report from the name of the file we're referring to
+def extractRepType(file_name):
+    print("To be implemented")
+
+
+# checkResult(file1,file2):
+#
+# DESCRIPTION
+#    Checks if two files are identically the same or how may lines are different
+# INPUT
+#    Needs as inputs:
+#       file1,file2: names of two files to be checked
+# OUTPUT
+#    Returns how many lines differ.
+def checkResult(file1,file2):
+    i=0
+    with open(file1, "r") as f1_pointer, open(file2, "r") as f2_pointer:
+        for line1 in f1_pointer:
+            line2=f2_pointer.readline()
+            if line1!=line2:
+                i+=1
+    return i
+
+# message(string):
+#
+# DESCRIPTION
+#    Redirects string to a certain output
+# INPUT
+#    Needs as inputs:
+#       string: the list of char to be redirected to output
+# OUTPUT
+#    No return.
+def message(string):
+    print(string)
+
+def printBasicAnalysisRes(log_pointer,analysis_res,ID):
+    log_pointer.write("{}\n".format(ID))
+    log_pointer.write("MaxValue: {}\tAvgValue: {}".format(analysis_res[0],analysis_res[1]))
