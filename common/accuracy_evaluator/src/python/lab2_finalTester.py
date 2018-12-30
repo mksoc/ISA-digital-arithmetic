@@ -58,18 +58,15 @@ with isa.cd(s.cFilterPath):
 el.message('Common files will be uploaded now. Look at this!!')
 fh.uploadSrcTb(session)
 el.message('And now we can enter the loop... it will take a while, so keep calm.')
+# set parameters to elaborate v2 multipliers and filters
+compressionLevel = 0
+startingDirection = 'right'
 
-# set parameters for v1 and v3
-approxBits = 0
+# loop for v2 multipliers and filters
+for approxBits in s.approxBitsList: 
 
-# loop
-for compressionLevel in s.compressionList:
-	for startingDirection in s.directionList:
-
-		# create the multiplier
-		el.message('Creating the multipliers with a compression level of {comp}. The binding is begun from {dir}'.format(
-			comp=compressionLevel,
-			dir=startingDirection))
+	# create the multiplier
+		el.message('Creating the multipliers with {} LSBs of the tree which won\'t be elaborated.'.format(approxBits))
 		with isa.cd(s.multiplierPath):
 			el.generateMultiplier(s.delimiter, s.srcMultPath, s.multFileName, compressionLevel, startingDirection, approxBits)
 			el.generateMultiplier(s.delimiter, s.srcMultWRegsPath, s.multWRegsFileName, compressionLevel, startingDirection, approxBits)
@@ -80,9 +77,9 @@ for compressionLevel in s.compressionList:
 			el.message('Ok Houston, no problems.')
 			# rename the local multiplier
 			el.message('Renaming the multiplier file...')
-			newName = '{base_name}.{cmp}{dir}.vhd'.format(base_name=s.multEntity_name, cmp=compressionLevel, dir=startingDirection)
+			newName = '{base_name}.{approx}BitsApprox.vhd'.format(base_name=s.multEntity_name, approx=approxBits)
 			os.rename(s.multFileName, newName)
-			newName = '{base_name}.{cmp}{dir}.vhd'.format(base_name=s.multWRegsEntity_name, cmp=compressionLevel, dir=startingDirection)
+			newName = '{base_name}.{approx}BitsApprox.vhd'.format(base_name=s.multWRegsEntity_name, approx=approxBits)
 			os.rename(s.multWRegsFileName, newName)
 			el.message('It was a breeze.')
 	
@@ -131,7 +128,7 @@ for compressionLevel in s.compressionList:
 			fh.uploadScripts(session)
 
 		# take back, rename and store the results and reports
-		fh.storeResultsReports(session, s.filterEntity_name, False, compressionLevel, startingDirection)
+		fh.storeResultsReports(session, s.filterEntity_name, False, compressionLevel, startingDirection, approxBits)
 
 		el.message('Finished a loop step: cleaning common and re-uploading the same Samples')
 		# clean the common folder from output files
@@ -141,15 +138,17 @@ for compressionLevel in s.compressionList:
 			fh.uploadSamples(session)
 		el.message('Let\'s go on!')
 
-# set parameters to elaborate v2 multipliers and filters
-compressionLevel = 0
-startingDirection = 'right'
+# set parameters for v1 and v3
+approxBits = 0
 
-# loop for v2 multipliers and filters
-for approxBits in s.approxBitsList: 
+# loop for v1 and v3
+for compressionLevel in s.compressionList:
+	for startingDirection in s.directionList:
 
-	# create the multiplier
-		el.message('Creating the multipliers with {} LSBs of the tree which won\'t be elaborated.'.format(approxBits))
+		# create the multiplier
+		el.message('Creating the multipliers with a compression level of {comp}. The binding is begun from {dir}'.format(
+			comp=compressionLevel,
+			dir=startingDirection))
 		with isa.cd(s.multiplierPath):
 			el.generateMultiplier(s.delimiter, s.srcMultPath, s.multFileName, compressionLevel, startingDirection, approxBits)
 			el.generateMultiplier(s.delimiter, s.srcMultWRegsPath, s.multWRegsFileName, compressionLevel, startingDirection, approxBits)
@@ -160,9 +159,9 @@ for approxBits in s.approxBitsList:
 			el.message('Ok Houston, no problems.')
 			# rename the local multiplier
 			el.message('Renaming the multiplier file...')
-			newName = '{base_name}.{approx}BitsApprox.vhd'.format(base_name=s.multEntity_name, approx=approxBits)
+			newName = '{base_name}.{cmp}{dir}.vhd'.format(base_name=s.multEntity_name, cmp=compressionLevel, dir=startingDirection)
 			os.rename(s.multFileName, newName)
-			newName = '{base_name}.{approx}BitsApprox.vhd'.format(base_name=s.multWRegsEntity_name, approx=approxBits)
+			newName = '{base_name}.{cmp}{dir}.vhd'.format(base_name=s.multWRegsEntity_name, cmp=compressionLevel, dir=startingDirection)
 			os.rename(s.multWRegsFileName, newName)
 			el.message('It was a breeze.')
 	

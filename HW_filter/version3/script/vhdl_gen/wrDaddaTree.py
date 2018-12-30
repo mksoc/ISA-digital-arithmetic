@@ -9,7 +9,7 @@
 # MODULES
 #----------------------------------------------
 from treeBindings_VHDLgen import vhdlDaddaLevel, autoBind, drawTree, setNumElmArr
-import settings as s
+import dadda_settings as s
 
 def wrDaddaTree(outPath, compression, startingDirection, approxLSBs):
 	#----------------------------------------------
