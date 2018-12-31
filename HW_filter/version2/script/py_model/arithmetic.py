@@ -127,3 +127,16 @@ def computeTruncResult(infile,outfile,outpar,lsbs):
         for line in fin_pointer:
             nums=line.split()
             fout_pointer.write(mult_trunc_pp(nums[0],nums[1],outpar,lsbs))
+
+def trunc2sNum(num_str,outpar):
+    return(num_str[0:outpar])
+
+def truncResults(infile,outfile,outpar):
+    with open(infile,"r") as fin_pointer, open(outfile,"w") as fout_pointer:
+        for line in fin_pointer:
+            fout_pointer.write(trunc2sNum(line,outpar)+'\n')
+
+def integerTo2sFileConverter(infile,outfile,outpar):
+    with open(infile,"r") as fin_pointer, open(outfile,"w") as fout_pointer:
+        for line in fin_pointer:
+            fout_pointer.write(printer_2s(int(line),outpar)+'\n')

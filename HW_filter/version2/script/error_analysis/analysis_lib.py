@@ -1,5 +1,6 @@
 import sys
 import os
+from os import walk
 bin_lib_path='/home/clmcasino/Desktop/ISA/Lab2/ISA-digital-arithmetic/HW_filter/version2/script/py_model'
 sys.path.append(bin_lib_path)
 from bin_lib import twos_comp
@@ -19,7 +20,7 @@ def extractTotalArea(area_rep_file):
             if "Total cell area:" in line:
                 strings=line.split()
                 return float(strings[3])
-        print ("Total cell area not found. Please check if {} is a Synopsys area report file.".format(area_rep_file.name))
+        print ("Total cell area not found. Please check if {} is a Synopsys area report file.".format(area_rep_file))
         exit (1)
 
 # extractSlackTime(timing_rep_file):
@@ -32,12 +33,12 @@ def extractTotalArea(area_rep_file):
 # OUTPUT
 #    Returns slack time as integer
 def extractSlackTime(timing_rep_file):
-    with open(timing_rep_file,"r") as rep_pointer
+    with open(timing_rep_file,"r") as rep_pointer:
         for line in rep_pointer:
             if "slack" in line:
                 strings=line.split()
                 return float(strings[2])
-            print ("Slack time not found. Please check if {} is a Synopsys timing report file.".format(timing_rep_file.name))
+        print ("Slack time not found. Please check if {} is a Synopsys timing report file.".format(timing_rep_file))
         exit (1)
 
 # arithRelDiff(infile1,infile2,outfile):
@@ -61,7 +62,10 @@ def arithRelDiff(infile1,infile2,outfile,num_line):
             num1=twos_comp(int(line1,2),len(line1))
             num2=twos_comp(int(line2,2),len(line2))
             abs_dist=num1-num2
-            rel_dist=abs_dist/num1
+            if num1!=0:
+                rel_dist=abs_dist/num1
+            else:
+                rel_dist=0
             fout_pointer.write(str(rel_dist)+'\n')
 
 # maxValue(infile):
@@ -101,20 +105,21 @@ def avgValue(infile):
         avg=sum/j
         return (avg)
 
-# basicAnalysis(ref_file,comp_file):
+# basicAnalysis(ref_file,comp_file,num_sample):
 #
 # DESCRIPTION
 #    Computes the maximum and the average relative distance between the data contained into two files
 # INPUT
 #    Needs as inputs:
-#       ref_file: name or path (rel. or abs.) of the reference file, whose data are used as reference for relative distance.
-#       comp_file: name or path (rel. or abs.) of the file to be compered.
+#       ref_file  : name or path (rel. or abs.) of the reference file, whose data are used as reference for relative distance.
+#       comp_file : name or path (rel. or abs.) of the file to be compered.
+#       num_sample: nuber of samples to be analyzed in file
 # OUTPUT
 #    Returns list containing at pos zero the max value and at pos 1 the avg value.
-def basicAnalysis(ref_file,comp_file):
+def basicAnalysis(ref_file,comp_file,num_sample):
     result=[]
     temp_file_path="tempFile"
-    arithRelDiff(ref_file,comp_file,temp_file_path)
+    arithRelDiff(ref_file,comp_file,temp_file_path,num_sample)
     result+=[maxValue(temp_file_path)]
     result+=[avgValue(temp_file_path)]
     os.remove(temp_file_path)
@@ -165,7 +170,21 @@ def sortFileList(file_list):
 # OUTPUT
 #    Returns how many LSBs have been truncated in the multiplier architecture
 def extractTruncLSBs(file_name):
-    print("To be implemented")
+    #dropping "C" letter
+    i=1
+    #dropping first number
+    while file_name[i].isdigit():
+        i+=1
+    #dropping "D" letter
+    i+=1
+    #dropping compression start direction
+    while not(file_name[i].isdigit()):
+        i+=1
+    START=i
+    while file_name[i].isdigit():
+        i+=1
+    STOP=i
+    return (file_name[START:STOP])
 
 # extractRepType(file_name):
 #
@@ -178,8 +197,14 @@ def extractTruncLSBs(file_name):
 # OUTPUT
 #    Returns the type of report from the name of the file we're referring to
 def extractRepType(file_name):
-    print("To be implemented")
-
+    #Dropping '.txt' from the fname
+    i=len(file_name)-4
+    STOP=i
+    i-=1
+    while file_name[i].isalpha():
+        i-=1
+    START=i+1
+    return(file_name[START:STOP])
 
 # checkResult(file1,file2):
 #
@@ -213,4 +238,8 @@ def message(string):
 
 def printBasicAnalysisRes(log_pointer,analysis_res,ID):
     log_pointer.write("{}\n".format(ID))
-    log_pointer.write("MaxValue: {}\tAvgValue: {}".format(analysis_res[0],analysis_res[1]))
+    log_pointer.write("MaxValue: {}\tAvgValue: {}\n".format(analysis_res[0],analysis_res[1]))
+
+
+def printBasicRep(log_pointer,rep_touple):
+    log_pointer.write("{}\t{}\t{}\n".format(rep_touple[0],rep_touple[1],rep_touple[2]))

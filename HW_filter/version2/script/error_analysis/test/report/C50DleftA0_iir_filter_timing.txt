@@ -1,0 +1,120 @@
+Information: Updating design information... (UID-85)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : iir_filter
+Version: Z-2007.03-SP1
+Date   : Mon Dec 31 06:27:56 2018
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: DP/reg_b_i_0/CLOCK_r_REG796_S1
+              (rising edge-triggered flip-flop clocked by CLOCK)
+  Endpoint: DP/MULT_b0p0/add_4104/CLOCK_r_REG288_S51
+            (rising edge-triggered flip-flop clocked by CLOCK)
+  Path Group: CLOCK
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  iir_filter         5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock CLOCK (rise edge)                                 0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  DP/reg_b_i_0/CLOCK_r_REG796_S1/CK (DFFR_X1)             0.00       0.00 r
+  DP/reg_b_i_0/CLOCK_r_REG796_S1/QN (DFFR_X1)             0.06       0.06 f
+  DP/reg_b_i_0/U8/ZN (INV_X1)                             0.03       0.10 r
+  DP/reg_b_i_0/Q[2] (reg_N24_16)                          0.00       0.10 r
+  DP/MULT_b0p0/y[2] (mbeDadda_mult_3)                     0.00       0.10 r
+  DP/MULT_b0p0/recoding_block_1/y_tri[1] (r4mbePP_preprocessing_n_bit24_37)
+                                                          0.00       0.10 r
+  DP/MULT_b0p0/recoding_block_1/U4/ZN (XNOR2_X1)          0.07       0.17 r
+  DP/MULT_b0p0/recoding_block_1/MUX_X/sel (mux2_n_bit25_75)
+                                                          0.00       0.17 r
+  DP/MULT_b0p0/recoding_block_1/MUX_X/U4/Z (BUF_X1)       0.05       0.22 r
+  DP/MULT_b0p0/recoding_block_1/MUX_X/U21/Z (MUX2_X1)     0.07       0.30 f
+  DP/MULT_b0p0/recoding_block_1/MUX_X/o[16] (mux2_n_bit25_75)
+                                                          0.00       0.30 f
+  DP/MULT_b0p0/recoding_block_1/MUX_0/i1[16] (mux2_n_bit25_74)
+                                                          0.00       0.30 f
+  DP/MULT_b0p0/recoding_block_1/MUX_0/U5/ZN (AND2_X1)     0.04       0.33 f
+  DP/MULT_b0p0/recoding_block_1/MUX_0/o[16] (mux2_n_bit25_74)
+                                                          0.00       0.33 f
+  DP/MULT_b0p0/recoding_block_1/x_absY[16] (r4mbePP_preprocessing_n_bit24_37)
+                                                          0.00       0.33 f
+  DP/MULT_b0p0/bitwiseInverterX_1/dataIn[16] (bitwiseInv_n_bit25_34)
+                                                          0.00       0.33 f
+  DP/MULT_b0p0/bitwiseInverterX_1/U27/ZN (XNOR2_X1)       0.06       0.39 f
+  DP/MULT_b0p0/bitwiseInverterX_1/dataOut[16] (bitwiseInv_n_bit25_34)
+                                                          0.00       0.39 f
+  DP/MULT_b0p0/lv4_c18_FA_0/i1 (fullAdder_659)            0.00       0.39 f
+  DP/MULT_b0p0/lv4_c18_FA_0/HA_0/i1 (halfAdder_1319)      0.00       0.39 f
+  DP/MULT_b0p0/lv4_c18_FA_0/HA_0/U4/Z (XOR2_X1)           0.07       0.47 f
+  DP/MULT_b0p0/lv4_c18_FA_0/HA_0/s (halfAdder_1319)       0.00       0.47 f
+  DP/MULT_b0p0/lv4_c18_FA_0/HA_1/i1 (halfAdder_1318)      0.00       0.47 f
+  DP/MULT_b0p0/lv4_c18_FA_0/HA_1/U1/Z (XOR2_X1)           0.07       0.54 f
+  DP/MULT_b0p0/lv4_c18_FA_0/HA_1/s (halfAdder_1318)       0.00       0.54 f
+  DP/MULT_b0p0/lv4_c18_FA_0/s (fullAdder_659)             0.00       0.54 f
+  DP/MULT_b0p0/lv3_c18_FA_0/i1 (fullAdder_632)            0.00       0.54 f
+  DP/MULT_b0p0/lv3_c18_FA_0/HA_0/i1 (halfAdder_1265)      0.00       0.54 f
+  DP/MULT_b0p0/lv3_c18_FA_0/HA_0/U3/Z (XOR2_X1)           0.07       0.61 f
+  DP/MULT_b0p0/lv3_c18_FA_0/HA_0/s (halfAdder_1265)       0.00       0.61 f
+  DP/MULT_b0p0/lv3_c18_FA_0/HA_1/i1 (halfAdder_1264)      0.00       0.61 f
+  DP/MULT_b0p0/lv3_c18_FA_0/HA_1/U1/Z (XOR2_X1)           0.07       0.69 f
+  DP/MULT_b0p0/lv3_c18_FA_0/HA_1/s (halfAdder_1264)       0.00       0.69 f
+  DP/MULT_b0p0/lv3_c18_FA_0/s (fullAdder_632)             0.00       0.69 f
+  DP/MULT_b0p0/lv2_c18_FA_1/i0 (fullAdder_584)            0.00       0.69 f
+  DP/MULT_b0p0/lv2_c18_FA_1/HA_0/i0 (halfAdder_1169)      0.00       0.69 f
+  DP/MULT_b0p0/lv2_c18_FA_1/HA_0/U3/Z (XOR2_X1)           0.07       0.76 f
+  DP/MULT_b0p0/lv2_c18_FA_1/HA_0/s (halfAdder_1169)       0.00       0.76 f
+  DP/MULT_b0p0/lv2_c18_FA_1/HA_1/i1 (halfAdder_1168)      0.00       0.76 f
+  DP/MULT_b0p0/lv2_c18_FA_1/HA_1/U3/ZN (AND2_X1)          0.04       0.80 f
+  DP/MULT_b0p0/lv2_c18_FA_1/HA_1/co (halfAdder_1168)      0.00       0.80 f
+  DP/MULT_b0p0/lv2_c18_FA_1/U1/ZN (OR2_X2)                0.05       0.86 f
+  DP/MULT_b0p0/lv2_c18_FA_1/co (fullAdder_584)            0.00       0.86 f
+  DP/MULT_b0p0/lv1_c19_FA_0/i1 (fullAdder_560)            0.00       0.86 f
+  DP/MULT_b0p0/lv1_c19_FA_0/HA_0/i1 (halfAdder_1121)      0.00       0.86 f
+  DP/MULT_b0p0/lv1_c19_FA_0/HA_0/U2/Z (XOR2_X1)           0.07       0.93 f
+  DP/MULT_b0p0/lv1_c19_FA_0/HA_0/s (halfAdder_1121)       0.00       0.93 f
+  DP/MULT_b0p0/lv1_c19_FA_0/HA_1/i1 (halfAdder_1120)      0.00       0.93 f
+  DP/MULT_b0p0/lv1_c19_FA_0/HA_1/U2/ZN (AND2_X1)          0.04       0.97 f
+  DP/MULT_b0p0/lv1_c19_FA_0/HA_1/co (halfAdder_1120)      0.00       0.97 f
+  DP/MULT_b0p0/lv1_c19_FA_0/U1/ZN (OR2_X2)                0.05       1.02 f
+  DP/MULT_b0p0/lv1_c19_FA_0/co (fullAdder_560)            0.00       1.02 f
+  DP/MULT_b0p0/lv0_c20_FA_0/i0 (fullAdder_519)            0.00       1.02 f
+  DP/MULT_b0p0/lv0_c20_FA_0/HA_0/i0 (halfAdder_1039)      0.00       1.02 f
+  DP/MULT_b0p0/lv0_c20_FA_0/HA_0/U3/Z (XOR2_X1)           0.08       1.10 f
+  DP/MULT_b0p0/lv0_c20_FA_0/HA_0/s (halfAdder_1039)       0.00       1.10 f
+  DP/MULT_b0p0/lv0_c20_FA_0/HA_1/i1 (halfAdder_1038)      0.00       1.10 f
+  DP/MULT_b0p0/lv0_c20_FA_0/HA_1/U1/Z (XOR2_X1)           0.07       1.17 f
+  DP/MULT_b0p0/lv0_c20_FA_0/HA_1/s (halfAdder_1038)       0.00       1.17 f
+  DP/MULT_b0p0/lv0_c20_FA_0/s (fullAdder_519)             0.00       1.17 f
+  DP/MULT_b0p0/add_4104/B[20] (mbeDadda_mult_3_DW01_add_0)
+                                                          0.00       1.17 f
+  DP/MULT_b0p0/add_4104/U568/ZN (OR2_X1)                  0.05       1.23 f
+  DP/MULT_b0p0/add_4104/CLOCK_r_REG288_S51/D (DFFS_X1)
+                                                          0.01       1.24 f
+  data arrival time                                                  1.24
+
+  clock CLOCK (rise edge)                                 0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      -0.07      -0.07
+  DP/MULT_b0p0/add_4104/CLOCK_r_REG288_S51/CK (DFFS_X1)
+                                                          0.00      -0.07 r
+  library setup time                                     -0.04      -0.11
+  data required time                                                -0.11
+  --------------------------------------------------------------------------
+  data required time                                                -0.11
+  data arrival time                                                 -1.24
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                  -1.35
+
+
+1

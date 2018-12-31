@@ -19,3 +19,4 @@ log_rep_trunc_filter_fpath=''
 
 sw_res_fname="SW_result.txt"
 max_out_par=46
+mult_out_par=24
