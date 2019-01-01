@@ -23,14 +23,14 @@ rep_approxCompr_mult_ID='mbeDadda_mult_wRegs'
 rep_approxCompr_filter_path='report'
 rep_approxCompr_filter_ID='iir_filter'
 
-log_stat_trunc_mult_fpath=          'Trunc_mbeDadda_mult_wRegs_mult_AnalysisLog.txt'
-log_stat_trunc_filter_fpath=        'Trunc_iir_filter_filter_AnalysisLog.txt'
-log_rep_trunc_mult_fpath=           'Trunc_mbeDadda_mult_wRegs_mult_ReportLog'
-log_rep_trunc_filter_fpath=         'Trunc_iir_filter_filter_ReportLog.txt'
-log_stat_approxCompr_mult_fpath=    'ApproxCompr_mbeDadda_mult_wRegs_mult_AnalysisLog.txt'
-log_stat_approxCompr_filter_fpath=  'ApproxCompr_iir_filter_filter_AnalysisLog.txt'
-log_rep_approxCompr_mult_fpath=     'ApproxCompr_mbeDadda_mult_wRegs_mult_ReportLog'
-log_rep_approxCompr_filter_fpath=   'ApproxCompr_iir_filter_filter_ReportLog.txt'
+log_stat_trunc_mult_fpath=          'log/Trunc_mbeDadda_mult_wRegs_mult_AnalysisLog.txt'
+log_stat_trunc_filter_fpath=        'log/Trunc_iir_filter_AnalysisLog.txt'
+log_rep_trunc_mult_fpath=           'log/Trunc_mbeDadda_mult_wRegs_mult_ReportLog'
+log_rep_trunc_filter_fpath=         'log/Trunc_iir_filter_filter_ReportLog.txt'
+log_stat_approxCompr_mult_fpath=    'log/ApproxCompr_mbeDadda_mult_wRegs_mult_AnalysisLog.txt'
+log_stat_approxCompr_filter_fpath=  'log/ApproxCompr_iir_filter_AnalysisLog.txt'
+log_rep_approxCompr_mult_fpath=     'log/ApproxCompr_mbeDadda_mult_wRegs_mult_ReportLog'
+log_rep_approxCompr_filter_fpath=   'log/ApproxCompr_iir_filter_filter_ReportLog.txt'
 
 sw_res_fname="SW_result.txt"
 max_out_par=46
