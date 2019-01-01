@@ -186,6 +186,14 @@ def extractTruncLSBs(file_name):
     STOP=i
     return (file_name[START:STOP])
 
+def extractApproxCompr(file_name):
+    #dropping "C" letter
+    i=1
+    START=i
+    while file_name[i].isdigit():
+        i+=1
+    STOP=i
+    return (file_name[START:STOP])
 # extractRepType(file_name):
 #
 # DESCRIPTION

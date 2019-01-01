@@ -94,3 +94,13 @@ for rep_file in rep_file_list:
 with open(s.log_rep_trunc_filter_fpath,"w") as log_pointer:
     for rep_tuple in rep_tuple_list:
         printBasicRep(log_pointer,rep_tuple)
+
+# 5) Compute error statistics from multiplier with approx compressors.
+res_file_list=extractFileList(s.res_approxCompr_mult_path,s.res_approxCompr_mult_ID)
+sortFileList(res_file_list)
+with open(s.log_stat_approxCompr_mult_fpath,"w") as log_pointer:
+    for res_file in res_file_list:
+        trunc_lsbs=int(extractApproxCompr(res_file))
+        if trunc_lsbs!=0:
+            analysis_res=basicAnalysis(s.sw_mult_result_fpath,s.res_approxCompr_mult_path+'/'+res_file,s.numSamples)
+            printBasicAnalysisRes(log_pointer,analysis_res,trunc_lsbs)
