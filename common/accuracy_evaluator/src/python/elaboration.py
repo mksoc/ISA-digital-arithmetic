@@ -5,8 +5,8 @@ import fileHandling as fh
 import settings as s
 sys.path.append('{}/HW_filter/version3/script/vhdl_gen'.format(s.repo_root))
 from wrDaddaTree import wrDaddaTree
-sys.path.append('{}/HW_filter/version1/script/common_gen'.format(s.repo_root))
-from in_gen import in_gen
+sys.path.append('{}/HW_filter/version2/script/py_model'.format(s.repo_root))
+from in_gen import binStimGen
 sys.path.append('{}/common'.format(s.repo_root))
 from samples_generator import gen_samples_core
 
@@ -41,8 +41,7 @@ def genScripts():
 	tclGen('synth', s.filter_synth_tcl_name, False, 'filter')
 
 def genSamples():
-	in_gen(s.n_samples) # (samples = 10000)
-	os.rename("./fileIn.txt", s.multSamples_name)
+	binStimGen(s.multSamples_name, 2, s.n_samples, s.NB_extended-1, s.NB_extended, " ")
 	gen_samples_core(s.filterSamples_name, s.NB, s.n_samples_iir, s.n_samples_iir_mode)
 
 def performSim(session, remote_root, tclName, entity):
