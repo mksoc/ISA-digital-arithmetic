@@ -61,7 +61,7 @@ def arithRelDiff(infile1,infile2,outfile,num_line):
             line2=fin2_pointer.readline()
             num1=twos_comp(int(line1,2),len(line1))
             num2=twos_comp(int(line2,2),len(line2))
-            abs_dist=num1-num2
+            abs_dist=num2-num1
             if num1!=0:
                 rel_dist=abs_dist/num1
             else:
@@ -251,3 +251,6 @@ def printBasicAnalysisRes(log_pointer,analysis_res,ID):
 
 def printBasicRep(log_pointer,rep_touple):
     log_pointer.write("{}\t{}\t{}\n".format(rep_touple[0],rep_touple[1],rep_touple[2]))
+
+def printString(log_pointer,string):
+    log_pointer.write(str(string)+'\n')
