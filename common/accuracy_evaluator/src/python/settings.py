@@ -101,6 +101,9 @@ reportFilesList = ['area.txt', 'timing.txt']
 
 # --------------------------------- PARAM --------------------------------- 
 
+# number of bits of the multiplier operands
+NB_extended = 24
+
 # number of fractional bits to be approximated in the truncation after the multiplication
 truncatedBits = 22 
 
