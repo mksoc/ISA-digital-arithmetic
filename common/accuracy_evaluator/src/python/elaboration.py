@@ -206,6 +206,9 @@ def tclGen(tclType, tcl_name, synthesized=False, design=''):
 				set OLOAD [load_of NangateOpenCellLibrary/BUF_X4/A]
 				set $OLOAD [all_outputs]
 
+				# flatten hierarchy
+				ungroup -all -flatten
+
 				# start synthesis
 				{compile}
 
@@ -215,7 +218,6 @@ def tclGen(tclType, tcl_name, synthesized=False, design=''):
 				# reports gen
 				report_timing > {common}/{ent}_{t}
 				report_area > {common}/{ent}_{a}
-				ungroup -all -flatten
 				change_names -hierarchy -rules verilog
 				write_sdf {syn}/netlist/{ent}.sdf
 				write -f verilog -hierarchy -output {syn}/netlist/{ent}.v
