@@ -329,6 +329,9 @@ INPUT media/v1_FA_dadda_bindings_0.png
 INPUT ./media/v1_FA_dadda_bindings_0.png
 INPUT ./media/v1_FA_dadda_bindings_0.png
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmti10.tfm
+INPUT media/Algorithm_Flowchart.png
+INPUT ./media/Algorithm_Flowchart.png
+INPUT ./media/Algorithm_Flowchart.png
 INPUT ISA-lab2_report.aux
 INPUT ./ISA-lab2_report.out
 INPUT ./ISA-lab2_report.out

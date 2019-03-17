@@ -7,5 +7,6 @@
 \BOOKMARK [1][-]{section.3}{Approximated architectures analysis}{}% 7
 \BOOKMARK [2][-]{subsection.3.1}{Approximated multiplier architecture}{section.3}% 8
 \BOOKMARK [2][-]{subsection.3.2}{Approximations with 4-2 compressors}{section.3}% 9
-\BOOKMARK [2][-]{subsection.3.3}{Analysis Approach}{section.3}% 10
-\BOOKMARK [2][-]{subsection.3.4}{Simulation and Synthesis}{section.3}% 11
+\BOOKMARK [2][-]{subsection.3.3}{Data collection}{section.3}% 10
+\BOOKMARK [2][-]{subsection.3.4}{Data Analysis}{section.3}% 11
+\BOOKMARK [2][-]{subsection.3.5}{Limits and possible improvements}{section.3}% 12

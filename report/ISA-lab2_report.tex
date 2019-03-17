@@ -324,11 +324,66 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 
 	Where a compression is needed but no compressors can be put, FAs and HAs are used instead. The latters are used also to respect the DADDA "maximum rows" allowed in the tree levels : the algorithm looks always for the minimum compression which allows the minimum number of levels.
 
-	\subsection{Analysis Approach}
+	\subsection{Data collection}
+	In order to understand better how we solved the data collection part, for the explanation we will consider the following flow chart.
+	\begin{figure}[hbtp]
+	\centering
+	\includegraphics[width=0.5\linewidth]{media/Algorithm_Flowchart.png}
+	\caption{Data collection algorithm}
+	\label{fig:v1-bind0}
+	\end{figure}
 
-	\subsection{Simulation and Synthesis}
-	Another script was developed to manage the complexity of such a number of designs to be tested and synthesized. The aim of the simulation and the synthesis was to study the precision of the multiplier with the main figures of merit, in function of the approximation adopted (cut off bits and 4-2 compressors).
+	A Python script performs all these actions calling subfuntions already used for first lab and others done ad-hoc for this step.
+	\paragraph{Setting the environment} First passage consists of connecting to the server and cleaning working directories locally and remotely. Then input sample vectors are generated and uploaded to the server with the specific scripts and all the common files needed for simulation. In this first step, model of the IIR filter and of a multiplier are run to produce correct results, usefull for the final analysis.
 
+	\paragraph{End condition} The \textit{END CONDITION} is set according on which type of data we want to collect. Examples can be:
+	\begin{itemize}
+		\item for Number\_of\_LSB\_to\_drop in renge(0,10,1)
+		\item for Persantege\_of\_approx\_compressor in range(0,50,5)
+	\end{itemize}
+	In the first case we are cycling from 0 to 9, incrementing the iterator by one each cycle. Similar is the second case.\newline
+	In this way we can obtain all the data we need launching just once the script.
+
+	\paragraph{Generate VHDL} First step of the loop is the automatic generation of the VHDL description of the Dadda multiplier. To execute the generator we have to specify three parameters:
+	\begin{itemize}
+		\item Compression Level, percentage of approximated compressor
+		\item Starting Direction, left or right
+		\item Aproximation Bits, number of leftmost bits that have to be truncated
+	\end{itemize}
+	Notice that it is possible to generate a hybrid multiplier whith \textit{k} bits truncated and a certain \textit{h\%} of 4-to-2 compressor.
+
+	\paragraph{Simulation and Synthesis} The simulation and synthesis part is performed twice: once just for the multiplier, and the second time for the whole filter. This is done to understand how different "types" of multiplier impact on the multiplication itself and to the final result of the filter. From the input parameters we gave at the previous step to the final output we can keep track of all the dataflow through our aproximated block.
+
+	We have to notice that it is possible to set a flag to enable the Compile Ultra option of Synopsis. This will couse the elaboration time to increase but a more precise synthesis of the circuit.
+
+	\paragraph{Result downlaod} Last step consist of saving locally results and report from previous elaboration.
+
+	\subsection{Data Analysis}
+	Starting from all the files downloaded after simulation and synthesis a third script computes error statistics from approximated architecture simulation results and collects significant values from synthesis reports.
+	Actual list of action performed is the following one:
+
+	\begin{itemize}
+		\item Test the results from truncated architecture multiplier with Python model.
+		\item Compute error statistics from truncated multiplier.
+		\item Compute error statistics from filter with truncated multiplier.
+		\item Collect synthesis results from truncated multiplier
+		\item Collect synthesis results from filter with truncated multiplier.
+    \item Compute error statistics from multiplier with approx. compressors.
+    \item Compute error statistics from filter with multiplier with approx. compressors.
+   	\item Collect synthesis results from multiplier with approx. compressors.
+    \item Collect synthesis results from filter with multiplier with approx. compressors.
+	\end{itemize}
+
+	\paragraph{Error statistics computation} A fast but important review has to be done in order to understand how the error analysis is handled.
+	We decided to use relative distance between exact result and approximate one, since is the only way to have an idea of how much approximation parameters influence final result.
+	\begin{equation}
+		e_{i}=\frac{Se_{i}-Sa_{i}}{Se_{i}}
+	\end{equation}
+	All the results processed by a given architecture are analysed keeping track of the \textbf{maximum and the average relative error}. All these values are then stored into log files ready to be used to create graphs or do any kind of analysis.
+
+	\subsection{Limits and possible improvements}
+	No power analysis
+	Maximum bit we can drop is ???
 	\bibliography{ISA-lab2_report}
 	\bibliographystyle{ieeetr}
 

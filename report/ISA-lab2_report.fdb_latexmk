@@ -1,13 +1,13 @@
 # Fdb version 3
-["bibtex ISA-lab2_report"] 1552828624 "ISA-lab2_report.aux" "ISA-lab2_report.bbl" "ISA-lab2_report" 1552828629
+["bibtex ISA-lab2_report"] 1552854000 "ISA-lab2_report.aux" "ISA-lab2_report.bbl" "ISA-lab2_report" 1552854006
   "/usr/share/texlive/texmf-dist/bibtex/bst/base/ieeetr.bst" 1480098433 18361 1a00e58565e7f19bf2b3e1bfb82254ae ""
-  "ISA-lab2_report.aux" 1552828629 4504 35d754bd28e0593c633c21bd14452070 ""
+  "ISA-lab2_report.aux" 1552854006 5281 a69ea4a4f309164a0de668298bbd8f94 ""
   "ISA-lab2_report.bcf" 0 -1 0 ""
   "ISA-lab2_report.bib" 0 -1 0 ""
   (generated)
-  "ISA-lab2_report.blg"
   "ISA-lab2_report.bbl"
-["pdflatex"] 1552828624 "ISA-lab2_report.tex" "ISA-lab2_report.pdf" "ISA-lab2_report" 1552828629
+  "ISA-lab2_report.blg"
+["pdflatex"] 1552854000 "ISA-lab2_report.tex" "ISA-lab2_report.pdf" "ISA-lab2_report" 1552854006
   "/etc/texmf/web2c/texmf.cnf" 1541871211 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/home/clmcasino/.texlive2017/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk" 1545382494 11524 1df424d1d4b7198a869efdcd7edd0062 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1511824771 3332 103109f5612ad95229751940c61aada0 ""
@@ -216,10 +216,11 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1520210507 32485 c64754543d8ac501bea6e75e209ea521 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1542452310 164837 f472f40ab643c6b1fa7fff8b04d446df ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1542452316 812965 0a351b38c5b702270026ff37d14b045b ""
-  "ISA-lab2_report.aux" 1552828629 4504 35d754bd28e0593c633c21bd14452070 ""
+  "ISA-lab2_report.aux" 1552854006 5281 a69ea4a4f309164a0de668298bbd8f94 ""
   "ISA-lab2_report.bbl" 0 -1 0 "bibtex ISA-lab2_report"
-  "ISA-lab2_report.out" 1552828629 830 e8a5b76ba1b06bd6e2ee112df190fc0e ""
-  "ISA-lab2_report.tex" 1552828617 27463 80fe457a441f274b4fb6c8fb4ce01c0b ""
+  "ISA-lab2_report.out" 1552854006 899 18582403749535b3a335d448c2a7b874 ""
+  "ISA-lab2_report.tex" 1552854000 31511 8d075ff0c3296ec1077ce7fe0312bb1c ""
+  "media/Algorithm_Flowchart.png" 1552832342 60485 7a63321f14c37930e9d7677908ae847e ""
   "media/pipelined_lookahead_dfg.pdf" 1542474171 38845 906a205c20eef3570c00664151f48d95 ""
   "media/v1_FA_dadda_bindings_0.png" 1545846833 39975 f07488cf7f812e193e7764df5d5a295e ""
   "media/v1_FA_dadda_bindings_1.png" 1545846833 486168 d08372b7a3cb3c4e100215d3da7d089e ""
@@ -228,9 +229,9 @@
   "media/v1_FA_dadda_bindings_4.png" 1545846833 517805 c4620f6e874b17af8a6a59f8ee572795 ""
   "media/v1_abstract_DP.png" 1545846833 149856 2195f12cac479be7ed79ec325092864a ""
   (generated)
+  "/home/clmcasino/Desktop/Università/Magistrale/Anno2/ISA/Lab2/ISA-digital-arithmetic/report/ISA-lab2_report.pdf"
   "ISA-lab2_report.pdf"
   "ISA-lab2_report.aux"
-  "/home/clmcasino/Desktop/Università/Magistrale/Anno2/ISA/Lab2/ISA-digital-arithmetic/report/ISA-lab2_report.pdf"
-  "/home/clmcasino/Desktop/Università/Magistrale/Anno2/ISA/Lab2/ISA-digital-arithmetic/report/ISA-lab2_report.log"
   "ISA-lab2_report.log"
   "ISA-lab2_report.out"
+  "/home/clmcasino/Desktop/Università/Magistrale/Anno2/ISA/Lab2/ISA-digital-arithmetic/report/ISA-lab2_report.log"
