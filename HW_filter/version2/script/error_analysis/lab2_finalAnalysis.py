@@ -11,7 +11,7 @@
 #       7) Collect synthesis results from multiplier with approx compressors.
 #       8) Collect synthesis results from filter with multiplier with approx compressors.
 
-# Importing all functions I Needs
+# Importing all functions I Need
 import settings_analysis as s
 from os import walk
 import os
