@@ -1,0 +1,73 @@
+Information: Updating design information... (UID-85)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : mbeDadda_mult_wRegs
+Version: Z-2007.03-SP1
+Date   : Mon Mar 18 11:17:20 2019
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: y_reg_in/Q_reg[13]
+              (rising edge-triggered flip-flop clocked by CLOCK)
+  Endpoint: p_reg_out/Q_reg[14]
+            (rising edge-triggered flip-flop clocked by CLOCK)
+  Path Group: CLOCK
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  mbeDadda_mult_wRegs
+                     5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock CLOCK (rise edge)                                 0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  y_reg_in/Q_reg[13]/CK (DFF_X1)                          0.00       0.00 r
+  y_reg_in/Q_reg[13]/Q (DFF_X1)                           0.11       0.11 r
+  U3162/ZN (NOR2_X1)                                      0.03       0.13 f
+  U1792/ZN (NAND2_X1)                                     0.03       0.16 r
+  U1737/Z (CLKBUF_X3)                                     0.06       0.22 r
+  U2757/ZN (NAND3_X1)                                     0.05       0.27 f
+  U3083/ZN (OAI22_X1)                                     0.06       0.33 r
+  U3481/ZN (INV_X1)                                       0.03       0.36 f
+  U3484/S (FA_X1)                                         0.14       0.51 r
+  U2481/ZN (OAI22_X1)                                     0.03       0.54 f
+  U3504/ZN (NAND2_X1)                                     0.03       0.58 r
+  U2047/ZN (NAND2_X1)                                     0.03       0.61 f
+  U3548/S (FA_X1)                                         0.14       0.75 r
+  U3553/S (FA_X1)                                         0.12       0.87 f
+  U2737/Z (XOR2_X1)                                       0.07       0.94 f
+  U2917/ZN (XNOR2_X1)                                     0.07       1.01 f
+  add_4077/B[24] (mbeDadda_mult_wRegs_DW01_add_1)         0.00       1.01 f
+  add_4077/U606/ZN (NOR2_X1)                              0.05       1.06 r
+  add_4077/U705/ZN (OAI21_X1)                             0.04       1.10 f
+  add_4077/U739/ZN (AOI21_X1)                             0.06       1.16 r
+  add_4077/U644/ZN (OAI21_X1)                             0.05       1.21 f
+  add_4077/U693/ZN (AOI21_X2)                             0.09       1.30 r
+  add_4077/U772/ZN (OAI21_X1)                             0.04       1.34 f
+  add_4077/U711/ZN (XNOR2_X1)                             0.06       1.40 f
+  add_4077/SUM[34] (mbeDadda_mult_wRegs_DW01_add_1)       0.00       1.40 f
+  p_reg_out/Q_reg[14]/D (DFF_X1)                          0.01       1.41 f
+  data arrival time                                                  1.41
+
+  clock CLOCK (rise edge)                                 0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      -0.07      -0.07
+  p_reg_out/Q_reg[14]/CK (DFF_X1)                         0.00      -0.07 r
+  library setup time                                     -0.04      -0.11
+  data required time                                                -0.11
+  --------------------------------------------------------------------------
+  data required time                                                -0.11
+  data arrival time                                                 -1.41
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                  -1.52
+
+
+1

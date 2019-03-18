@@ -107,9 +107,6 @@ NB_extended = 24
 # number of fractional bits to be approximated in the truncation after the multiplication
 truncatedBits = 22 
 
-# samples for the multiplier
-n_samples = 250000
-
 # NB -> number of bits of the input of the iir_filter, needed for the generation of the samples
 # parameter used in genSamples(), inside gen_samples_core(fileName, NB, samples, mode) from samples_generator.py
 NB = 12
@@ -121,19 +118,25 @@ delimiter = '---DELIMITER---\n'
 
 # samples for the iir_filter
 n_samples_iir = 250000
+
+# samples for the multiplier
+n_samples = 250000
+
 # n_samples_iir_mode = 1 -> random samples
 # n_samples_iir_mode = 2 -> samples at the extremis
 n_samples_iir_mode = 1
 
 # percentage of compression in terms of columns of the multiplier
 # it holds the various percentage to be tested
-compressionList = list(range(0, 105, 20))
+compressionList = list(range(0, 105, 10))
 
 # starting direction for the compression: right, left or (right and left)
-directionList = ['right', 'left']
+# directionList = ['right', 'left']
+directionList = ['right']
 
 # num of bits to be removed BEFORE the tree of the multiplier, from two bits to the max accepted number of bits (can't remove more bits wrt the final number of removed bits)
-approxBitsList = list(range(2, truncatedBits))
+# approxBitsList = list(range(2, truncatedBits))
+approxBitsList = []
 
 # enable compile ultra for the synthesis?
 isComp_ultra = False
