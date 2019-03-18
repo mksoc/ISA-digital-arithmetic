@@ -1,0 +1,68 @@
+Information: Updating design information... (UID-85)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : iir_filter
+Version: Z-2007.03-SP1
+Date   : Mon Mar 18 02:04:42 2019
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: DP/reg_b_i_3/Q_reg[7]
+              (rising edge-triggered flip-flop clocked by CLOCK)
+  Endpoint: CLOCK_r_REG73_S9
+            (rising edge-triggered flip-flop clocked by CLOCK)
+  Path Group: CLOCK
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  iir_filter         5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock CLOCK (rise edge)                  0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  DP/reg_b_i_3/Q_reg[7]/CK (DFFR_X1)       0.00       0.00 r
+  DP/reg_b_i_3/Q_reg[7]/QN (DFFR_X1)       0.09       0.09 r
+  U21593/ZN (XNOR2_X1)                     0.08       0.17 r
+  U10755/Z (BUF_X1)                        0.06       0.23 r
+  U23487/ZN (NAND2_X1)                     0.03       0.27 f
+  U13881/ZN (OAI22_X1)                     0.05       0.32 r
+  U21051/ZN (XNOR2_X1)                     0.07       0.38 r
+  U21049/ZN (XNOR2_X1)                     0.07       0.45 r
+  U15841/ZN (XNOR2_X1)                     0.07       0.52 r
+  U9121/ZN (XNOR2_X1)                      0.08       0.60 r
+  U9124/ZN (XNOR2_X1)                      0.07       0.67 r
+  U10766/ZN (OAI22_X1)                     0.04       0.71 f
+  U9127/ZN (XNOR2_X1)                      0.06       0.77 f
+  U9128/ZN (XNOR2_X1)                      0.06       0.83 f
+  U9129/ZN (XNOR2_X1)                      0.06       0.89 f
+  U9131/ZN (XNOR2_X1)                      0.07       0.95 f
+  U9132/ZN (NOR2_X1)                       0.05       1.00 r
+  U9152/ZN (OAI21_X1)                      0.03       1.03 f
+  U9153/ZN (AOI21_X1)                      0.04       1.08 r
+  U9656/ZN (OAI21_X1)                      0.03       1.11 f
+  U9502/ZN (AOI21_X1)                      0.05       1.16 r
+  CLOCK_r_REG73_S9/D (DFFS_X1)             0.01       1.17 r
+  data arrival time                                   1.17
+
+  clock CLOCK (rise edge)                  0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  clock uncertainty                       -0.07      -0.07
+  CLOCK_r_REG73_S9/CK (DFFS_X1)            0.00      -0.07 r
+  library setup time                      -0.03      -0.10
+  data required time                                 -0.10
+  -----------------------------------------------------------
+  data required time                                 -0.10
+  data arrival time                                  -1.17
+  -----------------------------------------------------------
+  slack (VIOLATED)                                   -1.27
+
+
+1
