@@ -8,7 +8,7 @@ from bin_lib import twos_comp, printer_2s
 # INPUT
 #    Needs as inputs:
 #       fname:      string with complete output file path nameself.
-#       lineNum:    amount of stimuli in a line.
+#       lineNum:    amount of lines.
 #       stimInLine: how many stimuli in a line.
 #       bitDyn:     real dynamic of output numb.
 #       nBit:       number of output bit in the string.
