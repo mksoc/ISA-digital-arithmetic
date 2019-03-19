@@ -1,40 +1,40 @@
 2
-MaxValue: 0	AvgValue: 0.0
+MaxValue: 805.9	AvgValue: 8.075795922511102
 3
-MaxValue: 0	AvgValue: 0.0
+MaxValue: 805.9	AvgValue: 8.075795922511102
 4
-MaxValue: 0	AvgValue: 0.0
+MaxValue: 805.9	AvgValue: 8.075795922511102
 5
-MaxValue: 0	AvgValue: 0.0
+MaxValue: 805.9	AvgValue: 8.075795922511102
 6
-MaxValue: 0	AvgValue: 0.0
+MaxValue: 805.9	AvgValue: 8.075795922511102
 7
-MaxValue: 0	AvgValue: 0.0
+MaxValue: 805.9	AvgValue: 8.075795922511102
 8
-MaxValue: 0	AvgValue: 0.0
+MaxValue: 805.9	AvgValue: 8.075795922511102
 9
-MaxValue: 0	AvgValue: 0.0
+MaxValue: 805.9	AvgValue: 8.075795922511102
 10
-MaxValue: 0	AvgValue: 0.0
+MaxValue: 805.9	AvgValue: 8.075795922511102
 11
-MaxValue: 0	AvgValue: 0.0
+MaxValue: 805.9	AvgValue: 8.075795922511102
 12
-MaxValue: 0	AvgValue: 0.0
+MaxValue: 805.9	AvgValue: 8.075795922511102
 13
-MaxValue: 0	AvgValue: 0.0
+MaxValue: 805.9	AvgValue: 8.075795922511102
 14
-MaxValue: 0	AvgValue: 0.0
+MaxValue: 805.9	AvgValue: 8.075795922511102
 15
-MaxValue: 0	AvgValue: 0.0
+MaxValue: 805.9	AvgValue: 8.075795922511102
 16
-MaxValue: 0	AvgValue: 0.0
+MaxValue: 805.9	AvgValue: 8.075795922511102
 17
-MaxValue: 0	AvgValue: 0.0
+MaxValue: 805.9	AvgValue: 8.075795922511102
 18
-MaxValue: -0.002688172043010753	AvgValue: -2.688172043010753e-06
+MaxValue: 805.9	AvgValue: 8.075795791225818
 19
-MaxValue: -0.002688172043010753	AvgValue: -2.816377171215881e-06
+MaxValue: 805.9	AvgValue: 8.075795655226907
 20
-MaxValue: -0.002688172043010753	AvgValue: -2.816377171215881e-06
+MaxValue: 805.9	AvgValue: 8.075795655226907
 21
-MaxValue: -0.002688172043010753	AvgValue: -2.816377171215881e-06
+MaxValue: 805.9	AvgValue: 8.075795655226907

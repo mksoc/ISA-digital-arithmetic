@@ -3,7 +3,7 @@
 Report : area
 Design : mbeDadda_mult_wRegs
 Version: Z-2007.03-SP1
-Date   : Mon Dec 31 05:09:22 2018
+Date   : Mon Mar 18 11:54:26 2019
 ****************************************
 
 Library(s) Used:
@@ -11,14 +11,14 @@ Library(s) Used:
     NangateOpenCellLibrary (File: /software/dk/nangate45/synopsys/NangateOpenCellLibrary_typical_ecsm_nowlm.db)
 
 Number of ports:               73
-Number of nets:              1304
-Number of cells:              309
-Number of references:         296
+Number of nets:              2873
+Number of cells:             2752
+Number of references:          35
 
-Combinational area:       3964.197961
-Noncombinational area:     385.168012
+Combinational area:       3469.703966
+Noncombinational area:     331.435989
 Net Interconnect area:      undefined  (Wire load has zero net area)
 
-Total cell area:          4349.366211
+Total cell area:          3801.139893
 Total area:                 undefined
 1

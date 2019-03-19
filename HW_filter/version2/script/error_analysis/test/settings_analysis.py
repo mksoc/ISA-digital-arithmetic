@@ -1,4 +1,4 @@
-arith_path='/home/clmcasino/Desktop/ISA/Lab2/ISA-digital-arithmetic/HW_filter/version2/script/py_model'
+arith_path='../../py_model'
 
 input_sample_fname='multSample.txt'
 
