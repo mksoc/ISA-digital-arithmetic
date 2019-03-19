@@ -122,6 +122,9 @@ n_samples_iir = 250000
 # samples for the multiplier
 n_samples = 250000
 
+# clock time of the multiplier testbench
+T_clk_sim = 0.00002 # in ms
+
 # n_samples_iir_mode = 1 -> random samples
 # n_samples_iir_mode = 2 -> samples at the extremis
 n_samples_iir_mode = 1
@@ -141,4 +144,19 @@ approxBitsList = []
 # enable compile ultra for the synthesis?
 isComp_ultra = False
 
-###                           ###
+# --------------------------------- PROCESSING --------------------------------- 
+
+# NOT A PARAMETER - BEGIN #
+# sim_time calculation for the multiplier tb
+sim_time = 0.00002 * n_samples # in ms
+measUnitList = ['ms', 'us', 'ns']
+sim_time_measUnit = measUnitList[0]
+i = 0
+while (sim_time < 1 and i < 3):
+	i += 1
+	sim_time = 1000 * sim_time
+	sim_time_measUnit = measUnitList[i]
+sim_time = 1.2*sim_time # precaution
+sim_time = str(sim_time) + sim_time_measUnit
+# NOT A PARAMETER - END #
+

@@ -99,7 +99,7 @@ def tclGen(tclType, tcl_name, synthesized=False, design=''):
 			sim=s.remote_simPath, 
 			tb=s.remote_tbPath,
 			TBentity='{}TB'.format(entity))
-		run_str = 'run 300us'
+		run_str = 'run {simTime}'.format(simTime=s.sim_time)
 
 	elif design == 'filter':
 		entity = s.filterEntity_name

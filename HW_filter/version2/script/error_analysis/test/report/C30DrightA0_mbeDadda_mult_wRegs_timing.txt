@@ -7,7 +7,7 @@ Report : timing
         -max_paths 1
 Design : mbeDadda_mult_wRegs
 Version: Z-2007.03-SP1
-Date   : Mon Mar 18 12:57:12 2019
+Date   : Tue Mar 19 11:41:49 2019
 ****************************************
 
 Operating Conditions: typical   Library: NangateOpenCellLibrary
