@@ -183,7 +183,7 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 	\end{figure}
 
 	Since the entire operation has to last one clock cycle, all the partial products are obtained in parallel by $k^{'}_{y}$ encoding circuits and multiplexers. The derived tree is thought as a Dadda Tree and the number of FA is reduced
-	simplifying the extended sign bits as proposed in \cite{roorda:1}.
+	simplifying the extended sign bits as proposed in \cite{roorda}.
 	We have $\lceil \frac{k_y}{2} \rceil $ partial products to be compressed to only two terms with a Dadda Tree of FA/HA.
 	Since with the multipliers in the filter we are not working with full dynamics, we can do not consider the first $\bm{k_y^I}$ MSBs, because they do not
 	impact on the others. A saving in power and area is achieved this way. The number of integer bits of the lines of the filter was chosen not to let overflow occur anywhere in the filter; thus the number of integer bits is high enough and doesn't need to be increased. On the contrary the $\bm{k_y^F}$ LSBs are fundamental because of the carry of the sums in which they are involved, which can impact over the bits on their left. (More on this later)
@@ -230,7 +230,6 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 	This is not so bad, because with the Dadda Tree we are still in the case of having only 5 levels of adders (13 elements in a column at most).
 
 	As said before, the sign extension bits can be reduced to chains of '1', and these chains can be "read" in column to be further simplified; the two MSB columns can be cut away because it's known that those columns will be only sign extension at the end of the multiplication. This is a reflection of what it was said before: in the filter architecture in which the multiplier is used the parallelism is $k = 24$ (Q2.22) for each words, but the coefficients are known and less than one\footnote{Be aware: this design is only valid under this assumption. Otherwise all the MSBs have to be taken into account.}, so the integer part of the product is always representable with 2 bits.
-	the parallelism of 24 
 
 	The effect of this entire process is summarized in \ref{fig:v1-bind4}. The red dots are the "negative" bits to complete the C2 negation, white dots are the extended sign bits, each blue dot represent the negated sign bit of a partial product. The light blue dots are actually white ones, because they represent the extended sign bits of a partial product.
 
@@ -292,19 +291,46 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 
 	\subparagraph{The python script}
 
-	As already said only the first part of the VHDL has been kept hand written. The bindings of the tree, the instantiation of the adders and the assignments from one grid to the next are fully automatic.
+	As already said only the first part of the VHDL has been kept hand written. The dadda-bindings of the tree, the instantiation of the adders and the assignments from one grid to the next are fully automatic.
 
 	In its basic version it needs only a list with a number of cells equal to the number of columns of the grid, with each cell containing the number of elements of the corresponding column. With this information the script, starting from the rightmost column (i.e. from the column of the LSB of the result), analyzes if there's the need for a compressor (a FA, HA or an approximated one) and writes into another list the number of adders needed.
 
-	Then the main routine writes on the file all the component instantiations and the assignments to end up with a new grid with all the elements flattened to its top, respecting the DADDA approach to have the minimum number of levels with a ALAP resources binding approach.
+	Then the main routine writes on the file all the component instantiations and the assignments to end up with a new grid with all the elements flattened to its top, respecting the DADDA strategy to have the minimum number of levels with an ALAP resources binding approach.
 
 	Both for bindings and assignments the script has to deal with the carries of the compressors, to work well. The details of the routine can be found looking at the code.
 
-	The script works also for versions 2 and 3 of the project: it receives parameters to design a multiplier in which an arbitrary number of LSB columns does not appear in the tree (version2 of the project) and to use a variable number of approximated compressors when the binding is performed. These two design choices can be important to save area and power (and maybe to increase the clock frequency, but it depends on the used ports and on the technology).
+	The script works also for versions 2 and 3 of the project: it receives parameters to design a multiplier in which an arbitrary number of LSB columns does not appear in the tree (version2 of the project) and to use a variable number of approximated compressors when the binding is performed (version 3 of the project). These two design choices can be important to save area and power (and maybe to increase the clock frequency, but it depends on the used ports and on the technology).
 	A more detailed description of the working principles of the script in designing v2 and v3 multipliers can be found in the corresponding sections.
 
-	The script produces also a drawing of each level of the tree: this output can be redirected on the prompt or to a file and used to check the correctness of the result of the bindings.
+	The script produces also a drawing of each level of the tree: this output can be redirected on the prompt or to a file and used to check the correctness of the result of the bindings when a VHDL is automatically written (figures \ref{fig:dadda_terminal0}, \ref{fig:dadda_terminal1}, \ref{fig:dadda_terminal2}, \ref{fig:dadda_terminal3}).
 
+	\begin{figure}[hbtp]
+	\centering
+	\includegraphics[width=0.5\linewidth]{media/dadda0.png}
+	\caption{Dadda terminal drawing (0), compression level: 0\%}
+	\label{fig:dadda_terminal0}
+	\end{figure}
+
+	\begin{figure}[hbtp]
+	\centering
+	\includegraphics[width=0.5\linewidth]{media/dadda1.png}
+	\caption{Dadda terminal drawing (1), compression level: 0\%}
+	\label{fig:dadda_terminal1}
+	\end{figure}
+
+	\begin{figure}[hbtp]
+	\centering
+	\includegraphics[width=0.5\linewidth]{media/dadda2.png}
+	\caption{Dadda terminal drawing (0), compression level: 70\%}
+	\label{fig:dadda_terminal2}
+	\end{figure}
+
+	\begin{figure}[hbtp]
+	\centering
+	\includegraphics[width=0.5\linewidth]{media/dadda3.png}
+	\caption{Dadda terminal drawing (1), compression level: 70\%}
+	\label{fig:dadda_terminal3}
+	\end{figure}
 
 	\section{Approximated architectures analysis}
 	\subsection{Approximated multiplier architecture}
@@ -318,14 +344,14 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 	In \ref{yin} this technique with a cutting of the LSBs was adopted, and it was shown good results wrt the main figures of merit.
 
 	The approximation is variable and it is function of how many 4-2 compressors are used in the multiplier tree and where. The proposed compressor implementation can only miss the sum bit, while the carry one is always correct.
-	This implies that the maximum error is related to the weight of the column in which the compressor has been allocated: it's easy to understand that an approximated compressor allocated on the a \textit{left-most} bit creates an error higher than the one produced by a compressor put more on the right.
+	This implies that the maximum error is related to the weight of the column in which the compressor has been allocated: it's easy to understand that a approximated compressors allocated on the \textit{left} bits create an error higher than the one produced by compressors put more on the right.
 
 	The script we used for the standard version allows also to generate many multipliers with a different number of approximated compressors, allocated in different positions.
 
 	\paragraph{script} The basic version of the script performs the binding only with FAs and HAs. It starts from the LSB and assigns as many FAs as possible where needed to compress the bits' number of a certain column following DADDA's approach. If the reduction from one level to the next is possible using an HA instead of the last FA, then an HA is assigned.
 
-	To create an approximated multiplier the binding is performed giving precedence to the 4-2 compressor instead of the FA. Ideally a complete covering with 4-2 compressors can be done, but in order to analyze and fully understand how system-level characteristics change with the number of approximated compressors in the architecture, was introduced in the script the possibility to give as an argument a percentage of approximated adders to be inserted in the binding.
-	Indeed it is possible to ask for a multiplier with a compression level of $40\ \%$, and this means that only the $40\ \%$ of the compressors will be put, starting from the MSB or LSB. This last choice is determined by the other passed parameter, the "startingDirection" one.
+	To create an approximated multiplier the binding is performed giving precedence to the 4-2 compressor instead of the FA. Ideally a complete covering with 4-2 compressors can be done, but in order to analyze and fully understand how system-level characteristics change with the number of approximated compressors in the architecture, the possibility to give as an argument a percentage of approximated adders to be inserted in the binding was introduced in the script.
+	Indeed it is possible to ask for a multiplier with a compression level of $40\ \%$, and this means that only the $40\ \%$ of the compressors will be put, starting from the MSB or LSB. This last choice is determined by the other passed parameter, the "startingDirection" one. So, the algorithm calculates how many compressors would be put if the copression level was 100\%, then it inserts only the asked percentage of them.
 
 	Where a compression is needed but no compressors can be put, FAs and HAs are used instead. The latters are used also to respect the DADDA "maximum rows" allowed in the tree levels : the algorithm looks always for the minimum compression which allows the minimum number of levels.
 
@@ -339,7 +365,7 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 	\end{figure}
 
 	A Python script performs all these actions calling subfuntions already used for first lab and others done ad-hoc for this step.
-	\paragraph{Setting the environment} First passage consists of connecting to the server and cleaning working directories locally and remotely. Then input sample vectors are generated and uploaded to the server with the specific scripts and all the common files needed for simulation. In this first step, model of the IIR filter and of a multiplier are run to produce correct results, usefull for the final analysis.
+	\paragraph{Setting the environment} The first passage consists of connecting to the server and cleaning working directories locally and remotely. Then input sample vectors are generated and uploaded to the server with the specific scripts and all the common files needed for simulation. In this first step, model of the IIR filter and of a multiplier are run to produce correct results, useful for the final analysis.
 
 	\paragraph{End condition} The \textit{END CONDITION} is set according on which type of data we want to collect. Examples can be:
 	\begin{itemize}
@@ -391,5 +417,18 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 	Maximum bit we can drop is ???
 	\bibliography{ISA-lab2_report}
 	\bibliographystyle{ieeetr}
+
+	\begin{thebibliography}{2}
+	\bibitem{roorda} 
+	M. Roorda. Method to reduce the sign bit extension in a multiplier that uses the modified
+	booth algorithm. \textit{Electronics Letters}, 1986
+	 
+	\bibitem{yin} 
+	P. Yin, C. Wang, W. Liu, E. E. Swartzlander Jr., and F. Lombardi. Designs of approximate
+	floating-point multipliers with variable accuracy for error-tolerant applications. \textit{Springer
+	Journal of Signal Processing Systems}, 2018
+	\end{thebibliography}
+ 
+\end{document}
 
 \end{document}
