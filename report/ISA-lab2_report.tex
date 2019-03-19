@@ -133,7 +133,7 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 	\end{itemize}
 	We want to perform the multiplication with the \textbf{MBE-radix4} encoded version of the multiplier \textbf{y}.
 	This shrewdness allows us to reduce the number of partial products by half:
-	indeed \textbf{y} is encoded with $\bm{k_y^{'}}$ symbols in $\{\pm{2}, \pm{1}, 0\}$.
+	indeed \textbf{y} is encoded with $\bm{k_y^{'}}$ symbols in $\{\pm{2}, \pm{1}, 0\}$. If $r=4$ is the radix:
 	\begin{equation}
 		\bm{k_y^{'} = \lceil \frac{k_y}{log_2(r)} \rceil = \lceil \frac{k_y}{2} \rceil}
 	\end{equation}
@@ -146,8 +146,10 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 	\begin{equation}
 		Y_{(\lceil \frac{k_y}{2} \rceil - 1)} Y_{(\lceil \frac{k_y}{2} \rceil - 2)} \ldots Y_{1} Y_{0}
 	\end{equation}
-	chosen from the set $\{\pm{2}, \pm{1}, 0\}$ wrt the following table
-	\begin{table}[]
+	chosen from the set $\{\pm{2}, \pm{1}, 0\}$ wrt the table \ref{tab:mbe-tab}.
+
+	\begin{table}[hbtp]
+		\centering
 		\begin{tabular}{|c|c|}
 			\hline
 			$y_{n+1} y_n y_{n-1}$ & $Y_{n}$  \\ \hline
@@ -160,16 +162,18 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 			110 & -1 \\ \hline
 			111 & 0  \\ \hline
 		\end{tabular}
+		\caption{MBE conversion table}
+		\label{tab:mbe-tab}
 	\end{table}
-	The product is now between \textbf{x} and \textbf{Y} the MBE-radix4 encoded version of \textbf{y}.
+
+	The product is now between \textbf{x} and \textbf{Y}, the MBE-radix4 encoded version of \textbf{y}.
 	Each partial product between a symbol of \textbf{Y} and \textbf{x} is performed using a multiplexer: two of
 	the three bits which encode a symbol are used as control lines for the mux which can let pass either \textbf{0},
 	or \textbf{x}, or \textbf{2x}. The other encoding bit is asserted only if the symbol is negative and it is used
 	to complement the partial product. Moreover it will be added to the LSB of its partial product, to ensure a
 	correct 2's complement negation. This way it's easy to obtain all the possible partial product: \textbf{0},
 	\textbf{x}, \textbf{-x}, \textbf{-2x} and \textbf{2x}.
-
-	It follows a figure representing the DP of the multiplier.
+	It follows a figure (\ref{fig:v1-dp}) representing the DP of the multiplier.
 
 	\begin{figure}[hbtp]
 	\centering
@@ -178,13 +182,12 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 	\label{fig:v1-dp}
 	\end{figure}
 
-	Since the entire operation has to last one clock cycle all the partial products are obtained in parallel by the same number of encoding circuits and multiplexers. The derived tree is thought as a Dadda Tree and the number of FA is reduced
+	Since the entire operation has to last one clock cycle, all the partial products are obtained in parallel by $k^{'}_{y}$ encoding circuits and multiplexers. The derived tree is thought as a Dadda Tree and the number of FA is reduced
 	simplifying the extended sign bits as proposed in \cite{roorda:1}.
-	We have $\lceil \frac{k_y}{2} \rceil $ partial products to be compressed to only two terms with a Dadda Tree of CSA. The
-	situation is the following:
-% table with the current situation
-	Since we are not working with full dynamics, we can do not consider the first $\bm{k_y^I}$ MSBs, because they do not
-	impact on the others. The number of integer bits of the lines of the filter was chosen not to let overflow occur anywhere in the filter; thus the number of integer bits is high enough and doesn't need to be increased. On the contrary the $\bm{k_y^F}$ LSBs are fundamental because of the carry of the sums in which they are involved, which can impact over the bits on their left.
+	We have $\lceil \frac{k_y}{2} \rceil $ partial products to be compressed to only two terms with a Dadda Tree of FA/HA.
+	Since with the multipliers in the filter we are not working with full dynamics, we can do not consider the first $\bm{k_y^I}$ MSBs, because they do not
+	impact on the others. A saving in power and area is achieved this way. The number of integer bits of the lines of the filter was chosen not to let overflow occur anywhere in the filter; thus the number of integer bits is high enough and doesn't need to be increased. On the contrary the $\bm{k_y^F}$ LSBs are fundamental because of the carry of the sums in which they are involved, which can impact over the bits on their left. (More on this later)
+	
 	As Roorda highlighted, the bits of sign-extension can be thought as a series of \textbf{1} if the complement of the sign bit is added in its original position.
 	This leads to a further optimization, because each column of \textbf{1}, starting from the rightmost one, can be simplified in advance noting that
 	\begin{equation}
@@ -212,7 +215,7 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
         	a\
         \end{cases}
 	\end{equation}
-	At the end we have the first row in which there is a string of "\textbf{10}", followed by a sequence of "$\bm{1\ \bar{p}_{k_{x}+1}^i}$" and then a triplet composed of "$\bm{\bar{p}_{k_{x}+1}^0 p_{k_{x}+1}^0 p_{k_{x}+1}^0}$". On the second row, under the first element $\bm{\bar{p}_{k_{x}+1}^0}$ of this triplet, there is $\bm{\bar{p}_{k_{x}+1}^1}$.\\
+	At the end we end up with the first row in which there is a string of "\textbf{10}", followed by a sequence of "$\bm{1\ \bar{p}_{k_{x}+1}^i}$" and then a triplet composed of "$\bm{\bar{p}_{k_{x}+1}^0 p_{k_{x}+1}^0 p_{k_{x}+1}^0}$". On the second row, under the first element $\bm{\bar{p}_{k_{x}+1}^0}$ of this triplet, there is $\bm{\bar{p}_{k_{x}+1}^1}$.\\
 	\paragraph{Design of the multiplier} In our design we have
 		\begin{itemize}
 			\item $\bm{k_x = k_y = 24}$
@@ -223,10 +226,11 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 		\end{itemize}
 
 	In a single column we can count up to 13 elements, because the MUX let only pass \textbf{x} multiplied for the absolute value of the symbol \textbf{Y}. Since this partial product passes only through a conditional negation block, to obtain a real C2 negation for a final partial product there is the need for a LSB to be summed. This "negative" bit (one of the three which encode a single symbol) is added 
-	to the LSB of its partial product: therefore we have 12+1 elements at most in a column.
+	to the LSB of its partial product: therefore we have 12+1 elements at most in a column (this can be seen in figure \ref{fig:v1-bind4}).
 	This is not so bad, because with the Dadda Tree we are still in the case of having only 5 levels of adders (13 elements in a column at most).
 
-	As said before, the sign extension bits can be reduced to chains of '1', and these chains can be read in column to be further simplified; the two MSB columns can be cut away because it's known that those columns will be only sign extension at the end of the multiplication.
+	As said before, the sign extension bits can be reduced to chains of '1', and these chains can be "read" in column to be further simplified; the two MSB columns can be cut away because it's known that those columns will be only sign extension at the end of the multiplication. This is a reflection of what it was said before: in the filter architecture in which the multiplier is used the parallelism is $k = 24$ (Q2.22) for each words, but the coefficients are known and less than one\footnote{Be aware: this design is only valid under this assumption. Otherwise all the MSBs have to be taken into account.}, so the integer part of the product is always representable with 2 bits.
+	the parallelism of 24 
 
 	The effect of this entire process is summarized in \ref{fig:v1-bind4}. The red dots are the "negative" bits to complete the C2 negation, white dots are the extended sign bits, each blue dot represent the negated sign bit of a partial product. The light blue dots are actually white ones, because they represent the extended sign bits of a partial product.
 
