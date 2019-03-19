@@ -1,5 +1,3 @@
-50
-MaxValue: 7362.0	AvgValue: 17.989265815352063
 10
 MaxValue: 0	AvgValue: 0.0
 20

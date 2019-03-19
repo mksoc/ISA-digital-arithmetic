@@ -1,0 +1,20 @@
+10
+MaxValue: 1.0	AvgValue: -0.012
+20
+MaxValue: 1.0	AvgValue: -0.071
+30
+MaxValue: -3.0	AvgValue: -0.239
+40
+MaxValue: -7.0	AvgValue: -1.016
+50
+MaxValue: -18.0	AvgValue: -4.754
+60
+MaxValue: -75.0	AvgValue: -28.254
+70
+MaxValue: 16777090.0	AvgValue: 16646.29
+80
+MaxValue: 16776178.0	AvgValue: 32447.17
+90
+MaxValue: 16774518.0	AvgValue: 77205.154
+100
+MaxValue: 16773938.0	AvgValue: 3354.786

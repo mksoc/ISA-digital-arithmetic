@@ -103,7 +103,7 @@ def maxValue(infile):
     with open(infile,"r") as fin_pointer:
         max=0;
         for line in fin_pointer:
-            num=float(line[0:len(line)-1])
+            num=float(line[0:len(line)])
             if abs(num)>abs(max):
                 max=num
         return (max)
@@ -122,7 +122,7 @@ def avgValue(infile):
         sum=0
         j=0
         for line in fin_pointer:
-            sum+=float(line[0:len(line)-1])
+            sum+=float(line[0:len(line)])
             j+=1
         avg=sum/j
         return (avg)
