@@ -1,0 +1,68 @@
+Information: Updating design information... (UID-85)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : iir_filter
+Version: Z-2007.03-SP1
+Date   : Tue Mar 19 17:53:55 2019
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: DP/reg_b_i_2/Q_reg[15]
+              (rising edge-triggered flip-flop clocked by CLOCK)
+  Endpoint: DP/MULT_cp2p2/add_3969/CLOCK_r_REG27_S5
+            (rising edge-triggered flip-flop clocked by CLOCK)
+  Path Group: CLOCK
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  iir_filter         5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock CLOCK (rise edge)                                 0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  DP/reg_b_i_2/Q_reg[15]/CK (DFFR_X1)                     0.00       0.00 r
+  DP/reg_b_i_2/Q_reg[15]/Q (DFFR_X1)                      0.12       0.12 r
+  U12396/ZN (OAI21_X2)                                    0.06       0.17 f
+  U17691/ZN (INV_X1)                                      0.06       0.23 r
+  U10784/Z (XOR2_X1)                                      0.09       0.32 r
+  U21643/ZN (XNOR2_X1)                                    0.07       0.38 r
+  U17316/ZN (XNOR2_X1)                                    0.07       0.45 r
+  U13639/Z (XOR2_X1)                                      0.09       0.54 r
+  U21727/ZN (INV_X1)                                      0.04       0.57 f
+  U16878/ZN (OAI22_X1)                                    0.06       0.63 r
+  U21742/S (FA_X1)                                        0.12       0.75 f
+  U21798/ZN (INV_X1)                                      0.03       0.78 r
+  U21800/S (FA_X1)                                        0.12       0.90 f
+  U22278/S (FA_X1)                                        0.15       1.06 r
+  DP/MULT_cp2p2/add_3969/B[25] (iir_filter_DW01_add_1)
+                                                          0.00       1.06 r
+  DP/MULT_cp2p2/add_3969/U595/ZN (NAND2_X1)               0.03       1.09 f
+  DP/MULT_cp2p2/add_3969/U653/ZN (OAI21_X1)               0.05       1.14 r
+  DP/MULT_cp2p2/add_3969/U466/ZN (AOI21_X1)               0.03       1.17 f
+  DP/MULT_cp2p2/add_3969/U717/ZN (OAI21_X1)               0.04       1.21 r
+  DP/MULT_cp2p2/add_3969/CLOCK_r_REG27_S5/D (DFFR_X1)     0.01       1.22 r
+  data arrival time                                                  1.22
+
+  clock CLOCK (rise edge)                                 0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      -0.07      -0.07
+  DP/MULT_cp2p2/add_3969/CLOCK_r_REG27_S5/CK (DFFR_X1)
+                                                          0.00      -0.07 r
+  library setup time                                     -0.04      -0.11
+  data required time                                                -0.11
+  --------------------------------------------------------------------------
+  data required time                                                -0.11
+  data arrival time                                                 -1.22
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                  -1.32
+
+
+1

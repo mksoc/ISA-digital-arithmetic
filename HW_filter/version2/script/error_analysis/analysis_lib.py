@@ -68,6 +68,28 @@ def arithRelDiff(infile1,infile2,outfile,num_line):
                 rel_dist=0
             fout_pointer.write(str(rel_dist)+'\n')
 
+# arithAbsDiff(infile1,infile2,outfile):
+#
+# DESCRIPTION
+#    Computes the arithmetic distance between the data (expressed as 2's compl string) into two different input file.
+#    Computation is done line by line. Eg outfile.line(n)=infile1.line(n)-infile2.line(n)
+# INPUT
+#    Needs as inputs:
+#       infile1,infile2: name or path (rel. or abs.) of two input files to be differed.
+#       outfile:         name or path (rel. or abs.) of output file
+#       num_line:        for how many lines we have to compute the distance
+# OUTPUT
+#    No returns.
+def arithAbsDiff(infile1,infile2,outfile,num_line):
+    with open(infile1,"r") as fin1_pointer, open(infile2,"r") as fin2_pointer, open(outfile, "w") as fout_pointer:
+        for i in range(0,num_line):
+            line1=fin1_pointer.readline()
+            line2=fin2_pointer.readline()
+            num1=twos_comp(int(line1,2),len(line1))
+            num2=twos_comp(int(line2,2),len(line2))
+            abs_dist=num2-num1
+            fout_pointer.write(str(abs_dist)+'\n')
+
 # maxValue(infile):
 #
 # DESCRIPTION
