@@ -221,7 +221,8 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 			\item \textbf{12} partial products
 			\item at most $\bm{\lceil \frac{k_y}{2} \rceil +1 = 13}$ elements in a single column
 		\end{itemize}
-	In a single column we can count up to 13 elements, because the MUX let only pass \textbf{x} multiplied for the absolute value of the symbol \textbf{Y}. Since this partial product pass only through a conditional negation block, to obtain a real C2 negation for a final partial product there is the need for a LSB to be summed. This "negative" bit (one of the three which encode a single symbol) is added
+
+	In a single column we can count up to 13 elements, because the MUX let only pass \textbf{x} multiplied for the absolute value of the symbol \textbf{Y}. Since this partial product passes only through a conditional negation block, to obtain a real C2 negation for a final partial product there is the need for a LSB to be summed. This "negative" bit (one of the three which encode a single symbol) is added 
 	to the LSB of its partial product: therefore we have 12+1 elements at most in a column.
 	This is not so bad, because with the Dadda Tree we are still in the case of having only 5 levels of adders (13 elements in a column at most).
 
