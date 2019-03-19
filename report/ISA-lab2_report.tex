@@ -187,7 +187,7 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 	We have $\lceil \frac{k_y}{2} \rceil $ partial products to be compressed to only two terms with a Dadda Tree of FA/HA.
 	Since with the multipliers in the filter we are not working with full dynamics, we can do not consider the first $\bm{k_y^I}$ MSBs, because they do not
 	impact on the others. A saving in power and area is achieved this way. The number of integer bits of the lines of the filter was chosen not to let overflow occur anywhere in the filter; thus the number of integer bits is high enough and doesn't need to be increased. On the contrary the $\bm{k_y^F}$ LSBs are fundamental because of the carry of the sums in which they are involved, which can impact over the bits on their left. (More on this later)
-	
+
 	As Roorda highlighted, the bits of sign-extension can be thought as a series of \textbf{1} if the complement of the sign bit is added in its original position.
 	This leads to a further optimization, because each column of \textbf{1}, starting from the rightmost one, can be simplified in advance noting that
 	\begin{equation}
@@ -225,7 +225,7 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 			\item at most $\bm{\lceil \frac{k_y}{2} \rceil +1 = 13}$ elements in a single column
 		\end{itemize}
 
-	In a single column we can count up to 13 elements, because the MUX let only pass \textbf{x} multiplied for the absolute value of the symbol \textbf{Y}. Since this partial product passes only through a conditional negation block, to obtain a real C2 negation for a final partial product there is the need for a LSB to be summed. This "negative" bit (one of the three which encode a single symbol) is added 
+	In a single column we can count up to 13 elements, because the MUX let only pass \textbf{x} multiplied for the absolute value of the symbol \textbf{Y}. Since this partial product passes only through a conditional negation block, to obtain a real C2 negation for a final partial product there is the need for a LSB to be summed. This "negative" bit (one of the three which encode a single symbol) is added
 	to the LSB of its partial product: therefore we have 12+1 elements at most in a column (this can be seen in figure \ref{fig:v1-bind4}).
 	This is not so bad, because with the Dadda Tree we are still in the case of having only 5 levels of adders (13 elements in a column at most).
 
@@ -390,7 +390,7 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 	\paragraph{Result downlaod} Last step consist of saving locally results and report from previous elaboration.
 
 	\subsection{Data Analysis}
-	Starting from all the files downloaded after simulation and synthesis a third script computes error statistics from approximated architecture simulation results and collects significant values from synthesis reports.
+	Starting from all the files downloaded after simulation and synthesis a third script computes error statistics from approximated-architecture outputs and collects significant values from synthesis reports.
 	Actual list of action performed is the following one:
 
 	\begin{itemize}
@@ -519,16 +519,16 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 	\bibliographystyle{ieeetr}
 
 	\begin{thebibliography}{2}
-	\bibitem{roorda} 
+	\bibitem{roorda}
 	M. Roorda. Method to reduce the sign bit extension in a multiplier that uses the modified
 	booth algorithm. \textit{Electronics Letters}, 1986
-	 
-	\bibitem{yin} 
+
+	\bibitem{yin}
 	P. Yin, C. Wang, W. Liu, E. E. Swartzlander Jr., and F. Lombardi. Designs of approximate
 	floating-point multipliers with variable accuracy for error-tolerant applications. \textit{Springer
 	Journal of Signal Processing Systems}, 2018
 	\end{thebibliography}
- 
+
 \end{document}
 
 \end{document}
