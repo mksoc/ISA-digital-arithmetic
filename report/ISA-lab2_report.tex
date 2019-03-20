@@ -419,7 +419,8 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 
 	\paragraph*{Simulation} Ten multipliers have been tested besides the original, each of them with a different percentage of inexact compressors among the correct ones. The relative and absolute errors are reported in the following tables and plots. The numbers were read as integers, but it's easy to find the results in terms of Q2.22 numbers only multiplying by $2^{-k_x^{F}} = 2^{-22}$.\\
 	The multiplier under verification, as we said above, is only capable of doing multiplications between two numbers in format Q2.22, but one of them has to be lower than the unity. This is because it was designed and optimized with the two upper MSBs directly linked to the MSBs of the result, to enhance the area occupation and the power consumption of the design of the IIR filter.\\
-	To correctly test the design the inputs of the multiplier have to respect this constraint.
+	To correctly test the design the inputs of the multiplier have to respect this constraint: they were generated to stay on 23 bits. This ensures the result is representable on 46 bits at maximum. With the last 22 bits which are discarded, the real output can stay always on 24 bits. This is only a part of the behaviour of the multiplier: the correct test would have been a test in which one input is free of being a number in the range [0, $2^(24)$-1], whereas the other with an absolute value fixed strictly under the threshold of 1.\\
+	With the increasing of the compression, the possibility of incurring in overflow increases. When an overflow occurs, the error skyrockets fastly. Maybe a guard bit could be useful to limit this phenomenon.
 
 	\begin{table}[hbtp]
 		\centering
@@ -464,10 +465,18 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 		\label{tab:mult_syn}
 	\end{table}
 
+	\subsection{Multiplier with truncated bits}
+	
+
+	\paragraph*{Simulation} 
+
+	\paragraph*{Synthesis} 
+
 	\subsection{IIR filter}
 	For each multiplier, a filter was tested and then synthesized.
 
-	\paragraph*{Simulation} As it has already been said, 250000 samples was given in input to the filter with the multipliers. The constraints for the multiplier are respected, because it was shaped for working with this filter.  
+	\paragraph*{Simulation} As it has already been said, 250000 samples was given in input to the filter with the multipliers. The constraints for the multiplier are respected, because it was shaped for working with this filter. 
+	Even here the overflow can occur. It can be linked to high probability of an overflow in the multiplier and also with the high avarage error, which is dangerous in the IIR filters because can accumulate and make the accumulation point diverge. 
 
 	\begin{table}[hbtp]
 		\centering

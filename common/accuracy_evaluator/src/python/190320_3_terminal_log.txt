@@ -1,0 +1,457 @@
+sending incremental file list
+sim-mult.tcl
+
+sent 290 bytes  received 34 bytes  648.00 bytes/sec
+total size is 492  speedup is 1.52
+sending incremental file list
+sim-filter.tcl
+
+sent 293 bytes  received 34 bytes  654.00 bytes/sec
+total size is 622  speedup is 1.90
+sending incremental file list
+sim-synthMult.tcl
+
+sent 390 bytes  received 34 bytes  848.00 bytes/sec
+total size is 694  speedup is 1.64
+sending incremental file list
+sim-synthFilter.tcl
+
+sent 390 bytes  received 34 bytes  848.00 bytes/sec
+total size is 734  speedup is 1.73
+sending incremental file list
+synth-mult.tcl
+
+sent 845 bytes  received 34 bytes  1,758.00 bytes/sec
+total size is 2,326  speedup is 2.65
+sending incremental file list
+synth-filter.tcl
+
+sent 861 bytes  received 34 bytes  1,790.00 bytes/sec
+total size is 2,339  speedup is 2.61
+sending incremental file list
+multSample.txt
+
+sent 2,540,091 bytes  received 34 bytes  103,678.57 bytes/sec
+total size is 12,750,000  speedup is 5.02
+sending incremental file list
+filterSamples.txt
+
+sent 503,215 bytes  received 34 bytes  91,499.82 bytes/sec
+total size is 1,239,365  speedup is 2.46
+sending incremental file list
+approx_comp_4to2.vhd
+
+sent 386 bytes  received 34 bytes  840.00 bytes/sec
+total size is 499  speedup is 1.19
+sending incremental file list
+halfAdder.vhd
+
+sent 266 bytes  received 34 bytes  600.00 bytes/sec
+total size is 253  speedup is 0.84
+sending incremental file list
+mbeDadda_mult_wRegs.vhd
+
+sent 11,092 bytes  received 34 bytes  22,252.00 bytes/sec
+total size is 94,485  speedup is 8.49
+sending incremental file list
+fullAdder.vhd
+
+sent 352 bytes  received 34 bytes  772.00 bytes/sec
+total size is 550  speedup is 1.42
+sending incremental file list
+multV3_pkg.vhd
+
+sent 779 bytes  received 34 bytes  1,626.00 bytes/sec
+total size is 2,344  speedup is 2.88
+sending incremental file list
+mux2.vhd
+
+sent 341 bytes  received 34 bytes  750.00 bytes/sec
+total size is 474  speedup is 1.26
+sending incremental file list
+r4mbePP_preprocessing.vhd
+
+sent 718 bytes  received 34 bytes  1,504.00 bytes/sec
+total size is 1,511  speedup is 2.01
+sending incremental file list
+bitwiseInv.vhd
+
+sent 347 bytes  received 34 bytes  762.00 bytes/sec
+total size is 444  speedup is 1.17
+sending incremental file list
+iir_filter.vhd
+
+sent 1,416 bytes  received 34 bytes  2,900.00 bytes/sec
+total size is 4,568  speedup is 3.15
+sending incremental file list
+iir_filterDP.vhd
+
+sent 1,698 bytes  received 34 bytes  1,154.67 bytes/sec
+total size is 7,034  speedup is 4.06
+sending incremental file list
+reg.vhd
+
+sent 395 bytes  received 34 bytes  858.00 bytes/sec
+total size is 577  speedup is 1.34
+sending incremental file list
+filter_pkg.vhd
+
+sent 1,088 bytes  received 34 bytes  748.00 bytes/sec
+total size is 2,367  speedup is 2.11
+sending incremental file list
+iir_filterCU.vhd
+
+sent 796 bytes  received 34 bytes  1,660.00 bytes/sec
+total size is 2,799  speedup is 3.37
+sending incremental file list
+clk_gen.vhd
+
+sent 411 bytes  received 34 bytes  296.67 bytes/sec
+total size is 780  speedup is 1.75
+sending incremental file list
+data_sink.vhd
+
+sent 564 bytes  received 34 bytes  1,196.00 bytes/sec
+total size is 1,016  speedup is 1.70
+sending incremental file list
+iir_filterTB.v
+
+sent 713 bytes  received 34 bytes  498.00 bytes/sec
+total size is 1,691  speedup is 2.26
+sending incremental file list
+data_maker.vhd
+
+sent 1,272 bytes  received 34 bytes  2,612.00 bytes/sec
+total size is 4,011  speedup is 3.07
+sending incremental file list
+mbeDadda_mult_wRegsTB.vhd
+
+sent 1,082 bytes  received 34 bytes  744.00 bytes/sec
+total size is 2,540  speedup is 2.28
+sending incremental file list
+approx_compTB.vhd
+
+sent 446 bytes  received 34 bytes  960.00 bytes/sec
+total size is 779  speedup is 1.62
+sending incremental file list
+mbeDadda_mult.vhd
+
+sent 10,715 bytes  received 34 bytes  7,166.00 bytes/sec
+total size is 86,679  speedup is 8.06
+sending incremental file list
+mbeDadda_mult_wRegs.vhd
+
+sent 9,997 bytes  received 844 bytes  21,682.00 bytes/sec
+total size is 87,187  speedup is 8.04
+
+Initializing environment...
+
+
+The tool can be started with the command 'vsim'
+
+rm: cannot remove `vsim.wlf': No such file or directory
+Reading /software/mentor/modelsim_6.2g/tcl/vsim/pref.tcl 
+
+# 6.2g
+
+# do sim-mult.tcl 
+# Model Technology ModelSim SE vcom 6.2g Compiler 2007.02 Feb 21 2007
+# -- Loading package standard
+# -- Loading package std_logic_1164
+# -- Compiling package multv3_pkg
+# Model Technology ModelSim SE vcom 6.2g Compiler 2007.02 Feb 21 2007
+# -- Loading package standard
+# -- Loading package std_logic_1164
+# -- Compiling entity reg
+# -- Compiling architecture behavior of reg
+# Model Technology ModelSim SE vcom 6.2g Compiler 2007.02 Feb 21 2007
+# -- Loading package standard
+# -- Loading package std_logic_1164
+# -- Compiling entity approx_comp_4to2
+# -- Compiling architecture structure of approx_comp_4to2
+# -- Compiling entity bitwiseinv
+# -- Compiling architecture behaviour of bitwiseinv
+# -- Compiling entity fulladder
+# -- Compiling architecture structure of fulladder
+# -- Compiling entity halfadder
+# -- Compiling architecture behaviour of halfadder
+# -- Loading package numeric_std
+# -- Loading package multv3_pkg
+# -- Compiling entity mbedadda_mult
+# -- Compiling architecture structure of mbedadda_mult
+# -- Compiling entity mbedadda_mult_wregs
+# -- Compiling architecture structure of mbedadda_mult_wregs
+# -- Compiling package multv3_pkg
+# -- Compiling entity mux2
+# -- Compiling architecture behaviour of mux2
+# -- Compiling entity r4mbepp_preprocessing
+# -- Compiling architecture behaviour of r4mbepp_preprocessing
+# Model Technology ModelSim SE vcom 6.2g Compiler 2007.02 Feb 21 2007
+# -- Loading package standard
+# -- Loading package std_logic_1164
+# -- Loading package numeric_std
+# -- Loading package multv3_pkg
+# -- Loading package textio
+# -- Loading package std_logic_textio
+# -- Compiling entity mbedadda_mult_wregstb
+# -- Compiling architecture beh of mbedadda_mult_wregstb
+# vsim work.mbeDadda_mult_wRegsTB 
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE 6.2g Feb 21 2007 Linux 2.6.18-419.el5
+# //
+# //  Copyright 1991-2007 Mentor Graphics Corporation
+# //              All Rights Reserved.
+# //
+# //  THIS WORK CONTAINS TRADE SECRET AND 
+# //  PROPRIETARY INFORMATION WHICH IS THE PROPERTY
+# //  OF MENTOR GRAPHICS CORPORATION OR ITS LICENSORS
+# //  AND IS SUBJECT TO LICENSE TERMS.
+# //
+# Loading /software/mentor/modelsim_6.2g/linux/../std.standard
+# Loading /software/mentor/modelsim_6.2g/linux/../ieee.std_logic_1164(body)
+# Loading /software/mentor/modelsim_6.2g/linux/../ieee.numeric_std(body)
+# Loading work.multv3_pkg
+# Loading /software/mentor/modelsim_6.2g/linux/../std.textio(body)
+# Loading /software/mentor/modelsim_6.2g/linux/../ieee.std_logic_textio(body)
+# Loading work.mbedadda_mult_wregstb(beh)#1
+# Loading work.mbedadda_mult_wregs(structure)#1
+# Loading work.reg(behavior)#1
+# Loading work.r4mbepp_preprocessing(behaviour)#1
+# Loading work.mux2(behaviour)#1
+# Loading work.bitwiseinv(behaviour)#1
+# Loading work.bitwiseinv(behaviour)#2
+# Loading work.halfadder(behaviour)
+# Loading work.approx_comp_4to2(structure)
+# Loading work.fulladder(structure)
+VSIM 2> 	    mv mbeDadda_mult_wRegs_back.saif ../version3
+# invalid command name "mv"
+VSIM 3> # 
+# <EOF> 
+sending incremental file list
+.synopsys_dc.setup
+
+sent 303 bytes  received 34 bytes  224.67 bytes/sec
+total size is 361  speedup is 1.07
+mkdir: cannot create directory `netlist': File exists
+
+                        DC Professional (TM)
+                           DC Expert (TM)
+                            DC Ultra (TM)
+                       FloorPlan Manager (TM)
+                          HDL Compiler (TM)
+                         VHDL Compiler (TM)
+                        Library Compiler (TM)
+                      DesignWare Developer (TM)
+                          DFT Compiler (TM)
+                            BSD Compiler
+                         Power Compiler (TM)
+
+           Version Z-2007.03-SP1 for linux -- Apr 19, 2007
+              Copyright (c) 1988-2007 by Synopsys, Inc.
+                         ALL RIGHTS RESERVED
+
+This software and the associated documentation are confidential and 
+proprietary to Synopsys, Inc. Your use or disclosure of this software 
+is subject to the terms and conditions of a written license agreement 
+between you, or your company, and Synopsys, Inc.
+
+The above trademark notice does not imply that you are licensed to use 
+all of the listed products. You are licensed to use only those products 
+for which you have lawfully obtained a valid license key.
+
+Initializing...
+# there will be a compile ultra command later
+set_ultra_optimization True
+Information: DC ultra optimization mode successfully set. (UIO-73)
+1
+analyze -f vhdl -lib WORK /home/isa22/lab2/src/filter_pkg.vhd
+Running PRESTO HDLC
+Compiling Package Declaration FILTER_PKG
+Compiling Package Body FILTER_PKG
+Presto compilation completed successfully.
+Loading db file '/software/dk/nangate45/synopsys/NangateOpenCellLibrary_typical_ecsm_nowlm.db'
+Loading db file '/software/synopsys/syn_current/libraries/syn/dw_foundation.sldb'
+1
+analyze -f vhdl -lib WORK /home/isa22/lab2/version3/multV3_pkg.vhd
+Running PRESTO HDLC
+Compiling Package Declaration MULTV3_PKG
+Presto compilation completed successfully.
+1
+analyze -f vhdl -lib WORK /home/isa22/lab2/src/reg.vhd
+Running PRESTO HDLC
+Compiling Entity Declaration REG
+Compiling Architecture BEHAVIOR of REG
+Presto compilation completed successfully.
+1
+analyze -f vhdl -lib WORK /home/isa22/lab2/src/iir_filterCU.vhd
+Running PRESTO HDLC
+Compiling Entity Declaration IIR_FILTERCU
+Compiling Architecture BEHAVIOR of IIR_FILTERCU
+Presto compilation completed successfully.
+1
+analyze -f vhdl -lib WORK /home/isa22/lab2/src/iir_filter.vhd
+Running PRESTO HDLC
+Compiling Entity Declaration IIR_FILTER
+Compiling Architecture STRUCTURE of IIR_FILTER
+Presto compilation completed successfully.
+1
+analyze -f vhdl -lib WORK /home/isa22/lab2/src/iir_filterDP.vhd
+Running PRESTO HDLC
+Compiling Entity Declaration IIR_FILTERDP
+Compiling Architecture BEHAVIOR of IIR_FILTERDP
+Presto compilation completed successfully.
+1
+analyze -f vhdl -lib WORK /home/isa22/lab2/version3/approx_comp_4to2.vhd
+Running PRESTO HDLC
+Compiling Entity Declaration APPROX_COMP_4TO2
+Compiling Architecture STRUCTURE of APPROX_COMP_4TO2
+Presto compilation completed successfully.
+1
+analyze -f vhdl -lib WORK /home/isa22/lab2/version3/halfAdder.vhd
+Running PRESTO HDLC
+Compiling Entity Declaration HALFADDER
+Compiling Architecture BEHAVIOUR of HALFADDER
+Presto compilation completed successfully.
+1
+analyze -f vhdl -lib WORK /home/isa22/lab2/version3/mbeDadda_mult_wRegs.vhd
+Running PRESTO HDLC
+Compiling Entity Declaration MBEDADDA_MULT_WREGS
+Compiling Architecture STRUCTURE of MBEDADDA_MULT_WREGS
+Presto compilation completed successfully.
+1
+analyze -f vhdl -lib WORK /home/isa22/lab2/version3/fullAdder.vhd
+Running PRESTO HDLC
+Compiling Entity Declaration FULLADDER
+Compiling Architecture STRUCTURE of FULLADDER
+Presto compilation completed successfully.
+1
+analyze -f vhdl -lib WORK /home/isa22/lab2/version3/mbeDadda_mult.vhd
+Running PRESTO HDLC
+Compiling Entity Declaration MBEDADDA_MULT
+Compiling Architecture STRUCTURE of MBEDADDA_MULT
+Presto compilation completed successfully.
+1
+analyze -f vhdl -lib WORK /home/isa22/lab2/version3/mux2.vhd
+Running PRESTO HDLC
+Compiling Entity Declaration MUX2
+Compiling Architecture BEHAVIOUR of MUX2
+Presto compilation completed successfully.
+1
+analyze -f vhdl -lib WORK /home/isa22/lab2/version3/r4mbePP_preprocessing.vhd
+Running PRESTO HDLC
+Compiling Entity Declaration R4MBEPP_PREPROCESSING
+Compiling Architecture BEHAVIOUR of R4MBEPP_PREPROCESSING
+Presto compilation completed successfully.
+1
+analyze -f vhdl -lib WORK /home/isa22/lab2/version3/bitwiseInv.vhd
+Running PRESTO HDLC
+Compiling Entity Declaration BITWISEINV
+Compiling Architecture BEHAVIOUR of BITWISEINV
+Presto compilation completed successfully.
+1
+# preserve RTL names
+set power_preserve_rtl_hier_names true
+true
+# elaborate design
+elaborate mbeDadda_mult_wRegs -arch structure -lib WORK > ./logs/elaborate-log.txt
+uniquify
+Removing uniquified design 'reg_N24'.
+Removing uniquified design 'r4mbePP_preprocessing_n_bit24'.
+Removing uniquified design 'bitwiseInv_n_bit25'.
+Removing uniquified design 'halfAdder'.
+Removing uniquified design 'approx_comp_4to2'.
+Removing uniquified design 'fullAdder'.
+Removing uniquified design 'mux2_n_bit25'.
+  Uniquified 3 instances of design 'reg_N24'.
+  Uniquified 12 instances of design 'r4mbePP_preprocessing_n_bit24'.
+  Uniquified 11 instances of design 'bitwiseInv_n_bit25'.
+  Uniquified 337 instances of design 'halfAdder'.
+  Uniquified 38 instances of design 'approx_comp_4to2'.
+  Uniquified 155 instances of design 'fullAdder'.
+  Uniquified 24 instances of design 'mux2_n_bit25'.
+1
+link
+
+  Linking design 'mbeDadda_mult_wRegs'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  * (582 designs)             /home/isa22/lab2/syn/mbeDadda_mult_wRegs.db, etc
+  NangateOpenCellLibrary (library) /software/dk/nangate45/synopsys/NangateOpenCellLibrary_typical_ecsm_nowlm.db
+  dw_foundation.sldb (library) /software/synopsys/syn_current/libraries/syn/dw_foundation.sldb
+
+1
+# create symbolic clock signal
+create_clock -name CLOCK -period 0 clk
+1
+set_dont_touch_network CLOCK
+1
+set_clock_uncertainty 0.07 [get_clocks CLOCK]
+1
+# set input/output delays
+set_input_delay 0.5 -max -clock CLOCK [remove_from_collection [all_inputs] CLOCK]
+Warning: Nothing implicitly matched 'CLOCK' (SEL-003)
+1
+set_output_delay 0.5 -max -clock CLOCK [all_outputs]
+1
+# set output load capacitance
+set OLOAD [load_of NangateOpenCellLibrary/BUF_X4/A]
+3.40189
+set $OLOAD [all_outputs]
+{p[23] p[22] p[21] p[20] p[19] p[18] p[17] p[16] p[15] p[14] p[13] p[12] p[11] p[10] p[9] p[8] p[7] p[6] p[5] p[4] p[3] p[2] p[1] p[0]}
+# flatten hierarchy
+ungroup -all -flatten
+Information: Updating design information... (UID-85)
+1
+# start synthesis
+compile_ultra
+Analyzing: "/software/dk/nangate45/synopsys/NangateOpenCellLibrary_typical_ecsm_nowlm.db"
+Library analysis succeeded.
+Information: Data-path optimization is enabled. (DP-1)
+Information: Evaluating DesignWare library utilization. (UISN-27)
+
+============================================================================
+| DesignWare Building Block Library       |      Version       | Available |
+============================================================================
+| Basic DW Building Blocks                | Z-2007.03-DWBB_0704 |    *     |
+| Licensed DW Building Blocks             | Z-2007.03-DWBB_0704 |    *     |
+============================================================================
+
+Information: Sequential output inversion is enabled.  SVF file must be used for formal verification. (OPT-1208)
+
+Information: There are 46 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
+
+
+Loaded alib file './alib-52/NangateOpenCellLibrary_typical_ecsm_nowlm.db.alib'
+Information: Ungrouping 0 of 1 hierarchies before Pass 1 (OPT-775)
+
+  Beginning Pass 1 Mapping
+  ------------------------
+  Processing 'mbeDadda_mult_wRegs'
+
+  Updating timing information
+Information: Updating design information... (UID-85)
+
+  Beginning Implementation Selection
+  ----------------------------------
+  Processing 'mbeDadda_mult_wRegs_DW01_add_0'
+
+  Beginning Mapping Optimizations  (Ultra High effort)
+  -------------------------------
+  Mapping Optimization (Phase 1)
+  Mapping Optimization (Phase 2)
+  Mapping Optimization (Phase 3)
+  Mapping Optimization (Phase 4)
+  Mapping Optimization (Phase 5)
+  Mapping Optimization (Phase 6)
+  Mapping Optimization (Phase 7)
+  Mapping Optimization (Phase 8)
+  Mapping Optimization (Phase 9)
+  Mapping Optimization (Phase 10)
+  Mapping Optimization (Phase 11)
+  Mapping Optimization (Phase 12)
+  Mapping Optimization (Phase 13)
+  Mapping Optimization (Phase 14)
+  Re-synthesis Optimization (Phase 1)
+  Re-synthesis Optimization (Phase 2)
+  Re-synthesis Optimization (Phase 3)
+  Re-synthesis Optimization (Phase 4)
