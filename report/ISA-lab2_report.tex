@@ -119,6 +119,15 @@ If the main requirement is pure speed, then an architecture based on parallel-pr
 
 If, on the other hand, the power budget is a limiting factor, one has to settle for lower processing speed and use CSA-based multipliers along with whichever adder they like best.
 
+\section{Fine grain pipelining and retiming}
+Synopsys Design Compiler is able to perform fine grain pipelining, moving the registers at the input and output of the arithmetic components inside them. In other words, the internal architecture of each operator is split two or more smaller parts, separated by an internal pipeline register. This allows to better balance the critical paths inside the design. In our case, as discussed in the previous section, the critical path is represented by the delay of a single multiplier $T_m$. However, the loop bound in the recursive part of the filter that states the best possible scenario for the delay is given by:
+
+\begin{equation*}
+	T_\infty = \frac{2T_a + T_m}{2} = T_a + \frac{T_m}{2}
+\end{equation*}
+
+Since $T_a$ is likely to be lower than $T_m/2$, there still room for improvement exploiting fine grain pipelining inside the loops. 
+
 \section{MBE based Multiplier with Roorda's approach and Dadda Tree}
 	Let's suppose to have a multiplication to be done between two numbers \textbf{x} and \textbf{y}.
 	\begin{itemize}
