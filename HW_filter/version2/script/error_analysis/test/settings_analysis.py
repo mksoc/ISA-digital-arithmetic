@@ -55,4 +55,4 @@ sw_res_fname="SW_result.txt"
 max_out_par=46
 mult_out_par=24
 filter_out_par=13
-numSamples=1000
+numSamples=250000

@@ -35,9 +35,9 @@ def extractTotalArea(area_rep_file):
 def extractSlackTime(timing_rep_file):
     with open(timing_rep_file,"r") as rep_pointer:
         for line in rep_pointer:
-            if "slack" in line:
+            if "arrival time" in line:
                 strings=line.split()
-                return float(strings[2])
+                return float(strings[3])
         print ("Slack time not found. Please check if {} is a Synopsys timing report file.".format(timing_rep_file))
         exit (1)
 

@@ -17,7 +17,9 @@ from os import walk
 import os
 import sys
 sys.path.append(s.arith_path)
+##############TEST####################
 sys.path.append("..")
+######################################
 from arithmetic import integerTo2sFileConverter,computeTruncResult, truncResults
 from analysis_lib import printString,printBasicRep,extractApproxCompr,extractTotalArea,extractSlackTime,extractRepType,checkResult,extractTruncLSBs,basicAnalysis,extractFileList,sortFileList,message,printBasicAnalysisRes
 

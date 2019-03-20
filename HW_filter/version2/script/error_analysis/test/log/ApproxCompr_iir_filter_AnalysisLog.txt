@@ -1,22 +1,20 @@
-50
-MaxValue: -8134.0	AvgValue: 116.739
 10
-MaxValue: 0	AvgValue: 0.0
+MaxValue: 0.125	AvgValue: 4.3223803074112e-07
 20
-MaxValue: 0	AvgValue: 0.0
+MaxValue: 0.020833333333333332	AvgValue: -1.0791783849022e-07
 30
-MaxValue: 0	AvgValue: 0.0
+MaxValue: 0.038461538461538464	AvgValue: -1.5361263563413165e-07
 40
-MaxValue: -1.0	AvgValue: -0.001
+MaxValue: 1.0	AvgValue: 4.022231967873403e-06
 50
-MaxValue: -1.0	AvgValue: -0.002
+MaxValue: -0.5	AvgValue: -1.2765463056518043e-05
 60
-MaxValue: -1.0	AvgValue: -0.026
+MaxValue: -1.0	AvgValue: -8.309326347120286e-05
 70
-MaxValue: -1.0	AvgValue: -0.096
+MaxValue: -1.0	AvgValue: -0.0003386374312233341
 80
-MaxValue: -4.0	AvgValue: -1.051
+MaxValue: 8190.0	AvgValue: 1.5031186621162476
 90
-MaxValue: 8187.0	AvgValue: 7.646
+MaxValue: 8190.0	AvgValue: 9.660173776387746
 100
-MaxValue: -8187.0	AvgValue: 1.655
+MaxValue: 8190.0	AvgValue: 5.267901106284264

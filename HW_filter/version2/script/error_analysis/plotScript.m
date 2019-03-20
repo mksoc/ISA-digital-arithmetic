@@ -1,4 +1,3 @@
-X_NAME="./test/matlab/Trunc_Values.txt";
-Y_NAME="./test/matlab/Trunc_filter_Areas.txt";
-Z_NAME="./test/matlab/Trunc_filter_StatMax.txt";
-print2D(X_NAME,Y_NAME,"trunc-area")
+X_NAME="./test/matlab/ApproxCompr_Values.txt";
+Y_NAME="./test/matlab/ApproxCompr_mult_Areas.txt";
+print2D(X_NAME,Y_NAME,"trunc-mult-area","% of approx. hadders","area [um²]")
