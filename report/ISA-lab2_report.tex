@@ -12,6 +12,7 @@
 \usepackage[table]{colortbl}
 \usepackage{multirow}
 \usepackage{siunitx}
+\usepackage{subfig}
 
 \title{Integrated Systems Architecture\\Lab session 2 Report}
 \author{Marco Andorno (247222)\\Michele Caon (253027)\\Matteo Perotti (251453)\\Giuseppe Sarda (255648)}
@@ -490,7 +491,7 @@ As already pointed out in the first section, the critical path can be reduced fr
 		e_{i}=\frac{Se_{i}-Sa_{i}}{Se_{i}}
 	\end{equation}
 	All the results processed by a given architecture are analysed keeping track of the \textbf{maximum and the average relative error}. All these values are then stored into log files ready to be used to create graphs or do any kind of analysis.\\
-	For the simulation we decided to generate 250000 couples of inputs for the multiplier and 250000 samples for the filter. The simulation was performed on the VHDL/Verilog model before the synthesis. 
+	For the simulation we decided to generate 250000 couples of inputs for the multiplier and 250000 samples for the filter. The simulation was performed on the VHDL/Verilog model before the synthesis.
 
 	\subsection{Multiplier with compressors}
 
@@ -521,6 +522,22 @@ As already pointed out in the first section, the critical path can be reduced fr
 		\label{tab:mult_sim}
 	\end{table}
 
+	\begin{figure}[H]
+	  \centering
+	  \subfloat[Max Absolute error]{\includegraphics[width=0.5\textwidth]{media/graphs/ApproxCompr-mult-MaxAbsError.jpg}\label{fig:f1}}
+	  \hfill
+	  \subfloat[Avg Absolute error]{\includegraphics[width=0.5\textwidth]{media/graphs/ApproxCompr-mult-AvgAbsError.jpg}\label{fig:f2}}
+	  \caption{Absolute errors for multiplier architecture}
+	\end{figure}
+
+	\begin{figure}[H]
+	  \centering
+	  \subfloat[Max Relative error]{\includegraphics[width=0.5\textwidth]{media/graphs/ApproxCompr-mult-MaxRelError.jpg}\label{fig:f1}}
+	  \hfill
+	  \subfloat[Avg Relative error]{\includegraphics[width=0.5\textwidth]{media/graphs/ApproxCompr-mult-AvgRelError.jpg}\label{fig:f2}}
+	  \caption{Relative errors for multiplier architecture}
+	\end{figure}
+
 	\paragraph*{Synthesis} All the multipliers were synthesized and informations of area and timing reported. The minimum delay was found in theoretical way asking Design Compiler to reach a null arrival time.
 
 	\begin{table}[hbtp]
@@ -543,9 +560,15 @@ As already pointed out in the first section, the critical path can be reduced fr
 		\caption{Multiplier, area and timing synthesis reports}
 		\label{tab:mult_syn}
 	\end{table}
-
+	\begin{figure}[H]
+		\centering
+		\subfloat[Area]{\includegraphics[width=0.5\textwidth]{media/graphs/ApproxCompr-mult-area.jpg}\label{fig:f1}}
+		\hfill
+		\subfloat[Arrival time of crithica path]{\includegraphics[width=0.5\textwidth]{media/graphs/ApproxCompr-mult-timing.jpg}\label{fig:f2}}
+		\caption{Reports after multiplier synthesis}
+	\end{figure}
 	\subsection{Multiplier with truncated bits}
-	Another way of simplifying the multiplier, reducing its area, delay and power consumption is to remove a certain number of LSBs from the computation before the tree, after the partial products production. 
+	Another way of simplifying the multiplier, reducing its area, delay and power consumption is to remove a certain number of LSBs from the computation before the tree, after the partial products production.
 
 	\paragraph*{Simulation} The results of the simulation show that the overflow is a danger and has to be avoided. As we said it would be useful to reduce the input dynamic to stay away from the two extremis, or to use a guard bit. This way, if the maximum error is kept lower than the distance between the maximum reachable output value and the two ends of the dynamics, no overflow can occur. Anyway, the error is low, and this seems to be a good way for the approximation of the result of a multiplier.
 
@@ -564,7 +587,21 @@ As already pointed out in the first section, the critical path can be reduced fr
 		\caption{Multiplier with truncated bits, simulation and error results}
 		\label{tab:mult_trunc_sim}
 	\end{table}
+	\begin{figure}[H]
+		\centering
+		\subfloat[Max Absolute error]{\includegraphics[width=0.5\textwidth]{media/graphs/Trunc-mult-MaxAbsError.jpg}\label{fig:f1}}
+		\hfill
+		\subfloat[Avg Absolute error]{\includegraphics[width=0.5\textwidth]{media/graphs/Trunc-mult-AvgAbsError.jpg}\label{fig:f2}}
+		\caption{Absolute errors for multiplier architecture}
+	\end{figure}
 
+	\begin{figure}[H]
+		\centering
+		\subfloat[Max Relative error]{\includegraphics[width=0.5\textwidth]{media/graphs/Trunc-mult-MaxRelError.jpg}\label{fig:f1}}
+		\hfill
+		\subfloat[Avg Relative error]{\includegraphics[width=0.5\textwidth]{media/graphs/Trunc-mult-AvgRelError.jpg}\label{fig:f2}}
+		\caption{Relative errors for multiplier architecture}
+	\end{figure}
 	\paragraph*{Synthesis} 18 truncated bits seems a good compromise, even better than the choice of the compressors. In the IIR filter it will be clear that the behaviour of the multiplier is really interesting.
 
 	\begin{table}[hbtp]
@@ -582,12 +619,18 @@ As already pointed out in the first section, the critical path can be reduced fr
 		\caption{Multiplier with truncated bits, area and timing synthesis reports}
 		\label{tab:mult_trunc_syn}
 	\end{table}
-
+	\begin{figure}[H]
+		\centering
+		\subfloat[Area]{\includegraphics[width=0.5\textwidth]{media/graphs/Trunc-mult-area.jpg}\label{fig:f1}}
+		\hfill
+		\subfloat[Arrival time of crithica path]{\includegraphics[width=0.5\textwidth]{media/graphs/Trunc-mult-timing.jpg}\label{fig:f2}}
+		\caption{Reports after multiplier synthesis}
+	\end{figure}
 	\subsection{IIR filter}
 	For each multiplier, a filter was tested and then synthesized.
 
-	\paragraph*{Simulation} As it has already been said, 250000 samples was given in input to the filter with the multipliers. The constraints for the multiplier are respected, because it was shaped for working with this filter. 
-	Even here the overflow can occur. It can be linked to high probability of an overflow in the multiplier and also with the high avarage error, which is dangerous in the IIR filters because can accumulate and make the accumulation point diverge. 
+	\paragraph*{Simulation} As it has already been said, 250000 samples was given in input to the filter with the multipliers. The constraints for the multiplier are respected, because it was shaped for working with this filter.
+	Even here the overflow can occur. It can be linked to high probability of an overflow in the multiplier and also with the high avarage error, which is dangerous in the IIR filters because can accumulate and make the accumulation point diverge.
 
 	\begin{table}[hbtp]
 		\centering
@@ -609,6 +652,21 @@ As already pointed out in the first section, the critical path can be reduced fr
 		\label{tab:iir_sim}
 	\end{table}
 
+	\begin{figure}[H]
+		\centering
+		\subfloat[Max Absolute error]{\includegraphics[width=0.5\textwidth]{media/graphs/ApproxCompr-filter-MaxAbsError.jpg}\label{fig:f1}}
+		\hfill
+		\subfloat[Avg Absolute error]{\includegraphics[width=0.5\textwidth]{media/graphs/ApproxCompr-filter-AvgAbsError.jpg}\label{fig:f2}}
+		\caption{Absolute errors for filter architecture}
+	\end{figure}
+
+	\begin{figure}[H]
+		\centering
+		\subfloat[Max Relative error]{\includegraphics[width=0.5\textwidth]{media/graphs/ApproxCompr-filter-MaxRelError.jpg}\label{fig:f1}}
+		\hfill
+		\subfloat[Avg Relative error]{\includegraphics[width=0.5\textwidth]{media/graphs/ApproxCompr-filter-AvgRelError.jpg}\label{fig:f2}}
+		\caption{Relative errors for filter architecture}
+	\end{figure}
 	From the table of the IIR filter and the truncated bits multiplier is clear that the choice of the truncated bits is preferrable.
 
 	\begin{table}[hbtp]
@@ -627,10 +685,25 @@ As already pointed out in the first section, the critical path can be reduced fr
 		\label{tab:iir_trunc_sim}
 	\end{table}
 
+	\begin{figure}[H]
+			\centering
+			\subfloat[Max Absolute error]{\includegraphics[width=0.5\textwidth]{media/graphs/Trunc-filter-MaxAbsError.jpg}\label{fig:f1}}
+			\hfill
+			\subfloat[Avg Absolute error]{\includegraphics[width=0.5\textwidth]{media/graphs/Trunc-filter-AvgAbsError.jpg}\label{fig:f2}}
+			\caption{Absolute errors for multiplier architecture}
+		\end{figure}
+
+		\begin{figure}[H]
+			\centering
+			\subfloat[Max Relative error]{\includegraphics[width=0.5\textwidth]{media/graphs/Trunc-filter-MaxRelError.jpg}\label{fig:f1}}
+			\hfill
+			\subfloat[Avg Relative error]{\includegraphics[width=0.5\textwidth]{media/graphs/Trunc-filter-AvgRelError.jpg}\label{fig:f2}}
+			\caption{Relative errors for filter architecture}
+		\end{figure}
 
 	\paragraph*{Synthesis} The results of the synthesis are visible in the following table and figure. The synthesis was done letting the program to perform retiming, this is why the delay is lower than for a single multiplier. These results were found without giving the \textit{compile\_ultra} command, only to have an idea of the trend.
 
-	\begin{table}[hbtp]	
+	\begin{table}[hbtp]
 		\centering
 		\begin{tabular}{|c|c|c|c|}
 		\hline
@@ -651,6 +724,14 @@ As already pointed out in the first section, the critical path can be reduced fr
 		\label{tab:iir_syn}
 	\end{table}
 
+	\begin{figure}[H]
+			\centering
+			\subfloat[Area]{\includegraphics[width=0.5\textwidth]{media/graphs/ApproxCompr-filter-area.jpg}\label{fig:f1}}
+			\hfill
+			\subfloat[Arrival time of crithica path]{\includegraphics[width=0.5\textwidth]{media/graphs/ApproxCompr-filter-timing.jpg}\label{fig:f2}}
+			\caption{Reports after filter synthesis}
+		\end{figure}
+
 	The precision of the architecture is high even if a lot area is saved. The frequency is also increased, even if it seems that the compressors do a better job with the timing.
 
 	\begin{table}[hbtp]
@@ -668,6 +749,14 @@ As already pointed out in the first section, the critical path can be reduced fr
 		\caption{IIR filter with truncated bits multiplier, area and timing synthesis reports}
 		\label{tab:iir_trunc_syn}
 	\end{table}
+
+	\begin{figure}[H]
+			\centering
+			\subfloat[Area]{\includegraphics[width=0.5\textwidth]{media/graphs/Trunc-filter-area.jpg}\label{fig:f1}}
+			\hfill
+			\subfloat[Arrival time of crithica path]{\includegraphics[width=0.5\textwidth]{media/graphs/Trunc-filter-timing.jpg}\label{fig:f2}}
+			\caption{Reports after filter synthesis}
+		\end{figure}
 
 	It was chosen one multiplier of each type to stay below a certain error on the result and the synthesis was repeated with the \textit{compile\_ultra} command active. It seems that the multiplier with the 60\% of the compressors could be a good compromise: in the filter the maximum error is of 1 LSB, and it is at maximum the 2.2\% of the value. On avarage it makes mistakes not greater than the 0.0035\% of the real value.\\
 	The other multiplier we take to synthesize with compile\_ultra actived is the 18 truncated bits ones. This is also better than the previous. Let's see tha data.
@@ -721,7 +810,7 @@ As already pointed out in the first section, the critical path can be reduced fr
 	\subsection{Limits and possible improvements}
 	To improve our analysis it would be better to extend the multiplier to create a general one without the limitation of the input dynamics for one of the two inputs: this would allow us to fully characterize the device.\\
 	As already said an useful metric to be calculated would be the NMED: the MED normalized on the maximum output of the correct design. To calculate the MED for a deterministic design where a single input vector can generate only one output, it is possible to take the mean (if the inputs are equiprobable) of the Error Distances (ED) of all the possible outputs related to all the possible inputs \cite{liang}.\\
-	If each input vector $i$ appears with a probability $p_i$ and has a related output $ED_i$, then the MED can be calculated as follows: 
+	If each input vector $i$ appears with a probability $p_i$ and has a related output $ED_i$, then the MED can be calculated as follows:
 	\begin{equation}
 		MED = \displaystyle\sum_{i=1}^{N} [ED]_i\ p_i
 	\end{equation}
@@ -745,7 +834,7 @@ As already pointed out in the first section, the critical path can be reduced fr
 
 	\bibitem{liang}
 	Liang, J., Han, J., \& Lombardi, F. (2013). New metrics for the
-	reliability of approximate and probabilistic adders. \textit{IEEE 
+	reliability of approximate and probabilistic adders. \textit{IEEE
 	Transactions on Computers}, 62(9), 1760–1771
 	\end{thebibliography}
 
