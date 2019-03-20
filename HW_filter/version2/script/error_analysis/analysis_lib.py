@@ -141,7 +141,7 @@ def avgValue(infile):
 def basicAnalysis(ref_file,comp_file,num_sample):
     result=[]
     temp_file_path="tempFile"
-    arithRelDiff(ref_file,comp_file,temp_file_path,num_sample)
+    arithAbsDiff(ref_file,comp_file,temp_file_path,num_sample)
     result+=[maxValue(temp_file_path)]
     result+=[avgValue(temp_file_path)]
     arithAbsDiff(ref_file,comp_file,temp_file_path,num_sample)

@@ -11,7 +11,7 @@ total size is 622  speedup is 1.90
 sending incremental file list
 sim-synthMult.tcl
 
-sent 390 bytes  received 34 bytes  848.00 bytes/sec
+sent 390 bytes  received 34 bytes  282.67 bytes/sec
 total size is 694  speedup is 1.64
 sending incremental file list
 sim-synthFilter.tcl
@@ -21,7 +21,7 @@ total size is 734  speedup is 1.73
 sending incremental file list
 synth-mult.tcl
 
-sent 845 bytes  received 34 bytes  1,758.00 bytes/sec
+sent 845 bytes  received 34 bytes  586.00 bytes/sec
 total size is 2,326  speedup is 2.65
 sending incremental file list
 synth-filter.tcl
@@ -31,17 +31,17 @@ total size is 2,339  speedup is 2.61
 sending incremental file list
 multSample.txt
 
-sent 2,540,091 bytes  received 34 bytes  103,678.57 bytes/sec
+sent 2,541,119 bytes  received 34 bytes  99,653.06 bytes/sec
 total size is 12,750,000  speedup is 5.02
 sending incremental file list
 filterSamples.txt
 
-sent 503,215 bytes  received 34 bytes  91,499.82 bytes/sec
-total size is 1,239,365  speedup is 2.46
+sent 503,279 bytes  received 34 bytes  91,511.45 bytes/sec
+total size is 1,239,740  speedup is 2.46
 sending incremental file list
 approx_comp_4to2.vhd
 
-sent 386 bytes  received 34 bytes  840.00 bytes/sec
+sent 386 bytes  received 34 bytes  280.00 bytes/sec
 total size is 499  speedup is 1.19
 sending incremental file list
 halfAdder.vhd
@@ -51,7 +51,7 @@ total size is 253  speedup is 0.84
 sending incremental file list
 mbeDadda_mult_wRegs.vhd
 
-sent 11,092 bytes  received 34 bytes  22,252.00 bytes/sec
+sent 11,092 bytes  received 34 bytes  7,417.33 bytes/sec
 total size is 94,485  speedup is 8.49
 sending incremental file list
 fullAdder.vhd
@@ -61,7 +61,7 @@ total size is 550  speedup is 1.42
 sending incremental file list
 multV3_pkg.vhd
 
-sent 779 bytes  received 34 bytes  1,626.00 bytes/sec
+sent 779 bytes  received 34 bytes  542.00 bytes/sec
 total size is 2,344  speedup is 2.88
 sending incremental file list
 mux2.vhd
@@ -76,7 +76,7 @@ total size is 1,511  speedup is 2.01
 sending incremental file list
 bitwiseInv.vhd
 
-sent 347 bytes  received 34 bytes  762.00 bytes/sec
+sent 347 bytes  received 34 bytes  254.00 bytes/sec
 total size is 444  speedup is 1.17
 sending incremental file list
 iir_filter.vhd
@@ -136,13 +136,13 @@ total size is 779  speedup is 1.62
 sending incremental file list
 mbeDadda_mult.vhd
 
-sent 10,715 bytes  received 34 bytes  7,166.00 bytes/sec
-total size is 86,679  speedup is 8.06
+sent 8,116 bytes  received 34 bytes  16,300.00 bytes/sec
+total size is 72,612  speedup is 8.91
 sending incremental file list
 mbeDadda_mult_wRegs.vhd
 
-sent 9,997 bytes  received 844 bytes  21,682.00 bytes/sec
-total size is 87,187  speedup is 8.04
+sent 7,438 bytes  received 844 bytes  5,521.33 bytes/sec
+total size is 73,120  speedup is 8.83
 
 Initializing environment...
 
@@ -220,9 +220,8 @@ Reading /software/mentor/modelsim_6.2g/tcl/vsim/pref.tcl
 # Loading work.mux2(behaviour)#1
 # Loading work.bitwiseinv(behaviour)#1
 # Loading work.bitwiseinv(behaviour)#2
-# Loading work.halfadder(behaviour)
-# Loading work.approx_comp_4to2(structure)
 # Loading work.fulladder(structure)
+# Loading work.halfadder(behaviour)
 VSIM 2> 	    mv mbeDadda_mult_wRegs_back.saif ../version3
 # invalid command name "mv"
 VSIM 3> # 
@@ -230,7 +229,7 @@ VSIM 3> #
 sending incremental file list
 .synopsys_dc.setup
 
-sent 303 bytes  received 34 bytes  224.67 bytes/sec
+sent 303 bytes  received 34 bytes  674.00 bytes/sec
 total size is 361  speedup is 1.07
 mkdir: cannot create directory `netlist': File exists
 
@@ -358,16 +357,14 @@ uniquify
 Removing uniquified design 'reg_N24'.
 Removing uniquified design 'r4mbePP_preprocessing_n_bit24'.
 Removing uniquified design 'bitwiseInv_n_bit25'.
-Removing uniquified design 'halfAdder'.
-Removing uniquified design 'approx_comp_4to2'.
 Removing uniquified design 'fullAdder'.
+Removing uniquified design 'halfAdder'.
 Removing uniquified design 'mux2_n_bit25'.
   Uniquified 3 instances of design 'reg_N24'.
   Uniquified 12 instances of design 'r4mbePP_preprocessing_n_bit24'.
   Uniquified 11 instances of design 'bitwiseInv_n_bit25'.
-  Uniquified 337 instances of design 'halfAdder'.
-  Uniquified 38 instances of design 'approx_comp_4to2'.
-  Uniquified 155 instances of design 'fullAdder'.
+  Uniquified 167 instances of design 'fullAdder'.
+  Uniquified 349 instances of design 'halfAdder'.
   Uniquified 24 instances of design 'mux2_n_bit25'.
 1
 link
@@ -375,7 +372,7 @@ link
   Linking design 'mbeDadda_mult_wRegs'
   Using the following designs and libraries:
   --------------------------------------------------------------------------
-  * (582 designs)             /home/isa22/lab2/syn/mbeDadda_mult_wRegs.db, etc
+  * (568 designs)             /home/isa22/lab2/syn/mbeDadda_mult_wRegs.db, etc
   NangateOpenCellLibrary (library) /software/dk/nangate45/synopsys/NangateOpenCellLibrary_typical_ecsm_nowlm.db
   dw_foundation.sldb (library) /software/synopsys/syn_current/libraries/syn/dw_foundation.sldb
 
@@ -418,7 +415,7 @@ Information: Evaluating DesignWare library utilization. (UISN-27)
 
 Information: Sequential output inversion is enabled.  SVF file must be used for formal verification. (OPT-1208)
 
-Information: There are 46 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
+Information: There are 92 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
 
 
 Loaded alib file './alib-52/NangateOpenCellLibrary_typical_ecsm_nowlm.db.alib'
@@ -450,8 +447,383 @@ Information: Updating design information... (UID-85)
   Mapping Optimization (Phase 11)
   Mapping Optimization (Phase 12)
   Mapping Optimization (Phase 13)
-  Mapping Optimization (Phase 14)
   Re-synthesis Optimization (Phase 1)
   Re-synthesis Optimization (Phase 2)
   Re-synthesis Optimization (Phase 3)
   Re-synthesis Optimization (Phase 4)
+  Re-synthesis Optimization (Phase 5)
+  Re-synthesis Optimization (Phase 6)
+  Re-synthesis Optimization (Phase 7)
+  Global Optimization (Phase 1)
+  Global Optimization (Phase 2)
+  Global Optimization (Phase 3)
+  Global Optimization (Phase 4)
+  Global Optimization (Phase 5)
+  Global Optimization (Phase 6)
+  Global Optimization (Phase 7)
+  Global Optimization (Phase 8)
+  Global Optimization (Phase 9)
+  Global Optimization (Phase 10)
+  Global Optimization (Phase 11)
+  Global Optimization (Phase 12)
+  Global Optimization (Phase 13)
+  Global Optimization (Phase 14)
+  Global Optimization (Phase 15)
+  Global Optimization (Phase 16)
+  Global Optimization (Phase 17)
+  Global Optimization (Phase 18)
+  Global Optimization (Phase 19)
+  Global Optimization (Phase 20)
+  Global Optimization (Phase 21)
+  Global Optimization (Phase 22)
+  Global Optimization (Phase 23)
+  Global Optimization (Phase 24)
+  Global Optimization (Phase 25)
+  Global Optimization (Phase 26)
+  Global Optimization (Phase 27)
+  Global Optimization (Phase 28)
+  Global Optimization (Phase 29)
+  Global Optimization (Phase 30)
+  Global Optimization (Phase 31)
+  Mapping 'mbeDadda_mult_wRegs_DW01_add_0'
+Information: Added key list 'DesignWare' to design 'mbeDadda_mult_wRegs'. (DDB-72)
+
+   ELAPSED            WORST NEG TOTAL NEG  DESIGN                            
+    TIME      AREA      SLACK     SLACK   RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:00:54    2654.7      1.48      80.1       0.0                          
+    0:00:54    2654.7      1.48      80.1       0.0                          
+
+
+  Beginning Delay Optimization Phase
+  ----------------------------------
+
+   ELAPSED            WORST NEG TOTAL NEG  DESIGN                            
+    TIME      AREA      SLACK     SLACK   RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:00:54    2654.7      1.48      80.1       0.0                          
+    0:00:55    2673.8      1.46      79.8       0.0                          
+    0:00:57    2681.8      1.46      79.6       0.0                          
+    0:00:59    2683.7      1.46      79.6       0.0                          
+    0:01:01    2684.2      1.45      79.5       0.0                          
+    0:01:03    2685.3      1.45      79.4       0.0                          
+    0:01:04    2686.6      1.45      79.4       0.0                          
+    0:01:06    2712.4      1.44      79.2       0.0 p_reg_out/Q_reg[22]/D    
+    0:01:07    2735.3      1.43      79.1       0.0 p_reg_out/Q_reg[22]/D    
+    0:01:09    2757.1      1.42      78.9       0.0 p_reg_out/Q_reg[22]/D    
+    0:01:10    2780.0      1.42      78.8       0.0 p_reg_out/Q_reg[9]/D     
+    0:01:12    2781.0      1.42      78.8       0.0                          
+    0:01:13    2781.0      1.42      78.8       0.0                          
+    0:01:15    2781.8      1.42      78.8       0.0                          
+    0:01:17    2792.2      1.41      78.8       0.0 p_reg_out/Q_reg[9]/D     
+    0:01:20    2800.4      1.41      78.8       0.0                          
+    0:01:21    2800.7      1.41      78.8       0.0                          
+    0:01:23    2800.4      1.41      78.8       0.0                          
+    0:01:24    2802.8      1.41      78.8       0.0                          
+    0:01:27    2825.2      1.41      78.9       0.0                          
+    0:01:28    2824.7      1.41      78.9       0.0                          
+    0:01:31    2824.7      1.41      78.9       0.0                          
+    0:01:31    2824.7      1.41      78.9       0.0                          
+    0:01:32    2824.7      1.41      78.9       0.0                          
+    0:01:32    2795.1      1.41      78.9       0.0                          
+    0:01:33    2795.1      1.41      78.9       0.0                          
+    0:01:35    2794.1      1.41      78.9       0.0                          
+    0:01:35    2795.1      1.41      78.9       0.0                          
+
+   ELAPSED            WORST NEG TOTAL NEG  DESIGN                            
+    TIME      AREA      SLACK     SLACK   RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:01:36    2780.2      1.41      78.9       0.0                          
+    0:01:36    2780.2      1.41      78.9       0.0                          
+
+
+  Beginning Area-Recovery Phase  (max_area 0)
+  -----------------------------
+
+   ELAPSED            WORST NEG TOTAL NEG  DESIGN                            
+    TIME      AREA      SLACK     SLACK   RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:01:36    2780.2      1.41      78.9       0.0                          
+  Global Optimization (Phase 1)
+  Global Optimization (Phase 2)
+  Global Optimization (Phase 3)
+  Global Optimization (Phase 4)
+  Global Optimization (Phase 5)
+  Global Optimization (Phase 6)
+  Global Optimization (Phase 1)
+  Global Optimization (Phase 2)
+  Global Optimization (Phase 3)
+  Global Optimization (Phase 4)
+  Global Optimization (Phase 5)
+  Global Optimization (Phase 6)
+  Global Optimization (Phase 7)
+  Global Optimization (Phase 8)
+  Global Optimization (Phase 9)
+  Global Optimization (Phase 10)
+  Global Optimization (Phase 11)
+  Global Optimization (Phase 12)
+  Global Optimization (Phase 13)
+  Global Optimization (Phase 14)
+  Global Optimization (Phase 15)
+  Global Optimization (Phase 16)
+  Global Optimization (Phase 17)
+  Global Optimization (Phase 18)
+  Global Optimization (Phase 19)
+  Global Optimization (Phase 20)
+  Global Optimization (Phase 21)
+  Global Optimization (Phase 22)
+  Global Optimization (Phase 23)
+  Global Optimization (Phase 24)
+  Global Optimization (Phase 25)
+    0:01:40    2762.7      1.41      78.8       0.0 p_reg_out/Q_reg[17]/D    
+    0:01:41    2779.2      1.40      78.8       0.0 p_reg_out/Q_reg[22]/D    
+    0:01:41    2779.2      1.40      78.8       0.0                          
+    0:01:43    2780.2      1.40      78.8       0.0                          
+    0:01:44    2796.2      1.40      78.7       0.0                          
+    0:01:45    2804.2      1.40      78.6       0.0                          
+    0:01:47    2803.1      1.40      78.6       0.0                          
+    0:01:49    2808.7      1.40      78.6       0.0                          
+Loading db file '/software/dk/nangate45/synopsys/NangateOpenCellLibrary_typical_ecsm_nowlm.db'
+
+  Optimization Complete
+  ---------------------
+1
+# apply retiming to design
+set_dont_touch *reg_in*
+1
+set_dont_touch *reg_out*
+1
+optimize_registers
+  Loading design 'mbeDadda_mult_wRegs'
+
+  Beginning retiming
+  ------------------
+Information: Updating design information... (UID-85)
+  Retiming mbeDadda_mult_wRegs
+Warning: No movable flip-flops in design. Nothing to retime. (RTDC-10)
+  Preferred flip-flop is DFFRS_X1 with setup = 0.04
+
+  Aborting retiming of mbeDadda_mult_wRegs
+
+  Retiming complete
+  -----------------
+1
+# reports gen
+report_timing > /home/isa22/lab2/common/mbeDadda_mult_wRegs_timing.txt
+report_area > /home/isa22/lab2/common/mbeDadda_mult_wRegs_area.txt
+change_names -hierarchy -rules verilog
+1
+write_sdf /home/isa22/lab2/syn/netlist/mbeDadda_mult_wRegs.sdf
+Information: Annotated 'cell' delays are assumed to include load delay. (UID-282)
+Information: Writing timing information to file '/home/isa22/lab2/syn/netlist/mbeDadda_mult_wRegs.sdf'. (WT-3)
+1
+write -f verilog -hierarchy -output /home/isa22/lab2/syn/netlist/mbeDadda_mult_wRegs.v
+Writing verilog file '/home/isa22/lab2/syn/netlist/mbeDadda_mult_wRegs.v'.
+1
+write_sdc /home/isa22/lab2/syn/netlist/mbeDadda_mult_wRegs.sdc
+1
+				quitInformation: Defining new variable 'OLOAD'. (CMD-041)
+Information: Defining new variable '3.40189'. (CMD-041)
+
+Thank you...
+mv: cannot stat `saif/NangateOpenCellLibrary.saif': No such file or directory
+sending incremental file list
+
+sent 62 bytes  received 11 bytes  146.00 bytes/sec
+total size is 492  speedup is 6.74
+sending incremental file list
+
+sent 64 bytes  received 11 bytes  50.00 bytes/sec
+total size is 622  speedup is 8.29
+sending incremental file list
+
+sent 67 bytes  received 11 bytes  156.00 bytes/sec
+total size is 694  speedup is 8.90
+sending incremental file list
+
+sent 69 bytes  received 11 bytes  53.33 bytes/sec
+total size is 734  speedup is 9.18
+sending incremental file list
+synth-mult.tcl
+
+sent 845 bytes  received 34 bytes  1,758.00 bytes/sec
+total size is 2,326  speedup is 2.65
+sending incremental file list
+synth-filter.tcl
+
+sent 861 bytes  received 34 bytes  596.67 bytes/sec
+total size is 2,339  speedup is 2.61
+receiving incremental file list
+C0DrightA18_mbeDadda_mult_wRegs_area.txt
+
+sent 30 bytes  received 461 bytes  982.00 bytes/sec
+total size is 677  speedup is 1.38
+receiving incremental file list
+C0DrightA18_mbeDadda_mult_wRegs_timing.txt
+
+sent 30 bytes  received 954 bytes  1,968.00 bytes/sec
+total size is 3,358  speedup is 3.41
+receiving incremental file list
+C0DrightA18_mbeDadda_mult_wRegs_mult_HW-output.txt
+
+sent 30 bytes  received 1,190,510 bytes  340,154.29 bytes/sec
+total size is 6,250,000  speedup is 5.25
+mv: cannot stat `/home/isa22/lab2/common/filter_HW-output.txt': No such file or directory
+receiving incremental file list
+rsync: link_stat "/home/isa22/lab2/common/C0DrightA18_mbeDadda_mult_wRegs_filter_HW-output.txt" failed: No such file or directory (2)
+
+sent 8 bytes  received 157 bytes  330.00 bytes/sec
+total size is 0  speedup is 0.00
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1655) [Receiver=3.1.1]
+receiving incremental file list
+C0DrightA18_mbeDadda_mult_wRegs_mult_SW-output.txt
+
+sent 30 bytes  received 1,190,676 bytes  340,201.71 bytes/sec
+total size is 6,250,000  speedup is 5.25
+sending incremental file list
+multSample.txt
+
+sent 2,541,119 bytes  received 34 bytes  99,653.06 bytes/sec
+total size is 12,750,000  speedup is 5.02
+sending incremental file list
+filterSamples.txt
+
+sent 503,279 bytes  received 34 bytes  91,511.45 bytes/sec
+total size is 1,239,740  speedup is 2.46
+sending incremental file list
+
+sent 65 bytes  received 11 bytes  152.00 bytes/sec
+total size is 12,750,000  speedup is 167,763.16
+sending incremental file list
+
+sent 67 bytes  received 11 bytes  52.00 bytes/sec
+total size is 1,239,740  speedup is 15,894.10
+
+Initializing environment...
+
+
+The tool can be started with the command 'vsim'
+
+Reading /software/mentor/modelsim_6.2g/tcl/vsim/pref.tcl 
+
+# 6.2g
+
+# do sim-filter.tcl 
+# Model Technology ModelSim SE vcom 6.2g Compiler 2007.02 Feb 21 2007
+# -- Loading package standard
+# -- Loading package std_logic_1164
+# -- Loading package numeric_std
+# -- Compiling package filter_pkg
+# -- Compiling package body filter_pkg
+# -- Loading package filter_pkg
+# Model Technology ModelSim SE vcom 6.2g Compiler 2007.02 Feb 21 2007
+# -- Loading package standard
+# -- Loading package std_logic_1164
+# -- Compiling package multv3_pkg
+# Model Technology ModelSim SE vcom 6.2g Compiler 2007.02 Feb 21 2007
+# -- Loading package standard
+# -- Loading package std_logic_1164
+# -- Loading package numeric_std
+# -- Compiling package filter_pkg
+# -- Compiling package body filter_pkg
+# -- Loading package filter_pkg
+# -- Loading package filter_pkg
+# -- Compiling entity iir_filter
+# -- Compiling architecture structure of iir_filter
+# -- Compiling entity iir_filtercu
+# -- Compiling architecture behavior of iir_filtercu
+# -- Compiling entity iir_filterdp
+# -- Compiling architecture behavior of iir_filterdp
+# -- Compiling entity reg
+# -- Compiling architecture behavior of reg
+# Model Technology ModelSim SE vcom 6.2g Compiler 2007.02 Feb 21 2007
+# -- Loading package standard
+# -- Loading package std_logic_1164
+# -- Compiling entity approx_comp_4to2
+# -- Compiling architecture structure of approx_comp_4to2
+# -- Compiling entity bitwiseinv
+# -- Compiling architecture behaviour of bitwiseinv
+# -- Compiling entity fulladder
+# -- Compiling architecture structure of fulladder
+# -- Compiling entity halfadder
+# -- Compiling architecture behaviour of halfadder
+# -- Loading package numeric_std
+# -- Loading package multv3_pkg
+# -- Compiling entity mbedadda_mult
+# -- Compiling architecture structure of mbedadda_mult
+# -- Compiling entity mbedadda_mult_wregs
+# -- Compiling architecture structure of mbedadda_mult_wregs
+# -- Compiling package multv3_pkg
+# -- Compiling entity mux2
+# -- Compiling architecture behaviour of mux2
+# -- Compiling entity r4mbepp_preprocessing
+# -- Compiling architecture behaviour of r4mbepp_preprocessing
+# Model Technology ModelSim SE vcom 6.2g Compiler 2007.02 Feb 21 2007
+# -- Loading package standard
+# -- Loading package std_logic_1164
+# -- Loading package numeric_std
+# -- Compiling entity approx_comptb
+# -- Compiling architecture behavior of approx_comptb
+# -- Compiling entity clk_gen
+# -- Compiling architecture behavior of clk_gen
+# -- Loading package textio
+# -- Loading package std_logic_textio
+# -- Loading package math_real
+# -- Loading package filter_pkg
+# -- Compiling entity data_maker
+# -- Compiling architecture behavior of data_maker
+# -- Compiling entity data_sink
+# -- Compiling architecture behavior of data_sink
+# -- Loading package multv3_pkg
+# -- Compiling entity mbedadda_mult_wregstb
+# -- Compiling architecture beh of mbedadda_mult_wregstb
+# Model Technology ModelSim SE vlog 6.2g Compiler 2007.02 Feb 21 2007
+# -- Compiling module iir_filterTB
+# 
+# Top level modules:
+# 	iir_filterTB
+# vsim work.iir_filterTB 
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE 6.2g Feb 21 2007 Linux 2.6.18-419.el5
+# //
+# //  Copyright 1991-2007 Mentor Graphics Corporation
+# //              All Rights Reserved.
+# //
+# //  THIS WORK CONTAINS TRADE SECRET AND 
+# //  PROPRIETARY INFORMATION WHICH IS THE PROPERTY
+# //  OF MENTOR GRAPHICS CORPORATION OR ITS LICENSORS
+# //  AND IS SUBJECT TO LICENSE TERMS.
+# //
+# Loading work.iir_filterTB(fast)
+# Loading /software/mentor/modelsim_6.2g/linux/../std.standard
+# Loading /software/mentor/modelsim_6.2g/linux/../ieee.std_logic_1164(body)
+# Loading work.clk_gen(behavior)
+# Loading /software/mentor/modelsim_6.2g/linux/../ieee.numeric_std(body)
+# Loading /software/mentor/modelsim_6.2g/linux/../std.textio(body)
+# Loading /software/mentor/modelsim_6.2g/linux/../ieee.std_logic_textio(body)
+# Loading /software/mentor/modelsim_6.2g/linux/../ieee.math_real(body)
+# Loading work.filter_pkg(body)
+# Loading work.data_maker(behavior)
+# Loading work.iir_filter(structure)#1
+# Loading work.iir_filterdp(behavior)#1
+# Loading work.reg(behavior)#1
+# Loading work.reg(behavior)#2
+# Loading work.multv3_pkg
+# Loading work.mbedadda_mult(structure)
+# Loading work.r4mbepp_preprocessing(behaviour)#1
+# Loading work.mux2(behaviour)#1
+# Loading work.bitwiseinv(behaviour)#1
+# Loading work.bitwiseinv(behaviour)#2
+# Loading work.fulladder(structure)
+# Loading work.halfadder(behaviour)
+# Loading work.iir_filtercu(behavior)
+# Loading work.reg(behavior)#3
+# Loading work.data_sink(behavior)
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ns  Iteration: 0  Instance: /iir_filterTB/UUT/dp
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ns  Iteration: 0  Instance: /iir_filterTB/UUT/dp
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ns  Iteration: 1  Instance: /iir_filterTB/UUT/dp
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ns  Iteration: 1  Instance: /iir_filterTB/UUT/dp

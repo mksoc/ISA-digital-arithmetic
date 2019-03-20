@@ -1,15 +1,15 @@
 # Fdb version 3
-["bibtex ISA-lab2_report"] 1553102463 "ISA-lab2_report.aux" "ISA-lab2_report.bbl" "ISA-lab2_report" 1553102469
+["bibtex ISA-lab2_report"] 1553118907 "ISA-lab2_report.aux" "ISA-lab2_report.bbl" "ISA-lab2_report" 1553118914
   "/usr/share/texlive/texmf-dist/bibtex/bst/base/ieeetr.bst" 1292289607 18361 1a00e58565e7f19bf2b3e1bfb82254ae ""
-  "ISA-lab2_report.aux" 1553102469 7713 838136b18019839533968df06f9167bf ""
+  "ISA-lab2_report.aux" 1553118913 9333 5b757094190c7ed1f7ad7df4d88c3f04 ""
   "ISA-lab2_report.bcf" 0 -1 0 ""
   "ISA-lab2_report.bib" 0 -1 0 ""
   (generated)
   "ISA-lab2_report.bbl"
   "ISA-lab2_report.blg"
-["pdflatex"] 1553102463 "ISA-lab2_report.tex" "/home/matteo/git/ISA-digital-arithmetic/report/ISA-lab2_report.pdf" "ISA-lab2_report" 1553102469
+["pdflatex"] 1553118907 "ISA-lab2_report.tex" "/home/matteo/git/ISA-digital-arithmetic/report/ISA-lab2_report.pdf" "ISA-lab2_report" 1553118914
   "/etc/texmf/web2c/texmf.cnf" 1539621016 1101 af7716885e081ab43982cab7b4672c1a ""
-  "/home/matteo/git/ISA-digital-arithmetic/report/ISA-lab2_report.aux" 1553102469 7713 838136b18019839533968df06f9167bf ""
+  "/home/matteo/git/ISA-digital-arithmetic/report/ISA-lab2_report.aux" 1553118913 9333 5b757094190c7ed1f7ad7df4d88c3f04 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcrm0500.tfm" 1136768653 1536 b3387106d9afecbfe14bde2de6eadf47 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcrm0700.tfm" 1136768653 1536 73da8e8f1d2a4c957d51ca133585586b ""
@@ -221,10 +221,10 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1503343927 31343 93828589fb0cea665e553ee5a17ad2d4 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1525639203 1863403 f3ff9a4253bcb5fb9a9baaf0c572cb01 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1539621067 3872522 742b31acba4c012083f3b4f67097a24a ""
-  "ISA-lab2_report.aux" 1553102469 7713 838136b18019839533968df06f9167bf ""
+  "ISA-lab2_report.aux" 1553118913 9333 5b757094190c7ed1f7ad7df4d88c3f04 ""
   "ISA-lab2_report.bbl" 0 -1 0 "bibtex ISA-lab2_report"
-  "ISA-lab2_report.out" 1553102469 1036 bc847d552c668a889699b138b4df9464 ""
-  "ISA-lab2_report.tex" 1553102462 54315 8696a2eb9bb80558e43dcd7975019770 ""
+  "ISA-lab2_report.out" 1553118913 1116 de703c9a81ad77746d3b9ad19f74f8ad ""
+  "ISA-lab2_report.tex" 1553118898 66335 3502190aebddc2ea3a4b5fe1e3f2984f ""
   "media/Algorithm_Flowchart.png" 1552860973 18345 9fb2fee20a2cc474aab245269a1bfbf5 ""
   "media/dadda0.png" 1553006101 10169 949d1e46bc480af9b4d3942f7820d7fe ""
   "media/dadda1.png" 1553006111 3399 614cdc268f449ba9704f1e8cdad2caad ""
@@ -238,9 +238,9 @@
   "media/v1_FA_dadda_bindings_4.png" 1544365197 517805 c4620f6e874b17af8a6a59f8ee572795 ""
   "media/v1_abstract_DP.png" 1544365197 149856 2195f12cac479be7ed79ec325092864a ""
   (generated)
-  "ISA-lab2_report.pdf"
-  "ISA-lab2_report.aux"
-  "/home/matteo/git/ISA-digital-arithmetic/report/ISA-lab2_report.log"
-  "/home/matteo/git/ISA-digital-arithmetic/report/ISA-lab2_report.pdf"
-  "ISA-lab2_report.log"
   "ISA-lab2_report.out"
+  "ISA-lab2_report.aux"
+  "/home/matteo/git/ISA-digital-arithmetic/report/ISA-lab2_report.pdf"
+  "/home/matteo/git/ISA-digital-arithmetic/report/ISA-lab2_report.log"
+  "ISA-lab2_report.pdf"
+  "ISA-lab2_report.log"
