@@ -88,14 +88,14 @@ for approxBits in s.approxBitsList:
 		el.performSim(session, s.remote_root, s.mult_sim_tcl_name, s.multWRegsEntity_name)
 		el.message('It\'s important to keep these brittle results in a safe place.')
 	
-#		# upload synth related files and synth the mult
-#		el.message('Starting the synthesis of the mult, roar!')
-#		session.copy_to('{}/.synopsys_dc.setup'.format(s.local_syn), '{}/syn/'.format(s.remote_root))
-#		el.performSynth(session, s.remote_root, s.mult_synth_tcl_name)
-#		el.message('Synthesized.')
-#
-#		# clean the syn-work folder
-#		fh.cleanSyn(session)
+		# upload synth related files and synth the mult
+		el.message('Starting the synthesis of the mult, roar!')
+		session.copy_to('{}/.synopsys_dc.setup'.format(s.local_syn), '{}/syn/'.format(s.remote_root))
+		el.performSynth(session, s.remote_root, s.mult_synth_tcl_name)
+		el.message('Synthesized.')
+
+		# clean the syn-work folder
+		fh.cleanSyn(session)
 		# re-upload scripts
 		with isa.cd(s.scriptPath):
 			fh.uploadScripts(session)
@@ -115,17 +115,17 @@ for approxBits in s.approxBitsList:
 		el.performSim(session, s.remote_root, s.filter_sim_tcl_name, s.filterEntity_name)
 		el.message('It\'s important to keep these delicate results in a safe place.')
 	
-#		# upload synth related files and synth the filter
-#		el.message('Starting the synthesis of the filter, baby!')
-#		session.copy_to('{}/.synopsys_dc.setup'.format(s.local_syn), '{}/syn/'.format(s.remote_root))
-#		el.performSynth(session, s.remote_root, s.filter_synth_tcl_name)
-#		el.message('Synthesized.')
-#	
-#		# clean the syn-work folder
-#		fh.cleanSyn(session)
-#		# re-upload scripts
-#		with isa.cd(s.scriptPath):
-#			fh.uploadScripts(session)
+		# upload synth related files and synth the filter
+		el.message('Starting the synthesis of the filter, baby!')
+		session.copy_to('{}/.synopsys_dc.setup'.format(s.local_syn), '{}/syn/'.format(s.remote_root))
+		el.performSynth(session, s.remote_root, s.filter_synth_tcl_name)
+		el.message('Synthesized.')
+	
+		# clean the syn-work folder
+		fh.cleanSyn(session)
+		# re-upload scripts
+		with isa.cd(s.scriptPath):
+			fh.uploadScripts(session)
 
 		# take back, rename and store the results and reports
 		fh.storeResultsReports(session, s.filterEntity_name, False, compressionLevel, startingDirection, approxBits)
@@ -170,17 +170,17 @@ for compressionLevel in s.compressionList:
 		el.performSim(session, s.remote_root, s.mult_sim_tcl_name, s.multWRegsEntity_name)
 		el.message('It\'s important to keep these brittle results in a safe place.')
 	
-#		# upload synth related files and synth the mult
-#		el.message('Starting the synthesis of the mult, roar!')
-#		session.copy_to('{}/.synopsys_dc.setup'.format(s.local_syn), '{}/syn/'.format(s.remote_root))
-#		el.performSynth(session, s.remote_root, s.mult_synth_tcl_name)
-#		el.message('Synthesized.')
-#
-#		# clean the syn-work folder
-#		fh.cleanSyn(session)
-#		# re-upload scripts
-#		with isa.cd(s.scriptPath):
-#			fh.uploadScripts(session)
+		# upload synth related files and synth the mult
+		el.message('Starting the synthesis of the mult, roar!')
+		session.copy_to('{}/.synopsys_dc.setup'.format(s.local_syn), '{}/syn/'.format(s.remote_root))
+		el.performSynth(session, s.remote_root, s.mult_synth_tcl_name)
+		el.message('Synthesized.')
+
+		# clean the syn-work folder
+		fh.cleanSyn(session)
+		# re-upload scripts
+		with isa.cd(s.scriptPath):
+			fh.uploadScripts(session)
 
 		# take back, rename and store the sim results
 		el.message('Let\'s take back what belongs to us.')
@@ -197,17 +197,17 @@ for compressionLevel in s.compressionList:
 		el.performSim(session, s.remote_root, s.filter_sim_tcl_name, s.filterEntity_name)
 		el.message('It\'s important to keep these delicate results in a safe place.')
 	
-#		# upload synth related files and synth the filter
-#		el.message('Starting the synthesis of the filter, baby!')
-#		session.copy_to('{}/.synopsys_dc.setup'.format(s.local_syn), '{}/syn/'.format(s.remote_root))
-#		el.performSynth(session, s.remote_root, s.filter_synth_tcl_name)
-#		el.message('Synthesized.')
-#	
-#		# clean the syn-work folder
-#		fh.cleanSyn(session)
-#		# re-upload scripts
-#		with isa.cd(s.scriptPath):
-#			fh.uploadScripts(session)
+		# upload synth related files and synth the filter
+		el.message('Starting the synthesis of the filter, baby!')
+		session.copy_to('{}/.synopsys_dc.setup'.format(s.local_syn), '{}/syn/'.format(s.remote_root))
+		el.performSynth(session, s.remote_root, s.filter_synth_tcl_name)
+		el.message('Synthesized.')
+	
+		# clean the syn-work folder
+		fh.cleanSyn(session)
+		# re-upload scripts
+		with isa.cd(s.scriptPath):
+			fh.uploadScripts(session)
 
 		# take back, rename and store the results and reports
 		fh.storeResultsReports(session, s.filterEntity_name, False, compressionLevel, startingDirection, approxBits)
