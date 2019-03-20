@@ -1,10 +1,12 @@
 \documentclass[a4paper]{article}
+
 \usepackage[english]{babel}
 \usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
 \usepackage{amsmath}
 \usepackage{bm} %bold for math formulas
 \usepackage{amsfonts} %mathematical fields fonts
 \usepackage{float} %images held
+\usepackage{graphicx}
 \usepackage[colorinlistoftodos]{todonotes}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 \usepackage[table]{colortbl}
@@ -12,10 +14,42 @@
 \usepackage{siunitx}
 
 \title{Integrated Systems Architecture\\Lab session 2 Report}
-\author{Marco Andorno (247222)\\Michele Caon\\Matteo Perotti (251453)\\Giuseppe Sarda (255648)}
+\author{Marco Andorno (247222)\\Michele Caon (253027)\\Matteo Perotti (251453)\\Giuseppe Sarda (255648)}
 
 \begin{document}
-\maketitle
+\begin{center}
+	\thispagestyle{empty}
+	
+	% INTESTAZIONE
+	
+	\textbf{\textsc{\Large Integrated Systems Architecture}}\\[1.0cm] 
+	\textsc{\Large Politecnico di Torino}\\[0.5cm] 
+	\textsc{\large Department of Electronics and Telecommunications
+	}\\[1cm] 
+	
+	% TITOLO
+	
+	\huge \textbf{Laboratory 2: \\ Digital arithmetic}
+	
+	\end{center}
+	
+	% AUTORI
+	
+	\vfill
+	\large
+	\begin{flushleft}
+	\makeatletter
+	\emph{Authors:}\\
+	\@author \\
+	\vspace{1cm}
+	\normalsize \@date
+	\makeatother
+	\end{flushleft} 
+	
+	\newpage
+	This report along with all the source files, scripts, reports and diagrams for the project can be found on GitHub at \url{https://github.com/mksoc/ISA-digital-arithmetic}.
+	\tableofcontents
+	\newpage
 
 \section{Comparison between different combinations of adders and multipliers}
 Starting from the pipelined and retimed architecture developed in Lab 1, we exploited Synopsys DesignWare Library to compare several design metrics using different implementations for the arithmetic operators used in our design.
