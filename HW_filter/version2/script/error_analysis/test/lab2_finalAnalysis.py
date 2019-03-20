@@ -17,6 +17,7 @@ from os import walk
 import os
 import sys
 sys.path.append(s.arith_path)
+sys.path.append('..')
 from arithmetic import integerTo2sFileConverter,computeTruncResult, truncResults
 from analysis_lib import printString,printBasicRep,extractApproxCompr,extractTotalArea,extractSlackTime,extractRepType,checkResult,extractTruncLSBs,basicAnalysis,extractFileList,sortFileList,message,printBasicAnalysisRes
 
@@ -39,12 +40,12 @@ for res_file in res_file_list:
 # 1) Compute error statistics from truncated multiplier.
 res_file_list=extractFileList(s.res_trunc_mult_path,s.res_trunc_mult_ID)
 sortFileList(res_file_list)
-with open(s.logRel_stat_trunc_mult_fpath,"w") as log_rel_pointer, open(s.logAbs_stat_trunc_mult_fpath,"w") as log_abs_pointer, open(s.matlab_trunc_values,"w") as matlab_trunc_values_pointer, open(s.matlab_trunc_mult_statMax,"w") as matlab_mult_statMax_pointer, open(s.matlab_trunc_mult_statAvg,"w") as matlab_mult_statAvg_pointer:
+with open(s.log_stat_trunc_mult_fpath,"w") as log_pointer, open(s.matlab_trunc_values,"w") as matlab_trunc_values_pointer, open(s.matlab_trunc_mult_statMax,"w") as matlab_mult_statMax_pointer, open(s.matlab_trunc_mult_statAvg,"w") as matlab_mult_statAvg_pointer:
     for res_file in res_file_list:
         trunc_lsbs=int(extractTruncLSBs(res_file))
         if trunc_lsbs!=0:
-            analysis_res=advAnalysis(s.sw_mult_result_fpath,s.res_trunc_mult_path+'/'+res_file,s.numSamples)
-            printAdvAnalysisRes(log_rel_pointer,log_abs_pointer,analysis_res,trunc_lsbs)
+            analysis_res=basicAnalysis(s.sw_mult_result_fpath,s.res_trunc_mult_path+'/'+res_file,s.numSamples)
+            printBasicAnalysisRes(log_pointer,analysis_res,trunc_lsbs)
             printString(matlab_trunc_values_pointer,trunc_lsbs)
             printString(matlab_mult_statMax_pointer,analysis_res[0])
             printString(matlab_mult_statAvg_pointer,analysis_res[1])

@@ -1,8 +1,8 @@
-arith_path='../../py_model'
+arith_path='/home/clmcasino/Desktop/ISA/Lab2/ISA-digital-arithmetic/HW_filter/version2/script/py_model'
 
 input_sample_fname='multSample.txt'
 
-sw_mult_result_fpath=       'result/C0DrightA0_mbeDadda_mult_wRegs_mult_SW-output.txt'
+sw_mult_result_fpath=       'result/C0DleftA0_mbeDadda_mult_wRegs_mult_SW-output.txt'
 sw_filter_result_fpath=     'result/filter_SW-output.txt'
 sw_filter_result_fpath2s=   'result/filter_SW-2soutput.txt'
 
@@ -23,12 +23,16 @@ rep_approxCompr_mult_ID=    'mbeDadda_mult_wRegs'
 rep_approxCompr_filter_path='report'
 rep_approxCompr_filter_ID=  'iir_filter'
 
-log_stat_trunc_mult_fpath=          'log/Trunc_mbeDadda_mult_wRegs_mult_AnalysisLog.txt'
-log_stat_trunc_filter_fpath=        'log/Trunc_iir_filter_AnalysisLog.txt'
+logRel_stat_trunc_mult_fpath=       'log/Trunc_mbeDadda_mult_wRegs_mult_RelAnalysisLog.txt'
+logRel_stat_trunc_filter_fpath=     'log/Trunc_iir_filter_RelAnalysisLog.txt'
+logAbs_stat_trunc_mult_fpath=       'log/Trunc_mbeDadda_mult_wRegs_mult_AbsAnalysisLog.txt'
+logAbs_stat_trunc_filter_fpath=     'log/Trunc_iir_filter_AbsAnalysisLog.txt'
 log_rep_trunc_mult_fpath=           'log/Trunc_mbeDadda_mult_wRegs_mult_ReportLog'
 log_rep_trunc_filter_fpath=         'log/Trunc_iir_filter_filter_ReportLog.txt'
-log_stat_approxCompr_mult_fpath=    'log/ApproxCompr_mbeDadda_mult_wRegs_mult_AnalysisLog.txt'
-log_stat_approxCompr_filter_fpath=  'log/ApproxCompr_iir_filter_AnalysisLog.txt'
+logRel_stat_approxCompr_mult_fpath= 'log/ApproxCompr_mbeDadda_mult_wRegs_mult_RelAnalysisLog.txt'
+logRel_stat_approxCompr_filter_fpath='log/ApproxCompr_iir_filter_RelAnalysisLog.txt'
+logAbs_stat_approxCompr_mult_fpath= 'log/ApproxCompr_mbeDadda_mult_wRegs_mult_AbsAnalysisLog.txt'
+logAbs_stat_approxCompr_filter_fpath='log/ApproxCompr_iir_filter_AbsAnalysisLog.txt'
 log_rep_approxCompr_mult_fpath=     'log/ApproxCompr_mbeDadda_mult_wRegs_mult_ReportLog'
 log_rep_approxCompr_filter_fpath=   'log/ApproxCompr_iir_filter_filter_ReportLog.txt'
 
