@@ -486,7 +486,7 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 		\label{tab:mult_trunc_sim}
 	\end{table}
 
-	\paragraph*{Synthesis} 
+	\paragraph*{Synthesis} 18 truncated bits seems a good compromise, even better than the choice of the compressors. In the IIR filter it will be clear that the behaviour of the multiplier is really interesting.
 
 	\begin{table}[hbtp]
 		\centering
@@ -530,6 +530,24 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 		\label{tab:iir_sim}
 	\end{table}
 
+	From the table of the IIR filter and the truncated bits multiplier is clear that the choice of the truncated bits is preferrable.
+
+	\begin{table}[hbtp]
+		\centering
+		\begin{tabular}{|c|c|c|c|c|}
+		\hline
+		\textbf{\begin{tabular}[c]{@{}c@{}}IIR filter with\\ truncated bits\\ multiplier\end{tabular}} & \textit{\textbf{\begin{tabular}[c]{@{}c@{}}Max error\\ {[}LSB{]}\end{tabular}}} & \textit{\textbf{\begin{tabular}[c]{@{}c@{}}Avg. error\\ {[}LSB{]}\end{tabular}}} & \textit{\textbf{\begin{tabular}[c]{@{}c@{}}Max relative\\ error\end{tabular}}} & \textit{\textbf{\begin{tabular}[c]{@{}c@{}}Avg. relative\\ error\end{tabular}}} \\ \hline
+		\textbf{2}                                                                                     & 0                                                                               & 0                                                                                & 0                                                                              & 0                                                                               \\ \hline
+		\textbf{6}                                                                                     & 0                                                                               & 0                                                                                & 0                                                                              & 0                                                                               \\ \hline
+		\textbf{10}                                                                                    & 0                                                                               & 0                                                                                & 0                                                                              & 0                                                                               \\ \hline
+		\textbf{14}                                                                                    & -1.0                                                                            & -1.89e-05                                                                        & -9.6e-03                                                                       & 4.46e-08                                                                        \\ \hline
+		\textbf{18}                                                                                    & -1.0                                                                            & -1.5e-04                                                                         & -7.7e-02                                                                       & -4.53e-07                                                                       \\ \hline
+		\textbf{21}                                                                                    & -1.0                                                                            & -1.6e-03                                                                         & -1.0                                                                           & 1.05e-05                                                                        \\ \hline
+		\end{tabular}
+		\caption{IIR filter with truncated bits, simulation and error results}
+		\label{tab:iir_trunc_sim}
+	\end{table}
+
 
 	\paragraph*{Synthesis} The results of the synthesis are visible in the following table and figure. The synthesis was done letting the program to perform retiming, this is why the delay is lower than for a single multiplier. These results were found without giving the \textit{compile\_ultra} command, only to have an idea of the trend.
 
@@ -554,6 +572,7 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 		\label{tab:iir_syn}
 	\end{table}
 
+	The precision of the architecture is high even if a lot area is saved. The frequency is also increased, even if it seems that the compressors do a better job with the timing.
 
 	\begin{table}[hbtp]
 		\centering
@@ -571,14 +590,15 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 		\label{tab:iir_trunc_syn}
 	\end{table}
 
-	It was chosen one multiplier to stay below a certain error on the result and the synthesis was repeated with the \textit{compile\_ultra} command active. It seems that the multiplier with the 60\% of the compressors could be a good compromise: in the filter the maximum error is of 1 LSB, and it is at maximum the 2.2\% of the value. On avarage it makes mistakes not greater than the 0.0035\% of the real value.
+	It was chosen one multiplier of each type to stay below a certain error on the result and the synthesis was repeated with the \textit{compile\_ultra} command active. It seems that the multiplier with the 60\% of the compressors could be a good compromise: in the filter the maximum error is of 1 LSB, and it is at maximum the 2.2\% of the value. On avarage it makes mistakes not greater than the 0.0035\% of the real value.\\
+	The other multiplier we take to synthesize with compile\_ultra actived is the 18 truncated bits ones. This is also better than the previous. Let's see tha data.
 
 	\begin{table}[htbp]
 		\centering
 		\begin{tabular}{|c|c|c|c|}
 		\hline
-		\textit{\textbf{\begin{tabular}[c]{@{}c@{}}Multiplier approx\\ compressor with\\ compile\_ultra\end{tabular}}} & \textit{\textbf{Area}} & \textit{\textbf{Delay}} & \textit{\textbf{Frequency}} \\ \hline
-		\textit{\textbf{60\%}}                                                                                         & 3149                   & 1.23                    & 813                         \\ \hline
+		\textit{\textbf{\begin{tabular}[c]{@{}c@{}}Multiplier with\\ approx compressor and\\ compile\_ultra\end{tabular}}} & \textit{\textbf{\begin{tabular}[c]{@{}c@{}}Area\\ {[}um\textasciicircum{}2{]}\end{tabular}}} & \textit{\textbf{\begin{tabular}[c]{@{}c@{}}Delay\\ {[}ns{]}\end{tabular}}} & \textit{\textbf{\begin{tabular}[c]{@{}c@{}}Frequency\\ {[}MHz{]}\end{tabular}}} \\ \hline
+		\textit{\textbf{60\%}}                                                                                        & 3149                   & 1.23                    & 813                         \\ \hline
 		\end{tabular}
 		\caption{Multiplier with compile\_ultra, area and timing synthesis reports}
 		\label{tab:mult_comp_syn_ultra}
@@ -594,6 +614,30 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 		\caption{IIR filter with approx compressors multiplier with compile\_ultra, area and timing synthesis reports}
 		\label{tab:IIR_comp_syn_ultra}
 	\end{table}
+
+	\begin{table}[htbp]
+		\centering
+		\begin{tabular}{|c|c|c|c|}
+		\hline
+		\textit{\textbf{\begin{tabular}[c]{@{}c@{}}Multiplier with\\ truncated bits with\\ compile\_ultra\end{tabular}}} & \textit{\textbf{\begin{tabular}[c]{@{}c@{}}Area\\ {[}um\textasciicircum{}2{]}\end{tabular}}} & \textit{\textbf{\begin{tabular}[c]{@{}c@{}}Delay\\ {[}ns{]}\end{tabular}}} & \textit{\textbf{\begin{tabular}[c]{@{}c@{}}Frequency\\ {[}MHz{]}\end{tabular}}} \\ \hline
+		\textit{\textbf{18}}                                                                                             & 2808                                                                                         & 1.29                                                                       & 775                                                                             \\ \hline
+		\end{tabular}
+		\caption{Multiplier trunc. bits with compile\_ultra, area and timing synthesis reports}
+		\label{tab:mult_trunc_comp_syn_ultra}
+	\end{table}
+
+	\begin{table}[htbp]
+		\centering
+		\begin{tabular}{|c|c|c|c|}
+		\hline
+		\textit{\textbf{\begin{tabular}[c]{@{}c@{}}IIR filter with multiplier\\ truncated bits with\\ compile\_ultra\end{tabular}}} & \textit{\textbf{\begin{tabular}[c]{@{}c@{}}Area\\ {[}um\textasciicircum{}2{]}\end{tabular}}} & \textit{\textbf{\begin{tabular}[c]{@{}c@{}}Delay\\ {[}ns{]}\end{tabular}}} & \textit{\textbf{\begin{tabular}[c]{@{}c@{}}Frequency\\ {[}MHz{]}\end{tabular}}} \\ \hline
+		\textit{\textbf{18}}                                                                                                        & 18717                                                                                        & 1.11                                                                       & 900                                                                             \\ \hline
+		\end{tabular}
+		\caption{IIR filter with trunc. bits multiplier with compile\_ultra, area and timing synthesis reports}
+		\label{tab:IIR_trunc_syn_ultra}
+	\end{table}
+
+	From this comparison seems that the best compromise is the 18 truncated bits multipliers. It allows to keep an uncertainty lower than the -0.0000453\%, with a lower delay (the frequency, even if this parameter is only indicative, is increased of the 12.5\%) and a very little area wrt to the original architecture (18717 $\mu m^2$ against 25778 $\mu m^2$, which is almost 30\% of saving).
 
 	\subsection{Limits and possible improvements}
 	To improve our analysis it would be better to extend the multiplier to create a general one without the limitation of the input dynamics for one of the two inputs: this would allow us to fully characterize the device.\\

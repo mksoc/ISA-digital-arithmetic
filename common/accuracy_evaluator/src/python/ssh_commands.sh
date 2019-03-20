@@ -1,6 +1,6 @@
-cd /home/isa22/lab2/sim
-	    source /software/scripts/init_msim6.2g
-	    rm vsim.wlf
-	    if [ ! -d work ]; then vlib work; fi
-	    vsim -c -do sim-filter.tcl
-	    mv iir_filter_back.saif ../version3
+cd /home/isa22/lab2/syn
+		source /software/scripts/init_synopsys
+		mkdir work logs reports saif netlist
+		dc_shell-xg-t -f synth-filter.tcl
+		mv netlist/* ../version3
+		mv saif/NangateOpenCellLibrary.saif ../sim
