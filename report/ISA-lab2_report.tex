@@ -149,6 +149,9 @@ Performing the synthesis at the maximum possible frequency with the architecture
 
 The maximum frequency increased by $30\%$ with respect to the best solution found using the standard optimization mode. The area increased by $54\%$ with respect to the \texttt{pparch} version synthesized in the in the previous section. 
 
+\subsubsection{Further improvements}
+As already pointed out in the first section, the critical path can be reduced from $3T_a$ to $2T_a$ inserting an additional pipeline stage in the feed-forward part of the filter. Performing this change here too, we obtained the results shown in table \ref{tab:ret_res_opt}. The maximum frequency increased by an additional $5\%$, and the area by an additional $14\%$. This way, the critical path is already in the loops of the recursive part. This is proven true by the fact that adding an additional pipeline level to the feedforward part doesn't lead to better performance.
+
 \begin{table}[]
 	\centering
 	\begin{tabular}{lllll}
@@ -158,7 +161,7 @@ The maximum frequency increased by $30\%$ with respect to the best solution foun
 	\multicolumn{1}{|l|}{Power {[}\si{\micro\watt}{]}}                        & \multicolumn{1}{l|}{-}       &  &  &  \\ \cline{1-2}
 																					&                              &  &  & 
 	\end{tabular}
-	\label{tab:ret_res}
+	\label{tab:ret_res_opt}
 \end{table}
 
 \section{MBE based Multiplier with Roorda's approach and Dadda Tree}
