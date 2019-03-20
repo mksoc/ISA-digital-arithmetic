@@ -1,0 +1,15 @@
+\BOOKMARK [1][-]{section.1}{Comparison between different combinations of adders and multipliers}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{Maximum frequency}{section.1}% 2
+\BOOKMARK [2][-]{subsection.1.2}{Cell area}{section.1}% 3
+\BOOKMARK [2][-]{subsection.1.3}{Total power dissipation}{section.1}% 4
+\BOOKMARK [2][-]{subsection.1.4}{Summing up}{section.1}% 5
+\BOOKMARK [1][-]{section.2}{MBE based Multiplier with Roorda's approach and Dadda Tree}{}% 6
+\BOOKMARK [1][-]{section.3}{Approximated architectures analysis}{}% 7
+\BOOKMARK [2][-]{subsection.3.1}{Approximated multiplier architecture}{section.3}% 8
+\BOOKMARK [2][-]{subsection.3.2}{Approximations with 4-2 compressors}{section.3}% 9
+\BOOKMARK [2][-]{subsection.3.3}{Data collection}{section.3}% 10
+\BOOKMARK [2][-]{subsection.3.4}{Data Analysis}{section.3}% 11
+\BOOKMARK [2][-]{subsection.3.5}{Multiplier with compressors}{section.3}% 12
+\BOOKMARK [2][-]{subsection.3.6}{Multiplier with truncated bits}{section.3}% 13
+\BOOKMARK [2][-]{subsection.3.7}{IIR filter}{section.3}% 14
+\BOOKMARK [2][-]{subsection.3.8}{Limits and possible improvements}{section.3}% 15

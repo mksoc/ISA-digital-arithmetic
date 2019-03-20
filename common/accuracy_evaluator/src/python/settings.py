@@ -131,7 +131,8 @@ n_samples_iir_mode = 1
 
 # percentage of compression in terms of columns of the multiplier
 # it holds the various percentage to be tested
-compressionList = list(range(60, 70, 60))
+# compressionList = list(range(0, 110, 10))
+compressionList = [0]
 
 # starting direction for the compression: right, left or (right and left)
 # directionList = ['right', 'left']
@@ -139,7 +140,7 @@ directionList = ['right']
 
 # num of bits to be removed BEFORE the tree of the multiplier, from two bits to the max accepted number of bits (can't remove more bits wrt the final number of removed bits)
 # approxBitsList = list(range(2, truncatedBits))
-approxBitsList = []
+approxBitsList = [18]
 
 # enable compile ultra for the synthesis?
 isComp_ultra = True

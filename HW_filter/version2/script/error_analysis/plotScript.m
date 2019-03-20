@@ -1,3 +1,3 @@
-X_NAME="./test/matlab/ApproxCompr_Values.txt";
-Y_NAME="./test/matlab/ApproxCompr_mult_Areas.txt";
-print2D(X_NAME,Y_NAME,"trunc-mult-area","% of approx. hadders","area [um²]")
+X_NAME="./results/Trunc_Values.txt";
+Y_NAME="./results/Trunc_mult_analysisAvgAbs.txt";
+print2D(X_NAME,Y_NAME,"Trunc-mult-AvgAbsError","# of trunc. LSBs","errorAbs",'c')
