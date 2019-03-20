@@ -1,7 +1,7 @@
 # =================================================================
 # *****************************************************************
 # *************** GENERATED USING syn_script_gen.py ***************
-# ************           2018-12-12 16:31:32           ************
+# ************           2019-03-21 00:06:40           ************
 # *****************************************************************
 # The script was generated starting from these values of variables:
 # version = 0
@@ -15,6 +15,7 @@ set_ultra_optimization true
 analyze -f vhdl -lib WORK ../src/filter_pkg.vhd
 analyze -f vhdl -lib WORK ../src/iir_filterCU.vhd
 analyze -f vhdl -lib WORK ../src/reg.vhd
+analyze -f vhdl -lib WORK ../version0/iir_filterDP.vhd.new
 analyze -f vhdl -lib WORK ../version0/iir_filterDP.vhd
 analyze -f vhdl -lib WORK ../version0/iir_filter.vhd
 

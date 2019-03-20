@@ -1,0 +1,90 @@
+Information: Updating design information... (UID-85)
+ 
+****************************************
+Report : resources
+Design : iir_filter
+Version: Z-2007.03-SP1
+Date   : Thu Mar 21 00:18:01 2019
+****************************************
+
+Resource Sharing Report for design iir_filter in file
+        ../version0/iir_filterDP.vhd
+
+===============================================================================
+|          |              |            | Contained     |                      |
+| Resource | Module       | Parameters | Resources     | Contained Operations |
+===============================================================================
+| r345     | DW_mult_tc   | a_width=24 |               | DP/mult_204          |
+|          |              | b_width=24 |               |                      |
+| r347     | DW_mult_tc   | a_width=24 |               | DP/mult_205          |
+|          |              | b_width=24 |               |                      |
+| r349     | DW_mult_tc   | a_width=24 |               | DP/mult_206          |
+|          |              | b_width=24 |               |                      |
+| r351     | DW_mult_tc   | a_width=24 |               | DP/mult_207          |
+|          |              | b_width=24 |               |                      |
+| r353     | DW_mult_tc   | a_width=24 |               | DP/mult_208          |
+|          |              | b_width=24 |               |                      |
+| r355     | DW_mult_tc   | a_width=24 |               | DP/mult_209          |
+|          |              | b_width=24 |               |                      |
+| r357     | DP_sub_217_DP_OP_277_5688 |  |            | DP/add_214           |
+| r359     | DP_add_223_DP_OP_276_6389 |  |            | DP/add_215           |
+| r361     | DP_add_223_DP_OP_276_6389 |  |            | DP/add_216           |
+| r363     | DP_sub_217_DP_OP_277_5688 |  |            | DP/sub_217           |
+| r365     | DP_add_223_DP_OP_276_6389 |  |            | DP/add_223           |
+| r367     | DW_cmp       | width=24   |               | DP/gt_226            |
+| r369     | DW_cmp       | width=24   |               | DP/lt_228            |
+===============================================================================
+
+Datapath Report for design iir_filter in file ../version0/iir_filterDP.vhd 
+
+RTL-datapath Connections for DP_sub_217_DP_OP_277_5688-str
+====================================================================
+|                      |                      |            | Bus   |
+| RTL Wire             | Datapath Port        | Direction  | Width |
+====================================================================
+| DP/x[11]-DP/*Logic0* | I1                   | input      | 23    |
+| DP/ret0              | I2                   | input      | 24    |
+| DP/ret1              | I3                   | input      | 24    |
+| DP/w                 | O4                   | output     | 24    |
+====================================================================
+
+
+Datapath Blocks in DP_sub_217_DP_OP_277_5688-str
+===============================================================================
+|            | Out   |                           | Contained      | Operation |
+| Port       | Width | Datapath Block            | Operation_Line | Type      |
+===============================================================================
+| O4         | 24    | I1 - I2 - I3              | DP/sub_217     | SIGNED    |
+|            |       |                           | DP/add_214     | SIGNED    |
+===============================================================================
+
+Datapath Report for design iir_filter in file ../version0/iir_filterDP.vhd 
+
+RTL-datapath Connections for DP_add_223_DP_OP_276_6389-str
+====================================================================
+|                      |                      |            | Bus   |
+| RTL Wire             | Datapath Port        | Direction  | Width |
+====================================================================
+| DP/pipe10            | I1                   | input      | 24    |
+| DP/pipe11            | I2                   | input      | 24    |
+| DP/pipe12            | I3                   | input      | 24    |
+| DP/pipe13            | I4                   | input      | 24    |
+| DP/y_23-DP/net79     | O3                   | output     | 24    |
+====================================================================
+
+
+Datapath Blocks in DP_add_223_DP_OP_276_6389-str
+===============================================================================
+|            | Out   |                           | Contained      | Operation |
+| Port       | Width | Datapath Block            | Operation_Line | Type      |
+===============================================================================
+| O3         | 24    | I1 + I2 + I3 + I4         | DP/add_223     | SIGNED    |
+|            |       |                           | DP/add_216     | SIGNED    |
+|            |       |                           | DP/add_215     | SIGNED    |
+===============================================================================
+
+
+No implementations to report
+
+No multiplexors to report
+1
