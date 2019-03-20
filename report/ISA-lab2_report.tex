@@ -406,11 +406,111 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 	\end{itemize}
 
 	\paragraph{Error statistics computation} A fast but important review has to be done in order to understand how the error analysis is handled.
-	We decided to use relative distance between exact result and approximate one, since is the only way to have an idea of how much approximation parameters influence final result.
+	We decided to use both absolute and relative distance between exact result and approximate one, since is the only way to have an idea of how much approximation parameters influence final result. The relative distance is calculated as:
 	\begin{equation}
 		e_{i}=\frac{Se_{i}-Sa_{i}}{Se_{i}}
 	\end{equation}
-	All the results processed by a given architecture are analysed keeping track of the \textbf{maximum and the average relative error}. All these values are then stored into log files ready to be used to create graphs or do any kind of analysis.
+	All the results processed by a given architecture are analysed keeping track of the \textbf{maximum and the average relative error}. All these values are then stored into log files ready to be used to create graphs or do any kind of analysis.\\
+	For the simulation we decided to generate 250000 couples of inputs for the multiplier and 250000 samples for the filter. The simulation was performed on the VHDL/Verilog model before the synthesis. 
+
+	\subsection{Multiplier with compressors}
+
+	An useful metric to evaluate an approximated multiplier is the \textbf{NMED}. This parameter assumes a mean over the errors of all the outputs relative to all the inputs. This is a huge task when we have to deal with high parallelisms. So we used a high set of inputs and calculated the mean and maximum error. Calculating the NMED would be an improvement for our work.
+
+	\paragraph*{Simulation} Ten multipliers have been tested besides the original, each of them with a different percentage of inexact compressors among the correct ones. The relative and absolute error are reported in the following tables and plots. 
+
+	\begin{table}[hbtp]
+		\centering
+		\begin{tabular}{|c|c|c|c|c|}
+		\hline
+		\textbf{\begin{tabular}[c]{@{}c@{}}Multiplier\\ compression level\end{tabular}} & \textit{\textbf{\begin{tabular}[c]{@{}c		@{}}Max error\\ {[}LSB{]}\end{tabular}}} & \textit{\textbf{\begin{tabular}[c]{@{}c@{}}Avg. error\\ {[}LSB{]}\end{tabular}		}} & \textit{\textbf{Max relative error}} & \textit{\textbf{Avg. relative error}} \\ \hline
+		\textbf{10\%}                                                                   & 		1.0                                                                             & 		-0.012                                                                           & -4.85e-05                            &		 -7.20e-08                             \\ \hline
+		\textbf{20\%}                                                                   & 		1.0                                                                             & 		-0.071                                                                           & 1.1e-03                              &		 8.80e-07                              \\ \hline
+		\textbf{30\%}                                                                   & 		-3.0                                                                            & 		-0.239                                                                           & -2.1e-02                             &		 -2.12e-05                             \\ \hline
+		\textbf{40\%}                                                                   & 		-7.0                                                                            & 		-1.016                                                                           & 1.2e-03                              &		 -2.51e-06                             \\ \hline
+		\textbf{50\%}                                                                   & 		-18.0                                                                           & 		-4.754                                                                           & -2.1e-01                             &		 -2.300e-04                            \\ \hline
+		\textbf{60\%}                                                                   & 		-75.0                                                                           & 		-28.254                                                                          & -6.38e-01                            &		 -7.4e-04                              \\ \hline
+		\textbf{70\%}                                                                   & 		16777090.0                                                                      & 		16646.29                                                                         & 356959.36                            &		 356.95                                \\ \hline
+		\textbf{80\%}                                                                   & 		16776178.0                                                                      & 		32447.17                                                                         & 356939.95                            &		 376.83                                \\ \hline
+		\textbf{90\%}                                                                   & 		16774518.0                                                                      & 		77205.154                                                                        & 356667.61                            &		 387.53                                \\ \hline
+		\textbf{100\%}                                                                  & 		16773938.0                                                                      & 		3354.786                                                                         & 356892.30                            &		 366.37                                \\ \hline
+		\end{tabular}
+		\caption{Multiplier, simulation and error results}
+		\label{tab:mult_sim}
+	\end{table}
+
+	\paragraph*{Synthesis} All the multipliers were synthesized and informations of area and timing reported. The minimum delay was found in theoretical way asking Design Compiler to reach a null arrival time.
+
+	\begin{table}[hbtp]
+		\centering
+		\begin{tabular}{|c|c|c|c|}
+		\hline
+		\textbf{\begin{tabular}[c]{@{}c@{}}Multiplier\\ compression level\end{tabular}} & \textit{\textbf{\begin{tabular}[c]{@{}c		@{}}Area\\ {[}$um^2${]}\end{tabular}}} & \textit{\textbf{\begin{tabular}[c]{@{}c@{}}Delay\\ {[}ns{]}\end{tabular}}} & \		textit{\textbf{\begin{tabular}[c]{@{}c@{}}Max. frequency\\ {[}MHz{]}\end{tabular}}} \\ \hline
+		\textbf{0\%}                                                                    & 		3801                                                                       & 		1.39                                                                       & 		719                                                                                  \\ \hline
+		\textbf{10\%}                                                                   & 		3744                                                                       & 		1.39                                                                       & 		719                                                                                  \\ \hline
+		\textbf{20\%}                                                                   & 		3947                                                                       & 		1.35                                                                       & 		740                                                                                  \\ \hline
+		\textbf{30\%}                                                                   & 		3803                                                                       & 		1.35                                                                       & 		740                                                                                  \\ \hline
+		\textbf{40\%}                                                                   & 		3453                                                                       & 		1.35                                                                       & 		740                                                                                  \\ \hline
+		\textbf{50\%}                                                                   & 		3164                                                                       & 		1.38                                                                       & 		724                                                                                  \\ \hline
+		\textbf{60\%}                                                                   & 		3670                                                                       & 		1.30                                                                       & 		769                                                                                  \\ \hline
+		\textbf{70\%}                                                                   & 		3270                                                                       & 		1.29                                                                       & 		775                                                                                  \\ \hline
+		\textbf{80\%}                                                                   & 		3164                                                                       & 		1.28                                                                       & 		781                                                                                  \\ \hline
+		\textbf{90\%}                                                                   & 		2971                                                                       & 		1.28                                                                       & 		781                                                                                  \\ \hline
+		\textbf{100\%}                                                                  & 		2829                                                                       & 		1.31                                                                       & 		763                                                                                  \\ \hline
+		\end{tabular}
+		\caption{Multiplier, area and timing synthesis reports}
+		\label{tab:mult_syn}
+	\end{table}
+
+	\subsection{IIR filter}
+	For each multiplier, a filter was tested and then synthesized.
+
+	\paragraph*{Simulation} As it has already been said, 250000 samples was given in input to the filter with the multipliers. It follows the results.  
+
+	\begin{table}[hbtp]
+		\centering
+		\begin{tabular}{|c|c|c|c|c|}
+		\hline
+		\textbf{\begin{tabular}[c]{@{}c@{}}IIR filter\\ compression level\end{tabular}} & \textit{\textbf{\begin{tabular}[c]{@{}c		@{}}Max error\\ {[}LSB{]}\end{tabular}}} & \textit{\textbf{\begin{tabular}[c]{@{}c@{}}Avg. error\\ {[}LSB{]}\end{tabular}		}} & \textit{\textbf{Max relative error}} & \textit{\textbf{Avg. relative error}} \\ \hline
+		\textbf{10\%}                                                                   & 		0                                                                               & 		0                                                                                & 0                                    &		 0                                     \\ \hline
+		\textbf{20\%}                                                                   & 		0                                                                               & 		0                                                                                & 0                                    &		 0                                     \\ \hline
+		\textbf{30\%}                                                                   & 		0                                                                               & 		0                                                                                & 0                                    &		 0                                     \\ \hline
+		\textbf{40\%}                                                                   & 		1                                                                               & 		0.001                                                                            & 7.79e-04                             &		 7.78e-07                              \\ \hline
+		\textbf{50\%}                                                                   & 		-1                                                                              & 		-0.005                                                                           & 5.08e-03                             &		 -6.40e-06                             \\ \hline
+		\textbf{60\%}                                                                   & 		-1                                                                              & 		-0.014                                                                           & 2.22e-02                             &		 -3.48e-05                             \\ \hline
+		\textbf{70\%}                                                                   & 		-1                                                                              & 		-0.086                                                                           & 1.42e-01                             &		 2.70e-04                              \\ \hline
+		\textbf{80\%}                                                                   & 		-4                                                                              & 		-1.093                                                                           & -1                                   &		 3.87e-03                              \\ \hline
+		\textbf{90\%}                                                                   & 		8183.0                                                                          & 		15.44                                                                            & 8177.0                               &		 10.95                                 \\ \hline
+		\textbf{100\%}                                                                  & 		-8177.0                                                                         & 		2.84                                                                             & 371.04                               &		 0.63                                  \\ \hline
+		\end{tabular}
+		\caption{IIR filter, simulation and error results}
+		\label{tab:iir_sim}
+	\end{table}
+
+	\paragraph*{Synthesis} The results of the synthesis are visible in the following table and figure. The synthesis was done letting the program to perform retiming, this is why the delay is lower than for a single multiplier. These results were found without giving the \textit{compile\_ultra} command, only to have an idea of the trend.
+
+	\begin{table}[hbtp]	
+		\centering
+		\begin{tabular}{|c|c|c|c|}
+		\hline
+		\textbf{\begin{tabular}[c]{@{}c@{}}IIR filter\\ compression level\end{tabular}} & \textit{\textbf{\begin{tabular}[c]{	@{}c	@{}}Area\\ {[}$um^2${]}\end{tabular}}} & \textit{\textbf{\begin{tabular}[c]{@{}c@{}}Delay\\ {[}ns{]}\end{tabular}	}} & \	textit{\textbf{\begin{tabular}[c]{@{}c@{}}Max. frequency\\ {[}MHz{]}\end{tabular}}} \\ \hline
+		\textbf{0\%}                                                                    & 		25778                                                                      & 		1.25                                                                       & 		800                                                                                  \\ \hline
+		\textbf{10\%}                                                                   & 		26348                                                                      & 		1.22                                                                       & 		819                                                                                  \\ \hline
+		\textbf{20\%}                                                                   & 		25763                                                                      & 		1.23                                                                       & 		813                                                                                  \\ \hline
+		\textbf{30\%}                                                                   & 		24925                                                                      & 		1.20                                                                       & 		833                                                                                  \\ \hline
+		\textbf{40\%}                                                                   & 		22804                                                                      & 		1.22                                                                       & 		819                                                                                  \\ \hline
+		\textbf{50\%}                                                                   & 		23546                                                                      & 		1.19                                                                       & 		840                                                                                  \\ \hline
+		\textbf{60\%}                                                                   & 		22949                                                                      & 		1.17                                                                       & 		854                                                                                  \\ \hline
+		\textbf{70\%}                                                                   & 		21962                                                                      & 		1.18                                                                       & 		847                                                                                  \\ \hline
+		\textbf{80\%}                                                                   & 		21053                                                                      & 		1.15                                                                       & 		869                                                                                  \\ \hline
+		\textbf{90\%}                                                                   & 		20894                                                                      & 		1.15                                                                       & 		869                                                                                  \\ \hline
+		\textbf{100\%}                                                                  & 		19551                                                                      & 		1.16                                                                       & 		862                                                                                  \\ \hline
+		\end{tabular}
+		\caption{IIR filter, area and timing synthesis reports}
+		\label{tab:iir_syn}
+	\end{table}
+
+	It was chosen one multiplier to stay below a certain error on the result and the synthesis was repeated with the \textit{compile\_ultra} command active. These are the results.
 
 	\subsection{Limits and possible improvements}
 	No power analysis
