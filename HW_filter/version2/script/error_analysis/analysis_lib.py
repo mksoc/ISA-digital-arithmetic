@@ -144,6 +144,34 @@ def basicAnalysis(ref_file,comp_file,num_sample):
     arithRelDiff(ref_file,comp_file,temp_file_path,num_sample)
     result+=[maxValue(temp_file_path)]
     result+=[avgValue(temp_file_path)]
+    arithAbsDiff(ref_file,comp_file,temp_file_path,num_sample)
+    result+=[maxValue(temp_file_path)]
+    result+=[avgValue(temp_file_path)]
+    os.remove(temp_file_path)
+    return result
+
+# advAnalysis(ref_file,comp_file,num_sample):
+#
+# DESCRIPTION
+#    Computes the maximum and the average relative and absolute distance between the data contained into two files
+# INPUT
+#    Needs as inputs:
+#       ref_file  : name or path (rel. or abs.) of the reference file, whose data are used as reference for relative distance.
+#       comp_file : name or path (rel. or abs.) of the file to be compered.
+#       num_sample: nuber of samples to be analyzed in file
+# OUTPUT
+#    Returns list containing:
+#       pos 0 the max rel value.
+#       pos 1 the avg rel value.
+#       pos 2 the max abs value.
+#       pos 3 the avg abs value.
+
+def advAnalysis(ref_file,comp_file,num_sample):
+    result=[]
+    temp_file_path="tempFile"
+    arithRelDiff(ref_file,comp_file,temp_file_path,num_sample)
+    result+=[maxValue(temp_file_path)]
+    result+=[avgValue(temp_file_path)]
     os.remove(temp_file_path)
     return result
 
@@ -270,6 +298,11 @@ def printBasicAnalysisRes(log_pointer,analysis_res,ID):
     log_pointer.write("{}\n".format(ID))
     log_pointer.write("MaxValue: {}\tAvgValue: {}\n".format(analysis_res[0],analysis_res[1]))
 
+def printAdvAnalysisRes(log_rel_pointer,log_abs_pointer,analysis_res,ID):
+    log_rel_pointer.write("{}\n".format(ID))
+    log_rel_pointer.write("MaxValue: {}\tAvgValue: {}\n".format(analysis_res[0],analysis_res[1]))
+    log_abs_pointer.write("{}\n".format(ID))
+    log_abs_pointer.write("MaxValue: {}\tAvgValue: {}\n".format(analysis_res[2],analysis_res[3]))
 
 def printBasicRep(log_pointer,rep_touple):
     log_pointer.write("{}\t{}\t{}\n".format(rep_touple[0],rep_touple[1],rep_touple[2]))
