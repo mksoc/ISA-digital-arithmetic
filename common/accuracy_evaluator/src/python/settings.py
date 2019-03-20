@@ -131,7 +131,7 @@ n_samples_iir_mode = 1
 
 # percentage of compression in terms of columns of the multiplier
 # it holds the various percentage to be tested
-compressionList = list(range(0, 100, 100))
+compressionList = list(range(0, 10, 110))
 
 # starting direction for the compression: right, left or (right and left)
 # directionList = ['right', 'left']

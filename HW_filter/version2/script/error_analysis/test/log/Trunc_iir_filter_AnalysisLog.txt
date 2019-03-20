@@ -1,0 +1,40 @@
+2
+MaxValue: 0	AvgValue: 0.0
+3
+MaxValue: 0	AvgValue: 0.0
+4
+MaxValue: 0	AvgValue: 0.0
+5
+MaxValue: 0	AvgValue: 0.0
+6
+MaxValue: 0	AvgValue: 0.0
+7
+MaxValue: 8187.0	AvgValue: 14.046593538642233
+8
+MaxValue: 8187.0	AvgValue: 14.046593538642233
+9
+MaxValue: 8187.0	AvgValue: 14.046593538642233
+10
+MaxValue: 8187.0	AvgValue: 14.046593538642233
+11
+MaxValue: 8187.0	AvgValue: 14.046593538642233
+12
+MaxValue: 8187.0	AvgValue: 14.046593518337666
+13
+MaxValue: 8187.0	AvgValue: 14.046593518337666
+14
+MaxValue: 8187.0	AvgValue: 14.046593415836377
+15
+MaxValue: 8187.0	AvgValue: 14.046593175819762
+16
+MaxValue: 8187.0	AvgValue: 14.046597198238219
+17
+MaxValue: 8187.0	AvgValue: 14.046601608359696
+18
+MaxValue: 8187.0	AvgValue: 14.046597729332017
+19
+MaxValue: 8187.0	AvgValue: 14.04659704134074
+20
+MaxValue: 8187.0	AvgValue: 14.04659615641694
+21
+MaxValue: 8187.0	AvgValue: 14.046592249979868

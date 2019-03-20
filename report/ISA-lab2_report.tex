@@ -417,7 +417,9 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 
 	An useful metric to evaluate an approximated multiplier is the \textbf{NMED}. This parameter assumes a mean over the errors of all the outputs relative to all the inputs. This is a huge task when we have to deal with high parallelisms. So we used a high set of inputs and calculated the mean and maximum error. Calculating the NMED would be an improvement for our work.
 
-	\paragraph*{Simulation} Ten multipliers have been tested besides the original, each of them with a different percentage of inexact compressors among the correct ones. The relative and absolute error are reported in the following tables and plots. 
+	\paragraph*{Simulation} Ten multipliers have been tested besides the original, each of them with a different percentage of inexact compressors among the correct ones. The relative and absolute errors are reported in the following tables and plots. The numbers were read as integers, but it's easy to find the results in terms of Q2.22 numbers only multiplying by $2^{-k_x^{F}} = 2^{-22}$.\\
+	The multiplier under verification, as we said above, is only capable of doing multiplications between two numbers in format Q2.22, but one of them has to be lower than the unity. This is because it was designed and optimized with the two upper MSBs directly linked to the MSBs of the result, to enhance the area occupation and the power consumption of the design of the IIR filter.\\
+	To correctly test the design the inputs of the multiplier have to respect this constraint.
 
 	\begin{table}[hbtp]
 		\centering
@@ -465,7 +467,7 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 	\subsection{IIR filter}
 	For each multiplier, a filter was tested and then synthesized.
 
-	\paragraph*{Simulation} As it has already been said, 250000 samples was given in input to the filter with the multipliers. It follows the results.  
+	\paragraph*{Simulation} As it has already been said, 250000 samples was given in input to the filter with the multipliers. The constraints for the multiplier are respected, because it was shaped for working with this filter.  
 
 	\begin{table}[hbtp]
 		\centering
@@ -510,15 +512,24 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 		\label{tab:iir_syn}
 	\end{table}
 
-	It was chosen one multiplier to stay below a certain error on the result and the synthesis was repeated with the \textit{compile\_ultra} command active. These are the results.
+	It was chosen one multiplier to stay below a certain error on the result and the synthesis was repeated with the \textit{compile\_ultra} command active. It seems that the multiplier with the 60\% of the compressors could be a good compromise: in the filter the maximum error is of 1 LSB, and it is at maximum the 2.2\% of the value. On avarage it makes mistakes not greater than the 0.0035\% of the real value.
 
 	\subsection{Limits and possible improvements}
-	No power analysis
+	To improve our analysis it would be better to extend the multiplier to create a general one without the limitation of the input dynamics for one of the two inputs: this would allow us to fully characterize the device.\\
+	As already said an useful metric to be calculated would be the NMED: the MED normalized on the maximum output of the correct design. To calculate the MED for a deterministic design where a single input vector can generate only one output, it is possible to take the mean (if the inputs are equiprobable) of the Error Distances (ED) of all the possible outputs related to all the possible inputs \cite{liang}.\\
+	If each input vector $i$ appears with a probability $p_i$ and has a related output $ED_i$, then the MED can be calculated as follows: 
+	\begin{equation}
+		MED = \displaystyle\sum_{i=1}^{N} [ED]_i\ p_i
+	\end{equation}
+	To obtain useful results it is necessary an analysis on the probabilities of the input vectors, and then a simulation with each of them.
+
+	Another enhancement could be to calculate the power dissipation of the designs. It is very important to quantify this parameter, especially because the hardware reduction is easily followed by a power decreasing.
+
 	Maximum bit we can drop is ???
 	\bibliography{ISA-lab2_report}
 	\bibliographystyle{ieeetr}
 
-	\begin{thebibliography}{2}
+	\begin{thebibliography}{3}
 	\bibitem{roorda}
 	M. Roorda. Method to reduce the sign bit extension in a multiplier that uses the modified
 	booth algorithm. \textit{Electronics Letters}, 1986
@@ -527,6 +538,11 @@ If, on the other hand, the power budget is a limiting factor, one has to settle 
 	P. Yin, C. Wang, W. Liu, E. E. Swartzlander Jr., and F. Lombardi. Designs of approximate
 	floating-point multipliers with variable accuracy for error-tolerant applications. \textit{Springer
 	Journal of Signal Processing Systems}, 2018
+
+	\bibitem{liang}
+	Liang, J., Han, J., \& Lombardi, F. (2013). New metrics for the
+	reliability of approximate and probabilistic adders. \textit{IEEE 
+	Transactions on Computers}, 62(9), 1760–1771
 	\end{thebibliography}
 
 \end{document}

@@ -22,7 +22,7 @@ def binStimGen(fname,lineNum,stimInLine,bitDyn,nBit,delimiter):
             j=0
             string=""
             while j<stimInLine:
-                num=random.randint(-2**(bitDyn-1),2**(bitDyn-1)-1)
+                num=random.randint(-2**(bitDyn-1)+1,2**(bitDyn-1)-1)
                 string+=printer_2s(num,nBit)
                 string+=delimiter
                 j+=1

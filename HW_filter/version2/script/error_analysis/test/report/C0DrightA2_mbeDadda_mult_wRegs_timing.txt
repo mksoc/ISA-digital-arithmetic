@@ -7,15 +7,15 @@ Report : timing
         -max_paths 1
 Design : mbeDadda_mult_wRegs
 Version: Z-2007.03-SP1
-Date   : Sun Dec 30 22:29:42 2018
+Date   : Wed Mar 20 00:05:01 2019
 ****************************************
 
 Operating Conditions: typical   Library: NangateOpenCellLibrary
 Wire Load Model Mode: top
 
-  Startpoint: y_reg_in/Q_reg[0]
+  Startpoint: y_reg_in/Q_reg[13]
               (rising edge-triggered flip-flop clocked by CLOCK)
-  Endpoint: p_reg_out/Q_reg[13]
+  Endpoint: p_reg_out/Q_reg[14]
             (rising edge-triggered flip-flop clocked by CLOCK)
   Path Group: CLOCK
   Path Type: max
@@ -29,99 +29,45 @@ Wire Load Model Mode: top
   --------------------------------------------------------------------------
   clock CLOCK (rise edge)                                 0.00       0.00
   clock network delay (ideal)                             0.00       0.00
-  y_reg_in/Q_reg[0]/CK (SDFFR_X1)                         0.00       0.00 r
-  y_reg_in/Q_reg[0]/Q (SDFFR_X1)                          0.08       0.08 r
-  y_reg_in/Q[0] (reg_N24_1)                               0.00       0.08 r
-  recoding_block_0/y_tri[1] (r4mbePP_preprocessing_n_bit24_0)
-                                                          0.00       0.08 r
-  recoding_block_0/U6/ZN (XNOR2_X1)                       0.07       0.14 r
-  recoding_block_0/MUX_X/sel (mux2_n_bit25_1)             0.00       0.14 r
-  recoding_block_0/MUX_X/U4/Z (BUF_X1)                    0.04       0.19 r
-  recoding_block_0/MUX_X/U30/Z (MUX2_X1)                  0.07       0.26 f
-  recoding_block_0/MUX_X/o[24] (mux2_n_bit25_1)           0.00       0.26 f
-  recoding_block_0/MUX_0/i1[24] (mux2_n_bit25_0)          0.00       0.26 f
-  recoding_block_0/MUX_0/U5/Z (MUX2_X1)                   0.07       0.33 f
-  recoding_block_0/MUX_0/o[24] (mux2_n_bit25_0)           0.00       0.33 f
-  recoding_block_0/x_absY[24] (r4mbePP_preprocessing_n_bit24_0)
-                                                          0.00       0.33 f
-  bitwiseInverterX_0/dataIn[24] (bitwiseInv_n_bit25_0)
-                                                          0.00       0.33 f
-  bitwiseInverterX_0/U1/Z (XOR2_X1)                       0.08       0.41 f
-  bitwiseInverterX_0/dataOut[24] (bitwiseInv_n_bit25_0)
-                                                          0.00       0.41 f
-  U32/ZN (INV_X1)                                         0.04       0.46 r
-  lv4_c26_FA_0/i0 (fullAdder_212)                         0.00       0.46 r
-  lv4_c26_FA_0/HA_0/i0 (halfAdder_425)                    0.00       0.46 r
-  lv4_c26_FA_0/HA_0/U2/Z (XOR2_X1)                        0.08       0.53 r
-  lv4_c26_FA_0/HA_0/s (halfAdder_425)                     0.00       0.53 r
-  lv4_c26_FA_0/HA_1/i1 (halfAdder_424)                    0.00       0.53 r
-  lv4_c26_FA_0/HA_1/U1/Z (XOR2_X1)                        0.08       0.61 r
-  lv4_c26_FA_0/HA_1/s (halfAdder_424)                     0.00       0.61 r
-  lv4_c26_FA_0/s (fullAdder_212)                          0.00       0.61 r
-  lv3_c26_FA_1/i1 (fullAdder_165)                         0.00       0.61 r
-  lv3_c26_FA_1/HA_0/i1 (halfAdder_331)                    0.00       0.61 r
-  lv3_c26_FA_1/HA_0/U3/Z (XOR2_X1)                        0.08       0.69 r
-  lv3_c26_FA_1/HA_0/s (halfAdder_331)                     0.00       0.69 r
-  lv3_c26_FA_1/HA_1/i1 (halfAdder_330)                    0.00       0.69 r
-  lv3_c26_FA_1/HA_1/U2/ZN (AND2_X1)                       0.05       0.74 r
-  lv3_c26_FA_1/HA_1/co (halfAdder_330)                    0.00       0.74 r
-  lv3_c26_FA_1/U1/ZN (OR2_X2)                             0.04       0.78 r
-  lv3_c26_FA_1/co (fullAdder_165)                         0.00       0.78 r
-  lv2_c27_FA_0/i1 (fullAdder_103)                         0.00       0.78 r
-  lv2_c27_FA_0/HA_0/i1 (halfAdder_207)                    0.00       0.78 r
-  lv2_c27_FA_0/HA_0/U4/ZN (INV_X1)                        0.02       0.80 f
-  lv2_c27_FA_0/HA_0/U2/ZN (NAND2_X1)                      0.02       0.83 r
-  lv2_c27_FA_0/HA_0/U3/ZN (NAND2_X1)                      0.03       0.85 f
-  lv2_c27_FA_0/HA_0/s (halfAdder_207)                     0.00       0.85 f
-  lv2_c27_FA_0/HA_1/i1 (halfAdder_206)                    0.00       0.85 f
-  lv2_c27_FA_0/HA_1/U3/ZN (AND2_X1)                       0.04       0.89 f
-  lv2_c27_FA_0/HA_1/co (halfAdder_206)                    0.00       0.89 f
-  lv2_c27_FA_0/U1/ZN (OR2_X1)                             0.06       0.95 f
-  lv2_c27_FA_0/co (fullAdder_103)                         0.00       0.95 f
-  lv1_c28_FA_0/i0 (fullAdder_55)                          0.00       0.95 f
-  lv1_c28_FA_0/HA_0/i0 (halfAdder_111)                    0.00       0.95 f
-  lv1_c28_FA_0/HA_0/U4/Z (XOR2_X1)                        0.07       1.02 f
-  lv1_c28_FA_0/HA_0/s (halfAdder_111)                     0.00       1.02 f
-  lv1_c28_FA_0/HA_1/i1 (halfAdder_110)                    0.00       1.02 f
-  lv1_c28_FA_0/HA_1/U2/Z (XOR2_X1)                        0.07       1.09 f
-  lv1_c28_FA_0/HA_1/s (halfAdder_110)                     0.00       1.09 f
-  lv1_c28_FA_0/s (fullAdder_55)                           0.00       1.09 f
-  lv0_c28_FA_0/i1 (fullAdder_16)                          0.00       1.09 f
-  lv0_c28_FA_0/HA_0/i1 (halfAdder_33)                     0.00       1.09 f
-  lv0_c28_FA_0/HA_0/U2/Z (XOR2_X1)                        0.08       1.17 f
-  lv0_c28_FA_0/HA_0/s (halfAdder_33)                      0.00       1.17 f
-  lv0_c28_FA_0/HA_1/i1 (halfAdder_32)                     0.00       1.17 f
-  lv0_c28_FA_0/HA_1/U2/ZN (AND2_X1)                       0.04       1.21 f
-  lv0_c28_FA_0/HA_1/co (halfAdder_32)                     0.00       1.21 f
-  lv0_c28_FA_0/U1/ZN (OR2_X2)                             0.06       1.27 f
-  lv0_c28_FA_0/co (fullAdder_16)                          0.00       1.27 f
-  add_4077/A[27] (mbeDadda_mult_wRegs_DW01_add_0)         0.00       1.27 f
-  add_4077/U607/ZN (NOR2_X1)                              0.05       1.32 r
-  add_4077/U683/ZN (OAI21_X1)                             0.04       1.36 f
-  add_4077/U643/ZN (AOI21_X1)                             0.06       1.42 r
-  add_4077/U714/ZN (OAI21_X1)                             0.03       1.45 f
-  add_4077/U654/ZN (INV_X1)                               0.03       1.48 r
-  add_4077/U439/ZN (AND2_X2)                              0.06       1.54 r
-  add_4077/U708/ZN (OAI21_X1)                             0.04       1.57 f
-  add_4077/U692/ZN (XNOR2_X1)                             0.06       1.63 f
-  add_4077/SUM[33] (mbeDadda_mult_wRegs_DW01_add_0)       0.00       1.63 f
-  p_reg_out/D[13] (reg_N24_0)                             0.00       1.63 f
-  p_reg_out/U23/ZN (NAND2_X1)                             0.03       1.66 r
-  p_reg_out/U24/ZN (NAND2_X1)                             0.02       1.68 f
-  p_reg_out/Q_reg[13]/D (DFFR_X1)                         0.01       1.69 f
-  data arrival time                                                  1.69
+  y_reg_in/Q_reg[13]/CK (DFF_X1)                          0.00       0.00 r
+  y_reg_in/Q_reg[13]/Q (DFF_X1)                           0.11       0.11 r
+  U3162/ZN (NOR2_X1)                                      0.03       0.13 f
+  U1792/ZN (NAND2_X1)                                     0.03       0.16 r
+  U1737/Z (CLKBUF_X3)                                     0.06       0.22 r
+  U2757/ZN (NAND3_X1)                                     0.05       0.27 f
+  U3083/ZN (OAI22_X1)                                     0.06       0.33 r
+  U3481/ZN (INV_X1)                                       0.03       0.36 f
+  U3484/S (FA_X1)                                         0.14       0.51 r
+  U2481/ZN (OAI22_X1)                                     0.03       0.54 f
+  U3504/ZN (NAND2_X1)                                     0.03       0.58 r
+  U2047/ZN (NAND2_X1)                                     0.03       0.61 f
+  U3548/S (FA_X1)                                         0.14       0.75 r
+  U3553/S (FA_X1)                                         0.12       0.87 f
+  U2737/Z (XOR2_X1)                                       0.07       0.94 f
+  U2917/ZN (XNOR2_X1)                                     0.07       1.01 f
+  add_4077/B[24] (mbeDadda_mult_wRegs_DW01_add_1)         0.00       1.01 f
+  add_4077/U606/ZN (NOR2_X1)                              0.05       1.06 r
+  add_4077/U705/ZN (OAI21_X1)                             0.04       1.10 f
+  add_4077/U739/ZN (AOI21_X1)                             0.06       1.16 r
+  add_4077/U644/ZN (OAI21_X1)                             0.05       1.21 f
+  add_4077/U693/ZN (AOI21_X2)                             0.09       1.30 r
+  add_4077/U772/ZN (OAI21_X1)                             0.04       1.34 f
+  add_4077/U711/ZN (XNOR2_X1)                             0.06       1.40 f
+  add_4077/SUM[34] (mbeDadda_mult_wRegs_DW01_add_1)       0.00       1.40 f
+  p_reg_out/Q_reg[14]/D (DFF_X1)                          0.01       1.41 f
+  data arrival time                                                  1.41
 
   clock CLOCK (rise edge)                                 0.00       0.00
   clock network delay (ideal)                             0.00       0.00
   clock uncertainty                                      -0.07      -0.07
-  p_reg_out/Q_reg[13]/CK (DFFR_X1)                        0.00      -0.07 r
+  p_reg_out/Q_reg[14]/CK (DFF_X1)                         0.00      -0.07 r
   library setup time                                     -0.04      -0.11
   data required time                                                -0.11
   --------------------------------------------------------------------------
   data required time                                                -0.11
-  data arrival time                                                 -1.69
+  data arrival time                                                 -1.41
   --------------------------------------------------------------------------
-  slack (VIOLATED)                                                  -1.80
+  slack (VIOLATED)                                                  -1.52
 
 
 1

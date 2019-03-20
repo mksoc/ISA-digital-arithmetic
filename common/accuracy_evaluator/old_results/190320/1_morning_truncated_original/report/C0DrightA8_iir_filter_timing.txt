@@ -1,0 +1,85 @@
+Information: Updating design information... (UID-85)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : iir_filter
+Version: Z-2007.03-SP1
+Date   : Wed Mar 20 02:41:31 2019
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: DP/MULT_cp1p1/add_3893/CLOCK_r_REG138_S10
+              (rising edge-triggered flip-flop clocked by CLOCK)
+  Endpoint: DP/reg_out/Q_reg[3]
+            (rising edge-triggered flip-flop clocked by CLOCK)
+  Path Group: CLOCK
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  iir_filter         5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock CLOCK (rise edge)                                 0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  DP/MULT_cp1p1/add_3893/CLOCK_r_REG138_S10/CK (DFFR_X1)
+                                                          0.00       0.00 r
+  DP/MULT_cp1p1/add_3893/CLOCK_r_REG138_S10/Q (DFFR_X1)
+                                                          0.11       0.11 r
+  DP/MULT_cp1p1/add_3893/U616/ZN (OAI21_X1)               0.03       0.14 f
+  DP/MULT_cp1p1/add_3893/U613/ZN (INV_X1)                 0.04       0.17 r
+  DP/MULT_cp1p1/add_3893/U407/ZN (AND2_X2)                0.06       0.23 r
+  DP/MULT_cp1p1/add_3893/U676/ZN (OAI21_X1)               0.04       0.27 f
+  DP/MULT_cp1p1/add_3893/U632/ZN (XNOR2_X1)               0.06       0.33 f
+  DP/MULT_cp1p1/add_3893/SUM[25] (iir_filter_DW01_add_11)
+                                                          0.00       0.33 f
+  add_2_root_add_0_root_DP/add_259/A[11] (iir_filter_DW01_add_2)
+                                                          0.00       0.33 f
+  add_2_root_add_0_root_DP/add_259/U473/ZN (NOR2_X1)      0.06       0.39 r
+  add_2_root_add_0_root_DP/add_259/U246/ZN (NOR2_X2)      0.04       0.43 f
+  add_2_root_add_0_root_DP/add_259/U272/ZN (AOI21_X1)     0.05       0.48 r
+  add_2_root_add_0_root_DP/add_259/U313/ZN (INV_X1)       0.03       0.51 f
+  add_2_root_add_0_root_DP/add_259/U408/ZN (AOI21_X1)     0.05       0.56 r
+  add_2_root_add_0_root_DP/add_259/U429/ZN (OAI21_X1)     0.04       0.60 f
+  add_2_root_add_0_root_DP/add_259/U262/ZN (XNOR2_X1)     0.06       0.66 f
+  add_2_root_add_0_root_DP/add_259/SUM[15] (iir_filter_DW01_add_2)
+                                                          0.00       0.66 f
+  add_0_root_add_0_root_DP/add_259/A[15] (iir_filter_DW01_add_0)
+                                                          0.00       0.66 f
+  add_0_root_add_0_root_DP/add_259/U194/ZN (NOR2_X1)      0.05       0.71 r
+  add_0_root_add_0_root_DP/add_259/U271/ZN (OAI21_X1)     0.03       0.74 f
+  add_0_root_add_0_root_DP/add_259/U270/ZN (AOI21_X1)     0.05       0.80 r
+  add_0_root_add_0_root_DP/add_259/U368/ZN (OAI21_X1)     0.03       0.83 f
+  add_0_root_add_0_root_DP/add_259/U245/ZN (AOI21_X1)     0.05       0.89 r
+  add_0_root_add_0_root_DP/add_259/U378/Z (CLKBUF_X3)     0.06       0.94 r
+  add_0_root_add_0_root_DP/add_259/U362/ZN (OAI21_X1)     0.04       0.98 f
+  add_0_root_add_0_root_DP/add_259/U360/ZN (XNOR2_X1)     0.05       1.04 r
+  add_0_root_add_0_root_DP/add_259/SUM[23] (iir_filter_DW01_add_0)
+                                                          0.00       1.04 r
+  U18137/ZN (INV_X1)                                      0.03       1.07 f
+  U16577/ZN (OAI21_X1)                                    0.05       1.12 r
+  U11421/Z (BUF_X1)                                       0.05       1.17 r
+  U18145/ZN (OAI211_X1)                                   0.04       1.21 f
+  DP/reg_out/Q_reg[3]/D (DFFR_X1)                         0.01       1.21 f
+  data arrival time                                                  1.21
+
+  clock CLOCK (rise edge)                                 0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      -0.07      -0.07
+  DP/reg_out/Q_reg[3]/CK (DFFR_X1)                        0.00      -0.07 r
+  library setup time                                     -0.04      -0.11
+  data required time                                                -0.11
+  --------------------------------------------------------------------------
+  data required time                                                -0.11
+  data arrival time                                                 -1.21
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                  -1.33
+
+
+1

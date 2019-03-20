@@ -2,7 +2,7 @@ arith_path='../../py_model'
 
 input_sample_fname='multSample.txt'
 
-sw_mult_result_fpath=       'result/C0DrightA0_mbeDadda_mult_wRegs_mult_SW-output.txt'
+sw_mult_result_fpath=       'result/C0DrightA2_mbeDadda_mult_wRegs_mult_SW-output.txt'
 sw_filter_result_fpath=     'result/filter_SW-output.txt'
 sw_filter_result_fpath2s=   'result/filter_SW-2soutput.txt'
 
