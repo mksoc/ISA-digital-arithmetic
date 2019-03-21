@@ -21,7 +21,7 @@ end entity;
 architecture behavior of iir_filterDP is
 	-- signal declarations (refer to scheme for the naming used)
 	signal x, y_out: dataType;
-	signal ret0, ret1, pipe0_coeff_pipe00, pipe0_coeff_pipe01, pipe0_coeff_pipe02, pipe0_coeff_pipe03, pipe10, pipe11, pipe12, pipe13, sw0_coeff_ret0, sw1_coeff_ret1, fb, ff_part, w, sw0, sw1, sw2, pipe00, pipe01, pipe02, pipe03, pipe20, ff, ff_pipe, y: word;
+	signal ret0, ret1, pipe0_coeff_pipe00, pipe0_coeff_pipe01, pipe0_coeff_pipe02, pipe0_coeff_pipe03, pipe10, pipe11, pipe12, pipe13, sw0_coeff_ret0, sw1_coeff_ret1, fb, ff_part, w, sw0, sw1, sw2, pipe00, pipe01, pipe02, pipe03, ff, y: word;
 	signal coeffs_fb_int: aCoeffType;
 	signal coeffs_ff_int: bCoeffType;
 begin
@@ -185,27 +185,6 @@ begin
 			signed(Q) => pipe13
 		);
 
---------------------------------------------- Reducing critical path to 2 adders -------------------------------------------------
-	reg_pipe20: reg
-		generic map (N => pipe20'length)
-		port map (
-			D => std_logic_vector(pipe10),
-			clock => clk,
-			reset_n => rst_n,
-			enable => '1',
-			signed(Q) => pipe20
-		);
-	reg_ff: reg
-		generic map (N => ff_pipe'length)
-		port map (
-			D => std_logic_vector(ff),
-			clock => clk,
-			reset_n => rst_n,
-			enable => '1',
-			signed(Q) => ff_pipe
-		);
-----------------------------------------------------------------------------------------------------------------------------------
-
 	-- output register
 	reg_out: reg
 		generic map (N => dOut'length)
@@ -241,7 +220,7 @@ begin
 	-- remove the rightmost fractional part to end up
 	-- with a Q(WL_INT).(11) number, and then check if 
 	-- saturation is needed (overflow occurred and didn't resolve internally)
-	y <= shift_right(resize(pipe20, y'length) + resize(ff_pipe, y'length), NB - 1); -- y is Q(WL_INT + 11).(11)
+	y <= shift_right(resize(pipe10, y'length) + resize(ff, y'length), NB - 1); -- y is Q(WL_INT + 11).(11)
 	sat_process: process(y)
 	begin
 		if (to_integer(y) >  2**(NB - 1) - 1) then

@@ -168,7 +168,7 @@ Since $T_a$ is likely to be lower than $T_m/2$, there still room for improvement
 and using the command \texttt{compile\_ultra} in place of the former \texttt{compile} used before. Notice that in a FIR filter this technique is much more effective than in IIR filters. In a FIR, an arbitrary amount of pipeline stages can be introduced. This means that each operator can be split in an arbitrary number of smaller components, since there's no loop bound setting an upper limit to the performance improvement because there are no loops at all in the FIR, feed-forward architecture. If the arithmetic operators are feed-forward too, as the Brent-Kung, Kogge-Stone or Ladner Fisher adder, the theoretical upper bound to the performance is the delay of a single logic level between two pipeline register. Of course, the overhead due to the clock-to-output delay and setup time of the registers. Moreover, a heavily pipelined architecture might increase the latency. 
 
 \subsection{Synthesis results}
-Performing the synthesis at the maximum possible frequency with the architecture reported in figure \ref{fig:dfg}, we obtained the timing, area and power results shown in table \ref{tab:ret_res}.
+Performing the synthesis at the maximum possible frequency with the architecture reported in figure \ref{fig:dfg}, we obtained the timing, area and power results shown in table \ref{tab:ret_res}. Notice that this time Design Compiler is not told which implementation to use for adders and multipliers. 
 
 \begin{table}[hbtp]
 	\centering
@@ -178,7 +178,9 @@ Performing the synthesis at the maximum possible frequency with the architecture
 	\cline{1-2}
 	Area [\si{\micro\meter^2}{}]                & 20566.3              &  &   \\ 
 	\cline{1-2}
-	Power [\si{\micro\watt}{}]               & -                    &  &   \\ 
+	Dynamic Power [\si{\micro\watt}{}]               & 4852                    &  &   \\ 
+	\cline{1-2}
+	Leakage Power [\si{\micro\watt}{}]               & 454.8                    &  &   \\ 
 	\cline{1-2}
 	\multicolumn{1}{l}{} & \multicolumn{1}{l}{} &  &  
 	\end{tabular}
@@ -186,10 +188,10 @@ Performing the synthesis at the maximum possible frequency with the architecture
 	\label{tab:ret_res}
 \end{table}
 
-The maximum frequency increased by $30\%$ with respect to the best solution found using the standard optimization mode. The area increased by $54\%$ with respect to the \texttt{pparch} version synthesized in the in the previous section. 
+The maximum frequency increased by $30\%$ with respect to the best solution found using the standard optimization mode. The area increased by $54\%$ with respect to the \texttt{pparch} version synthesized in the in the previous section. Regarding power, the dynamic power has increased by $25\%$, while the increase in leakage power is ten times higher than the one extracted using the \texttt{compile} command. These results mark the employment of the \textit{ultra mode} suitable only if speed is the only figure of merit the designer is interested in. 
 
 \subsubsection{Further improvements}
-As already pointed out in the first section, the critical path can be reduced from $3T_a$ to $2T_a$ inserting an additional pipeline stage in the feed-forward part of the filter. Performing this change here too, we obtained the results shown in table \ref{tab:ret_res_opt}. The maximum frequency increased by an additional $5\%$, and the area by an additional $14\%$. This way, the critical path is already in the loops of the recursive part. This is proven true by the fact that adding an additional pipeline level to the feedforward part doesn't lead to better performance.
+As already pointed out in the first section, the critical path can be reduced from $3T_a$ to $2T_a$ inserting an additional pipeline stage in the feed-forward part of the filter. Performing this change here too, we obtained the results shown in table \ref{tab:ret_res_opt}. The maximum frequency increased by an additional $5\%$, and the area by an additional $14\%$. This way, the critical path is already in the loops of the recursive part. This is proven true by the fact that adding an additional pipeline level to the feedforward part doesn't lead to better performance. 
 
 \begin{table}[hbtp]
 	\centering
@@ -199,7 +201,9 @@ As already pointed out in the first section, the critical path can be reduced fr
 	\cline{1-2}
 	Area [\si{\micro\meter^2}{}]                & 23489.4              &  &   \\ 
 	\cline{1-2}
-	Power [\si{\micro\watt}{}]               & -                    &  &   \\ 
+	Dynamic Power [\si{\micro\watt}{}]               & -                    &  &   \\ 
+	\cline{1-2}
+	Leakage Power [\si{\micro\watt}{}]               & 433.2                    &  &   \\ 
 	\cline{1-2}
 	\multicolumn{1}{l}{} & \multicolumn{1}{l}{} &  &  
 	\end{tabular}
@@ -207,6 +211,7 @@ As already pointed out in the first section, the critical path can be reduced fr
 	\label{tab:ret_res_opt}
 \end{table}
 
+\newpage
 \section{MBE based Multiplier with Roorda's approach and Dadda Tree}
 	Let's suppose to have a multiplication to be done between two numbers \textbf{x} and \textbf{y}.
 	\begin{itemize}
@@ -308,12 +313,12 @@ As already pointed out in the first section, the critical path can be reduced fr
 		\begin{itemize}
 			\item $\bm{k_x = k_y = 24}$
 			\item $\bm{k_x^{I} = k_y^{I} = 2}$
-			\item $\bm{k_x^{F} = k_y^{I} = 22}$
+			\item $\bm{k_x^{F} = k_y^{F} = 22}$
 			\item \textbf{12} partial products
 			\item at most $\bm{\lceil \frac{k_y}{2} \rceil +1 = 13}$ elements in a single column
 		\end{itemize}
 
-	In a single column we can count up to 13 elements, because the MUX let only pass \textbf{x} multiplied for the absolute value of the symbol \textbf{Y}. Since this partial product passes only through a conditional negation block, to obtain a real C2 negation for a final partial product there is the need for a LSB to be summed. This "negative" bit (one of the three which encode a single symbol) is added
+	In a single column we can count up to 13 elements, because the MUX let only pass \textbf{x} multiplied by the absolute value of the symbol \textbf{Y}. Since this partial product passes only through a conditional negation block, to obtain a real C2 negation for a final partial product there is the need for a LSB to be summed. This "negative" bit (one of the three which encode a single symbol) is added
 	to the LSB of its partial product: therefore we have 12+1 elements at most in a column (this can be seen in figure \ref{fig:v1-bind4}).
 	This is not so bad, because with the Dadda Tree we are still in the case of having only 5 levels of adders (13 elements in a column at most).
 
@@ -360,7 +365,7 @@ As already pointed out in the first section, the critical path can be reduced fr
 	\label{fig:v1-bind0}
 	\end{figure}
 
-	The last operation in an addition, and can be implemented by a fast adder. In our design the adder has been kept behavioural, because the main aim of this work is to study a multiplier and how the uncertainty of the results changes with the adoption of some tricks to improve the figures of merit without keeping full precision.
+	The last operation is an addition, and can be implemented by a fast adder. In our design the adder has been kept behavioural, because the main aim of this work is to study a multiplier and how the uncertainty of the results changes with the adoption of some tricks to improve the figures of merit without keeping full precision.
 
 	\paragraph{VHDL description} A new method to write VHDL has been adopted to speed up the description of the circuit. The first part (common to all design) in which the partial product are computed was described by hand, but the part of the Dadda trees and the bindings are written by a parametric python script. This allows a great re-usability and a fast method to compare multiple instances with different styles of binding.
 	Furthermore this way of working is not prone to errors, because the number of lines of hand written code is drastically reduced.
@@ -372,7 +377,7 @@ As already pointed out in the first section, the critical path can be reduced fr
 
 	To implement this design the first hand written part of the file prepares the first matrix (in the following it will be used the term "grid") called \textbf{grid5}
 
-	At first the partial product are assigned to the matrix cells with standard logic vector assignments, to reproduce the first scheme of \ref{fig:v1-bind4}. Then all the dots are flattened to the top of the grid \textbf{before} the first binding. This is in contrast with the scheme of \ref{fig:v1-bind3}, where the first bininding is done before the flattening.
+	At first the partial products are assigned to the matrix cells with standard logic vector assignments, to reproduce the first scheme of \ref{fig:v1-bind4}. Then all the dots are flattened to the top of the grid \textbf{before} the first binding. This is in contrast with the scheme of \ref{fig:v1-bind3}, where the first bininding is done before the flattening.
 	All the other figures show exactly what is described by the VHDL.
 
 	The process of bringing all the bits to the ceiling of the grid is done by the hand written part of the file and it is word length dependent. It's not difficult to implement it in the python script, and this improvement would make the entire multiplier parametric.
