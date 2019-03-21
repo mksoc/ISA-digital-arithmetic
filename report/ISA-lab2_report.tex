@@ -170,14 +170,17 @@ and using the command \texttt{compile\_ultra} in place of the former \texttt{com
 \subsection{Synthesis results}
 Performing the synthesis at the maximum possible frequency with the architecture reported in figure \ref{fig:dfg}, we obtained the timing, area and power results shown in table \ref{tab:ret_res}.
 
-\begin{table}[]
+\begin{table}[hbtp]
 	\centering
-	\begin{tabular}{lllll}
+	\begin{tabular}{|l|l|ll} 
 	\cline{1-2}
-	\multicolumn{1}{|l|}{$f_max$ {[}\si{\mega\hertz}]}}                     & \multicolumn{1}{l|}{847.46}  &  &  &  \\ \cline{1-2}
-	\multicolumn{1}{|l|}{Cell area {[}\si{\micro\meter^2}{]}} & \multicolumn{1}{l|}{20566.3} &  &  &  \\ \cline{1-2}
-	\multicolumn{1}{|l|}{Power {[}\si{\micro\watt}{]}}                        & \multicolumn{1}{l|}{-}       &  &  &  \\ \cline{1-2}
-																					&                              &  &  & 
+	$f\_max$ [\si{\mega\hertz}{}]           & 847.46               &  &   \\ 
+	\cline{1-2}
+	Area [\si{\micro\meter^2}{}]                & 20566.3              &  &   \\ 
+	\cline{1-2}
+	Power [\si{\micro\watt}{}]               & -                    &  &   \\ 
+	\cline{1-2}
+	\multicolumn{1}{l}{} & \multicolumn{1}{l}{} &  &  
 	\end{tabular}
 	\label{tab:ret_res}
 \end{table}
@@ -187,14 +190,17 @@ The maximum frequency increased by $30\%$ with respect to the best solution foun
 \subsubsection{Further improvements}
 As already pointed out in the first section, the critical path can be reduced from $3T_a$ to $2T_a$ inserting an additional pipeline stage in the feed-forward part of the filter. Performing this change here too, we obtained the results shown in table \ref{tab:ret_res_opt}. The maximum frequency increased by an additional $5\%$, and the area by an additional $14\%$. This way, the critical path is already in the loops of the recursive part. This is proven true by the fact that adding an additional pipeline level to the feedforward part doesn't lead to better performance.
 
-\begin{table}[]
+\begin{table}[hbtp]
 	\centering
-	\begin{tabular}{lllll}
+	\begin{tabular}{|l|l|ll} 
 	\cline{1-2}
-	\multicolumn{1}{|l|}{$f_max$ {[}\si{\mega\hertz}]}}                     & \multicolumn{1}{l|}{892.86}  &  &  &  \\ \cline{1-2}
-	\multicolumn{1}{|l|}{Cell area {[}\si{\micro\meter^2}{]}} & \multicolumn{1}{l|}{23489.4} &  &  &  \\ \cline{1-2}
-	\multicolumn{1}{|l|}{Power {[}\si{\micro\watt}{]}}                        & \multicolumn{1}{l|}{-}       &  &  &  \\ \cline{1-2}
-																					&                              &  &  & 
+	$f\_max$ [\si{\mega\hertz}{}]           & 892.86               &  &   \\ 
+	\cline{1-2}
+	Area [\si{\micro\meter^2}{}]                & 23489.4              &  &   \\ 
+	\cline{1-2}
+	Power [\si{\micro\watt}{}]               & -                    &  &   \\ 
+	\cline{1-2}
+	\multicolumn{1}{l}{} & \multicolumn{1}{l}{} &  &  
 	\end{tabular}
 	\label{tab:ret_res_opt}
 \end{table}
